@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Management MIS UAE v24 — Executive Boardroom — Created by Sitaram Pareek</title>
+<title>Analytics Center UAE — Executive Boardroom — Created by Sitaram Pareek</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -682,7 +682,7 @@ body.lg-locked .app{display:none;}
     '<button id="lgBtn">Sign In</button>'+
     '<div class="lg-err" id="lgErr">Invalid email or password. Please try again.</div>'+
     '</div>'+
-    '<div class="lg-foot">Management MIS · UAE &middot; Access restricted &middot; IGP Group</div></div>';
+    '<div class="lg-foot">Analytics Center UAE &middot; Access restricted &middot; IGP Group</div></div>';
   document.body.appendChild(gate);
   function unlock(email){
     document.body.classList.remove("lg-locked");
@@ -727,7 +727,7 @@ body.lg-locked .app{display:none;}
   <aside class="sidebar">
     <div class="brand">
       <div class="mark">M</div>
-      <div><b>Management MIS UAE</b><span>Executive Boardroom · v20</span></div>
+      <div><b>Analytics Center UAE</b><span>Executive Boardroom</span></div>
     </div>
     <div class="nav-label">Reporting</div>
     <nav class="nav" id="nav">
@@ -953,7 +953,7 @@ body.lg-locked .app{display:none;}
           <div class="sec-title">Emirates Performance — Actual (vertical table)</div>
           <div id="emirateStack"></div>
           <div id="locInsight"></div>
-          <div class="note">Actual figures only. Sales, orders &amp; product margin are actual by emirate (SKU <code>DeliveryState</code>); operating costs are booked at entity level and revenue-weighted allocated. <b>Only Dubai, Abu Dhabi &amp; Sharjah are reported — Ajman and all other emirates consolidate into Dubai.</b> Channel filter (IGP/TP) applies.</div>
+          <div class="note">Actual figures only. Sales, orders &amp; product margin are actual by emirate (SKU <code>Fulfilled By</code> fulfilment centre); operating costs are booked at entity level and revenue-weighted allocated. <b>Only Dubai, Abu Dhabi &amp; Sharjah are reported — Ajman and all other emirates consolidate into Dubai.</b> Channel filter (IGP/TP) applies.</div>
         </div>
       </section>
 
@@ -1526,6 +1526,26 @@ function em3(e){ e=String(e||"").toLowerCase();
   if(e.includes("abu")) return "Abu Dhabi";
   if(e.includes("sharjah")) return "Sharjah";
   return "Dubai"; }
+
+/* ---- v25: Location (Emirate) derived from the SKU export "Fulfilled By" column ----
+   Configurable map of fulfilment centre -> reporting Location. To add a future
+   fulfilment centre, just add a line here (key = exact "Fulfilled By" value).
+   Anything not listed — including null / blank / new India CFCs — falls back to Dubai. */
+const LOCATION_MAP = {
+  "IGP Dubai":            "Dubai",
+  "CFC-UAE-AbuDhabi":     "Abu Dhabi",
+  "CFC-UAE-KhalidiyaAD":  "Abu Dhabi",
+  "CFC-UAE-Sharjah":      "Sharjah"
+};
+const LOCATION_DEFAULT = "Dubai";
+// Pre-built lowercase index so lookups are case-insensitive and space-safe.
+const _LOCATION_MAP_CI = Object.keys(LOCATION_MAP).reduce((o,k)=>{ o[k.toLowerCase()]=LOCATION_MAP[k]; return o; },{});
+function getLocation(fulfilledBy){
+  const key = String(fulfilledBy==null ? "" : fulfilledBy).trim();
+  if(Object.prototype.hasOwnProperty.call(LOCATION_MAP, key)) return LOCATION_MAP[key];      // exact
+  const hit = _LOCATION_MAP_CI[key.toLowerCase()];                                            // case / spacing safe
+  return hit || LOCATION_DEFAULT;                                                             // null / blank / unknown -> Dubai
+}
 
 function fmtConv(v){ const sym=state.ccy==="AED"?"AED ":"₹"; const loc=state.ccy==="AED"?"en-US":"en-IN"; return sym+Math.round(v).toLocaleString(loc); }
 function groupedBar(id,label,vals,isMoney){
@@ -2586,7 +2606,7 @@ function importSKUtxn(rows){
       agg[key].ship      += money(r.ShipCost);
       // ---- SKU-level detail capture ----
       if(!touchedMonths.has(mi)){ skuDetail[mi]={}; touchedMonths.add(mi); }   // fresh import replaces that month's detail
-      const em=emirateKey(r.DeliveryState||r.delivery_city);
+      const em=getLocation(r["Fulfilled By"]||r.FulfilledBy||r["fulfilled by"]);   // v25: Location from fulfilment centre (was DeliveryState)
       const sku=(r.SKU||r.Sku||"—").trim();
       const dk=lk+"|"+em+"|"+sku;
       let d=skuDetail[mi][dk];
