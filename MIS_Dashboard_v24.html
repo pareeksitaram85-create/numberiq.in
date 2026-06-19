@@ -649,6 +649,34 @@ body.light ::-webkit-scrollbar-thumb{background:#cdc6b6;border-color:#ece8df}
 #loginGate .lg-err{display:none;margin-top:14px;font-size:12.5px;color:#ffb4be;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);border-radius:10px;padding:9px 12px;}
 #loginGate .lg-foot{margin-top:20px;font-size:10.5px;letter-spacing:.04em;color:#737c92;text-align:center;}
 body.lg-locked .app{display:none;}
+/* ===== role-based access — VIEWER read-only gate (client-side UI only) ===== */
+body.role-viewer .admin-only,
+body.role-viewer #p8,
+body.role-viewer #nav a[data-page="p8"],
+body.role-viewer .nav a[data-page="p8"]{display:none!important;}
+body.role-viewer [data-up],
+body.role-viewer [data-tpl],
+body.role-viewer [data-frz],
+body.role-viewer #adjApply, body.role-viewer #adjReset,
+body.role-viewer #expApply, body.role-viewer #expClearBtn,
+body.role-viewer #expUpBtn, body.role-viewer #expTplBtn,
+body.role-viewer #cpdApply, body.role-viewer #cpdTpl, body.role-viewer #cpdClear,
+body.role-viewer #fxAllApply, body.role-viewer #frzLoaded, body.role-viewer #unfrzAll,
+body.role-viewer #dpExport, body.role-viewer #dpClear, body.role-viewer #pasteRun,
+body.role-viewer #p8ExpUpBtn, body.role-viewer #p8ExpTplBtn{
+  pointer-events:none!important;opacity:.4!important;cursor:not-allowed!important;filter:grayscale(.4);
+}
+body.role-viewer .mtile{pointer-events:none!important;opacity:.7!important;cursor:default!important;}
+body.role-viewer .fxin,
+body.role-viewer #fxAll,
+body.role-viewer #expGrid input,
+body.role-viewer .adjgrid input,
+body.role-viewer .cpd-entry input,
+body.role-viewer #pasteBox,
+body.role-viewer #pasteTarget{
+  pointer-events:none!important;background:rgba(120,130,150,.18)!important;color:var(--ink-soft)!important;
+}
+.role-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(189,150,70,.18);color:#bd9646;border:1px solid rgba(189,150,70,.4)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -658,12 +686,24 @@ body.lg-locked .app{display:none;}
   // sessionStorage = session cleared when browser/tab closes → password required every fresh visit
   var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storage:window.sessionStorage,persistSession:true,autoRefreshToken:true}});
   window.sbClient=sb;
+  // ---- Roles: one admin, everyone else view-only (client-side UI gate) ----
+  var ADMIN_EMAILS=["sitaram.pareek@igp.com"];
   window.misLogout=function(){ sb.auth.signOut().then(function(){ location.reload(); }); };
-  function addLogout(name){
+  // VIEWER guard: disable file inputs + make inline-editable cells read-only (re-runnable after re-renders)
+  window.applyRoleGuard=function(){
+    if(window.MIS_ROLE!=="viewer") return;
+    try{
+      document.querySelectorAll('input[type=file]').forEach(function(i){ i.disabled=true; });
+      document.querySelectorAll('.fxin, #fxAll, #expGrid input, .adjgrid input, .cpd-entry input, #pasteBox, #pasteTarget')
+        .forEach(function(el){ el.readOnly=true; el.tabIndex=-1; if(el.tagName==='SELECT') el.disabled=true; });
+    }catch(e){}
+  };
+  function addLogout(name,role){
     function ins(){
       var f=document.querySelector(".sidebar .foot"); if(!f)return;
       var d=document.createElement("div");
-      d.innerHTML='Signed in: '+name+' &middot; <a href="#" style="color:#bd9646" onclick="misLogout();return false;">Logout</a>';
+      var rl=(role==="admin")?"Admin":"Viewer";
+      d.innerHTML='Signed in: '+name+' <span class="role-badge">'+rl+'</span> &middot; <a href="#" style="color:#bd9646" onclick="misLogout();return false;">Logout</a>';
       f.appendChild(d);
     }
     if(document.readyState==="loading"){ window.addEventListener("DOMContentLoaded",ins); } else { ins(); }
@@ -685,9 +725,14 @@ body.lg-locked .app{display:none;}
     '<div class="lg-foot">Analytics Center UAE &middot; Access restricted &middot; IGP Group</div></div>';
   document.body.appendChild(gate);
   function unlock(email){
+    window.MIS_ROLE = ADMIN_EMAILS.includes((email||"").toLowerCase()) ? "admin" : "viewer";
+    document.body.classList.add("role-"+window.MIS_ROLE);
     document.body.classList.remove("lg-locked");
     if(gate.parentNode)gate.remove();
-    addLogout(email);
+    addLogout(email, window.MIS_ROLE);
+    // run guard now and again shortly after the app's first render settles
+    if(window.applyRoleGuard) window.applyRoleGuard();
+    setTimeout(function(){ if(window.applyRoleGuard) window.applyRoleGuard(); }, 400);
   }
   function showForm(){
     document.getElementById("lgSub").textContent="Sign in to view the dashboard";
@@ -743,8 +788,8 @@ body.lg-locked .app{display:none;}
       <a data-page="p11"><span class="ic">⚖</span> Governance &amp; Command</a>
       <a data-page="p12"><span class="ic">⬡</span> Payment Gateway Reco</a>
     </nav>
-    <div class="nav-label">Administration</div>
-    <nav class="nav">
+    <div class="nav-label admin-only">Administration</div>
+    <nav class="nav admin-only">
       <a data-page="p8"><span class="ic">⤓</span> Data &amp; Uploads</a>
     </nav>
     <div class="foot">
@@ -761,7 +806,7 @@ body.lg-locked .app{display:none;}
           <h1 id="pgTitle">Executive Summary</h1>
           <p id="pgSub">Management performance overview — monthly, YTD, LY and AOP</p>
         </div>
-        <div style="display:flex;gap:10px;align-items:center"><button class="btn" id="themeBtn" title="Switch light / dark theme" style="border-radius:99px;padding:6px 14px">☀&nbsp;Light</button><div class="scenario-pill" id="ctxPill">—</div></div>
+        <div style="display:flex;gap:10px;align-items:center"><div id="dqTop" title="MIS data readiness" style="display:inline-flex;align-items:center;padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:rgba(100,116,139,.15);color:#94a3b8;white-space:nowrap">MIS —</div><button class="btn" id="themeBtn" title="Switch light / dark theme" style="border-radius:99px;padding:6px 14px">☀&nbsp;Light</button><div class="scenario-pill" id="ctxPill">—</div></div>
       </div>
       <div class="filters">
         <div class="fl"><label>Month</label>
@@ -842,7 +887,7 @@ body.lg-locked .app{display:none;}
       <section class="page" id="p2">
         <div class="sec-title">Detailed P&amp;L Matrix</div>
         <p class="cap" style="margin:-6px 0 12px;color:var(--ink-soft);font-size:12px">
-          Each value shown with % of Revenue / Margin %. Variance favourability is colour-coded (green = favourable, red = unfavourable, costs inverted).</p>
+          Columns: selected-month Actual · % NR (common-size, % of Net Revenue) · prior-month Actual · LY (same month last year) · AOP · Var % (vs AOP). Variance favourability is colour-coded (green = favourable, red = unfavourable, costs inverted).</p>
         <div id="emAllocNote" class="note" style="display:none;border-left-color:var(--gold)"></div>
         <div class="matrix-controls">
           <span class="lbl">Period</span>
@@ -855,7 +900,7 @@ body.lg-locked .app{display:none;}
         </div>
         <div class="tablewrap" style="max-height:74vh"><table class="fin" id="plTable"></table></div>
         <div id="finInsight"></div>
-        <div class="note"><b>Model:</b> Net Revenue (Net Sales) = Revenue − Output VAT. <b>Packing</b> = Net Sales × 2.5%; <b>COGS Adjusted</b> = (COGS − Input Tax × 97.5%) − Packing. Product Margin = Net Revenue − COGS Adjusted − Packing (packing reclass is margin-neutral). Operations → CM1; Marketing → CM2; Branding → CM3; Indirect Salary / Professional / Other → EBITDA; Interest &amp; Depreciation → PBT; Adjustments are shown after PBT. Inward Logistics is excluded from the P&amp;L (shown under CPD). Manual heads editable on Data &amp; Uploads.</div>
+        <div class="note"><b>Model:</b> Net Revenue (Net Sales) = Revenue − Output VAT. <b>Packing</b> = Net Sales × 2.5%; <b>COGS Adjusted</b> = (COGS − Input Tax × 97.5%) − Packing. Product Margin = Net Revenue − COGS Adjusted − Packing (packing reclass is margin-neutral). Operations → CM1; Marketing → CM2; Branding → CM3; Indirect Salary / Professional / Other → EBITDA; Interest &amp; Depreciation → PBT; Adjustments are shown after PBT. Inward Logistics is excluded from the P&amp;L (shown under CPD). Manual heads editable on Data &amp; Uploads. <b>Columns:</b> selected-month Actual, prior calendar-month Actual, AOP and Var % vs AOP. In <b>YTD</b> mode both Actual columns are cumulative (to selected vs to prior month). If the selected month is the first FY month (April), the prior figure is the previous FY's March — shown only when that Actual is loaded, otherwise "n.a.".</div>
       </section>
 
       <!-- ============ REPORT 3 — SKU Sales Analysis ============ -->
@@ -959,52 +1004,15 @@ body.lg-locked .app{display:none;}
 
       <!-- ============ PAGE 13 — Location Expense Analytics (v20, from Exp Bifurcation file) ============ -->
       <section class="page" id="p13">
-        <div class="sec-title">Expense KPIs <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">selected month · location expense engine</span></div>
-        <div class="kpigrid" id="expKpis" style="grid-template-columns:repeat(5,1fr)"></div>
+        <div class="sec-title">Expense Summary <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">selected month · Actual · total opex &amp; per-emirate split</span></div>
+        <div class="kpigrid" id="expKpis" style="grid-template-columns:repeat(4,1fr)"></div>
 
-        <div class="sec-title">Expense Visual Analytics</div>
-        <div class="grid-2">
-          <div class="panel"><h3>Stacked Expense Waterfall</h3><p class="cap">Section build-up by emirate — selected month</p><div class="chartbox"><canvas id="expWaterfall"></canvas></div></div>
-          <div class="panel"><h3>Expense Mix Donut</h3><p class="cap">Share by expense section</p><div class="chartbox"><canvas id="expDonut"></canvas></div></div>
-        </div>
-        <div class="grid-2" style="margin-top:16px">
-          <div class="panel"><h3>Expense Trend</h3><p class="cap">Total location expense by month — Actual vs AOP vs LY</p><div class="chartbox"><canvas id="expTrend"></canvas></div></div>
-          <div class="panel"><h3>Cost Allocation Treemap</h3><p class="cap">Head-level cost concentration — selected month</p><div class="treemap" id="expTreemap"></div></div>
-        </div>
-        <div class="grid-2" style="margin-top:16px">
-          <div class="panel" style="grid-column:1/-1"><h3>Variance Heatmap Matrix</h3><p class="cap">Section × emirate — Actual vs AOP variance % (red = overspend, green = under budget)</p><div class="heatwrap"><table class="heatm" id="expHeatM"></table></div></div>
-        </div>
-
-        <div class="sec-title">Emirate-wise Expense Distribution <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">per the Exp-Bifurcation structure · Actual heads direct · T/O-ratio heads allocated by revenue share</span></div>
-        <div id="expEmpty" class="note" style="display:none">No location-expense data for this month. Upload the expense bifurcation file below or enter amounts manually.</div>
+        <div class="sec-title">Emirate-wise Expense Distribution <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">Actual only · per the Exp-Bifurcation structure · head-office / unallocated amounts re-allocated to Dubai / Abu Dhabi / Sharjah by turnover share (equal 1/3 split if no SKU revenue)</span></div>
+        <div id="expEmpty" class="note" style="display:none">No location-expense data for this month. Upload the expense bifurcation file on the <b>Data &amp; Uploads</b> page (Location Expense Bifurcation row).</div>
         <div id="expStack"></div>
 
-        <div class="sec-title">Data Entry — Location Expenses</div>
-        <div class="tools">
-          <div class="panel">
-            <h3>Upload Expense Bifurcation <span style="font-weight:400;font-size:11px;color:var(--ink-soft)">CSV / Excel · long format</span></h3>
-            <p class="cap">Columns: <b>Month, Scenario, Emirate, Section, Head, Vendor, Amount</b>. Scenario = Actual / AOP / LY. Emirate = Dubai / Abu Dhabi / Sharjah / Unallocated (Ajman &amp; others fold into Dubai). Put the <b>vendor / party name</b> in the Vendor column — it shows as its own line under the section. T/O-ratio heads placed under <b>Unallocated</b> are auto-allocated by SKU revenue share.</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-              <select id="expCcy" style="font-size:12px;padding:6px 8px;border:1px solid var(--line-strong);border-radius:6px"><option value="AED">Amounts in AED</option><option value="INR">Amounts in INR</option></select>
-              <button class="btn" id="expTplBtn">⤓ Template</button>
-              <button class="btn p" id="expUpBtn">Upload file</button>
-              <input type="file" id="expUpFile" accept=".csv,.xlsx,.xls" hidden>
-              <button class="btn" id="expClearBtn">Clear month</button>
-            </div>
-            <div id="expUpMsg" class="note" style="display:none;margin-top:10px"></div>
-          </div>
-          <div class="panel">
-            <h3>Manual Entry <span style="font-weight:400;font-size:11px;color:var(--ink-soft)">selected month · per head</span></h3>
-            <div style="display:flex;gap:10px;margin:4px 0 10px;flex-wrap:wrap">
-              <div class="fl" style="min-width:120px"><label>Scenario</label><select id="expScn"><option>Actual</option><option>AOP</option><option>LY</option></select></div>
-              <div class="fl" style="min-width:130px"><label>Emirate</label><select id="expEm"><option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Unallocated</option></select></div>
-              <div class="fl" style="min-width:110px"><label>Currency</label><select id="expEntryCcy"><option>AED</option><option>INR</option></select></div>
-            </div>
-            <div class="adjgrid" id="expGrid" style="max-height:300px;overflow:auto"></div>
-            <div style="display:flex;gap:9px;margin-top:12px"><button class="btn p" id="expApply">Apply Expenses</button></div>
-          </div>
-        </div>
         <div id="expInsight"></div>
+        <div class="note">Location-expense data is entered on the <b>Data &amp; Uploads</b> page (Location Expense Bifurcation row) — upload the bifurcation file there and it flows straight into this analytics view. Manual keying has been retired to keep a single source of truth.</div>
         <div class="note"><b>Allocation model (per "Exp Bifurcation in Location Performance.xlsx"):</b> heads typed <b>Actual</b> are charged to the emirate where incurred; heads typed <b>T/O ratio</b> <span class="tobadge">T/O</span> are allocated to emirates pro-rata to each emirate's share of SKU revenue (turnover ratio) for the month. Marketing Cost &amp; Professional Fees support vendor / party-wise rows via upload (Vendor column). Stored in INR base; displayed in the selected currency.</div>
       </section>
 
@@ -1080,9 +1088,14 @@ body.lg-locked .app{display:none;}
               <input type="file" id="upSKU" accept=".csv,.xlsx,.xls" hidden></div>
             <div class="uprow"><div class="d">Tally Data — Expenses <small>Month,Channel,Emirate,Head,Amount (Emirate optional) · monthly · <b>amounts read in the currency selected here</b></small></div>
               <div style="display:flex;gap:6px;align-items:center">
-                <select id="tallyCcy" title="Currency of the amounts in your Tally file" style="font-family:'IBM Plex Sans';font-size:12px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:6px;background:#fff"><option value="INR">INR ₹</option><option value="AED">AED</option></select>
+                <select id="tallyCcy" title="Currency of the amounts in your Tally file" style="font-family:'IBM Plex Sans';font-size:12px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:6px;background:#fff"><option value="INR">INR ₹</option><option value="AED" selected>AED</option></select>
                 <button class="btn" data-tpl="tally">Template</button><button class="btn" data-up="upTally">Upload</button></div>
               <input type="file" id="upTally" accept=".csv,.xlsx,.xls" hidden></div>
+            <div class="uprow"><div class="d">Location Expense Bifurcation <small>Month, Scenario, Emirate, Section, Head, Vendor, Amount · Scenario = Actual / AOP / LY · Emirate = Dubai / Abu Dhabi / Sharjah / Unallocated · <b>amounts read in the currency selected here</b>. <span id="ststEXP">not loaded</span></small></div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <select id="expCcy" title="Currency of the amounts in your Location Expense file" style="font-family:'IBM Plex Sans';font-size:12px;padding:5px 7px;border:1px solid var(--line-strong);border-radius:6px;background:#fff"><option value="AED">AED</option><option value="INR">INR ₹</option></select>
+                <button class="btn" id="p8ExpTplBtn">Template</button><button class="btn p" id="p8ExpUpBtn">Upload</button></div>
+              <input type="file" id="p8ExpUpFile" accept=".csv,.xlsx,.xls" hidden></div>
             <div class="uprow"><div class="d">Last Year (LY) Data <small>Wide P&amp;L CSV · <span id="ststLY">not loaded</span></small></div>
               <div style="display:flex;gap:6px"><button class="btn frz" data-frz="LY" title="Freeze / unfreeze">🔓</button><button class="btn" data-tpl="wide">Template</button><button class="btn" data-up="upLY">Upload</button></div>
               <input type="file" id="upLY" accept=".csv,.xlsx,.xls" hidden></div>
@@ -1160,6 +1173,7 @@ body.lg-locked .app{display:none;}
           </div>
         </div>
 
+        <div id="freezeBlock">
         <div class="sec-title">Monthly Actuals — Freeze Locks</div>
         <p class="cap" style="margin:-6px 0 10px;color:var(--ink-soft);font-size:12px">Upload month-by-month (Apr, then May, then Jun…). After a month is final, <b>🔒 freeze it</b> — future SKU/Tally uploads will skip frozen months, so re-uploading a multi-month file can never overwrite a closed period. Click a tile to toggle.</p>
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
@@ -1167,6 +1181,7 @@ body.lg-locked .app{display:none;}
           <button class="btn" id="unfrzAll">🔓 Unfreeze all</button>
         </div>
         <div id="monthFreeze" style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px"></div>
+        </div>
 
         <div class="sec-title">Exchange Rate Table — INR per AED</div>
         <p class="cap" style="margin:-6px 0 10px;color:var(--ink-soft);font-size:12px">Base currency is <b>INR</b> (your SKU data is in ₹). The <b>AED</b> view = INR ÷ this rate. <b>Click any rate to edit</b> — it saves automatically, so you never re-upload. Or set one rate for all 12 months:</p>
@@ -1717,7 +1732,7 @@ const PL = [
   ["Product Margin","productMargin","total",true,"net"],
   ["Operations Cost","__sec"],
   ["Courier Cost","courierCost","money",false,"rev"],
-  ["Delivery Salary + Fuel","deliverySalaryFuel","money",false,"rev"],
+  ["Delivery Direct Salary","deliverySalaryFuel","money",false,"rev"],
   ["Transaction Cost","transactionCost","money",false,"rev"],
   ["Warehouse Cost","warehouseCost","money",false,"rev"],
   ["Commission","commission","money",false,"rev"],
@@ -1773,13 +1788,21 @@ function renderPL(){
     }
   }
   const periodLab = ytd ? `YTD → ${MONTHS[m]}'${YR_ACT}` : `${MONTHS[m]}'${YR_ACT}`;
+  // ---- prior-month (calendar month before state.month) ----
+  const hasPrior = m>0;                                   // store holds only the current FY; prior-FY Mar is never loaded
+  const priorLab = hasPrior ? fyLabel(m-1) : `Mar'${YR_LY}`;
+  const Pp = hasPrior ? (ytd?ytdFor(state.loc,"Actual",m-1):plFor(state.loc,"Actual",m-1)) : null;
+  const curHdr = `${MONTHS[m]}'${YR_ACT}${ytd?" (YTD)":""}`;
+  const priHdr = `${priorLab}${ytd?" (YTD)":""}`;
+  const lyHdr  = `LY ${MONTHS[m]}'${YR_LY}${ytd?" (YTD)":""}`;
   let h=`<thead><tr>
     <th style="min-width:230px">Particulars · ${periodLab}</th>
-    <th class="num actual-col">Actual</th><th class="num actual-col">Actual %</th>
-    <th class="num">AOP</th><th class="num">AOP %</th>
-    <th class="num">Var vs AOP</th><th class="num">Var %</th>
-    <th class="num">Last Year</th><th class="num">LY %</th>
-    <th class="num">Var vs LY</th><th class="num">Var %</th>
+    <th class="num actual-col">${curHdr} Actual</th>
+    <th class="num">% NR</th>
+    <th class="num">${priHdr} Actual</th>
+    <th class="num">${lyHdr}</th>
+    <th class="num">AOP</th>
+    <th class="num">Var %</th>
   </tr></thead><tbody>`;
   let secIdx=-1;
   const pctNet=(v,P)=> (P._empty||!P.netRevenue)?null:(v/P.netRevenue*100);
@@ -1787,40 +1810,38 @@ function renderPL(){
     if(row[1]==="__sec"){
       secIdx++;
       const closed=plView.closed[secIdx]?" closed":"";
-      h+=`<tr class="section${closed}" data-sec="${secIdx}"><td colspan="11"><span class="tw">▾</span>${row[0]}</td></tr>`;
+      h+=`<tr class="section${closed}" data-sec="${secIdx}"><td colspan="7"><span class="tw">▾</span>${row[0]}</td></tr>`;
       continue;
     }
     const [lab,key,kind,favHi]=row;
     if(plView.closed[secIdx]) continue;
     const isCnt=kind==="cnt", isAov=key==="aov";
     const cls = kind==="grand"?"grand":(kind==="total"?"total":"");
-    const cur=A[key], ly=L[key], aop=O[key];
+    const cur=A[key], aop=O[key];
+    const prev = Pp ? Pp[key] : null;
+    const prevEmpty = !Pp || Pp._empty;
+    const lyEmpty = !L || L._empty;
     const fmt=v=> isCnt?cnt(v,false):mny(v,false,m);
-    // value variances
+    const lyCell = lyEmpty ? DASH : fmt(L[key]);
+    // common-size % of Net Revenue (Net Rev = 100%); not meaningful for counts / AOV
+    const pctNR = (isCnt||isAov||A._empty) ? null : pctNet(cur,A);
+    // variance vs AOP (only variance retained)
     const dAOP=(!O._empty)? cur-aop : null;
-    const dLY =(!L._empty)? cur-ly  : null;
     const vAOP=(dAOP!=null && aop)? dAOP/Math.abs(aop)*100 : null;
-    const vLY =(dLY !=null && ly )? dLY /Math.abs(ly )*100 : null;
-    const tA=tlClass(vAOP,favHi), tL=tlClass(vLY,favHi);
+    const tA=tlClass(vAOP,favHi);
     const cc=t=> t==null?"":(t==="a"?"amb":(t==="g"?"pos":"neg"));
-    // % of Net Revenue per scenario (Revenue ≈105%, Net Revenue = 100%)
-    const showPct=!isCnt&&!isAov;
-    const pA=showPct?pctNet(cur,A):null, pO=showPct?pctNet(aop,O):null, pL=showPct?pctNet(ly,L):null;
-    const pf=v=> v==null?DASH:v.toFixed(1)+"%";
     const indent=(kind==="money"||isCnt)?"indent":"";
-    const tip=`title="${lab}: Actual ${A._empty?'—':fmt(cur)} | AOP ${O._empty?'—':fmt(aop)} | LY ${L._empty?'—':fmt(ly)}${vAOP!=null?' | Var vs AOP '+vAOP.toFixed(1)+'%':''}${vLY!=null?' | Var vs LY '+vLY.toFixed(1)+'%':''}"`;
+    // prior-month cell: "n.a." when state.month is the first FY month (prior-FY Mar not loadable), "—" when simply no data
+    const prevCell = !hasPrior ? '<span style="color:var(--ink-soft)">n.a.</span>' : (prevEmpty?DASH:fmt(prev));
+    const tip=`title="${lab}: ${MONTHS[m]}'${YR_ACT} ${A._empty?'—':fmt(cur)} | ${priorLab} ${!hasPrior?'n.a.':(prevEmpty?'—':fmt(prev))} | LY ${MONTHS[m]}'${YR_LY} ${lyEmpty?'—':fmt(L[key])} | AOP ${O._empty?'—':fmt(aop)}${vAOP!=null?' | Var vs AOP '+vAOP.toFixed(1)+'%':''}"`;
     h+=`<tr class="${cls} pl-line" data-key="${key}" data-cnt="${isCnt?1:0}" ${tip}>
       <td class="${indent}">${lab}</td>
       <td class="num actual-col">${A._empty?DASH:fmt(cur)}</td>
-      <td class="num actual-col pctcell">${A._empty?DASH:pf(pA)}</td>
+      <td class="num">${pctNR==null?DASH:pctNR.toFixed(1)+"%"}</td>
+      <td class="num">${prevCell}</td>
+      <td class="num">${lyCell}</td>
       <td class="num">${O._empty?DASH:fmt(aop)}</td>
-      <td class="num pctcell">${O._empty?DASH:pf(pO)}</td>
-      <td class="num ${cc(tA)}" style="${heatBg(vAOP,favHi)}">${dAOP==null||A._empty?DASH:(isCnt?((dAOP<0?"−":"+")+fmtNum(Math.abs(dAOP))):fmtSignedMny(dAOP,m))}</td>
       <td class="num ${cc(tA)}" style="${heatBg(vAOP,favHi)}">${vAOP==null||A._empty?DASH:`<span class="tl-dot ${tA}"></span>${(vAOP>=0?"+":"")+vAOP.toFixed(1)}%`}</td>
-      <td class="num">${L._empty?DASH:fmt(ly)}</td>
-      <td class="num pctcell">${L._empty?DASH:pf(pL)}</td>
-      <td class="num ${cc(tL)}" style="${heatBg(vLY,favHi)}">${dLY==null||A._empty?DASH:(isCnt?((dLY<0?"−":"+")+fmtNum(Math.abs(dLY))):fmtSignedMny(dLY,m))}</td>
-      <td class="num ${cc(tL)}" style="${heatBg(vLY,favHi)}">${vLY==null||A._empty?DASH:`<span class="tl-dot ${tL}"></span>${(vLY>=0?"+":"")+vLY.toFixed(1)}%`}</td>
     </tr>`;
     if(plView.drill[key]) h+=plDrillRow(key,isCnt);
   }
@@ -1842,7 +1863,7 @@ function plDrillRow(key,isCnt){
     const hgt=v==null?0:Math.max(Math.abs(v)/mx*100,3);
     cells+=`<div class="dm"><div class="bar"><i style="height:${hgt}%;${v!=null&&v<0?'background:linear-gradient(180deg,#f87171,#b91c1c)':''}"></i></div>${mm}<b>${v==null?"—":(isCnt?fmtNum(v):( (state.ccy==="AED"?"":"₹")+Math.round(v*fx(i)/1000).toLocaleString()+"k"))}</b></div>`;
   });
-  return `<tr class="pl-drill"><td colspan="11"><div class="drillbox"><div class="dtitle">12-month Actual trend — drill-down</div><div class="drillgrid">${cells}</div></div></td></tr>`;
+  return `<tr class="pl-drill"><td colspan="7"><div class="drillbox"><div class="dtitle">12-month Actual trend — drill-down</div><div class="drillgrid">${cells}</div></div></td></tr>`;
 }
 function wirePLOnce(){
   if(plView.wired) return; plView.wired=true;
@@ -2421,7 +2442,7 @@ function renderFX(){
   }));
 }
 const ADJ_HEADS=[
-  ["courierCost","Courier Cost"],["deliverySalaryFuel","Delivery Salary + Fuel"],["transactionCost","Transaction Cost"],
+  ["courierCost","Courier Cost"],["deliverySalaryFuel","Delivery Direct Salary"],["transactionCost","Transaction Cost"],
   ["warehouseCost","Warehouse Cost"],["commission","Commission"],["marketingCost","Marketing"],["marketBranding","Market Branding"],
   ["indirectSalary","Payroll / Indirect Salary"],["professionalExpenses","Professional / Admin"],["otherExpenses","Other OPEX (Rent, Utilities…)"],
   ["interestCost","Interest Cost"],["depreciation","Depreciation"],["adjustment","Adjustment / Reclass (post-PBT)"]
@@ -2554,10 +2575,14 @@ const WIDE_MAP={Orders:"orders",Revenue:"revenue",OutputVAT:"outputVAT",GST:"out
   WarehouseCost:"warehouseCost",Commission:"commission",MarketingCost:"marketingCost",MarketBranding:"marketBranding",
   IndirectSalary:"indirectSalary",ProfessionalExpenses:"professionalExpenses",OtherExpenses:"otherExpenses",
   InterestCost:"interestCost",Depreciation:"depreciation"};
-const TALLY_MAP={Courier:"courierCost","Delivery Salary + Fuel":"deliverySalaryFuel",Delivery:"deliverySalaryFuel",Transaction:"transactionCost",
+const TALLY_MAP={Courier:"courierCost","Delivery Salary + Fuel":"deliverySalaryFuel","Delivery Direct Salary":"deliverySalaryFuel",Delivery:"deliverySalaryFuel",Transaction:"transactionCost",
   Warehouse:"warehouseCost",Commission:"commission",Marketing:"marketingCost",Branding:"marketBranding","Market Branding":"marketBranding",
   Salary:"indirectSalary",Payroll:"indirectSalary","Indirect Salary":"indirectSalary",Professional:"professionalExpenses",Administration:"professionalExpenses",Admin:"professionalExpenses",
-  Rent:"otherExpenses",Utilities:"otherExpenses",Other:"otherExpenses","Other OPEX":"otherExpenses",Interest:"interestCost",Depreciation:"depreciation"};
+  Rent:"otherExpenses",Utilities:"otherExpenses",Other:"otherExpenses","Other OPEX":"otherExpenses",Interest:"interestCost",Depreciation:"depreciation",
+  // v25.1: accept the long-form head names used in the standard Tally export
+  "Courier Cost":"courierCost","Transaction Cost":"transactionCost","Warehouse Cost":"warehouseCost",
+  "Marketing Cost":"marketingCost","Marketing Costs":"marketingCost","Professional Expenses":"professionalExpenses","Professional Fees":"professionalExpenses",
+  "Other Expenses":"otherExpenses","Commission Cost":"commission","Interest Cost":"interestCost","Depreciation Cost":"depreciation"};
 // wide Tally header → field (for the downloadable template, one row per month×channel)
 const TALLY_WIDE={Courier:"courierCost",Delivery:"deliverySalaryFuel",Transaction:"transactionCost",Warehouse:"warehouseCost",
   Commission:"commission",Marketing:"marketingCost",Branding:"marketBranding",Payroll:"indirectSalary",
@@ -3265,6 +3290,24 @@ Object.keys(IMPORTERS).forEach(id=>{
   el.addEventListener("change",e=>{const f=e.target.files[0]; if(!f)return;
     readToCSV(f,txt=>runImport(id,txt)); e.target.value="";});
 });
+// Location Expense Bifurcation — p8 Data Sources row (same importer + template as the p13 card)
+(function(){
+  const tpl=document.getElementById("p8ExpTplBtn"), up=document.getElementById("p8ExpUpBtn"), fi=document.getElementById("p8ExpUpFile");
+  if(tpl) tpl.addEventListener("click",()=>{ if(typeof expTemplate==="function") expTemplate(); });
+  if(up&&fi) up.addEventListener("click",()=>fi.click());
+  if(fi) fi.addEventListener("change",e=>{
+    const f=e.target.files[0]; if(!f) return;
+    readToCSV(f,txt=>{ try{
+      const r=importExpRows(parseCSV(txt));
+      const st=document.getElementById("ststEXP"); if(st) st.innerHTML='<span class="ok">'+r.n+' row(s) loaded'+(r.skipped?' · '+r.skipped+' skipped':'')+'</span>';
+      try{ pushVal(f.name,"Location Expenses",'<span class="ok">'+r.n+' row(s) processed</span>'); }catch(_e){}
+      renderAll();
+      // v26: auto-persist to cloud (admin only — saveCloud no-ops for viewers) so expenses survive reload/login
+      try{ if(window.misCloudSave) window.misCloudSave(); }catch(_e){}
+    }catch(err){ flash("Parse error: "+err.message); } });
+    e.target.value="";
+  });
+})();
 // Google Ads needs full-workbook (multi-sheet) parsing, so it bypasses the first-sheet CSV reader
 const gAdsInput=document.getElementById("upGAds");
 if(gAdsInput) gAdsInput.addEventListener("change",e=>{const f=e.target.files[0]; if(f) importGAds(f); e.target.value="";});
@@ -3623,10 +3666,9 @@ function renderGwStatus(){
   });
 }
 
-/* ---------- Governance & Executive Command (p11 — was unimplemented in v18) ---------- */
-function renderGovernance(){
-  const m=state.month;
-  const A=plFor(state.loc,"Actual",m), O=plFor(state.loc,"AOP",m), L=plFor(state.loc,"LY",m);
+/* ---------- Data-quality / MIS-readiness compute (shared by Governance gauge + topbar pill) ---------- */
+function dqCompute(m){
+  const A=plFor(state.loc,"Actual",m);
   const checks=[
     ["Actual (MIS) loaded", !A._empty],
     ["AOP / Budget loaded", scnHasData("AOP")],
@@ -3636,8 +3678,32 @@ function renderGovernance(){
     ["CPD data present", !cpdActive(m)._empty],
     ["Gateway data loaded", (stripeData.length+tabbyData.length+tamaraData.length)>0],
     ["Month frozen (closed)", !!frozenMonths[m]],
+    ["TP Marketing loaded", !!((window.tpChannelStore||{})[m] && ((window.tpChannelStore[m].rows||[]).length>0))],
+    ["Location Expense Analytics loaded", (function(){ var eb=(typeof expBif!=="undefined"?expBif:(window.expBif||{}))||{}; for(var s in eb){ for(var key in eb[s]){ if(String(key).endsWith("|"+m)) return true; } } return false; })()],
   ];
-  const okN=checks.filter(function(c){return c[1];}).length, score=Math.round(okN/checks.length*100);
+  const okN=checks.filter(function(c){return c[1];}).length;
+  return {checks:checks, okN:okN, total:checks.length, score:Math.round(okN/checks.length*100), ready:anyDataLoaded()};
+}
+/* ---- topbar MIS-readiness pill (visible on every page, incl. the first screen after login) ---- */
+function renderDQTop(){
+  const el=document.getElementById("dqTop"); if(!el) return;
+  const r=dqCompute(state.month);
+  var bg,fg,txt;
+  if(!r.ready){ bg="rgba(100,116,139,.15)"; fg="#94a3b8"; txt="MIS: no data"; }
+  else{ var lvl=r.score>=85?0:r.score>=65?1:r.score>=40?2:3;
+    var cols=[["rgba(16,185,129,.16)","#10b981"],["rgba(59,130,246,.16)","#3b82f6"],["rgba(245,158,11,.18)","#d97706"],["rgba(239,68,68,.16)","#ef4444"]];
+    bg=cols[lvl][0]; fg=cols[lvl][1];
+    txt="MIS "+r.score+"% · "+["Ready","Almost","Partial","Low"][lvl]+" ("+r.okN+"/"+r.total+")"; }
+  el.style.cssText="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:"+bg+";color:"+fg+";white-space:nowrap;cursor:default";
+  el.textContent=txt;
+  el.title=r.ready?("Readiness for "+fyLabel(state.month)+":\n"+r.checks.map(function(c){return (c[1]?"✓ ":"✗ ")+c[0];}).join("\n")):"No data loaded yet — upload on Data & Uploads";
+}
+(function(){ if(typeof renderAll==="function"){ var _ra=renderAll; renderAll=function(){ _ra(); try{ renderDQTop(); }catch(e){} }; } })();
+/* ---------- Governance & Executive Command (p11 — was unimplemented in v18) ---------- */
+function renderGovernance(){
+  const m=state.month;
+  const A=plFor(state.loc,"Actual",m), O=plFor(state.loc,"AOP",m), L=plFor(state.loc,"LY",m);
+  const _dq=dqCompute(m), checks=_dq.checks, okN=_dq.okN, score=_dq.score;
   const sc=document.getElementById("dqScore"), gr=document.getElementById("dqGrade"), ga=document.getElementById("dqGauge");
   if(sc) sc.textContent=anyDataLoaded()?score:"—";
   if(gr) gr.textContent=anyDataLoaded()?(score>=85?"Excellent":score>=65?"Good":score>=40?"Partial":"Poor"):"No data";
@@ -3811,6 +3877,23 @@ function exportAllTables(){
     const tp=(window.tpChannelStore||{})[m];
     if(tp&&tp.rows&&tp.rows.length) add("TP_Partners",[["Partner","Net Sales (AED)","Commission","Advertisement"]]
       .concat(tp.rows.map(function(r){ return [r.partner,r.netSales,r.commission,r.adSpend]; })));
+    // v26: Location Expense Analytics — emirate-wise Actual bifurcation for the selected month
+    try{ if(typeof expMatrix==="function"){ const ME=expMatrix("Actual",m);
+      if(ME.total>0){ const ems=["Dubai","Abu Dhabi","Sharjah"];
+        const aoa=[["Location Expense Analytics (INR base) — "+fyLabel(m)],[],["Section","Head"].concat(ems,["Total"])];
+        (typeof EXP_STRUCT!=="undefined"?EXP_STRUCT.map(function(x){return x[0];}):Object.keys(ME.secTot)).forEach(function(sec){
+          if(!ME.secTot[sec]) return;
+          aoa.push([sec,""].concat(ems.map(function(e){return Math.round((ME.secEm[sec]&&ME.secEm[sec][e])||0);}),[Math.round(ME.secTot[sec]||0)]));
+          const heads={}; ems.forEach(function(e){ const s=ME.em[e]&&ME.em[e][sec]; if(s) for(const h in s) heads[h]=1; });
+          Object.keys(heads).forEach(function(h){
+            aoa.push(["",h].concat(ems.map(function(e){return Math.round((ME.em[e]&&ME.em[e][sec]&&ME.em[e][sec][h]&&ME.em[e][sec][h].v)||0);}),
+              [Math.round(ems.reduce(function(s2,e){return s2+((ME.em[e]&&ME.em[e][sec]&&ME.em[e][sec][h]&&ME.em[e][sec][h].v)||0);},0))]));
+          });
+        });
+        aoa.push(["Total Location Expense",""].concat(ems.map(function(e){return Math.round(ME.emTot[e]||0);}),[Math.round(ME.total||0)]));
+        add("Location_Expense",aoa);
+      }
+    } }catch(_e){}
     add("FX",[["Month","INR per AED"]].concat(FX.map(function(r){ return [r.m,r.inr]; })));
     if(valLog.length) add("Validation_Log",[["When","File","Type","Result"]]
       .concat(valLog.map(function(v){ return [v.ts,v.file,v.type,String(v.msg).replace(/<[^>]+>/g,"")]; })));
@@ -3830,9 +3913,6 @@ function exportAllTables(){
      '<div class="cap" style="margin-top:4px">SKU · Tally · Trial Balance · LY/AOP · FX · TP Marketing · CPD · Google Ads · Stripe · Tabby · Tamara · Data Pack (.json)</div>'+
      '<button class="btn p" id="bulkPick" style="margin-top:10px">Choose files…</button>'+
      '<input id="bulkFiles" type="file" multiple hidden accept=".csv,.xlsx,.xls,.json"></div>'+
-   '<div class="sec-title">Validation Report <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">persistent — saved inside the Data Pack</span></div>'+
-   '<div class="tablewrap" style="margin-bottom:10px"><table class="fin" id="valTable"></table></div>'+
-   '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap"><button class="btn" id="valClear">Clear report</button><button class="btn p" id="xlsExport2">⤓ Export All Tables (Excel)</button></div>'+
    '<div class="sec-title">Business Assumptions <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">drives SKU-import derivations &amp; VAT back-fill</span></div>'+
    '<div class="panel" style="margin-bottom:18px"><div class="adjgrid" style="grid-template-columns:1fr 130px">'+
      '<label>Packing cost — % of Net Sales</label><input id="asPack" class="num">'+
@@ -3842,6 +3922,13 @@ function exportAllTables(){
      '<button class="btn p" id="asApply">Apply assumptions</button><span class="cap" id="asInfo"></span></div>'+
    '<div class="note" style="margin-top:8px">These drive the SKU import (Packing carve-out; Original COGS = COGS − InputTax × factor) and the LY/AOP VAT back-fill. Changing them does <b>not</b> restate months already imported — re-upload a month to re-derive it.</div></div>';
   p8.insertBefore(div,p8.firstChild);
+  // v26 layout: freeze locks moved to the TOP of Data & Uploads; Validation Report moved to the BOTTOM
+  var _fb=document.getElementById("freezeBlock"); if(_fb) p8.insertBefore(_fb,p8.firstChild);
+  var _vrep=document.createElement("div");
+  _vrep.innerHTML='<div class="sec-title" style="margin-top:8px">Validation Report <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft);font-size:11px;margin-left:8px">persistent — saved inside the Data Pack · at the end of this sheet</span></div>'+
+   '<div class="tablewrap" style="margin-bottom:10px"><table class="fin" id="valTable"></table></div>'+
+   '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap"><button class="btn" id="valClear">Clear report</button><button class="btn p" id="xlsExport2">⤓ Export All Tables (Excel)</button></div>';
+  p8.appendChild(_vrep);
   const zone=document.getElementById("bulkZone"), inp=document.getElementById("bulkFiles");
   document.getElementById("bulkPick").addEventListener("click",function(e){ e.stopPropagation(); inp.click(); });
   zone.addEventListener("click",function(){ inp.click(); });
@@ -3949,11 +4036,12 @@ const expSel={scn:"Actual", em:"Dubai", ccy:"AED", closed:{}, wired:false};
 })();
 
 /* ---- routing ---- */
-PAGE_META.p13=["Location Expense Analytics","Emirate-wise expense bifurcation — Actual vs AOP vs LY · allocation engine, waterfalls, heatmaps & treemap"];
+PAGE_META.p13=["Location Expense Analytics","Emirate-wise Actual expense bifurcation — turnover-based allocation engine (no Unallocated bucket)"];
 (function(){
-  const _sp=setPage; setPage=function(id){ _sp(id); if(id==="p13") renderExpAnalytics(); };
+  const _sp=setPage; setPage=function(id){ _sp(id); if(id==="p13") renderExpAnalytics(); if(window.applyRoleGuard) window.applyRoleGuard(); };
   const _ra=renderAll; renderAll=function(){ _ra();
-    const cur=document.querySelector(".page.active"); if(cur&&cur.id==="p13") renderExpAnalytics(); };
+    const cur=document.querySelector(".page.active"); if(cur&&cur.id==="p13") renderExpAnalytics();
+    if(window.applyRoleGuard) window.applyRoleGuard(); };
 })();
 
 /* ---- emirate revenue (T/O) shares for allocation ---- */
@@ -3984,8 +4072,10 @@ function expMatrix(scn,m){
       const v=rec[sk]||0; if(!v) continue;
       const [sec,head]=sk.split("||");
       if(em==="Unallocated"){
-        if(expHeadType(sec,head)==="T" && sh){ EXP_EMS.forEach(e=>{ if(sh[e]>0) put(e,sec,head,v*sh[e],true); }); }
-        else { put("Unallocated",sec,head,v,false); out.unallocA+=v; }
+        // v25: NO Unallocated bucket — re-allocate ALL head-office/unallocated amounts (both A and T heads)
+        // pro-rata to each emirate's turnover (revenue) share; fall back to an equal 1/3 split when no SKU revenue.
+        const shr = sh || {"Dubai":1/3,"Abu Dhabi":1/3,"Sharjah":1/3};
+        EXP_EMS.forEach(e=>{ const f=shr[e]||0; if(f>0) put(e,sec,head,v*f,true); });
       } else put(em,sec,head,v,false);
     }
   }
@@ -4067,167 +4157,54 @@ function renderExpAnalytics(){
   const CH=compute(rawChan(state.loc,"Actual",m));
   const pf=v=>v.toFixed(1)+"%";
 
-  /* ---- KPIs ---- */
+  /* ---- slim Actual-only summary strip (total opex + per-emirate Actual split) ---- */
   const kp=document.getElementById("expKpis");
   if(kp){
-    const expPctRev = CH.revenue? MA.total/CH.revenue*100 : null;
-    const cpo = CH.orders? MA.total/CH.orders : null;
-    const growth = ML.total? (MA.total-ML.total)/ML.total*100 : null;
-    const series=MONTHS.map((_,i)=>{ const t=expMatrix("Actual",i).total; return t||null; });
+    const splitSub=e=>MA.total?((MA.emTot[e]||0)/MA.total*100).toFixed(1)+"% of total opex":"no data";
     kp.innerHTML=
-      expKpiCard("Total Location Expense", MA.total?"":DASH, `AOP ${MO.total?mny(MO.total,false):DASH} · LY ${ML.total?mny(ML.total,false):DASH}`, sparkSVG(series,"x1"),101)+
-      expKpiCard("Expense % of Revenue", expPctRev==null?DASH:"", CH.revenue?("Revenue "+mny(CH.revenue,false)):"no revenue loaded","",102)+
-      expKpiCard("Cost per Order", cpo==null?DASH:"", CH.orders?fmtNum(CH.orders)+" orders":"no orders loaded","",103)+
-      expKpiCard("EBITDA Contribution", CH._empty?DASH:"", CH._empty?"":("Location exp = "+(CH.ebitda?(MA.total/Math.abs(CH.ebitda)*100).toFixed(1):"—")+"% of EBITDA"),"",104)+
-      expKpiCard("Expense Growth vs LY", growth==null?DASH:"", ML.total?("LY "+mny(ML.total,false)):"LY not loaded","",105);
+      expKpiCard("Total Location Expense", MA.total?"":DASH, "Actual · selected month · all emirates","",101)+
+      expKpiCard("Dubai — Actual", MA.emTot["Dubai"]?"":DASH, splitSub("Dubai"),"",106)+
+      expKpiCard("Abu Dhabi — Actual", MA.emTot["Abu Dhabi"]?"":DASH, splitSub("Abu Dhabi"),"",107)+
+      expKpiCard("Sharjah — Actual", MA.emTot["Sharjah"]?"":DASH, splitSub("Sharjah"),"",108);
     if(MA.total) v20Count(document.getElementById("expkv101"),MA.total,v=>fmtMoney(v,m));
-    if(expPctRev!=null) v20Count(document.getElementById("expkv102"),expPctRev,v=>pf(v));
-    if(cpo!=null) v20Count(document.getElementById("expkv103"),cpo,v=>fmtMoney(v,m));
-    if(!CH._empty) v20Count(document.getElementById("expkv104"),CH.ebitda,v=>fmtMoney(v,m));
-    if(growth!=null) v20Count(document.getElementById("expkv105"),growth,v=>(v>=0?"+":"")+pf(v));
+    if(MA.emTot["Dubai"]) v20Count(document.getElementById("expkv106"),MA.emTot["Dubai"],v=>fmtMoney(v,m));
+    if(MA.emTot["Abu Dhabi"]) v20Count(document.getElementById("expkv107"),MA.emTot["Abu Dhabi"],v=>fmtMoney(v,m));
+    if(MA.emTot["Sharjah"]) v20Count(document.getElementById("expkv108"),MA.emTot["Sharjah"],v=>fmtMoney(v,m));
   }
 
-  /* ---- charts ---- */
-  const secs=EXP_STRUCT.map(x=>x[0]).filter(sc=>(MA.secTot[sc]||MO.secTot[sc]||ML.secTot[sc]));
-  const emsAll=[...EXP_EMS.filter(e=>MA.emTot[e]),"Unallocated"].filter(e=>MA.emTot[e]);
-  // stacked waterfall: stacked emirate bars per section + cumulative line
-  destroy("expWaterfall");
-  if(!MA.total){ emptyCanvas("expWaterfall"); }
+  /* ---- v26: single side-by-side table — sections/heads × emirate columns (like Location Performance p6) ---- */
+  const cols=[...EXP_EMS,"ALL"];                          // Dubai | Abu Dhabi | Sharjah | Total
+  const colName=c=>c==="ALL"?"All Emirates":c;
+  const colTot =c=>c==="ALL"?(MA.total||0):(MA.emTot[c]||0);
+  const headVal=(em,sec,hd)=>(MA.em[em]&&MA.em[em][sec]&&MA.em[em][sec][hd]&&MA.em[em][sec][hd].v)||0;
+  if(!MA.total){ stack.innerHTML=""; }
   else{
-    let run=0; const cum=secs.map(sc=>{ run+=(MA.secTot[sc]||0); return run*fx(m); });
-    charts["expWaterfall"]=new Chart(document.getElementById("expWaterfall"),{
-      data:{labels:secs,datasets:[
-        ...emsAll.map(e=>({type:"bar",label:e,stack:"s",data:secs.map(sc=>((MA.em[e]&&MA.em[e][sc])?Object.values(MA.em[e][sc]).reduce((s,c)=>s+c.v,0):0)*fx(m)),
-          backgroundColor:e==="Unallocated"?"#475569":(EM_COLORS[e]||"#64748b"),borderRadius:4,maxBarThickness:60})),
-        {type:"line",label:"Cumulative",data:cum,borderColor:"#c9a24a",borderDash:[6,4],tension:.3,pointRadius:3,pointBackgroundColor:"#dab86a",borderWidth:1.8,yAxisID:"y"}]},
-      options:{maintainAspectRatio:false,
-        plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:10},color:TXT_SOFT()}},
-          tooltip:{callbacks:{label:c=>c.dataset.label+": "+fmtConv(c.parsed.y)}}},
-        scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{font:{family:FONT},callback:v=>(state.ccy==="AED"?"AED ":"₹")+(v/1000).toFixed(0)+"k"},grid:{color:CHART_GRID()}}}}});
-  }
-  // donut
-  destroy("expDonut");
-  if(!MA.total){ emptyCanvas("expDonut"); }
-  else charts["expDonut"]=new Chart(document.getElementById("expDonut"),{type:"doughnut",
-    data:{labels:secs,datasets:[{data:secs.map(sc=>MA.secTot[sc]||0),
-      backgroundColor:secs.map(sc=>EXP_SEC_COLORS[sc]||"#64748b"),borderWidth:2,borderColor:DONUT_BORDER(),hoverOffset:8}]},
-    options:{maintainAspectRatio:false,cutout:"62%",
-      plugins:{legend:{display:true,position:"right",labels:{boxWidth:10,font:{size:10},color:TXT_SOFT()}},
-        tooltip:{callbacks:{label:c=>c.label+": "+fmtMoney(c.parsed)+" ("+(c.parsed/MA.total*100).toFixed(1)+"%)"}}}}});
-  // trend
-  destroy("expTrend");
-  const tr=scn=>MONTHS.map((_,i)=>{ const t=expMatrix(scn,i).total; return t?t*fx(i):null; });
-  const tA=tr("Actual"), tO=tr("AOP"), tL=tr("LY");
-  if(tA.every(v=>v==null)&&tO.every(v=>v==null)&&tL.every(v=>v==null)){ emptyCanvas("expTrend"); }
-  else charts["expTrend"]=new Chart(document.getElementById("expTrend"),{type:"line",
-    data:{labels:MONTHS,datasets:[
-      {label:"Actual",data:tA,borderColor:"#3b82f6",backgroundColor:"rgba(59,130,246,.16)",fill:true,tension:.35,pointRadius:2.5,borderWidth:2},
-      {label:"AOP",data:tO,borderColor:"#c9a24a",borderDash:[6,4],tension:.35,pointRadius:0,borderWidth:1.6},
-      {label:"LY",data:tL,borderColor:"#64748b",borderDash:[2,3],tension:.35,pointRadius:0,borderWidth:1.4}]},
-    options:{maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-      plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:10},color:TXT_SOFT()}},
-        tooltip:{callbacks:{label:c=>c.dataset.label+": "+fmtConv(c.parsed.y)}}},
-      scales:{x:{grid:{display:false}},y:{ticks:{font:{family:FONT},callback:v=>(state.ccy==="AED"?"AED ":"₹")+(v/1000).toFixed(0)+"k"},grid:{color:CHART_GRID()}}}}});
-  // treemap (head level)
-  const tm=document.getElementById("expTreemap");
-  if(tm){
-    const items=[];
-    for(const e in MA.em) for(const sc in MA.em[e]) for(const h in MA.em[e][sc])
-      items.push({n:h,e,sec:sc,v:MA.em[e][sc][h].v});
-    const agg={}; items.forEach(it=>{ const k=it.sec+"||"+it.n; agg[k]=agg[k]||{n:it.n,sec:it.sec,v:0}; agg[k].v+=it.v; });
-    const list=Object.values(agg).sort((a,b)=>b.v-a.v).slice(0,18);
-    if(!list.length){ tm.innerHTML='<div class="cap" style="padding:20px">No Actual expense data this month.</div>'; }
-    else{
-      const out=[]; (function lay(arr,x,y,w,h){
-        if(!arr.length||w<=0||h<=0) return;
-        if(arr.length===1){ out.push({...arr[0],x,y,w,h}); return; }
-        const tot=arr.reduce((s,i)=>s+i.v,0); let acc=0,k=0;
-        for(;k<arr.length-1;k++){ acc+=arr[k].v; if(acc>=tot/2) break; }
-        const a=arr.slice(0,k+1), b=arr.slice(k+1), fa=acc/tot;
-        if(w>=h){ lay(a,x,y,w*fa,h); lay(b,x+w*fa,y,w*(1-fa),h); }
-        else{ lay(a,x,y,w,h*fa); lay(b,x,y+h*fa,w,h*(1-fa)); }
-      })(list,0,0,100,100);
-      tm.innerHTML=out.map(n=>{
-        const col=EXP_SEC_COLORS[n.sec]||"#64748b";
-        return `<div class="tnode" style="left:${n.x}%;top:${n.y}%;width:${n.w}%;height:${n.h}%;
-          background:linear-gradient(150deg,${col}cc,${col}55)" title="${n.sec} · ${n.n}: ${fmtMoney(n.v)} (${(n.v/MA.total*100).toFixed(1)}%)">
-          ${(n.w>14&&n.h>11)?`<div class="tn">${n.n}</div><div class="tv">${fmtMoney(n.v)}</div>`:""}</div>`;
-      }).join("");
-    }
-  }
-  // variance heatmap matrix (section × emirate, vs AOP; overspend red)
-  const hmEl=document.getElementById("expHeatM");
-  if(hmEl){
-    const cols=[...EXP_EMS,"Unallocated"];
-    let hh="<thead><tr><th>Section</th>"+cols.map(c=>"<th>"+c+"</th>").join("")+"<th>Total</th></tr></thead><tbody>";
-    EXP_STRUCT.map(x=>x[0]).forEach(sc=>{
-      hh+="<tr><td>"+sc+"</td>";
-      cols.forEach(e=>{
-        const a=(MA.secEm[sc]&&MA.secEm[sc][e])||0, o=(MO.secEm[sc]&&MO.secEm[sc][e])||0;
-        if(!a&&!o){ hh+="<td>·</td>"; return; }
-        const v=o?(a-o)/o*100:null;
-        let bg="rgba(255,255,255,.04)", txt=v==null?DASH:(v>=0?"+":"")+v.toFixed(0)+"%";
-        if(v!=null){ const al=Math.min(Math.abs(v)/40,1)*.5+.08;
-          bg = Math.abs(v)<=2 ? "rgba(245,158,11,.18)" : (v>0?`rgba(239,68,68,${al})`:`rgba(16,185,129,${al})`); }
-        hh+=`<td style="background:${bg}" title="${sc} · ${e}: Actual ${fmtMoney(a)} vs AOP ${fmtMoney(o)}">${txt}</td>`;
+    let h=`<thead><tr><th style="min-width:230px">Expense Section / Head · Actual · ${MONTHS[m]}'${YR_ACT}</th>`+
+      cols.map(c=>`<th class="num${c==="ALL"?" actual-col":""}">${colName(c)}${c!=="ALL"&&MA.total?`<br><span style="font-weight:400;text-transform:none">${(colTot(c)/MA.total*100).toFixed(1)}% of opex</span>`:""}</th>`).join("")+
+      `</tr></thead><tbody>`;
+    EXP_STRUCT.map(x=>x[0]).forEach(sec=>{
+      if(!MA.secTot[sec]) return;
+      // section subtotal row across emirates
+      h+=`<tr class="total"><td>${sec}</td>`+cols.map(c=>{
+        const v=c==="ALL"?(MA.secTot[sec]||0):((MA.secEm[sec]&&MA.secEm[sec][c])||0);
+        return `<td class="num${c==="ALL"?" actual-col":""}">${v?mny(v,false,m):DASH}</td>`;
+      }).join("")+`</tr>`;
+      // head detail rows (union across emirates)
+      const headSet={};
+      EXP_EMS.forEach(e=>{ const sect=MA.em[e]&&MA.em[e][sec];
+        if(sect) for(const hd in sect){ headSet[hd]=headSet[hd]||{alloc:false}; headSet[hd].alloc=headSet[hd].alloc||sect[hd].alloc; } });
+      const headTot=hd=>EXP_EMS.reduce((s,e)=>s+headVal(e,sec,hd),0);
+      Object.keys(headSet).sort((x,y)=>headTot(y)-headTot(x)).forEach(hd=>{
+        h+=`<tr><td class="indent">${hd}${headSet[hd].alloc?'<span class="tobadge">T/O</span>':""}</td>`+cols.map(c=>{
+          const v=c==="ALL"?headTot(hd):headVal(c,sec,hd);
+          return `<td class="num${c==="ALL"?" actual-col":""}">${v?mny(v,false,m):DASH}</td>`;
+        }).join("")+`</tr>`;
       });
-      const at=MA.secTot[sc]||0, ot=MO.secTot[sc]||0, vt=ot?(at-ot)/ot*100:null;
-      hh+=`<td style="font-weight:700">${vt==null?DASH:(vt>=0?"+":"")+vt.toFixed(0)+"%"}</td></tr>`;
     });
-    hmEl.innerHTML=hh+"</tbody>";
+    h+=`<tr class="grand"><td>Total Location Expense</td>`+cols.map(c=>`<td class="num${c==="ALL"?" actual-col":""}">${colTot(c)?mny(colTot(c),false,m):DASH}</td>`).join("")+`</tr>`;
+    stack.innerHTML=`<div class="tablewrap reveal"><table class="fin">${h}</tbody></table></div>
+      <div class="cap" style="font-size:11px;color:var(--ink-soft);margin-top:8px">Each emirate column = its Actual expense for the month; head-office / unallocated costs are re-allocated by SKU turnover share. <span class="tobadge">T/O</span> = turnover-allocated head. Ajman &amp; other emirates fold into Dubai.</div>`;
   }
-
-  /* ---- emirate-wise vertical distribution blocks ---- */
-  let out="";
-  const blocks=[...EXP_EMS,"Unallocated"].filter(e=>(MA.emTot[e]||MO.emTot[e]||ML.emTot[e]));
-  blocks.forEach(e=>{
-    const aT=MA.emTot[e]||0,oT=MO.emTot[e]||0,lT=ML.emTot[e]||0;
-    let rows="";
-    EXP_STRUCT.map(x=>x[0]).forEach((sc,si)=>{
-      const aS=(MA.secEm[sc]&&MA.secEm[sc][e])||0, oS=(MO.secEm[sc]&&MO.secEm[sc][e])||0, lS=(ML.secEm[sc]&&ML.secEm[sc][e])||0;
-      if(!aS&&!oS&&!lS) return;
-      const closed=expSel.closed[e+"|"+si];
-      const vO=oS?(aS-oS)/oS*100:null, vL=lS?(aS-lS)/lS*100:null;
-      const tO=vO==null?null:(Math.abs(vO)<=2?"a":(vO<=0?"g":"r"));      // cost: under budget = good
-      const tL=vL==null?null:(Math.abs(vL)<=2?"a":(vL<=0?"g":"r"));
-      const cc=t=>t==null?"":(t==="a"?"amb":(t==="g"?"pos":"neg"));
-      rows+=`<tr class="exp-secrow${closed?" closed":""}" data-sec="${e}|${si}">
-        <td><span class="tw">▾</span>${sc}</td>
-        <td class="num actual-col">${aS?mny(aS,false,m):DASH}</td><td class="num">${oS?mny(oS,false,m):DASH}</td><td class="num">${lS?mny(lS,false,m):DASH}</td>
-        <td class="num ${cc(tO)}">${vO==null?DASH:`<span class="tl-dot ${tO}"></span>${(vO>=0?"+":"")+vO.toFixed(1)}%`}</td>
-        <td class="num ${cc(tL)}">${vL==null?DASH:`<span class="tl-dot ${tL}"></span>${(vL>=0?"+":"")+vL.toFixed(1)}%`}</td></tr>`;
-      if(!closed){
-        const headSet={};
-        [[MA,"a"],[MO,"o"],[ML,"l"]].forEach(([M,kk])=>{ const sect=M.em[e]&&M.em[e][sc];
-          if(sect) for(const h in sect){ headSet[h]=headSet[h]||{a:0,o:0,l:0,alloc:false}; headSet[h][kk]+=sect[h].v; headSet[h].alloc=headSet[h].alloc||sect[h].alloc; } });
-        Object.keys(headSet).sort((x,y)=>headSet[y].a-headSet[x].a).forEach(h=>{
-          const c=headSet[h];
-          const hvO=c.o?(c.a-c.o)/c.o*100:null, hvL=c.l?(c.a-c.l)/c.l*100:null;
-          const ht=v=>v==null?"":(Math.abs(v)<=2?"amb":(v<=0?"pos":"neg"));
-          rows+=`<tr class="exp-headrow"><td>${h}${c.alloc?'<span class="tobadge">T/O</span>':""}</td>
-            <td class="num actual-col">${c.a?mny(c.a,false,m):DASH}</td><td class="num">${c.o?mny(c.o,false,m):DASH}</td><td class="num">${c.l?mny(c.l,false,m):DASH}</td>
-            <td class="num ${ht(hvO)}">${hvO==null?DASH:(hvO>=0?"+":"")+hvO.toFixed(1)+"%"}</td>
-            <td class="num ${ht(hvL)}">${hvL==null?DASH:(hvL>=0?"+":"")+hvL.toFixed(1)+"%"}</td></tr>`;
-        });
-      }
-    });
-    const vOT=oT?(aT-oT)/oT*100:null;
-    out+=`<div class="em-block reveal">
-      <div class="em-head${e==="Unallocated"?" gold":""}"><div class="nm"><span class="dotEm" style="background:${e==="Unallocated"?"#c9a24a":(EM_COLORS[e]||"#64748b")};box-shadow:0 0 12px ${e==="Unallocated"?"#c9a24a":(EM_COLORS[e]||"#64748b")}"></span>${e==="Unallocated"?"Unallocated / Head Office":e}</div>
-        <div class="meta">
-          <span class="chip fl"><span class="t">Actual</span>${mny(aT,false)}</span>
-          <span class="chip fl"><span class="t">AOP</span>${oT?mny(oT,false):DASH}</span>
-          <span class="chip ${vOT==null?"fl":(vOT<=0?"up":"dn")}"><span class="t">vs AOP</span>${vOT==null?DASH:(vOT>=0?"+":"")+vOT.toFixed(1)+"%"}</span>
-        </div></div>
-      <div class="tablewrap"><table class="fin">
-        <thead><tr><th style="min-width:220px">Expense Section / Head</th>
-        <th class="num actual-col">Actual</th><th class="num">AOP</th><th class="num">LY</th>
-        <th class="num">Var AOP %</th><th class="num">Var LY %</th></tr></thead><tbody>${rows}
-        <tr class="grand"><td>Total — ${e}</td><td class="num">${mny(aT,false,m)}</td><td class="num">${oT?mny(oT,false,m):DASH}</td><td class="num">${lT?mny(lT,false,m):DASH}</td>
-        <td class="num">${vOT==null?DASH:(vOT>=0?"+":"")+vOT.toFixed(1)+"%"}</td>
-        <td class="num">${lT?((aT-lT)/lT*100>=0?"+":"")+((aT-lT)/lT*100).toFixed(1)+"%":DASH}</td></tr></tbody></table></div></div>`;
-  });
-  stack.innerHTML=out||"";
   window.v20Reveal();
 
   /* ---- insights ---- */
@@ -4245,9 +4222,9 @@ function renderExpAnalytics(){
              bySec.length?`${bySec[0][0]} is the largest section at ${(bySec[0][1]/MA.total*100).toFixed(1)}%.`:""].filter(Boolean),
         variance:overs.length?overs:["All sections within ±2% of AOP or AOP not loaded."],
         drivers:byEm.slice(0,3).map(([e,v])=>`${e}: ${mny(v,false)} (${(v/MA.total*100).toFixed(1)}%)`),
-        risks:MA.unallocA>0?[`${mny(MA.unallocA,false)} sits in Unallocated (Actual-type heads at head office) — review emirate tagging.`]:[],
+        risks:[],
         actions:overs.length?["Investigate over-budget sections above; re-negotiate or re-phase spend."]:["Spend within budget tolerance — maintain controls."],
-        dq:[expShares(m)?'<span class="ok">T/O allocation active (SKU revenue shares present)</span>':'<span class="bad">No SKU detail — T/O-ratio heads stay in Unallocated until SKU upload</span>']});
+        dq:[expShares(m)?'<span class="ok">T/O allocation active — head-office costs split by SKU revenue share</span>':'<span class="bad">No SKU detail — head-office costs split equally 1/3 across emirates until SKU upload</span>']});
     }
   }
 }
@@ -4273,6 +4250,8 @@ function renderExpGrid(){
 function wireExpOnce(){
   if(expSel.wired) return; expSel.wired=true;
   const $=id=>document.getElementById(id);
+  // v26: manual-entry / upload panel retired from p13 (now lives only on Data & Uploads) — nothing to wire here
+  if(!$("expApply")||!$("expScn")) return;
   $("expScn").addEventListener("change",e=>{ expSel.scn=e.target.value; renderExpGrid(); });
   $("expEm").addEventListener("change",e=>{ expSel.em=e.target.value; renderExpGrid(); });
   $("expEntryCcy").addEventListener("change",e=>{ expSel.ccy=e.target.value; renderExpGrid(); });
@@ -4353,6 +4332,7 @@ function wireExpOnce(){
     exp.parentNode.appendChild(s);
     bS.addEventListener("click", saveCloud);
     bL.addEventListener("click", function(){ loadCloud(true); });
+    window.misCloudSave=saveCloud;   // v26: expose so uploads (e.g. Location Expense) can auto-persist to cloud
   }
   function applyRole(){
     var bS=$("dpCloudSave");
@@ -4362,6 +4342,26 @@ function wireExpOnce(){
       var d=document.createElement("div"); d.id="misRoleBadge";
       d.textContent = (ROLE==="admin") ? "Role: Admin — can save to cloud" : "Role: Viewer — read-only cloud";
       f.appendChild(d);
+    }
+    // v26: always-visible "Load Latest Data" control in the sidebar — viewers can pull admin's latest cloud save
+    if(f && !$("misSideLoad")){
+      var lb=document.createElement("button");
+      lb.id="misSideLoad"; lb.className="btn"; lb.type="button";
+      lb.textContent="⟳ Load Latest Data";
+      lb.style.cssText="margin-top:8px;width:100%";
+      lb.title="Pull the latest data saved to the cloud by an admin";
+      lb.addEventListener("click",function(){ if(typeof flash==="function") flash("Loading latest data from cloud…"); loadCloud(true); });
+      f.appendChild(lb);
+    }
+    // v26: Excel export available to everyone (incl. viewers) so they can download & share the data
+    if(f && !$("misSideExport")){
+      var eb2=document.createElement("button");
+      eb2.id="misSideExport"; eb2.className="btn"; eb2.type="button";
+      eb2.textContent="⤓ Export to Excel";
+      eb2.style.cssText="margin-top:8px;width:100%";
+      eb2.title="Download all MIS tables (P&L, SKU, Location Expense, TB, FX…) as one Excel workbook to share";
+      eb2.addEventListener("click",function(){ if(typeof exportAllTables==="function") exportAllTables(); else if(typeof flash==="function") flash("Export not ready yet — try again in a moment"); });
+      f.appendChild(eb2);
     }
   }
   function saveCloud(){
@@ -4407,7 +4407,9 @@ function wireExpOnce(){
         window.misRole=ROLE;
         applyRole();
         audit("login","role="+ROLE);
-        loadCloud(false);
+        // v26: viewers always auto-pull the latest cloud pack (force) so they see admin's updates;
+        // admins keep the safe load (won't clobber unsaved local work).
+        loadCloud(ROLE!=="admin");
       });
   }
   function arm(){
@@ -4422,3 +4424,4 @@ function wireExpOnce(){
 
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
