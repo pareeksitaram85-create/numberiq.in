@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NumberIQ — Finance Command Centre · IGP Group</title>
+<title>NumberIQ — Finance Command Centre</title>
 <meta name="description" content="NumberIQ — a unified finance intelligence platform for MIS, GST automation, transfer pricing and direct tax across India, Dubai and Singapore.">
 
 <!-- Favicons (dark + light adaptive) -->
@@ -19,12 +19,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NumberIQ">
 <meta property="og:title" content="NumberIQ — where every number tells the truth">
-<meta property="og:description" content="A unified finance, tax & MIS workspace for IGP across India, Dubai and Singapore.">
+<meta property="og:description" content="A unified finance, tax & MIS workspace across India, Dubai and Singapore.">
 <meta property="og:image" content="og-cover.png">
 <meta property="og:url" content="https://numberiq.in">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="NumberIQ — where every number tells the truth">
-<meta name="twitter:description" content="A unified finance, tax & MIS workspace for IGP across India, Dubai and Singapore.">
+<meta name="twitter:description" content="A unified finance, tax & MIS workspace across India, Dubai and Singapore.">
 <meta name="twitter:image" content="og-cover.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -201,6 +201,67 @@ header.nav.scrolled .nav-inner{background:rgba(8,10,18,.85);box-shadow:0 14px 40
 .mod-card.is-live{border-color:rgba(52,211,153,.3)}
 .mod-card.is-live .open{color:#6ee7b7}
 
+/* ============================ FINANCE TOOLS ============================ */
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:54px}
+.tool-card{position:relative;display:flex;flex-direction:column;padding:24px;border:1px solid var(--stroke);border-radius:var(--radius-lg);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));backdrop-filter:blur(14px);overflow:hidden;cursor:pointer;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;transform-style:preserve-3d;color:inherit}
+.tool-card::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--c,#4f7cff),transparent 70%);opacity:0;filter:blur(38px);top:-100px;right:-70px;transition:opacity .5s;pointer-events:none}
+.tool-card:hover{transform:translateY(-7px);border-color:var(--stroke-2);box-shadow:0 36px 80px -30px rgba(0,0,0,.85)}
+.tool-card:hover::before{opacity:.28}
+.tool-card .t-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.tool-card .t-ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:23px;
+  background:linear-gradient(135deg,var(--c,#4f7cff),rgba(255,255,255,.05));border:1px solid var(--stroke-2);box-shadow:0 12px 28px -12px var(--c,#4f7cff)}
+.tool-card h3{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.01em;margin-bottom:9px}
+.tool-card p{color:var(--ink-soft);font-size:13.5px;line-height:1.55;flex:1;margin-bottom:16px}
+.tool-card .t-open{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-weight:600;font-size:13.5px;color:var(--ink-dim);transition:gap .25s,color .25s}
+.tool-card:hover .t-open{gap:12px}
+/* live tools: animated gradient border + emerald accent */
+.tool-card.live{border-color:rgba(52,211,153,.34)}
+.tool-card.live .t-open{color:#6ee7b7}
+.tool-card.live:hover .t-open{color:#9affc8}
+.tool-card.live::after{content:"";position:absolute;inset:0;border-radius:var(--radius-lg);padding:1px;
+  background:linear-gradient(120deg,rgba(52,211,153,.7),transparent 35%,transparent 65%,rgba(56,225,214,.6));
+  background-size:200% 200%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:.55;animation:borderflow 6s linear infinite}
+@keyframes borderflow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.tools-note{display:flex;align-items:center;gap:10px;justify-content:center;text-align:center;margin:34px auto 0;max-width:680px;
+  font-size:13.5px;color:var(--ink-dim);border:1px dashed var(--stroke-2);border-radius:14px;padding:14px 20px;background:var(--panel)}
+.tools-note svg{flex-shrink:0;color:var(--cyan)}
+/* toast for coming-soon tools */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);z-index:400;opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:10px;padding:14px 22px;border:1px solid var(--stroke-2);border-radius:99px;
+  background:rgba(12,15,24,.95);backdrop-filter:blur(16px);box-shadow:var(--shadow);font-family:var(--display);font-weight:500;font-size:14px;color:var(--ink);transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .td{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber)}
+
+/* ============================ NEWS TICKER ============================ */
+.ticker-wrap{position:relative;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);
+  background:linear-gradient(90deg,rgba(79,124,255,.06),rgba(154,107,255,.05) 50%,rgba(56,225,214,.06));backdrop-filter:blur(10px)}
+.ticker-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:stretch;gap:0}
+.ticker-label{flex-shrink:0;display:inline-flex;align-items:center;gap:9px;padding:13px 20px;font-family:var(--display);font-weight:700;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:linear-gradient(100deg,#4f7cff,#7a5cff);position:relative;z-index:2}
+.ticker-label .pulse{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.ticker-viewport{flex:1;overflow:hidden;position:relative;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.ticker-track{display:inline-flex;align-items:center;gap:0;white-space:nowrap;will-change:transform;animation:marquee 60s linear infinite}
+.ticker-wrap:hover .ticker-track{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;font-size:13.5px;color:var(--ink-soft);
+  border-left:1px solid var(--stroke);transition:color .2s,background .2s}
+.ticker-item:hover{color:#fff;background:rgba(255,255,255,.03)}
+.ticker-item .tcat{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;border-radius:99px;flex-shrink:0}
+.ticker-item .tcat.gst{color:#7ff0e6;background:rgba(56,225,214,.14);border:1px solid rgba(56,225,214,.32)}
+.ticker-item .tcat.idt{color:#ffd98a;background:rgba(244,183,64,.14);border:1px solid rgba(244,183,64,.32)}
+.ticker-item .tcat.itx{color:#c9b3ff;background:rgba(154,107,255,.16);border:1px solid rgba(154,107,255,.34)}
+.ticker-item .tcat.cmp{color:#9affc8;background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.32)}
+.ticker-item .tdate{color:var(--ink-dim);font-size:11.5px;font-family:var(--display);flex-shrink:0}
+.ticker-item .tarrow{color:var(--blue-2);opacity:0;transform:translateX(-4px);transition:.2s}
+.ticker-item:hover .tarrow{opacity:1;transform:translateX(0)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:640px){.ticker-label{padding:11px 14px;font-size:11px}.ticker-item{padding:11px 18px;font-size:12.5px}}
+
 /* ============================ SHOWCASE ============================ */
 .showcase{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
 .showcase-tabs{display:flex;flex-direction:column;gap:12px;margin-top:30px}
@@ -323,6 +384,7 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   .nav-links{display:none}
   .hamburger{display:flex}
   .modules-grid,.tgrid,.plans{grid-template-columns:1fr 1fr}
+  .tools-grid{grid-template-columns:1fr 1fr}
   .showcase{grid-template-columns:1fr}
   .bento{grid-template-columns:1fr 1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
@@ -330,7 +392,7 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
 }
 @media(max-width:640px){
   section{padding:84px 0}
-  .modules-grid,.tgrid,.plans,.bento,.foot-grid{grid-template-columns:1fr}
+  .modules-grid,.tgrid,.plans,.bento,.foot-grid,.tools-grid{grid-template-columns:1fr}
   .cell.wide,.cell.tall{grid-column:auto;grid-row:auto}
   .hero{padding:150px 0 60px}
   .nav-cta .btn.btn-secondary-hide{display:none}
@@ -362,12 +424,12 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   <div class="nav-inner">
     <a href="#top" class="logo">
       <span class="mark">◈</span>
-      <span>NumberIQ<small>Finance Intelligence · IGP Group</small></span>
+      <span>NumberIQ<small>Finance Intelligence</small></span>
     </a>
     <nav class="nav-links">
       <a href="#modules">Modules</a>
-      <a href="#showcase">Showcase</a>
-      <a href="#benefits">Benefits</a>
+      <a href="#tools">Finance Tools</a>
+      <a href="#news">Updates</a>
       <a href="#roadmap">Roadmap</a>
     </nav>
     <div class="nav-cta">
@@ -380,8 +442,8 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
 </header>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#modules">Modules</a>
-  <a href="#showcase">Showcase</a>
-  <a href="#benefits">Benefits</a>
+  <a href="#tools">Finance Tools</a>
+  <a href="#news">Updates</a>
   <a href="#roadmap">Roadmap</a>
   <a href="#modules">Sign In →</a>
 </div>
@@ -390,14 +452,13 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
 
 <!-- ===================== HERO ===================== -->
 <section class="hero wrap">
-  <div class="hero-badge"><span class="eyebrow"><span class="dot"></span>IGP Group · Finance Command Centre</span></div>
+  <div class="hero-badge"><span class="eyebrow"><span class="dot"></span>Finance Command Centre</span></div>
   <h1>
     <span class="line"><span>Where every number</span></span>
     <span class="line"><span>tells <span class="grad-text">the truth.</span></span></span>
   </h1>
-  <p class="lead">A unified finance intelligence platform for IGP's operations across <b style="color:#fff">India, Dubai &amp; Singapore</b>.</p>
-  <p class="tagline" style="margin-bottom:6px">Built by a CA, for CA.</p>
-  <p style="font-family:var(--display);font-weight:500;font-size:14px;color:var(--ink-soft);margin:0 auto 34px;letter-spacing:.06em">Sitaram Pareek</p>
+  <p class="lead">An integrated workspace for MIS, GST, direct &amp; international tax — from raw ledgers to <b style="color:#fff">board-ready insight</b>.</p>
+  <p class="tagline" style="margin-bottom:34px">Built by a CA, for CA.</p>
   <div class="hero-actions">
     <a href="#modules" class="btn btn-primary btn-lg">Explore the suite
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -405,53 +466,41 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   </div>
 </section>
 
+<!-- ===================== NEWS TICKER ===================== -->
+<div id="news" class="ticker-wrap">
+  <div class="ticker-inner">
+    <div class="ticker-label"><span class="pulse"></span>Live Updates</div>
+    <div class="ticker-viewport">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== MODULES ===================== -->
 <section id="modules" class="wrap">
   <div class="center" style="max-width:680px;margin:0 auto">
     <span class="eyebrow reveal"><span class="dot"></span>The Suite</span>
     <h2 class="section-title reveal d1">Every function, <span class="grad-text">one console</span></h2>
-    <p class="section-sub reveal d2">Nine modules across finance, tax, compliance and AI. Two are live today — MIS &amp; Analytics UAE and GST Automation — the rest are mapped and on the roadmap, each with a defined home in the suite.</p>
+    <p class="section-sub reveal d2">Nine secure modules across MIS, GST, direct &amp; international tax and compliance. One is live today — UAE MIS &amp; Analytics — the rest are mapped and on the roadmap. Below the suite sits a growing set of <b style="color:#fff">Finance Tools</b> you can open instantly, no login required.</p>
   </div>
 
   <div class="modules-grid">
 
-    <!-- 1. FINANCIAL CONTROL TOWER -->
-    <div class="mod-card reveal" style="--c:#4f7cff" data-open="fct">
-      <div class="ic">🎛️</div>
-      <h3>Financial Control Tower <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">P&amp;L, Balance Sheet and Cash Flow with EBITDA, Budget vs Actual and variance analysis — the group's financial control room.</div>
-      <div class="future"><b>Future use:</b> Group financial statements, budgeting &amp; variance reporting.</div>
-      <span class="open">Preview module
+    <!-- 1. UAE MIS (LIVE) -->
+    <div class="mod-card is-live reveal" style="--c:#34d399" data-open="uae">
+      <div class="ic">📊</div>
+      <h3>UAE MIS &amp; Analytics <span class="badge live">● Live</span></h3>
+      <div class="desc">Executive boardroom for the UAE entities — P&amp;L, variance matrix, SKU profitability, emirate-level performance and expense analytics.</div>
+      <div class="future"><b>In use:</b> Monthly management reporting, board pack &amp; cloud sync.</div>
+      <span class="open">Open dashboard
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </div>
 
-    <!-- 2. GST COMMAND CENTER -->
-    <div class="mod-card reveal d1" style="--c:#22d3ee" data-open="gstcc">
-      <div class="ic">🧾</div>
-      <h3>GST Command Center <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">GSTR-1, GSTR-3B and GSTR-2B reconciliation with a notice tracker and audit management in one command center.</div>
-      <div class="future"><b>Future use:</b> End-to-end GST oversight, notices &amp; audits.</div>
-      <span class="open">Preview module
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </div>
-
-    <!-- 3. DIRECT TAX HUB -->
-    <div class="mod-card reveal d2" style="--c:#f4b740" data-open="dtax">
-      <div class="ic">🏛️</div>
-      <h3>Direct Tax Hub <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">TDS, advance tax, tax audit, income-tax notices and a computation repository in a single hub.</div>
-      <div class="future"><b>Future use:</b> Direct-tax compliance, audits &amp; computations.</div>
-      <span class="open">Preview module
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </div>
-
-    <!-- 4. MIS & ANALYTICS CENTER INDIA -->
-    <div class="mod-card reveal" style="--c:#6f9bff" data-open="misin">
+    <!-- 2. INDIA MIS -->
+    <div class="mod-card reveal d1" style="--c:#6f9bff" data-open="misin">
       <div class="ic">📈</div>
-      <h3>MIS &amp; Analytics Center India <span class="badge soon">Coming Soon</span></h3>
+      <h3>India MIS &amp; Analytics <span class="badge soon">Coming Soon</span></h3>
       <div class="desc">KPI dashboards, location-wise and channel-wise MIS, and SKU profitability for the India business.</div>
       <div class="future"><b>Future use:</b> India management analytics &amp; profitability.</div>
       <span class="open">Preview module
@@ -459,57 +508,79 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
       </span>
     </div>
 
-    <!-- 5. UAE COMPLIANCE CENTER -->
-    <div class="mod-card reveal d1" style="--c:#2dd4bf" data-open="uaecomp">
-      <div class="ic">🛡️</div>
-      <h3>UAE Compliance Center <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">VAT returns, corporate tax, ESR, UBO and economic substance reporting for the UAE entities.</div>
-      <div class="future"><b>Future use:</b> UAE regulatory &amp; tax compliance.</div>
-      <span class="open">Preview module
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </div>
-
-    <!-- 6. TRANSFER PRICING & INTERNATIONAL TAX -->
+    <!-- 3. TP REPORT -->
     <div class="mod-card reveal d2" style="--c:#9a6bff" data-open="tp">
       <div class="ic">⚖️</div>
-      <h3>Transfer Pricing &amp; Intl Tax <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">TP documentation, intercompany transactions, DTAA positions and BEPS reporting across jurisdictions.</div>
-      <div class="future"><b>Future use:</b> Cross-border pricing &amp; international tax.</div>
+      <h3>Transfer Pricing Report <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">TP documentation, Form 3CEB, benchmarking studies and intercompany transaction tracking across jurisdictions.</div>
+      <div class="future"><b>Future use:</b> Cross-border pricing, 3CEB &amp; benchmarking.</div>
       <span class="open">Preview module
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </div>
 
-    <!-- 7. AI WORKSPACE -->
-    <div class="mod-card reveal" style="--c:#c084fc" data-open="ai">
-      <div class="ic">🤖</div>
-      <h3>AI Workspace <span class="badge soon">Coming Soon</span></h3>
-      <div class="desc">GST reply generator, tax research, notice drafting and MIS commentary — AI assistance for finance &amp; tax.</div>
-      <div class="future"><b>Future use:</b> AI-drafted replies, research &amp; commentary.</div>
+    <!-- 4. GST RETURNS -->
+    <div class="mod-card reveal" style="--c:#22d3ee" data-open="gst">
+      <div class="ic">🧾</div>
+      <h3>GST Returns &amp; Compliance <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">GSTR-1, 3B, 9 &amp; 9C preparation with 2B reconciliation, a notice tracker and audit management in one place.</div>
+      <div class="future"><b>Future use:</b> End-to-end GST returns, notices &amp; audits.</div>
       <span class="open">Preview module
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </div>
 
-    <!-- 8. MIS & ANALYTICS CENTER UAE (LIVE) -->
-    <div class="mod-card is-live reveal d1" style="--c:#34d399" data-open="uae">
-      <div class="ic">📊</div>
-      <h3>MIS &amp; Analytics Center UAE <span class="badge live">● Live</span></h3>
-      <div class="desc">Executive boardroom for the UAE entities — P&amp;L, variance matrix, SKU profitability, emirate-level performance and expense analytics.</div>
-      <div class="future"><b>In use:</b> Monthly management reporting for IGP &amp; TP Dubai, board pack &amp; cloud sync.</div>
-      <span class="open">Open dashboard
+    <!-- 5. INCOME TAX -->
+    <div class="mod-card reveal d1" style="--c:#f4b740" data-open="itax">
+      <div class="ic">🏛️</div>
+      <h3>Income Tax <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">Computation, advance tax, tax audit (3CA/3CD), ITR preparation and an income-tax notice repository.</div>
+      <div class="future"><b>Future use:</b> Direct-tax computation, audit &amp; filings.</div>
+      <span class="open">Preview module
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </div>
 
-    <!-- 9. GST AUTOMATION (LIVE) -->
-    <div class="mod-card is-live reveal d2" style="--c:#38e1d6" data-open="gst">
-      <div class="ic">⚙️</div>
-      <h3>GST Automation <span class="badge live">● Live</span></h3>
-      <div class="desc">GSTR-1 vs 3B vs books reconciliation, 2B ITC matching, e-invoice &amp; e-way bill checks, and auto-flagging of mismatches.</div>
-      <div class="future"><b>In use:</b> Monthly GST compliance, ITC reconciliation &amp; notice-ready working papers.</div>
-      <span class="open">Open GST Studio
+    <!-- 6. INTERNATIONAL TAX -->
+    <div class="mod-card reveal d2" style="--c:#2dd4bf" data-open="intl">
+      <div class="ic">🌐</div>
+      <h3>International Tax <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">DTAA positions, withholding tax, PE analysis, FEMA reporting and BEPS / Pillar Two compliance.</div>
+      <div class="future"><b>Future use:</b> DTAA, WHT, FEMA &amp; BEPS oversight.</div>
+      <span class="open">Preview module
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+
+    <!-- 7. FINANCIAL -->
+    <div class="mod-card reveal" style="--c:#4f7cff" data-open="fct">
+      <div class="ic">🎛️</div>
+      <h3>Financial Control Tower <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">P&amp;L, Balance Sheet and Cash Flow with EBITDA, Budget vs Actual, consolidation and variance analysis.</div>
+      <div class="future"><b>Future use:</b> Group financial statements &amp; consolidation.</div>
+      <span class="open">Preview module
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+
+    <!-- 8. TDS COMPLIANCE -->
+    <div class="mod-card reveal d1" style="--c:#ff5d73" data-open="tds">
+      <div class="ic">📑</div>
+      <h3>TDS Compliance <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">TDS/TCS computation, 24Q/26Q/27Q returns, challan tracking and 26AS / AIS matching with lower-deduction monitoring.</div>
+      <div class="future"><b>Future use:</b> Withholding compliance &amp; reconciliation.</div>
+      <span class="open">Preview module
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </div>
+
+    <!-- 9. OTHERS -->
+    <div class="mod-card reveal d2" style="--c:#c084fc" data-open="others">
+      <div class="ic">🧩</div>
+      <h3>Others <span class="badge soon">Coming Soon</span></h3>
+      <div class="desc">ROC/MCA filings, ESR &amp; UBO, payroll and an AI workspace for drafting, research and MIS commentary.</div>
+      <div class="future"><b>Future use:</b> Secretarial, payroll &amp; AI assistance.</div>
+      <span class="open">Preview module
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </div>
@@ -517,98 +588,138 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   </div>
 </section>
 
-<!-- ===================== SHOWCASE ===================== -->
-<section id="showcase" class="wrap">
-  <div class="showcase">
-    <div>
-      <span class="eyebrow reveal"><span class="dot"></span>Inside UAE MIS</span>
-      <h2 class="section-title reveal d1">A boardroom view, <span class="grad-text">built to drill</span></h2>
-      <p class="section-sub reveal d2">The live module turns Tally exports into an executive narrative — from headline KPIs down to emirate-level SKU economics.</p>
-      <div class="showcase-tabs">
-        <div class="sc-tab active reveal d2" data-sc="0"><h4>◆ Executive Dashboard</h4><p>Headline P&amp;L, YTD, LY and AOP at a glance with scenario context.</p></div>
-        <div class="sc-tab reveal d3" data-sc="1"><h4>▤ Financial &amp; Variance</h4><p>11-column variance matrix as % of net revenue with amber traffic lights and drill-down.</p></div>
-        <div class="sc-tab reveal d4" data-sc="2"><h4>⬚ Location Performance</h4><p>Dubai → Abu Dhabi → Sharjah → Ajman blocks with YTD roll-up by emirate.</p></div>
-        <div class="sc-tab reveal d5" data-sc="3"><h4>▦ Expense Analytics</h4><p>Warehouse, marketing &amp; professional fees allocated direct or by T/O ratio.</p></div>
-      </div>
-    </div>
-    <div class="sc-visual reveal d2">
-      <!-- panel 0 -->
-      <div class="sc-panel active">
-        <div class="sc-head">Executive Summary · FY 2026-27</div>
-        <div class="mini-bars">
-          <i style="height:55%"></i><i style="height:70%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:75%"></i><i style="height:100%"></i>
-        </div>
-        <div class="row"><span>Net Revenue</span><span class="v up">₹ 14.2 Cr</span></div>
-        <div class="row"><span>Contribution Margin 1</span><span class="v">₹ 6.1 Cr</span></div>
-        <div class="row"><span>EBITDA</span><span class="v up">₹ 2.9 Cr</span></div>
-        <div class="row"><span>PBT (after Adjustments)</span><span class="v">₹ 1.7 Cr</span></div>
-      </div>
-      <!-- panel 1 -->
-      <div class="sc-panel">
-        <div class="sc-head">Variance Matrix · % of Net Revenue</div>
-        <div class="row"><span>Gross Margin</span><span class="v up">+2.1%</span></div>
-        <div class="row"><span>Marketing Spend</span><span class="v down">−1.4%</span></div>
-        <div class="row"><span>Warehouse Cost</span><span class="v up">+0.6%</span></div>
-        <div class="row"><span>Overheads</span><span class="v down">−0.9%</span></div>
-        <div class="row"><span>EBITDA Δ vs AOP</span><span class="v up">+0.4%</span></div>
-      </div>
-      <!-- panel 2 -->
-      <div class="sc-panel">
-        <div class="sc-head">Performance by Emirate</div>
-        <div class="row"><span>Dubai</span><span class="v">₹ 7.8 Cr</span></div>
-        <div class="row"><span>Abu Dhabi</span><span class="v">₹ 3.1 Cr</span></div>
-        <div class="row"><span>Sharjah</span><span class="v">₹ 1.9 Cr</span></div>
-        <div class="row"><span>Ajman / Other</span><span class="v">₹ 1.4 Cr</span></div>
-        <div class="row"><span>Total YTD</span><span class="v up">₹ 14.2 Cr</span></div>
-      </div>
-      <!-- panel 3 -->
-      <div class="sc-panel">
-        <div class="sc-head">Location Expense Analytics</div>
-        <div class="row"><span>Warehouse (direct)</span><span class="v">₹ 62 L</span></div>
-        <div class="row"><span>Marketing (party-wise)</span><span class="v">₹ 48 L</span></div>
-        <div class="row"><span>Professional Fees</span><span class="v">₹ 11 L</span></div>
-        <div class="row"><span>Other (T/O ratio)</span><span class="v">₹ 27 L</span></div>
-        <div class="row"><span>Allocated to Emirates</span><span class="v up">100%</span></div>
-      </div>
-    </div>
+<!-- ===================== FINANCE TOOLS ===================== -->
+<section id="tools" class="wrap">
+  <div class="center" style="max-width:720px;margin:0 auto">
+    <span class="eyebrow reveal"><span class="dot" style="background:var(--cyan);box-shadow:0 0 12px var(--cyan)"></span>Open access · No login</span>
+    <h2 class="section-title reveal d1">Finance <span class="grad-text">Tools</span></h2>
+    <p class="section-sub reveal d2">Practical, single-purpose utilities for GST, tax and compliance — each opens in its own page, instantly, with nothing to sign in to. Two are live now; more land every few weeks.</p>
   </div>
-</section>
 
-<!-- ===================== BENEFITS (BENTO) ===================== -->
-<section id="benefits" class="wrap">
-  <div class="center" style="max-width:660px;margin:0 auto">
-    <span class="eyebrow reveal"><span class="dot"></span>Why teams use it</span>
-    <h2 class="section-title reveal d1">From raw ledgers to <span class="grad-text">decisions, faster</span></h2>
+  <div class="tools-grid">
+
+    <!-- 1. LIVE: Invoice Verification -->
+    <a class="tool-card live reveal" style="--c:#34d399" href="Invoice Compliance.html" data-tool="invoice">
+      <div class="t-top">
+        <div class="t-ic">🧾</div>
+        <span class="badge live">● Live</span>
+      </div>
+      <h3>Invoice Verification</h3>
+      <p>Validate sales &amp; purchase invoices for GST field-level compliance — GSTIN, HSN, rate, place of supply and e-invoice readiness.</p>
+      <span class="t-open">Open tool
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 2. LIVE: GST Input Reconciliation -->
+    <a class="tool-card live reveal d1" style="--c:#38e1d6" href="GST_ReCO_Studio_IMS_FIXED.html" data-tool="gstreco">
+      <div class="t-top">
+        <div class="t-ic">⚙️</div>
+        <span class="badge live">● Live</span>
+      </div>
+      <h3>GST Input Reconciliation</h3>
+      <p>Reconcile GSTR-2B ITC vs books with ageing, match GSTR-1 vs 3B, and auto-flag mismatches into notice-ready working papers.</p>
+      <span class="t-open">Open tool
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 3. SOON: HSN Finder -->
+    <a class="tool-card reveal d2" style="--c:#4f7cff" data-tool="hsn">
+      <div class="t-top">
+        <div class="t-ic">🔎</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>HSN Finder</h3>
+      <p>Search HSN / SAC codes by product or description and get the applicable GST rate and chapter heading instantly.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 4. SOON: TDS Rate Finder -->
+    <a class="tool-card reveal" style="--c:#f4b740" data-tool="tdsrate">
+      <div class="t-top">
+        <div class="t-ic">📑</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>TDS Rate Finder</h3>
+      <p>Look up the correct TDS/TCS section, rate, threshold and surcharge for resident and non-resident payments.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 5. SOON: Advance Tax -->
+    <a class="tool-card reveal d1" style="--c:#9a6bff" data-tool="advtax">
+      <div class="t-top">
+        <div class="t-ic">🧮</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>Advance Tax Calculator</h3>
+      <p>Compute quarterly advance-tax instalments with 234B / 234C interest and old vs new regime comparison.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 6. SOON: Input Utilization -->
+    <a class="tool-card reveal d2" style="--c:#22d3ee" data-tool="itcutil">
+      <div class="t-top">
+        <div class="t-ic">🔁</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>Input Utilization</h3>
+      <p>Optimise ITC set-off across IGST, CGST and SGST per the Section 49 order of utilisation and project the cash payable.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 7. SOON: GRN Report -->
+    <a class="tool-card reveal d3" style="--c:#6f9bff" data-tool="grn">
+      <div class="t-top">
+        <div class="t-ic">📦</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>GRN Report</h3>
+      <p>Match goods-receipt notes to purchase invoices, flag quantity / rate gaps and surface pending and short receipts.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 8. SOON: PG Recon -->
+    <a class="tool-card reveal" style="--c:#ff5d73" data-tool="pgrecon">
+      <div class="t-top">
+        <div class="t-ic">💳</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>PG Reconciliation</h3>
+      <p>Reconcile payment-gateway settlements (Tabby, Tamara, cards) to sales and bank credits, netting fees and chargebacks.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <!-- 9. SOON: Others -->
+    <a class="tool-card reveal d1" style="--c:#c084fc" data-tool="toolothers">
+      <div class="t-top">
+        <div class="t-ic">🧩</div>
+        <span class="badge soon">Coming Soon</span>
+      </div>
+      <h3>Others</h3>
+      <p>More utilities on the way — forex converter, depreciation schedules, interest &amp; late-fee calculators and a due-date tracker.</p>
+      <span class="t-open">Launching soon
+        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
   </div>
-  <div class="bento">
-    <div class="cell tall cell-glow reveal" style="--c:#4f7cff">
-      <span class="ic">⚡</span>
-      <h4>Upload-to-insight in minutes</h4>
-      <p>Drop a Tally export and the engine computes Net Rev → CM1–3 → EBITDA → PBT automatically. No manual stitching.</p>
-    </div>
-    <div class="cell wide reveal d1">
-      <span class="ic">🔐</span>
-      <h4>Role-based access &amp; audit trail</h4>
-      <p>Admin and viewer roles, cloud sync, and every login &amp; save logged — boardroom-grade governance built in.</p>
-    </div>
-    <div class="cell reveal d2">
-      <div class="big-num">3</div>
-      <p style="margin-top:8px">jurisdictions, one model</p>
-    </div>
-    <div class="cell reveal d3">
-      <span class="ic">🎯</span>
-      <h4>Single source of truth</h4>
-      <p>One data model across MIS, GST, TP &amp; tax.</p>
-    </div>
-    <div class="cell wide reveal d2">
-      <span class="ic">📤</span>
-      <h4>Plays well with your stack</h4>
-      <p>Export-ready for Power BI dashboards and Power Query MIS — no rip-and-replace of your existing workflow.</p>
-    </div>
-    <div class="cell reveal d3">
-      <div class="big-num">24/7</div>
-      <p style="margin-top:8px">cloud availability</p>
-    </div>
+
+  <div class="tools-note reveal d1">
+    <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8v4M12 16h.01"/></svg>
+    Tools are open utilities — no sign-in, no data leaves your browser. The nine modules above stay behind secure login.
   </div>
 </section>
 
@@ -682,22 +793,22 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#top" class="logo"><span class="mark">◈</span><span>NumberIQ<small>Finance Intelligence · IGP Group</small></span></a>
+        <a href="#top" class="logo"><span class="mark">◈</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
         <p>Where every number tells the truth. A unified finance, tax and MIS workspace across India, Dubai and Singapore.</p>
       </div>
       <div class="foot-col">
         <h5>Modules</h5>
-        <a href="#modules" data-open="uae">MIS &amp; Analytics UAE</a>
-        <a href="#modules" data-open="gst">GST Automation</a>
-        <a href="#modules" data-open="fct">Financial Control Tower</a>
-        <a href="#modules" data-open="dtax">Direct Tax Hub</a>
-        <a href="#modules" data-open="ai">AI Workspace</a>
+        <a href="#modules" data-open="uae">UAE MIS &amp; Analytics</a>
+        <a href="#modules" data-open="misin">India MIS &amp; Analytics</a>
+        <a href="#modules" data-open="gst">GST Returns</a>
+        <a href="#modules" data-open="itax">Income Tax</a>
+        <a href="#modules" data-open="intl">International Tax</a>
       </div>
       <div class="foot-col">
-        <h5>Suite</h5>
-        <a href="#showcase">Showcase</a>
-        <a href="#benefits">Benefits</a>
-        <a href="#roadmap">Roadmap</a>
+        <h5>Finance Tools</h5>
+        <a href="Invoice Compliance.html">Invoice Verification</a>
+        <a href="GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a>
+        <a href="#tools">All tools →</a>
       </div>
       <div class="foot-col">
         <h5>Workspace</h5>
@@ -707,7 +818,7 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 NumberIQ · IGP Group · Built by Sitaram Pareek</span>
+      <span>© 2026 NumberIQ · Finance Intelligence</span>
       <div class="socials">
         <a href="#top" aria-label="Up">↑</a>
         <a href="uaemis.html" aria-label="Dashboard">◈</a>
@@ -733,45 +844,48 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   </div>
 </div>
 
+<!-- ===================== TOAST ===================== -->
+<div class="toast" id="toast"><span class="td"></span><span id="toastMsg">Launching soon</span></div>
+
 <script>
 /* ============================ MODULE DATA ============================ */
 const MODULES = {
-  fct:{ic:"🎛️",c:"#4f7cff",title:"Financial Control Tower",badge:"soon",badgeText:"Coming Soon",
-    body:"The group's financial control room — statements, EBITDA, budgeting and variance analysis in one view.",
-    points:["P&L, Balance Sheet & Cash Flow","EBITDA & margin bridges","Budget vs Actual","Variance analysis & drill-down"],
-    link:"#modules",linkText:"Notify me when live"},
-  gstcc:{ic:"🧾",c:"#22d3ee",title:"GST Command Center",badge:"soon",badgeText:"Coming Soon",
-    body:"Full GST oversight — return reconciliation plus notice and audit management.",
-    points:["GSTR-1, 3B & 2B reconciliation","Notice tracker","Audit management","ITC & mismatch monitoring"],
-    link:"#modules",linkText:"Notify me when live"},
-  dtax:{ic:"🏛️",c:"#f4b740",title:"Direct Tax Hub",badge:"soon",badgeText:"Coming Soon",
-    body:"Direct-tax control — withholding, advance tax, audits, notices and computations.",
-    points:["TDS & advance tax","Tax audit support","Income-tax notices","Computation repository"],
-    link:"#modules",linkText:"Notify me when live"},
-  misin:{ic:"📈",c:"#6f9bff",title:"MIS & Analytics Center India",badge:"soon",badgeText:"Coming Soon",
-    body:"India management analytics — KPIs, location and channel MIS, and SKU profitability.",
-    points:["KPI dashboard","Location-wise MIS","Channel-wise MIS","SKU profitability"],
-    link:"#modules",linkText:"Notify me when live"},
-  uaecomp:{ic:"🛡️",c:"#2dd4bf",title:"UAE Compliance Center",badge:"soon",badgeText:"Coming Soon",
-    body:"UAE regulatory compliance — VAT, corporate tax and substance reporting.",
-    points:["VAT returns","Corporate tax","ESR & UBO","Economic substance reporting"],
-    link:"#modules",linkText:"Notify me when live"},
-  tp:{ic:"⚖️",c:"#9a6bff",title:"Transfer Pricing & International Tax",badge:"soon",badgeText:"Coming Soon",
-    body:"Cross-border tax — TP documentation, intercompany transactions, DTAA and BEPS.",
-    points:["TP documentation","Intercompany transactions","DTAA positions","BEPS reports"],
-    link:"#modules",linkText:"Notify me when live"},
-  ai:{ic:"🤖",c:"#c084fc",title:"AI Workspace",badge:"soon",badgeText:"Coming Soon",
-    body:"AI assistance for finance & tax — drafting, research and commentary.",
-    points:["GST reply generator","Tax research","Notice drafting","MIS commentary generator"],
-    link:"#modules",linkText:"Notify me when live"},
-  uae:{ic:"📊",c:"#34d399",title:"MIS & Analytics Center UAE",badge:"live",badgeText:"● Live",
+  uae:{ic:"📊",c:"#34d399",title:"UAE MIS & Analytics",badge:"live",badgeText:"● Live",
     body:"The live executive boardroom for the UAE entities. Turns Tally exports into a full management narrative — from headline KPIs down to emirate-level SKU economics.",
     points:["Executive P&L: Net Revenue → CM1–3 → EBITDA → PBT","11-column variance matrix as % of net revenue","SKU profitability & marketing effectiveness","Emirate-level performance & expense allocation","Cloud sync with role-based access & audit"],
     link:"uaemis.html",linkText:"Open Dashboard"},
-  gst:{ic:"⚙️",c:"#38e1d6",title:"GST Automation",badge:"live",badgeText:"● Live",
-    body:"Close the GST loop end-to-end — reconcile books to returns, match ITC, and surface every mismatch before it becomes a notice.",
-    points:["GSTR-1 vs 3B vs books reconciliation","GSTR-2B ITC matching & ageing","E-invoice & e-way bill validation","Auto-flagged mismatches & working papers"],
-    link:"GST_ReCO_Studio_IMS_FIXED.html",linkText:"Open GST Reco Studio"}
+  misin:{ic:"📈",c:"#6f9bff",title:"India MIS & Analytics",badge:"soon",badgeText:"Coming Soon",
+    body:"India management analytics — KPIs, location and channel MIS, and SKU profitability.",
+    points:["KPI dashboard","Location-wise MIS","Channel-wise MIS","SKU profitability"],
+    link:"#modules",linkText:"Notify me when live"},
+  tp:{ic:"⚖️",c:"#9a6bff",title:"Transfer Pricing Report",badge:"soon",badgeText:"Coming Soon",
+    body:"Cross-border pricing — TP documentation, Form 3CEB, benchmarking and intercompany transactions.",
+    points:["TP documentation & local file","Form 3CEB","Benchmarking studies","Intercompany transactions"],
+    link:"#modules",linkText:"Notify me when live"},
+  gst:{ic:"🧾",c:"#22d3ee",title:"GST Returns & Compliance",badge:"soon",badgeText:"Coming Soon",
+    body:"End-to-end GST returns — preparation, reconciliation plus notice and audit management.",
+    points:["GSTR-1, 3B, 9 & 9C preparation","GSTR-2B reconciliation","Notice tracker","Audit management"],
+    link:"#modules",linkText:"Notify me when live"},
+  itax:{ic:"🏛️",c:"#f4b740",title:"Income Tax",badge:"soon",badgeText:"Coming Soon",
+    body:"Direct-tax control — computation, advance tax, audits, ITR filing and notices.",
+    points:["Income computation","Advance tax","Tax audit (3CA/3CD)","ITR prep & notice repository"],
+    link:"#modules",linkText:"Notify me when live"},
+  intl:{ic:"🌐",c:"#2dd4bf",title:"International Tax",badge:"soon",badgeText:"Coming Soon",
+    body:"Cross-border tax — DTAA positions, withholding, PE analysis, FEMA and BEPS.",
+    points:["DTAA positions","Withholding tax & WHT","PE analysis & FEMA","BEPS / Pillar Two"],
+    link:"#modules",linkText:"Notify me when live"},
+  fct:{ic:"🎛️",c:"#4f7cff",title:"Financial Control Tower",badge:"soon",badgeText:"Coming Soon",
+    body:"The group's financial control room — statements, EBITDA, budgeting, consolidation and variance.",
+    points:["P&L, Balance Sheet & Cash Flow","EBITDA & margin bridges","Budget vs Actual","Consolidation & drill-down"],
+    link:"#modules",linkText:"Notify me when live"},
+  tds:{ic:"📑",c:"#ff5d73",title:"TDS Compliance",badge:"soon",badgeText:"Coming Soon",
+    body:"Withholding compliance — computation, returns, challans and statement reconciliation.",
+    points:["TDS/TCS computation","24Q / 26Q / 27Q returns","Challan tracking","26AS / AIS matching"],
+    link:"#modules",linkText:"Notify me when live"},
+  others:{ic:"🧩",c:"#c084fc",title:"Others",badge:"soon",badgeText:"Coming Soon",
+    body:"Additional functions as the suite grows — secretarial, payroll and an AI workspace.",
+    points:["ROC / MCA filings","ESR & UBO","Payroll","AI workspace: drafting & research"],
+    link:"#modules",linkText:"Notify me when live"}
 };
 
 /* ============================ MODAL CONTROL ============================ */
@@ -818,16 +932,85 @@ const io=new IntersectionObserver((entries)=>{
 },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ============================ SHOWCASE TABS ============================ */
-const tabs=document.querySelectorAll('.sc-tab'), panels=document.querySelectorAll('.sc-panel');
-tabs.forEach(t=>t.addEventListener('click',()=>{
-  const i=+t.dataset.sc;
-  tabs.forEach(x=>x.classList.remove('active')); panels.forEach(x=>x.classList.remove('active'));
-  t.classList.add('active'); panels[i].classList.add('active');
-}));
-/* auto-cycle showcase */
-let scIdx=0, scTimer=setInterval(()=>{ scIdx=(scIdx+1)%tabs.length; tabs[scIdx].click(); },4500);
-document.querySelector('.showcase')?.addEventListener('mouseenter',()=>clearInterval(scTimer));
+/* ============================ NEWS TICKER ============================ */
+/* Curated headlines — refreshed weekly. cat: gst | idt (Income Tax/TDS) | itx (Intl/TP/DTAA) | cmp (Compliance/due dates) */
+const NEWS_UPDATED="20 Jun 2026";
+const NEWS=[
+  {cat:"cmp",date:"15 Jun 2026",txt:"Advance tax 1st instalment (15%) for TY 2026-27 falls due",url:"https://www.taxscan.in/top-stories/income-tax-gst-mca-compliance-calendar-for-june-2026-1446737"},
+  {cat:"gst",date:"Jun 2026",txt:"GSTN defers e-Way Bill 'Ship-to GSTIN' & voluntary-closure go-live; revised dates awaited",url:"https://cleartax.in/s/gst-news-and-announcements"},
+  {cat:"idt",date:"AY 2026-27",txt:"CBDT notifies ITR-1 to ITR-7, ITR-V & ITR-U; online filing and utilities now live",url:"https://www.incometax.gov.in/iec/foportal/latest-news"},
+  {cat:"itx",date:"01 Apr 2026",txt:"Final Income-tax Rules, 2026 notified — safe harbour rationalised, APA process expedited",url:"https://kpmg.com/us/en/taxnewsflash/news/2026/03/india-transfer-pricing-income-tax-rules-2026.html"},
+  {cat:"cmp",date:"20 Jun 2026",txt:"GSTR-3B for May 2026 due for monthly filers (turnover above ₹5 crore)",url:"https://irisgst.com/gst-compliance-calendar-gst-due-dates/"},
+  {cat:"idt",date:"01 Apr 2026",txt:"Income-tax Rules, 2026 replace 1962 Rules — new forms, revised limits, 50% HRA extended to 4 more cities",url:"https://cleartax.in/s/draft-income-tax-rules"},
+  {cat:"gst",date:"01 Aug 2026",txt:"e-Invoice & e-Way Bill API changes — 'Ship-to GSTIN' becomes mandatory where present",url:"https://cleartax.in/s/gst-news-and-announcements"},
+  {cat:"itx",date:"FY 2026-27",txt:"TP safe harbour: value limit raised from ₹200 cr to ₹300 cr; IT services clubbed under a 5-year block",url:"https://www.nexdigm.com/insights_post/budget-2026-a-structural-reset-of-indias-transfer-pricing-framework/"},
+  {cat:"cmp",date:"15 Jun 2026",txt:"Form 16 / 16A for FY 2025-26 to be issued to employees and deductees",url:"https://www.taxscan.in/top-stories/income-tax-gst-mca-compliance-calendar-for-june-2026-1446737"},
+  {cat:"itx",date:"2026",txt:"Pillar Two transitional CbCR safe harbour applies for fiscal years beginning on or before 31 Dec 2026",url:"https://www.pwc.com/us/en/services/tax/library/transfer-pricing-pillar-two-cbcr-safe-harbor-rule.html"},
+  {cat:"cmp",date:"30 Jun 2026",txt:"Form DPT-3 (return of deposits) filing with RoC due",url:"https://www.setindiabiz.com/blog/june-2026-due-date-compliance-calendar"},
+  {cat:"idt",date:"2026",txt:"Income-tax Amendment Rules, 2026 — Notifications 54/2026 & 55/2026 issued by CBDT",url:"https://blog.saginfotech.com/income-tax-tds-latest-updates"},
+  {cat:"cmp",date:"31 Jul 2026",txt:"ITR-1 / ITR-2 filing due for AY 2026-27 (non-audit cases)",url:"https://eztax.in/tax-compliance-calendar-it-tds-gst-roc"},
+  {cat:"itx",date:"2026",txt:"India signals review of its Global Minimum Tax (Pillar Two) participation",url:"https://practiceguides.chambers.com/practice-guides/transfer-pricing-2026"},
+  {cat:"cmp",date:"22-24 Jul 2026",txt:"QRMP quarterly GSTR-3B for Q1 FY 2026-27 due",url:"https://irisgst.com/gst-compliance-calendar-gst-due-dates/"}
+];
+(function(){
+  var track=document.getElementById('tickerTrack'); if(!track) return;
+  var LABEL={gst:"GST",idt:"Income Tax",itx:"Intl Tax",cmp:"Compliance"};
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function decode(s){var t=document.createElement('textarea');t.innerHTML=String(s);return t.value;}
+  function render(list){
+    return list.map(function(n){
+      return '<a class="ticker-item" href="'+n.url+'" target="_blank" rel="noopener">'+
+        '<span class="tcat '+n.cat+'">'+(LABEL[n.cat]||'Update')+'</span>'+
+        '<span class="ttxt">'+esc(n.txt)+'</span>'+
+        '<span class="tdate">'+esc(n.date)+'</span>'+
+        '<span class="tarrow">→</span></a>';
+    }).join('');
+  }
+  function apply(list){
+    track.innerHTML=render(list)+render(list);   // duplicate for seamless loop
+    requestAnimationFrame(function(){
+      var half=track.scrollWidth/2;
+      track.style.animationDuration=Math.max(30,Math.round(half/90))+'s';   // ~90px/sec
+    });
+  }
+  apply(NEWS);   // curated list shows instantly — always works, zero dependency
+
+  /* ---- In-browser auto-refresh (NO server, NO Claude tokens) ----
+     Pulls the latest tax headlines from a public RSS feed via a free CORS proxy,
+     entirely in the visitor's browser. If the feed/proxy is unavailable, the
+     curated NEWS list above simply remains. Edit FEED below to change source. */
+  function categorize(t){
+    t=t.toLowerCase();
+    if(/transfer pricing|dtaa|treaty|fema|pillar two|beps|oecd|international tax/.test(t)) return 'itx';
+    if(/\bgst\b|input tax|\bitc\b|e-?way|e-?invoice|gstr|cbic/.test(t)) return 'gst';
+    if(/due date|last date|deadline|compliance calendar|extend/.test(t)) return 'cmp';
+    if(/\btds\b|\btcs\b|income tax|\bitr\b|cbdt|advance tax|26as|\bais\b|assessment/.test(t)) return 'idt';
+    return 'idt';
+  }
+  function fmtDate(d){
+    var x=new Date(d); if(isNaN(x.getTime())) return '';
+    return x.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][x.getMonth()]+' '+x.getFullYear();
+  }
+  var FEED='https://taxguru.in/feed/';
+  var PROXY='https://api.allorigins.win/raw?url=';
+  try{
+    fetch(PROXY+encodeURIComponent(FEED),{cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw 0; return r.text(); })
+      .then(function(xml){
+        var doc=new DOMParser().parseFromString(xml,'application/xml');
+        var items=[].slice.call(doc.querySelectorAll('item')).slice(0,16);
+        if(items.length<6) return;
+        var live=items.map(function(it){
+          var title=((it.querySelector('title')||{}).textContent||'').replace(/<!\[CDATA\[|\]\]>/g,'').trim();
+          var link=((it.querySelector('link')||{}).textContent||'').trim();
+          var pub=(it.querySelector('pubDate')||{}).textContent||'';
+          return {cat:categorize(title),txt:decode(title),date:fmtDate(pub),url:link||'#'};
+        }).filter(function(n){ return n.txt && n.url!=='#'; });
+        if(live.length>=6) apply(live);
+      })
+      .catch(function(){ /* keep curated list */ });
+  }catch(e){ /* keep curated list */ }
+})();
 
 /* ============================ FAQ ACCORDION ============================ */
 document.querySelectorAll('.faq-item').forEach(item=>{
@@ -896,6 +1079,56 @@ window.addEventListener('scroll',()=>{
     });
   });
   show(0);
+})();
+
+/* ============================ FINANCE TOOLS ============================ */
+(function(){
+  var toast=document.getElementById('toast'), toastMsg=document.getElementById('toastMsg'), tTimer;
+  function showToast(msg){
+    toastMsg.textContent=msg||'Launching soon';
+    toast.classList.add('show');
+    clearTimeout(tTimer); tTimer=setTimeout(function(){ toast.classList.remove('show'); },2600);
+  }
+  document.querySelectorAll('.tool-card').forEach(function(card){
+    card.addEventListener('click',function(e){
+      if(!card.classList.contains('live')){
+        e.preventDefault();
+        var name=(card.querySelector('h3')||{}).textContent||'This tool';
+        showToast(name.trim()+' — launching soon');
+      }
+    });
+  });
+})();
+
+/* ============================ 3D TILT ON CARDS ============================ */
+(function(){
+  if(window.matchMedia('(hover:none)').matches) return;       // skip on touch
+  var cards=document.querySelectorAll('.mod-card,.tool-card');
+  cards.forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+      card.style.transform='translateY(-7px) perspective(900px) rotateX('+(-py*5).toFixed(2)+'deg) rotateY('+(px*6).toFixed(2)+'deg)';
+    });
+    card.addEventListener('mouseleave',function(){ card.style.transform=''; });
+  });
+})();
+
+/* ============================ COUNT-UP STATS ============================ */
+(function(){
+  var els=document.querySelectorAll('[data-count]');
+  if(!els.length) return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var el=en.target, end=parseFloat(el.getAttribute('data-count')), suf=el.getAttribute('data-suffix')||'', t0=null, dur=1400;
+      function step(ts){ if(t0===null)t0=ts; var p=Math.min(1,(ts-t0)/dur);
+        var e=1-Math.pow(1-p,3); el.textContent=(Math.round(end*e*10)/10)+suf;
+        if(p<1) requestAnimationFrame(step); else el.textContent=end+suf; }
+      requestAnimationFrame(step); io.unobserve(el);
+    });
+  },{threshold:.5});
+  els.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>
