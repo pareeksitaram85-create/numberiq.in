@@ -286,6 +286,13 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
         <button id="clearKeyBtn" class="btn sm" type="button" title="Forget saved key">Clear</button>
       </span>
     </div>
+    <div class="m keybox">OCR.space key <span style="font-weight:400;opacity:.6">(free OCR)</span>
+      <span class="keyrow">
+        <input id="ocrKeyInput" type="password" placeholder="OCR.space API key" autocomplete="off" spellcheck="false" />
+        <button id="saveOcrBtn" class="btn btn-pri sm" type="button">Save</button>
+        <button id="clearOcrBtn" class="btn sm" type="button" title="Forget OCR.space key">Clear</button>
+      </span>
+    </div>
     <div class="m keybox">Your GSTIN <span style="font-weight:400;opacity:.6">(buyer)</span>
       <span class="keyrow">
         <input id="ownGstinInput" type="text" placeholder="27AAFCJ3816P1Z3" autocomplete="off" spellcheck="false" />
@@ -298,11 +305,13 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
 </header>
 
 <nav class="tabs" id="tabs">
-  <button class="tab active" data-tab="invoice"><span class="idx">01</span>Invoice Extraction <span class="badge zero" id="b-inv">0</span></button>
-  <button class="tab" data-tab="payment"><span class="idx">02</span>Payment Reco <span class="badge zero" id="b-pay">0</span></button>
-  <button class="tab" data-tab="grn"><span class="idx">03</span>GRN Reco <span class="badge zero" id="b-grn">0</span></button>
-  <button class="tab" data-tab="dashboard"><span class="idx">04</span>Dashboard</button>
-  <button class="tab" data-tab="uae"><span class="idx">AE</span>UAE Invoices <span class="badge zero" id="b-uae">0</span></button>
+  <button class="tab active" data-tab="invoice"><span class="idx">IN</span>India Invoice <span class="badge zero" id="b-inv">0</span></button>
+  <button class="tab" data-tab="grn"><span class="idx">IN</span>India GRN <span class="badge zero" id="b-grn">0</span></button>
+  <button class="tab" data-tab="indiamatch"><span class="idx">IN</span>India Match <span class="badge zero" id="b-inmatch">0</span></button>
+  <button class="tab" data-tab="uae"><span class="idx">AE</span>UAE Invoice <span class="badge zero" id="b-uae">0</span></button>
+  <button class="tab" data-tab="uaegrn"><span class="idx">AE</span>UAE GRN <span class="badge zero" id="b-uaegrn">0</span></button>
+  <button class="tab" data-tab="uaematch"><span class="idx">AE</span>UAE Match <span class="badge zero" id="b-uaematch">0</span></button>
+  <button class="tab" data-tab="dashboard"><span class="idx">∑</span>Dashboard</button>
 </nav>
 
 <main>
@@ -447,7 +456,59 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
   </div>
 </section>
 
-<!-- ===================== MODULE 2: PAYMENT ===================== -->
+<!-- ===================== MODULE: UAE GRN ===================== -->
+<section class="panel" id="tab-uaegrn">
+  <div class="card">
+    <div class="card-h">
+      <span class="step-tag">UAE · GRN</span>
+      <div>
+        <h2>UAE GRN reconciliation — 3-way match</h2>
+        <div class="desc">Upload the Dubai GRN report (CSV or Excel). Matched to the UAE invoice register (run the UAE Invoice tab first) on Invoice No. The GRN is in INR and invoices in AED — the AED→INR rate is auto-derived from matched pairs.</div>
+      </div>
+    </div>
+    <div class="card-b">
+      <div class="hint" style="margin-bottom:14px">
+        <b>Expected GRN columns</b> (auto-mapped; extra columns ignored):
+        <code>Invoice No, PO No, Vendor Name, Vendor GSTIN, GRN NO, Name, Rec Qty, Good QTY, Rate, Taxeble Amount, Tax, GST Amount, Invoice Total Amount, Invoice Date, Status</code>.
+      </div>
+      <button class="btn btn-primary" id="pickUgrn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2v6h6M4 4h10l6 6v10H4z"/></svg>Upload GRN (CSV / Excel)
+      </button>
+      <input type="file" id="ugrnFile" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <span class="muted mono" id="ugrnFileName" style="margin-left:12px;font-size:12px"></span>
+
+      <div class="opts">
+        <label>Value tolerance % <input type="number" id="ugrnTol" value="1" min="0" step="0.1"></label>
+        <span class="muted">Derived AED→INR rate: <b id="ugrnRate">—</b></span>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" id="runUgrn" disabled>Run match</button>
+      </div>
+      <div class="notebox" style="margin-top:14px">
+        <b>Currency:</b> GRN values are INR; UAE invoices are AED. The rate is auto-derived (median of GRN&nbsp;INR ÷ invoice&nbsp;AED across invoices that match by number); lines whose implied rate deviates sharply are flagged as value mismatches. Run the UAE Invoice tab first for a full 3-way match — otherwise you get a standalone GRN summary.
+      </div>
+    </div>
+  </div>
+
+  <div id="ugrnResults" style="display:none">
+    <div class="kpis" id="ugrnKpis"></div>
+    <div class="card">
+      <div class="card-h">
+        <h2>GRN ↔ Invoice reconciliation</h2>
+        <div class="right" style="display:flex;gap:10px;align-items:center">
+          <input type="search" id="ugrnSearch" placeholder="Search invoice no / vendor / status…" style="padding:7px 10px;border:1px solid var(--line,#d8dee9);border-radius:8px;font-size:13px;min-width:230px">
+          <span class="muted" id="ugrnCount" style="font-size:12px"></span>
+          <button class="btn sm" id="dlUgrnCsv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>Download CSV
+          </button>
+        </div>
+      </div>
+      <div class="card-b" style="padding:0"><div class="tablewrap"><table id="ugrnTable"></table></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2: PAYMENT (hidden — tab removed) ===================== -->
 <section class="panel" id="tab-payment">
   <div class="card">
     <div class="card-h">
@@ -499,31 +560,29 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
 <section class="panel" id="tab-grn">
   <div class="card">
     <div class="card-h">
-      <span class="step-tag">STEP 03</span>
+      <span class="step-tag">INDIA · GRN</span>
       <div>
-        <h2>GRN reconciliation — 3-way match</h2>
-        <div class="desc">Match GRN against the invoice register on Invoice No. / PO No., comparing quantity received and value.</div>
+        <h2>India GRN reconciliation</h2>
+        <div class="desc">Upload the GRN report (CSV or Excel). Reconciled to the India invoice register (run the India Invoice tab first) on Invoice No. and amount (₹). Both sides are in INR — no conversion.</div>
       </div>
     </div>
     <div class="card-b">
       <div class="hint" style="margin-bottom:14px">
-        <b>Expected GRN columns:</b>
-        <code>GRN_No, GRN_Date, PO_No, Supplier_Name, Supplier_GSTIN, Invoice_No, HSN_SAC, Item_Description, Qty_Ordered, Qty_Received, Rate, GRN_Value</code>.
-        Match keys: <code>Invoice_No</code> first, else <code>PO_No</code>. <a href="#" id="dlGrnTemplate">Download blank template</a>.
-        <br><b style="color:var(--amber)">Tip:</b> for a meaningful 3-way match, import the register via CSV in Step 01 with <code>PO_No</code> and <code>Qty</code> — OCR alone rarely captures PO/quantity reliably.
+        <b>Expected GRN columns</b> (auto-mapped; extra columns ignored):
+        <code>Invoice No, PO No, Vendor Name, Vendor GSTIN, GRN NO, Name, Rec Qty, Good QTY, Taxeble Amount, Tax, GST Amount, Invoice Total Amount, Status</code>.
+        Match on <b>Invoice No</b> (prefix/leading-zeros tolerant), then amount.
       </div>
       <button class="btn btn-primary" id="pickGrnCsv">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2v6h6M4 4h10l6 6v10H4z"/></svg>Upload GRN CSV
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2v6h6M4 4h10l6 6v10H4z"/></svg>Upload GRN (CSV / Excel)
       </button>
-      <input type="file" id="grnFile" accept=".csv,text/csv">
+      <input type="file" id="grnFile" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
       <span class="muted mono" id="grnFileName" style="margin-left:12px;font-size:12px"></span>
 
       <div class="opts">
-        <label>Qty tolerance <input type="number" id="grnQtyTol" value="0" min="0" step="0.01"></label>
-        <label>Value tolerance ₹ <input type="number" id="grnValTol" value="1" min="0" step="0.01"></label>
+        <label>Value tolerance % <input type="number" id="grnValTol" value="1" min="0" step="0.1"></label>
       </div>
       <div style="margin-top:16px">
-        <button class="btn btn-primary" id="runGrnReco" disabled>Run 3-way match</button>
+        <button class="btn btn-primary" id="runGrnReco" disabled>Run match</button>
       </div>
     </div>
   </div>
@@ -531,10 +590,58 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
   <div id="grnResults" style="display:none">
     <div class="kpis" id="grnKpis"></div>
     <div class="card">
-      <div class="card-h"><h2>3-way match result</h2>
-        <div class="right"><button class="btn sm" id="dlGrnCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>Download report</button></div>
+      <div class="card-h"><h2>GRN ↔ Invoice reconciliation</h2>
+        <div class="right" style="display:flex;gap:10px;align-items:center">
+          <input type="search" id="grnSearch" placeholder="Search invoice no / vendor / status…" style="padding:7px 10px;border:1px solid var(--line,#d8dee9);border-radius:8px;font-size:13px;min-width:230px">
+          <span class="muted" id="grnCount" style="font-size:12px"></span>
+          <button class="btn sm" id="dlGrnCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>Download CSV</button>
+        </div>
       </div>
       <div class="card-b" style="padding:0"><div class="tablewrap"><table id="grnTable"></table></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE: INDIA MATCH ===================== -->
+<section class="panel" id="tab-indiamatch">
+  <div class="card" id="inmatchEmpty"><div class="card-b"><div class="empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+    <div class="e1">No India match yet</div>
+    <div class="e2">Process invoices in <b>India Invoice</b> and upload a report in <b>India GRN</b>. This sheet reconciles them by invoice number &amp; amount automatically.</div>
+  </div></div></div>
+  <div id="inmatchWrap" style="display:none">
+    <div class="kpis" id="inmatchKpis"></div>
+    <div class="card">
+      <div class="card-h"><h2>India — Invoice ↔ GRN matching</h2>
+        <div class="right" style="display:flex;gap:10px;align-items:center">
+          <button class="btn sm" id="inmatchRerun" title="Re-read (OCR) only the invoices that didn't match, then re-match">↻ Re-run unmatched</button>
+          <input type="search" id="inmatchSearch" placeholder="Search invoice no / vendor / status…" style="padding:7px 10px;border:1px solid var(--line,#d8dee9);border-radius:8px;font-size:13px;min-width:230px">
+          <span class="muted" id="inmatchCount" style="font-size:12px"></span>
+        </div>
+      </div>
+      <div class="card-b" style="padding:0"><div class="tablewrap"><table id="inmatchTable"></table></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE: UAE MATCH ===================== -->
+<section class="panel" id="tab-uaematch">
+  <div class="card" id="uaematchEmpty"><div class="card-b"><div class="empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+    <div class="e1">No UAE match yet</div>
+    <div class="e2">Process invoices in <b>UAE Invoice</b> and upload a report in <b>UAE GRN</b>. This sheet reconciles them by invoice number &amp; amount (AED→INR) automatically.</div>
+  </div></div></div>
+  <div id="uaematchWrap" style="display:none">
+    <div class="kpis" id="uaematchKpis"></div>
+    <div class="card">
+      <div class="card-h"><h2>UAE — Invoice ↔ GRN matching</h2>
+        <div class="right" style="display:flex;gap:10px;align-items:center">
+          <button class="btn sm" id="uaematchRerun" title="Re-read (OCR) only the invoices that didn't match, then re-match">↻ Re-run unmatched</button>
+          <input type="search" id="uaematchSearch" placeholder="Search invoice no / vendor / status…" style="padding:7px 10px;border:1px solid var(--line,#d8dee9);border-radius:8px;font-size:13px;min-width:230px">
+          <span class="muted" id="uaematchCount" style="font-size:12px"></span>
+        </div>
+      </div>
+      <div class="card-b" style="padding:0"><div class="tablewrap"><table id="uaematchTable"></table></div></div>
     </div>
   </div>
 </section>
@@ -543,7 +650,7 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
 <section class="panel" id="tab-dashboard">
   <div class="kpis" id="dashKpis"></div>
   <div class="card">
-    <div class="card-h"><h2>Control summary</h2><div class="desc" style="margin-left:auto">Roll-up across all three modules</div></div>
+    <div class="card-h"><h2>Control summary</h2><div class="desc" style="margin-left:auto">Roll-up across India &amp; UAE — invoices and GRN</div></div>
     <div class="card-b">
       <div id="dashBody" class="empty">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
@@ -818,11 +925,55 @@ async function ocrPdfPages(file){
   }
   return out;
 }
+/* ============== OCR.space (optional free OCR API) ============== */
+function getOcrKey(){ try{ return (localStorage.getItem("ocrspace_key")||"").trim(); }catch(e){ return ""; } }
+function setOcrKey(k){ try{ localStorage.setItem("ocrspace_key",k); }catch(e){} }
+function clearOcrKey(){ try{ localStorage.removeItem("ocrspace_key"); }catch(e){} }
+/* downscale to a JPEG data URL under ~1 MB (OCR.space free-tier limit) */
+async function imgToBoundedJpeg(srcFileOrCanvas){
+  let cv;
+  if(srcFileOrCanvas instanceof HTMLCanvasElement){ cv=srcFileOrCanvas; }
+  else{ const img=await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=URL.createObjectURL(srcFileOrCanvas); });
+        cv=document.createElement("canvas"); cv.width=img.naturalWidth; cv.height=img.naturalHeight; cv.getContext("2d").drawImage(img,0,0); URL.revokeObjectURL(img.src); }
+  let scale=Math.min(1, 1800/Math.max(cv.width,cv.height));
+  for(let a=0;a<6;a++){ const c2=document.createElement("canvas"); c2.width=Math.max(1,Math.round(cv.width*scale)); c2.height=Math.max(1,Math.round(cv.height*scale));
+    c2.getContext("2d").drawImage(cv,0,0,c2.width,c2.height); const durl=c2.toDataURL("image/jpeg",0.7);
+    if(durl.length*0.75 < 1000000 || scale<0.25) return durl; scale*=0.75; }
+  return cv.toDataURL("image/jpeg",0.5);
+}
+async function ocrSpaceImage(dataUrl){
+  const body=new URLSearchParams();
+  body.set("apikey", getOcrKey()); body.set("base64Image", dataUrl);
+  body.set("language","eng"); body.set("OCREngine","2"); body.set("scale","true"); body.set("isTable","true");
+  const resp=await fetch("https://api.ocr.space/parse/image",{ method:"POST", body });
+  const j=await resp.json();
+  if(j.IsErroredOnProcessing) throw new Error((j.ErrorMessage&&j.ErrorMessage[0])||"OCR.space error");
+  return (j.ParsedResults||[]).map(r=>r.ParsedText||"").join("\n");
+}
+async function ocrSpaceText(file){
+  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
+  if(isPdf){
+    if(!window.pdfjsLib) throw new Error("pdf engine unavailable");
+    const buf=await file.arrayBuffer(); const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+    let out=""; const maxP=Math.min(pdf.numPages,5);
+    for(let p=1;p<=maxP;p++){ const page=await pdf.getPage(p); const vp=page.getViewport({scale:2});
+      const cv=document.createElement("canvas"); cv.width=Math.ceil(vp.width); cv.height=Math.ceil(vp.height);
+      await page.render({canvasContext:cv.getContext("2d"), viewport:vp}).promise;
+      out += await ocrSpaceImage(await imgToBoundedJpeg(cv)) + "\n"; }
+    return out;
+  }
+  return await ocrSpaceImage(await imgToBoundedJpeg(file));
+}
+/* unified free-OCR text: OCR.space if a key is set, else local Tesseract */
+async function freeOcrText(file){
+  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
+  if(getOcrKey()){ try{ const t=await ocrSpaceText(file); if(t && t.replace(/\s/g,"").length>=20) return t; }catch(e){ console.warn("OCR.space failed, falling back to Tesseract:", e); } }
+  return isPdf ? await ocrPdfPages(file) : await ocrRecognize(file);
+}
 /* Free-OCR orchestration: returns parsed row (with __quality) or null if unreadable. */
 async function ocrExtract(file){
-  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
   let text="";
-  try{ text = isPdf ? await ocrPdfPages(file) : await ocrRecognize(file); }
+  try{ text = await freeOcrText(file); }
   catch(e){ console.warn("free OCR failed:", e); return null; }
   if(!text || text.replace(/\s/g,"").length<40) return null;
   return parseInvoiceText(text, file.name);
@@ -862,9 +1013,22 @@ function engineHeaders(){
   };
 }
 
+/* ============== API-KEY PASSWORD LOCK ============== */
+let __keyUnlocked=false, __keyAsked=false;
+function keyGateOK(){
+  if(__keyUnlocked) return true;
+  if(__keyAsked) return false;            // already prompted & failed this session — don't spam
+  __keyAsked=true;
+  const p=prompt("Enter password to use the API key:");
+  if(p==="runkey"){ __keyUnlocked=true; return true; }
+  alert("Wrong/blank password — API key stays locked for this session (reload to try again). Free OCR still runs.");
+  return false;
+}
+
 /* ============== ANTHROPIC API CALL ============== */
 async function callEngine(file){
   if(!getKey()) throw new Error("No API key set — paste your Anthropic key in the top bar");
+  if(!keyGateOK()) throw new Error("API key locked (password required)");
   const b64 = await readAsBase64(file);
   const block = blockFor(file, b64);
   const body = {
@@ -1185,7 +1349,7 @@ function parseUaeInvoiceText(text, fileName){
   r.Taxable_Amount = amtWith(/sub\s*total|taxable\s*(value|amount|amt)|total\s*without\s*vat|net\s*total|amount\s*before\s*vat/i) || "Missing";
   r.VAT_Amount = amtWith(/\bvat\b|v\.a\.t/i, /sub\s*total|total\s*without|taxable/i);
   if(r.VAT_Amount===null) r.VAT_Amount = (/\bvat\b/i.test(T)) ? "0" : "Missing";
-  let tot = amtWith(/total\s*with\s*vat|grand\s*total|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|^total\b/i, /sub\s*total|without\s*vat|taxable|received|balance\s*b\/f/i);
+  let tot = amtWith(/total\s*amount\s*\(?\s*incl|total\s*with\s*vat|grand\s*total|invoice\s*total|balance\s*due|amount\s*due|total\s*payable|amount\s*payable|net\s*payable|amount\s*chargeable|^total\b/i, /sub\s*total|without\s*vat|before\s*vat|taxable|received|balance\s*b\/f/i);
   if(!tot) tot = amtWith(/\bbalance\b|\btotal\b/i, /sub\s*total|without\s*vat|taxable/i);
   r.Total_Amount = tot || "Missing";
 
@@ -1289,14 +1453,14 @@ async function offlineExtractUae(file){
   return parseUaeInvoiceText(text, file.name);
 }
 async function ocrExtractUae(file){
-  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
   let text="";
-  try{ text = isPdf ? await ocrPdfPages(file) : await ocrRecognize(file); }catch(e){ return null; }
+  try{ text = await freeOcrText(file); }catch(e){ return null; }
   if(!text || text.replace(/\s/g,"").length<40) return null;
   return parseUaeInvoiceText(text, file.name);
 }
 async function callEngineUae(file){
   if(!getKey()) throw new Error("No API key set");
+  if(!keyGateOK()) throw new Error("API key locked (password required)");
   const b64=await readAsBase64(file); const block=blockFor(file,b64);
   const body={ model:"claude-sonnet-4-6", max_tokens:1000, messages:[{ role:"user", content:[ block, {type:"text", text: UAE_OCR_PROMPT + "\n\nThis file's name is: " + file.name} ] }] };
   const resp=await fetch("https://api.anthropic.com/v1/messages",{ method:"POST", headers:engineHeaders(), body:JSON.stringify(body) });
@@ -1440,15 +1604,177 @@ function renderUaeResults(){
     </tr>`;
   });
   html+="</tbody>"; $("#uaeTable").innerHTML=html;
+  try{ renderDashboard(); }catch(e){}
 }
 $("#dlUaeCsv").onclick=()=> download("uae_vat_extract_"+stamp()+".csv", toCSV(Su.rows, UAE_HEADERS));
+
+/* ===================================================================== */
+/* ===================== UAE GRN MODULE ================================ */
+/* ===================================================================== */
+const XLSX_CDN="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+let __xlsxLoading=null;
+async function getXLSX(){ if(window.XLSX) return window.XLSX; if(!__xlsxLoading) __xlsxLoading=loadScriptOnce(XLSX_CDN); await __xlsxLoading; return window.XLSX; }
+
+const Sg={ grn:[], rate:null };
+let ugrnRaw=[];
+
+async function readGrnFile(file){
+  const name=(file.name||"").toLowerCase();
+  if(name.endsWith(".csv")||(file.type||"").includes("csv")){
+    return new Promise((res,rej)=>{ Papa.parse(file,{header:true,skipEmptyLines:true,complete:r=>res(r.data),error:e=>rej(e)}); });
+  }
+  const XLSX=await getXLSX();
+  const buf=await file.arrayBuffer();
+  const wb=XLSX.read(buf,{type:"array"});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  return XLSX.utils.sheet_to_json(ws,{defval:""});
+}
+function grnField(row, aliases){
+  for(const k of Object.keys(row)){ const nk=k.trim().toLowerCase().replace(/\s+/g," "); if(aliases.includes(nk)) return String(row[k]).trim(); }
+  return "";
+}
+function normGrnRow(row){
+  return {
+    GRN_No:     grnField(row,["grn no","grn_no","grn"]),
+    PO_No:      grnField(row,["po no","po_no","po"]),
+    Vendor:     grnField(row,["vendor name","supplier name","vendor","vendor_name"]),
+    Vendor_TRN: grnField(row,["vendor gstin","vendor trn","supplier gstin","trn","gstin"]),
+    Invoice_No: grnField(row,["invoice no","invoice_no","invoice number","inv no"]),
+    Invoice_Date:grnField(row,["invoice date","invoice_date"]),
+    Item:       grnField(row,["name","item","item name","description","item description"]),
+    Rec_Qty:    grnField(row,["rec qty","received qty","qty received","qty"]),
+    Good_Qty:   grnField(row,["good qty","good_qty","accepted qty"]),
+    Rate:       grnField(row,["rate","unit rate"]),
+    Taxable:    grnField(row,["taxeble amount","taxable amount","taxable","taxeble"]),
+    Tax_Pct:    grnField(row,["tax","tax %","vat %","gst %"]),
+    VAT_Amt:    grnField(row,["gst amount","vat amount","tax amount"]),
+    Line_Total: grnField(row,["invoice total amount","total amount incl logistic","total amount","line total"]),
+    Status:     grnField(row,["status"]),
+  };
+}
+function invKey(s){ return String(s||"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function median(arr){ if(!arr.length) return null; const a=[...arr].sort((x,y)=>x-y); const m=Math.floor(a.length/2); return a.length%2?a[m]:(a[m-1]+a[m])/2; }
+
+$("#pickUgrn").onclick=()=>$("#ugrnFile").click();
+$("#ugrnFile").addEventListener("change", async ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  $("#ugrnFileName").textContent="Reading "+f.name+" …";
+  try{
+    const raw=await readGrnFile(f);
+    ugrnRaw=raw.map(normGrnRow).filter(r=> r.Invoice_No||r.GRN_No||r.Item );
+    $("#ugrnFileName").textContent=f.name+" — "+ugrnRaw.length+" GRN lines";
+    $("#runUgrn").disabled = ugrnRaw.length===0;
+  }catch(e){ $("#ugrnFileName").textContent="Error reading file: "+(e.message||e); $("#runUgrn").disabled=true; }
+});
+
+/* numeric-core key: strips prefixes & leading zeros so "INV-000296" == "296" */
+function ugrnKeys(s){ const full=invKey(s); const digits=(String(s||"").match(/\d+/g)||[]).join(""); const numc=digits.replace(/^0+/,"")||digits; return {full, num:numc}; }
+
+$("#runUgrn").onclick=runUgrnMatch;
+function runUgrnMatch(){
+  const tolPct=Math.max(0, parseFloat($("#ugrnTol").value)||1)/100;
+  // aggregate GRN lines by invoice number
+  const groups=[]; const byFull=new Map();
+  ugrnRaw.forEach(g=>{
+    const fk=invKey(g.Invoice_No); if(!fk) return;
+    let a=byFull.get(fk);
+    if(!a){ a={Invoice_No:g.Invoice_No, Vendor:g.Vendor, Vendor_TRN:g.Vendor_TRN, GRNs:new Set(), Qty:0, Taxable:0, VAT:0, Total:0, lines:0, keys:ugrnKeys(g.Invoice_No), matched:false}; byFull.set(fk,a); groups.push(a); }
+    if(g.GRN_No) a.GRNs.add(g.GRN_No);
+    a.Qty += num(g.Good_Qty)||num(g.Rec_Qty)||0;
+    a.Taxable += num(g.Taxable)||0;
+    a.VAT += num(g.VAT_Amt)||0;
+    a.Total += num(g.Line_Total)|| ((num(g.Taxable)||0)+(num(g.VAT_Amt)||0));
+    a.lines++;
+    if(!a.Vendor && g.Vendor) a.Vendor=g.Vendor;
+    if(!a.Vendor_TRN && g.Vendor_TRN) a.Vendor_TRN=g.Vendor_TRN;
+  });
+  // invoice register
+  const invs=(Su.rows||[]).map(r=>({raw:r, no:r.Invoice_Number, aed:num(r.Total_Amount), keys:ugrnKeys(r.Invoice_Number), matched:false}));
+  // auto-derive rate from number-matched pairs (full key OR numeric core)
+  const rates=[];
+  groups.forEach(a=>{ const inv=invs.find(v=>!v._rused && (v.keys.full===a.keys.full || (a.keys.num && v.keys.num===a.keys.num))); if(inv){ if(!isNaN(inv.aed)&&inv.aed>0&&a.Total>0){ rates.push(a.Total/inv.aed); inv._rused=true; } } });
+  let rate=median(rates);
+  const derived = rates.length>0;
+  if(!rate && invs.length && groups.length) rate=22.472;   // fallback if no number match yet
+  Sg.rate=rate;
+  $("#ugrnRate").textContent = rate? (rate.toFixed(3)+" INR/AED"+(derived?"":" (default)")) : "—";
+  // pair each GRN group: full key -> numeric core -> amount fallback
+  const out=[];
+  groups.forEach(a=>{
+    let inv = invs.find(v=>!v.matched && v.keys.full===a.keys.full)
+          || (a.keys.num? invs.find(v=>!v.matched && v.keys.num===a.keys.num) : null);
+    let byNumber = !!inv;
+    if(!inv && rate){ inv = invs.find(v=>{ if(v.matched||isNaN(v.aed)||v.aed<=0) return false; const conv=v.aed*rate; return Math.abs(conv-a.Total)<=Math.max(1, conv*tolPct); }); }
+    if(inv) inv.matched=true;
+    const grnINR=round2(a.Total);
+    const aed=inv?inv.aed:NaN;
+    const invINR=(inv && rate && !isNaN(aed))? round2(aed*rate) : null;
+    let status, diff=null;
+    // number match: lenient band (absorbs VAT-inclusive vs subtotal & OCR slack); amount-only match: strict
+    if(inv){ if(invINR!=null){ diff=round2(grnINR-invINR); const band=byNumber?0.15:tolPct; status = Math.abs(diff)<=Math.max(1, invINR*band) ? "Matched" : "Amount mismatch"; } else status="Matched"; }
+    else status="GRN — no invoice";
+    out.push({ Invoice_No:a.Invoice_No, GRN_Inv_No:a.Invoice_No, Reg_Inv_No:inv?inv.no:"", Vendor:a.Vendor, Vendor_TRN:a.Vendor_TRN, GRN_No:[...a.GRNs].filter(Boolean).join(", "), GRN_Lines:a.lines, GRN_Qty:round2(a.Qty), GRN_Taxable_INR:round2(a.Taxable), GRN_VAT_INR:round2(a.VAT), GRN_Total_INR:grnINR, Invoice_AED:inv?aed:"", Invoice_INR:invINR!=null?invINR:"", Diff_INR:diff!=null?diff:"", Status:status });
+  });
+  // invoices with no GRN
+  invs.filter(v=>!v.matched).forEach(v=>{ out.push({ Invoice_No:v.no, GRN_Inv_No:"", Reg_Inv_No:v.no, Vendor:v.raw.Supplier_Name, Vendor_TRN:v.raw.Supplier_TRN, GRN_No:"", GRN_Lines:"", GRN_Qty:"", GRN_Taxable_INR:"", GRN_VAT_INR:"", GRN_Total_INR:"", Invoice_AED:isNaN(v.aed)?"":v.aed, Invoice_INR:(rate&&!isNaN(v.aed))?round2(v.aed*rate):"", Diff_INR:"", Status:"Invoice — no GRN" }); });
+  const ord={"Amount mismatch":0,"GRN — no invoice":1,"Invoice — no GRN":2,"Matched":3};
+  out.sort((x,y)=> (ord[x.Status]??9)-(ord[y.Status]??9));
+  Sg.grn=out; renderUgrn(rate);
+}
+const UGRN_HEADERS=["Invoice_No","Vendor","Vendor_TRN","GRN_No","GRN_Lines","GRN_Qty","GRN_Taxable_INR","GRN_VAT_INR","GRN_Total_INR","Invoice_AED","Invoice_INR","Diff_INR","Status"];
+function renderUgrn(rate){
+  const rows=Sg.grn;
+  const grnN=rows.filter(r=>r.GRN_Total_INR!=="").length;
+  const badge=$("#b-uaegrn"); if(badge){ badge.textContent=grnN; badge.classList.toggle("zero", grnN===0); }
+  if(rows.length===0){ $("#ugrnResults").style.display="none"; return; }
+  $("#ugrnResults").style.display="block";
+  const matched=rows.filter(r=>r.Status==="Matched").length;
+  const mism=rows.filter(r=>r.Status==="Amount mismatch").length;
+  const grnOnly=rows.filter(r=>r.Status==="GRN — no invoice").length;
+  const invOnly=rows.filter(r=>r.Status==="Invoice — no GRN").length;
+  $("#ugrnKpis").innerHTML=`
+    ${kpi("Invoices",rows.length,"")}
+    ${kpi("Matched",matched,"pass")}
+    ${kpi("Amount mismatch",mism,mism?"fail":"")}
+    ${kpi("GRN, no invoice",grnOnly,grnOnly?"flag":"")}
+    ${kpi("Invoice, no GRN",invOnly,invOnly?"flag":"")}
+    ${kpi("Derived rate",rate?rate.toFixed(3):"—","tealv")}`;
+  ugrnDrawTable();
+  try{ renderDashboard(); }catch(e){}
+}
+/* simplified reconciliation table (Invoice No · Vendor · amounts · Status) + live search */
+function ugrnDrawTable(){
+  const rows=Sg.grn||[];
+  const q=($("#ugrnSearch")&&$("#ugrnSearch").value||"").trim().toLowerCase();
+  const view = q? rows.filter(r=> (String(r.Invoice_No)+" "+String(r.Vendor)+" "+String(r.Status)).toLowerCase().includes(q)) : rows;
+  const head=["Invoice No","Vendor","GRN ₹","Invoice ₹","Status"];
+  let html="<thead><tr>"+head.map(h=>`<th>${h}</th>`).join("")+"</tr></thead><tbody>";
+  view.forEach(r=>{
+    const stP = r.Status==="Matched"?'<span class="pill green">Matched</span>'
+      : r.Status==="Amount mismatch"?`<span class="pill red" title="GRN ₹${r.GRN_Total_INR} vs Invoice ₹${r.Invoice_INR} · diff ₹${r.Diff_INR}">Amount mismatch</span>`
+      : r.Status==="GRN — no invoice"?'<span class="pill amber" title="In GRN, no matching UAE invoice">GRN — no invoice</span>'
+      : '<span class="pill amber" title="UAE invoice with no GRN line">Invoice — no GRN</span>';
+    html+=`<tr>
+      <td class="id">${cell(r.Invoice_No)}</td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${esc(r.Vendor)}">${cell(r.Vendor)}</td>
+      <td class="num">${r.GRN_Total_INR!==""?fINR(r.GRN_Total_INR):"—"}</td>
+      <td class="num">${r.Invoice_INR!==""?fINR(r.Invoice_INR):"—"}</td>
+      <td>${stP}</td>
+    </tr>`;
+  });
+  html+="</tbody>"; $("#ugrnTable").innerHTML=html;
+  if($("#ugrnCount")) $("#ugrnCount").textContent=view.length+(q?" / "+rows.length:"")+" rows";
+  try{ renderUaeMatch(); }catch(e){}
+}
+document.addEventListener("input",e=>{ if(e.target && e.target.id==="ugrnSearch") ugrnDrawTable(); });
+$("#dlUgrnCsv").onclick=()=> download("uae_grn_match_"+stamp()+".csv", toCSV(Sg.grn, UGRN_HEADERS));
 
 /* ============== TEMPLATES ============== */
 $("#dlInvTemplate").onclick=e=>{e.preventDefault(); download("purchase_register_template.csv",
   ["Invoice_Number","Invoice_Date","Supplier_Name","Supplier_GSTIN","Buyer_Name","Buyer_GSTIN","Supplier_Address","HSN_SAC","Taxable_Amount","CGST_Amount","SGST_Amount","IGST_Amount","Total_Amount","PO_No","Qty"].join(",")+"\n");};
 $("#dlBankTemplate").onclick=e=>{e.preventDefault(); download("bank_statement_template.csv",
   ["Txn_Date","Value_Date","Description","Reference_No","Debit","Credit","Balance","UTR_No","Party_Name"].join(",")+"\n");};
-$("#dlGrnTemplate").onclick=e=>{e.preventDefault(); download("grn_template.csv",
+if($("#dlGrnTemplate")) $("#dlGrnTemplate").onclick=e=>{e.preventDefault(); download("grn_template.csv",
   ["GRN_No","GRN_Date","PO_No","Supplier_Name","Supplier_GSTIN","Invoice_No","HSN_SAC","Item_Description","Qty_Ordered","Qty_Received","Rate","GRN_Value"].join(",")+"\n");};
 
 /* ============== PAYMENT RECO ============== */
@@ -1519,86 +1845,186 @@ $("#dlPayCsv").onclick=()=>{ if(!S._payOut)return; download("payment_reco_"+stam
 
 /* ============== GRN RECO (3-way) ============== */
 $("#pickGrnCsv").onclick=()=>$("#grnFile").click();
-$("#grnFile").addEventListener("change",ev=>{
-  const f=ev.target.files[0]; if(!f)return; $("#grnFileName").textContent=f.name;
-  Papa.parse(f,{header:true,skipEmptyLines:true,complete:res=>{ S.grn=res.data; $("#runGrnReco").disabled=false; syncCounts(); alert(S.grn.length+" GRN rows loaded."); }});
+$("#grnFile").addEventListener("change", async ev=>{
+  const f=ev.target.files[0]; if(!f)return;
+  $("#grnFileName").textContent="Reading "+f.name+" …";
+  try{
+    const raw=await readGrnFile(f);
+    S.grn=raw.map(normGrnRow).filter(r=> r.Invoice_No||r.GRN_No||r.Item );
+    $("#grnFileName").textContent=f.name+" — "+S.grn.length+" GRN lines";
+    $("#runGrnReco").disabled = S.grn.length===0; syncCounts();
+  }catch(e){ $("#grnFileName").textContent="Error reading file: "+(e.message||e); $("#runGrnReco").disabled=true; }
 });
 $("#runGrnReco").onclick=runGrnReco;
 function runGrnReco(){
-  if(S.invoices.length===0){ alert("Run/import Step 01 first."); return; }
-  const qTol=parseFloat($("#grnQtyTol").value)||0, vTol=parseFloat($("#grnValTol").value)||0;
-  const grn=S.grn.map((g,i)=>({i,_used:false,
-    grnNo:g.GRN_No, po:norm(g.PO_No), inv:norm(g.Invoice_No), qtyR:num(g.Qty_Received),
-    val:num(g.GRN_Value), supplier:g.Supplier_Name, raw:g}));
-  const out=S.invoices.map(inv=>{
-    const invNo=norm(inv.Invoice_Number), po=norm(inv._PO||""), qty=num(inv._Qty), taxable=num(inv.Taxable_Amount);
-    let g = grn.find(x=>!x._used && invNo && x.inv===invNo);
-    if(!g) g = grn.find(x=>!x._used && po && x.po===po);
-    if(!g) return {Invoice_Number:inv.Invoice_Number,PO_No:inv._PO||"",Supplier_Name:inv.Supplier_Name,
-      Inv_Qty:isNaN(qty)?"":qty,GRN_Qty:"",Inv_Value:isNaN(taxable)?"":taxable,GRN_Value:"",Match_Status:"GRN missing"};
-    g._used=true;
-    const flags=[];
-    if(!isNaN(qty)&&!isNaN(g.qtyR)&&Math.abs(qty-g.qtyR)>qTol) flags.push("Qty mismatch");
-    if(!isNaN(taxable)&&!isNaN(g.val)&&Math.abs(taxable-g.val)>vTol) flags.push("Value mismatch");
-    return {Invoice_Number:inv.Invoice_Number,PO_No:inv._PO||g.raw.PO_No||"",Supplier_Name:inv.Supplier_Name,
-      Inv_Qty:isNaN(qty)?"":qty,GRN_Qty:isNaN(g.qtyR)?"":g.qtyR,Inv_Value:isNaN(taxable)?"":taxable,GRN_Value:isNaN(g.val)?"":g.val,
-      Match_Status: flags.length?flags.join(" + "):"Fully matched"};
+  if((S.invoices||[]).length===0){ if(!confirm("No India invoices loaded yet — you'll get a GRN-only summary. Continue?")) return; }
+  const tolPct=Math.max(0, parseFloat($("#grnValTol").value)||1)/100;
+  // aggregate GRN by invoice number
+  const groups=[]; const byFull=new Map();
+  (S.grn||[]).forEach(g=>{ const fk=invKey(g.Invoice_No); if(!fk) return; let a=byFull.get(fk);
+    if(!a){ a={Invoice_No:g.Invoice_No, Vendor:g.Vendor, Vendor_GSTIN:g.Vendor_TRN, GRNs:new Set(), Qty:0, Taxable:0, VAT:0, Total:0, lines:0, keys:ugrnKeys(g.Invoice_No), matched:false}; byFull.set(fk,a); groups.push(a); }
+    if(g.GRN_No)a.GRNs.add(g.GRN_No); a.Qty+=num(g.Good_Qty)||num(g.Rec_Qty)||0; a.Taxable+=num(g.Taxable)||0; a.VAT+=num(g.VAT_Amt)||0;
+    a.Total+=num(g.Line_Total)||((num(g.Taxable)||0)+(num(g.VAT_Amt)||0)); a.lines++;
+    if(!a.Vendor&&g.Vendor)a.Vendor=g.Vendor; if(!a.Vendor_GSTIN&&g.Vendor_TRN)a.Vendor_GSTIN=g.Vendor_TRN; });
+  const invs=(S.invoices||[]).map(r=>({raw:r, no:r.Invoice_Number, val:num(r.Total_Amount), keys:ugrnKeys(r.Invoice_Number), matched:false}));
+  const out=[];
+  groups.forEach(a=>{
+    let inv = invs.find(v=>!v.matched && v.keys.full===a.keys.full)
+          || (a.keys.num? invs.find(v=>!v.matched && v.keys.num===a.keys.num) : null);
+    let byNumber = !!inv;
+    if(!inv){ inv = invs.find(v=>{ if(v.matched||isNaN(v.val)||v.val<=0) return false; return Math.abs(v.val-a.Total)<=Math.max(1, v.val*tolPct); }); }
+    if(inv) inv.matched=true;
+    const grnV=round2(a.Total), invV=inv?inv.val:NaN; let status, diff=null;
+    if(inv){ if(!isNaN(invV)){ diff=round2(grnV-invV); const band=byNumber?0.15:tolPct; status=Math.abs(diff)<=Math.max(1, invV*band)?"Matched":"Amount mismatch"; } else status="Matched"; }
+    else status="GRN — no invoice";
+    out.push({ Invoice_No:a.Invoice_No, GRN_Inv_No:a.Invoice_No, Reg_Inv_No:inv?inv.no:"", Vendor:a.Vendor, Vendor_GSTIN:a.Vendor_GSTIN, GRN_No:[...a.GRNs].filter(Boolean).join(", "), GRN_Qty:round2(a.Qty), GRN_Taxable:round2(a.Taxable), GRN_VAT:round2(a.VAT), GRN_Value:grnV, Inv_Value:inv?invV:"", Diff:diff!=null?diff:"", Match_Status:status });
   });
-  grn.filter(g=>!g._used).forEach(g=>out.push({Invoice_Number:"",PO_No:g.raw.PO_No||"",Supplier_Name:g.supplier,
-    Inv_Qty:"",GRN_Qty:isNaN(g.qtyR)?"":g.qtyR,Inv_Value:"",GRN_Value:isNaN(g.val)?"":g.val,Match_Status:"Invoice missing (GRN-only)"}));
-  renderGrnResults(out); S._grnOut=out;
+  invs.filter(v=>!v.matched).forEach(v=>out.push({ Invoice_No:v.no, GRN_Inv_No:"", Reg_Inv_No:v.no, Vendor:v.raw.Supplier_Name, Vendor_GSTIN:v.raw.Supplier_GSTIN, GRN_No:"", GRN_Qty:"", GRN_Taxable:"", GRN_VAT:"", GRN_Value:"", Inv_Value:isNaN(v.val)?"":v.val, Diff:"", Match_Status:"Invoice — no GRN" }));
+  const ord={"Amount mismatch":0,"GRN — no invoice":1,"Invoice — no GRN":2,"Matched":3};
+  out.sort((x,y)=>(ord[x.Match_Status]??9)-(ord[y.Match_Status]??9));
+  S._grnOut=out; renderGrnResults(out); syncCounts();
 }
 function renderGrnResults(out){
   $("#grnResults").style.display="block";
-  const full=out.filter(o=>o.Match_Status==="Fully matched").length;
-  const mis=out.filter(o=>/mismatch/.test(o.Match_Status)).length;
-  const gm=out.filter(o=>o.Match_Status==="GRN missing").length;
-  const im=out.filter(o=>/Invoice missing/.test(o.Match_Status)).length;
-  $("#grnKpis").innerHTML=`${kpi("Lines",out.length,"")}${kpi("Fully matched",full,"pass")}${kpi("Mismatches",mis,mis?"flag":"")}${kpi("GRN missing",gm,gm?"fail":"")}${kpi("Invoice missing",im,im?"fail":"")}`;
-  const head=["Inv No.","PO No.","Supplier","Inv Qty","GRN Qty","Inv Value","GRN Value","Status"];
-  let h="<thead><tr>"+head.map(x=>`<th>${x}</th>`).join("")+"</tr></thead><tbody>";
-  out.forEach(o=>{ const cls=o.Match_Status==="Fully matched"?"green":(/mismatch/.test(o.Match_Status)?"amber":"red");
-    h+=`<tr><td class="id">${cell(o.Invoice_Number)}</td><td class="id">${cell(o.PO_No)}</td><td>${cell(o.Supplier_Name)}</td>
-    <td class="num">${o.Inv_Qty===""?"—":o.Inv_Qty}</td><td class="num">${o.GRN_Qty===""?"—":o.GRN_Qty}</td>
-    <td class="num">${o.Inv_Value===""?"—":fINR(o.Inv_Value)}</td><td class="num">${o.GRN_Value===""?"—":fINR(o.GRN_Value)}</td>
-    <td><span class="pill ${cls}">${esc(o.Match_Status)}</span></td></tr>`; });
-  $("#grnTable").innerHTML=h+"</tbody>";
+  const full=out.filter(o=>o.Match_Status==="Matched").length;
+  const mis=out.filter(o=>o.Match_Status==="Amount mismatch").length;
+  const gm=out.filter(o=>o.Match_Status==="GRN — no invoice").length;
+  const im=out.filter(o=>o.Match_Status==="Invoice — no GRN").length;
+  $("#grnKpis").innerHTML=`${kpi("Invoices",out.length,"")}${kpi("Matched",full,"pass")}${kpi("Amount mismatch",mis,mis?"fail":"")}${kpi("GRN, no invoice",gm,gm?"flag":"")}${kpi("Invoice, no GRN",im,im?"flag":"")}`;
+  grnDrawTable();
 }
-$("#dlGrnCsv").onclick=()=>{ if(!S._grnOut)return; download("grn_reco_"+stamp()+".csv", toCSV(S._grnOut,["Invoice_Number","PO_No","Supplier_Name","Inv_Qty","GRN_Qty","Inv_Value","GRN_Value","Match_Status"])); };
+function grnDrawTable(){
+  const rows=S._grnOut||[];
+  const q=($("#grnSearch")&&$("#grnSearch").value||"").trim().toLowerCase();
+  const view=q? rows.filter(r=> (String(r.Invoice_No)+" "+String(r.Vendor)+" "+String(r.Match_Status)).toLowerCase().includes(q)) : rows;
+  const head=["Invoice No","Vendor","Invoice ₹","GRN ₹","Status"];
+  let h="<thead><tr>"+head.map(x=>`<th>${x}</th>`).join("")+"</tr></thead><tbody>";
+  view.forEach(o=>{ const stP=o.Match_Status==="Matched"?'<span class="pill green">Matched</span>'
+      : o.Match_Status==="Amount mismatch"?`<span class="pill red" title="Invoice ₹${o.Inv_Value} vs GRN ₹${o.GRN_Value} · diff ₹${o.Diff}">Amount mismatch</span>`
+      : o.Match_Status==="GRN — no invoice"?'<span class="pill amber" title="In GRN, no matching India invoice">GRN — no invoice</span>'
+      : '<span class="pill amber" title="India invoice with no GRN line">Invoice — no GRN</span>';
+    h+=`<tr><td class="id">${cell(o.Invoice_No)}</td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${esc(o.Vendor)}">${cell(o.Vendor)}</td>
+      <td class="num">${o.Inv_Value===""?"—":fINR(o.Inv_Value)}</td>
+      <td class="num">${o.GRN_Value===""?"—":fINR(o.GRN_Value)}</td>
+      <td>${stP}</td></tr>`; });
+  $("#grnTable").innerHTML=h+"</tbody>";
+  if($("#grnCount")) $("#grnCount").textContent=view.length+(q?" / "+rows.length:"")+" rows";
+  try{ renderIndiaMatch(); }catch(e){}
+}
+document.addEventListener("input",e=>{ if(e.target && e.target.id==="grnSearch") grnDrawTable(); });
+$("#dlGrnCsv").onclick=()=>{ if(!S._grnOut)return; download("india_grn_match_"+stamp()+".csv", toCSV(S._grnOut,["Invoice_No","Vendor","Vendor_GSTIN","GRN_No","GRN_Qty","GRN_Taxable","GRN_VAT","GRN_Value","Inv_Value","Diff","Match_Status"])); };
+
+/* ============== DEDICATED INVOICE ↔ GRN MATCH SHEETS (invoice no + amount) ============== */
+function drawMatchSheet(rows, o){
+  const wrap=$(o.wrap), empty=$(o.empty), badge=$(o.badge);
+  if(!rows || rows.length===0){ if(wrap)wrap.style.display="none"; if(empty)empty.style.display="block"; if(badge){badge.textContent=0;badge.classList.add("zero");} return; }
+  if(empty)empty.style.display="none"; if(wrap)wrap.style.display="block";
+  const matched=rows.filter(r=>r._st==="Matched").length;
+  const mism=rows.filter(r=>r._st==="Amount mismatch").length;
+  const gOnly=rows.filter(r=>r._st==="GRN — no invoice").length;
+  const iOnly=rows.filter(r=>r._st==="Invoice — no GRN").length;
+  if(badge){ badge.textContent=matched; badge.classList.toggle("zero",matched===0); }
+  $(o.kpis).innerHTML=`${kpi("Total",rows.length,"")}${kpi("Matched",matched,"pass")}${kpi("Amount mismatch",mism,mism?"fail":"")}${kpi("In GRN only",gOnly,gOnly?"flag":"")}${kpi("In books only",iOnly,iOnly?"flag":"")}`;
+  drawMatchTable(rows,o);
+}
+function drawMatchTable(rows,o){
+  const q=($(o.search)&&$(o.search).value||"").trim().toLowerCase();
+  const view=q? rows.filter(r=> (String(r._book)+" "+String(r._grn)+" "+String(r._vendor)+" "+String(r._st)).toLowerCase().includes(q)) : rows;
+  const amtHdr = o.uae? "Invoice ₹ (conv)" : "Invoice ₹";
+  const head=["Invoice No (books)","GRN Invoice No",amtHdr,"GRN ₹","Status"];
+  let h="<thead><tr>"+head.map(x=>`<th>${x}</th>`).join("")+"</tr></thead><tbody>";
+  view.forEach(r=>{ const stP=r._st==="Matched"?'<span class="pill green">Matched</span>'
+    : r._st==="Amount mismatch"?`<span class="pill red" title="diff ₹${r._diff}">Amount mismatch</span>`
+    : r._st==="GRN — no invoice"?'<span class="pill amber">In GRN, not in books</span>'
+    : '<span class="pill amber">In books, not in GRN</span>';
+    const invCell = (r._invAmt!==""&&r._invAmt!=null)? (`<span${(r._invAED!==""&&r._invAED!=null)?` title="AED ${fINR(r._invAED)}"`:""}>${fINR(r._invAmt)}</span>`) : "—";
+    h+=`<tr><td class="id" title="${esc(r._vendor)}">${r._book?esc(r._book):'<span class="missing">—</span>'}</td>
+      <td class="id">${r._grn?esc(r._grn):'<span class="missing">—</span>'}</td>
+      <td class="num">${invCell}</td>
+      <td class="num">${r._grnAmt!==""&&r._grnAmt!=null?fINR(r._grnAmt):"—"}</td>
+      <td>${stP}</td></tr>`; });
+  $(o.table).innerHTML=h+"</tbody>";
+  if($(o.count)) $(o.count).textContent=view.length+(q?" / "+rows.length:"")+" rows";
+}
+function renderUaeMatch(){
+  const rows=(Sg.grn||[]).map(r=>({ _book:r.Reg_Inv_No||"", _grn:r.GRN_Inv_No||"", _vendor:r.Vendor||"", _invAmt:(r.Invoice_INR!==""?r.Invoice_INR:""), _grnAmt:(r.GRN_Total_INR!==""?r.GRN_Total_INR:""), _invAED:(r.Invoice_AED!==""?r.Invoice_AED:""), _diff:r.Diff_INR, _st:r.Status }));
+  drawMatchSheet(rows,{wrap:"#uaematchWrap",empty:"#uaematchEmpty",kpis:"#uaematchKpis",table:"#uaematchTable",search:"#uaematchSearch",count:"#uaematchCount",badge:"#b-uaematch",uae:true});
+}
+function renderIndiaMatch(){
+  const rows=(S._grnOut||[]).map(r=>({ _book:r.Reg_Inv_No||"", _grn:r.GRN_Inv_No||"", _vendor:r.Vendor||"", _invAmt:(r.Inv_Value!==""?r.Inv_Value:""), _grnAmt:(r.GRN_Value!==""?r.GRN_Value:""), _invAED:"", _diff:r.Diff, _st:r.Match_Status }));
+  drawMatchSheet(rows,{wrap:"#inmatchWrap",empty:"#inmatchEmpty",kpis:"#inmatchKpis",table:"#inmatchTable",search:"#inmatchSearch",count:"#inmatchCount",badge:"#b-inmatch",uae:false});
+}
+document.addEventListener("input",e=>{ if(e.target){ if(e.target.id==="uaematchSearch") renderUaeMatch(); else if(e.target.id==="inmatchSearch") renderIndiaMatch(); } });
+
+/* ============== RE-RUN ONLY THE UNMATCHED INVOICES (re-OCR + re-match) ============== */
+function reRunUnmatchedUae(){
+  if(!ugrnRaw || !ugrnRaw.length){ alert("Upload a GRN in the UAE GRN tab first."); return; }
+  if(!uaeQueue || !uaeQueue.length){ alert("No UAE invoice files to re-run. Upload invoices in the UAE Invoice tab (CSV-imported registers can't be re-OCR'd)."); return; }
+  const bad=new Set((Sg.grn||[]).filter(r=>r.Status!=="Matched" && r.Reg_Inv_No).map(r=>invKey(r.Reg_Inv_No)));
+  let n=0;
+  uaeQueue.forEach(q=>{ const k=q.row?invKey(q.row.Invoice_Number):""; const unmatched = !q.row || q.status==="err" || (q.row&&(isMissing(q.row.Invoice_Number)||q.row._src==="error")) || (k&&bad.has(k)); if(unmatched){ q.status="queued"; q.row=null; n++; } });
+  if(n===0){ alert("Every invoice already matched — nothing to re-run."); return; }
+  if(!getOcrKey()&&!getKey()){ if(!confirm(n+" unmatched invoice(s) will be re-read with the FREE local engine — set an OCR.space or Anthropic key first for a real improvement. Re-run anyway?")) return; }
+  renderUaeFileList();
+  Promise.resolve(runUaeExtraction()).then(()=>{ try{ runUgrnMatch(); }catch(e){} alert(n+" invoice(s) re-processed."); });
+}
+function reRunUnmatchedIndia(){
+  if(!S.grn || !S.grn.length){ alert("Upload a GRN in the India GRN tab first."); return; }
+  if(!invQueue || !invQueue.length){ alert("No India invoice files to re-run (CSV-imported registers can't be re-OCR'd)."); return; }
+  const bad=new Set((S._grnOut||[]).filter(r=>r.Match_Status!=="Matched" && r.Reg_Inv_No).map(r=>invKey(r.Reg_Inv_No)));
+  let n=0;
+  invQueue.forEach(q=>{ const k=q.row?invKey(q.row.Invoice_Number):""; const unmatched = !q.row || q.status==="err" || (q.row&&isMissing(q.row.Invoice_Number)) || (k&&bad.has(k)); if(unmatched){ q.status="queued"; q.row=null; n++; } });
+  if(n===0){ alert("Every invoice already matched — nothing to re-run."); return; }
+  if(!getOcrKey()&&!getKey()){ if(!confirm(n+" unmatched invoice(s) will be re-read with the FREE local engine — set an OCR.space or Anthropic key first for a real improvement. Re-run anyway?")) return; }
+  renderInvFileList();
+  Promise.resolve(runExtraction()).then(()=>{ try{ runGrnReco(); }catch(e){} alert(n+" invoice(s) re-processed."); });
+}
+document.addEventListener("click",e=>{ if(!e.target)return; const b=e.target.closest&&e.target.closest("button"); if(!b)return; if(b.id==="uaematchRerun") reRunUnmatchedUae(); else if(b.id==="inmatchRerun") reRunUnmatchedIndia(); });
 
 /* ============== DASHBOARD ============== */
 function renderDashboard(){
-  const inv=S.invoices;
-  if(inv.length===0){ $("#dashKpis").innerHTML=""; return; }
-  const compliant=inv.filter(r=>r.Compliance_Status==="Compliant").length;
-  let totalTax=0,blockedITC=0;
-  inv.forEach(r=>{ const t=(num(r.CGST_Amount)||0)+(num(r.SGST_Amount)||0)+(num(r.IGST_Amount)||0); totalTax+=t; if(/^yes/i.test(r.Sec_17_5_Blocked))blockedITC+=t; });
-  const payMatched=(S._payOut||[]).filter(o=>o.Reco_Status==="Matched").length;
-  const grnMatched=(S._grnOut||[]).filter(o=>o.Match_Status==="Fully matched").length;
+  const inv=S.invoices||[];
+  const uinv=(typeof Su!=="undefined"&&Su.rows)?Su.rows:[];
+  const grnOut=S._grnOut||[];
+  const ugrn=(typeof Sg!=="undefined"&&Sg.grn)?Sg.grn:[];
+  if(inv.length===0 && uinv.length===0 && grnOut.length===0 && ugrn.length===0){ $("#dashKpis").innerHTML=""; $("#dashBody").className="empty"; return; }
+  // ---- India ----
+  const inComp=inv.filter(r=>r.Compliance_Status==="Compliant").length;
+  let inTax=0,inBlocked=0;
+  inv.forEach(r=>{ const t=(num(r.CGST_Amount)||0)+(num(r.SGST_Amount)||0)+(num(r.IGST_Amount)||0); inTax+=t; if(/^yes/i.test(r.Sec_17_5_Blocked))inBlocked+=t; });
+  const inGrnMatched=grnOut.filter(o=>o.Match_Status==="Matched").length;
+  // ---- UAE ----
+  const uComp=uinv.filter(r=>r.Compliance_Status==="Compliant").length;
+  let uVat=0; uinv.forEach(r=>{ const v=num(r.VAT_Amount); if(!isNaN(v))uVat+=v; });
+  const uGrnTotal=ugrn.filter(o=>o.GRN_Total_INR!=="").length;
+  const uGrnMatched=ugrn.filter(o=>o.Status==="Matched").length;
+  const rate=(typeof Sg!=="undefined")?Sg.rate:null;
   $("#dashKpis").innerHTML=`
-    ${kpi("Invoices processed",inv.length,"")}
-    ${kpi("Compliance rate",Math.round(compliant/inv.length*100)+'<small>%</small>',compliant===inv.length?"pass":"flag")}
-    ${kpi("Eligible ITC","₹"+fINR(totalTax-blockedITC),"tealv")}
-    ${kpi("Blocked ITC 17(5)","₹"+fINR(blockedITC),blockedITC?"fail":"")}
-    ${kpi("Payments matched",(S._payOut?payMatched+'<small>/'+S._payOut.length+'</small>':"—"),"info")}
-    ${kpi("GRN matched",(S._grnOut?grnMatched+'<small>/'+S._grnOut.length+'</small>':"—"),"info")}`;
+    ${kpi("India invoices",inv.length,"")}
+    ${kpi("India compliant",inv.length?Math.round(inComp/inv.length*100)+'<small>%</small>':"—",(inv.length&&inComp===inv.length)?"pass":"flag")}
+    ${kpi("Eligible ITC ₹",fINR(inTax-inBlocked),"tealv")}
+    ${kpi("UAE invoices",uinv.length,"")}
+    ${kpi("UAE compliant",uinv.length?Math.round(uComp/uinv.length*100)+'<small>%</small>':"—",(uinv.length&&uComp===uinv.length)?"pass":"flag")}
+    ${kpi("Input VAT AED",fINR(uVat),"tealv")}
+    ${kpi("UAE GRN matched",uGrnTotal?uGrnMatched+'<small>/'+uGrnTotal+'</small>':"—","info")}`;
   $("#dashBody").className="";
   $("#dashBody").innerHTML=`
-    <div class="hint" style="line-height:1.8">
-      <b>Invoice register:</b> ${inv.length} processed · ${compliant} compliant · ${inv.length-compliant} flagged.<br>
-      <b>Input tax credit:</b> total tax ₹${fINR(totalTax)} → eligible ₹${fINR(totalTax-blockedITC)} after blocking ₹${fINR(blockedITC)} u/s 17(5).<br>
-      <b>Payment reconciliation:</b> ${S._payOut? payMatched+" of "+S._payOut.length+" invoices matched to bank debits." : "not run — upload bank statement in Step 02."}<br>
-      <b>GRN reconciliation:</b> ${S._grnOut? grnMatched+" of "+S._grnOut.length+" lines fully matched." : "not run — upload GRN in Step 03."}
+    <div class="hint" style="line-height:1.9">
+      <b>🇮🇳 India invoices:</b> ${inv.length? inv.length+" processed · "+inComp+" compliant · "+(inv.length-inComp)+" flagged. Total GST ₹"+fINR(inTax)+" → eligible ITC ₹"+fINR(inTax-inBlocked)+" after ₹"+fINR(inBlocked)+" blocked u/s 17(5)." : "not run — process invoices in the India Invoice tab."}<br>
+      <b>🇮🇳 India GRN:</b> ${grnOut.length? inGrnMatched+" of "+grnOut.length+" lines fully matched." : "not run — upload GRN in the India GRN tab."}<br>
+      <b>🇦🇪 UAE invoices:</b> ${uinv.length? uinv.length+" processed · "+uComp+" compliant · input VAT AED "+fINR(uVat)+"." : "not run — process invoices in the UAE Invoice tab."}<br>
+      <b>🇦🇪 UAE GRN:</b> ${uGrnTotal? uGrnMatched+" of "+uGrnTotal+" invoices matched"+(rate?" · derived rate "+rate.toFixed(3)+" INR/AED.":".") : "not run — upload GRN in the UAE GRN tab."}
     </div>`;
 }
 
 /* ============== COUNTS / TABS / INIT ============== */
 function syncCounts(){
-  $("#recCount").textContent=`${S.invoices.length} inv · ${S.bank.length} bank · ${S.grn.length} grn`;
-  setBadge("#b-inv",S.invoices.length); setBadge("#b-pay",S._payOut?S._payOut.length:0); setBadge("#b-grn",S._grnOut?S._grnOut.length:0);
+  if($("#recCount")) $("#recCount").textContent=`${S.invoices.length} IN · ${(Su.rows||[]).length} AE · ${S.grn.length} grn`;
+  setBadge("#b-inv",S.invoices.length); setBadge("#b-grn",S._grnOut?S._grnOut.length:0);
   renderDashboard();
 }
-function setBadge(sel,n){ const el=$(sel); el.textContent=n; el.classList.toggle("zero",n===0); }
+function setBadge(sel,n){ const el=$(sel); if(!el) return; el.textContent=n; el.classList.toggle("zero",n===0); }
 $$("#tabs .tab").forEach(t=>t.onclick=()=>{
   $$("#tabs .tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
   $$(".panel").forEach(p=>p.classList.remove("active")); $("#tab-"+t.dataset.tab).classList.add("active");
@@ -1642,6 +2068,22 @@ async function checkEngine(){
     checkEngine();
   };
   $("#clearKeyBtn").onclick=()=>{ clearKey(); inp.value=""; inp.dataset.masked=""; checkEngine(); };
+})();
+
+/* ============== OCR.space KEY UI ============== */
+(function initOcrKeyUI(){
+  const inp=$("#ocrKeyInput"); if(!inp) return;
+  const saved=getOcrKey();
+  if(saved){ inp.value = saved.length>6 ? saved.slice(0,3)+"…"+saved.slice(-3) : saved; inp.dataset.masked="1"; }
+  inp.addEventListener("focus",()=>{ if(inp.dataset.masked){ inp.value=""; inp.dataset.masked=""; } });
+  $("#saveOcrBtn").onclick=()=>{
+    const v=inp.value.trim();
+    if(!v || inp.dataset.masked){ alert("Paste your free OCR.space API key first (get one at ocr.space/ocrapi)."); return; }
+    setOcrKey(v);
+    inp.value = v.length>6 ? v.slice(0,3)+"…"+v.slice(-3) : v; inp.dataset.masked="1";
+    alert("OCR.space key saved. Scanned invoices will now be read via OCR.space (falls back to the local engine if it fails).");
+  };
+  $("#clearOcrBtn").onclick=()=>{ clearOcrKey(); inp.value=""; inp.dataset.masked=""; };
 })();
 
 /* ============== OWN (BUYER) GSTIN UI ============== */
