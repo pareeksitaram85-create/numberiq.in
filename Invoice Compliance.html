@@ -302,6 +302,7 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
   <button class="tab" data-tab="payment"><span class="idx">02</span>Payment Reco <span class="badge zero" id="b-pay">0</span></button>
   <button class="tab" data-tab="grn"><span class="idx">03</span>GRN Reco <span class="badge zero" id="b-grn">0</span></button>
   <button class="tab" data-tab="dashboard"><span class="idx">04</span>Dashboard</button>
+  <button class="tab" data-tab="uae"><span class="idx">AE</span>UAE Invoices <span class="badge zero" id="b-uae">0</span></button>
 </nav>
 
 <main>
@@ -362,7 +363,7 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
       </div>
 
       <div class="notebox" id="engineNote" style="display:none">
-        <b>OCR engine not reachable in this view.</b> Live extraction uses the in-app Claude engine, which is available when this file is opened inside Claude.ai. If you've opened it as a standalone file in a browser, OCR is disabled — switch to <b>Import register CSV</b> mode to test reconciliation, or re-open inside Claude.
+        <b>Free OCR is built in.</b> Scanned PDFs and image invoices (JPG/PNG/WEBP) are read in your browser by a free, client-side engine (Tesseract.js) — no API key, no cost. The engine files (~5&nbsp;MB, English) download from a CDN on first use, so the first scan needs an internet connection; after that it is cached. For higher accuracy on messy handwriting you can optionally paste an Anthropic API key in the top bar, but it is not required.
       </div>
     </div>
   </div>
@@ -380,6 +381,67 @@ try{ if(window['pdfjsLib']){ var __w=document.getElementById('pdfWorkerSrc').tex
       </div>
       <div class="card-b" style="padding:0">
         <div class="tablewrap"><table id="invTable"></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE: UAE VAT ===================== -->
+<section class="panel" id="tab-uae">
+  <div class="card">
+    <div class="card-h">
+      <span class="step-tag">UAE · VAT</span>
+      <div>
+        <h2>UAE invoice intake &amp; VAT compliance</h2>
+        <div class="desc">Upload UAE tax invoices (PDF / JPG / PNG, incl. handwritten) for free OCR. Checks FTA tax-invoice requirements (Federal Decree-Law 8/2017; Cabinet Decision 52/2017, Art. 59), 15-digit TRN, and 5% VAT math.</div>
+      </div>
+    </div>
+    <div class="card-b">
+      <div class="opts" style="margin-bottom:12px">
+        <label>Your UAE entity TRN <input type="text" id="uaeOwnTrn" placeholder="104073509200003" style="width:190px"></label>
+        <span class="muted">Tags your company as the recipient (buyer) vs the supplier — like the GSTIN box on the India side.</span>
+      </div>
+      <div class="dz" id="uaeDrop">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></div>
+        <div class="big">Drop UAE invoice files here, or <span class="pick">browse</span></div>
+        <div class="small">PDF, PNG, JPG, WEBP · up to 100 files · free in-browser OCR</div>
+        <input type="file" id="uaeFile" accept=".pdf,.png,.jpg,.jpeg,.webp,image/*,application/pdf" multiple>
+      </div>
+      <div class="filelist" id="uaeFileList"></div>
+      <div class="opts">
+        <label>Parallel jobs <input type="number" id="uaeConc" value="3" min="1" max="6"></label>
+        <span class="muted">3 is balanced.</span>
+      </div>
+      <div class="progwrap" id="uaeProg">
+        <div class="progbar"><i id="uaeProgBar"></i></div>
+        <div class="progtxt" id="uaeProgTxt">Idle</div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="runUae" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>Run UAE extraction
+        </button>
+        <button class="btn" id="stopUae" disabled>Stop</button>
+        <button class="btn btn-ghost" id="clearUae">Clear all</button>
+      </div>
+      <div class="notebox" style="margin-top:14px">
+        <b>Free OCR · UAE VAT.</b> Same in-browser engine as the India sheet (no API key). The FTA does not publish a TRN check-digit formula, so TRN is validated as 15-digit format only — confirm registration on <b>tax.gov.ae → TRN Verification</b>. Simplified tax invoices (≤ AED&nbsp;10,000) need not show the recipient TRN (Art. 59(5)); full tax invoices above that must.
+      </div>
+    </div>
+  </div>
+
+  <div id="uaeResults" style="display:none">
+    <div class="kpis" id="uaeKpis"></div>
+    <div class="card">
+      <div class="card-h">
+        <h2>UAE VAT invoice register</h2>
+        <div class="right">
+          <button class="btn sm" id="dlUaeCsv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>Download CSV
+          </button>
+        </div>
+      </div>
+      <div class="card-b" style="padding:0">
+        <div class="tablewrap"><table id="uaeTable"></table></div>
       </div>
     </div>
   </div>
@@ -636,7 +698,7 @@ function parseInvoiceText(text, fileName){
   r.Buyer_GSTIN=buyG||"Missing";
 
   // ---- INVOICE NO + DATE (tie them: in Tally the inv-no sits right before the date) ----
-  const monD="(?:\\d{1,2}[-\\/ ](?:\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\\/ ]\\d{2,4})";
+  const monD="(?:\\d{1,2}[-\\/. ](?:\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\\/. ]\\d{2,4})";
   let inv="Missing", date="Missing";
   const pair=new RegExp("([A-Za-z0-9][A-Za-z0-9\\/\\-]{2,28})\\s+("+monD+")","ig");
   let pm;
@@ -649,8 +711,8 @@ function parseInvoiceText(text, fileName){
     let g; while((g=invG.exec(flat))){ const c=g[1].replace(/[.,;:]+$/,""); if(/\d/.test(c)&&!/^date|^dated/i.test(c)){ inv=c; break; } }
   }
   if(date==="Missing"){
-    const monRe=/\b(\d{1,2}[-\/ ](?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\/ ]\d{2,4})\b/i;
-    const numRe=/\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})\b/;
+    const monRe=/\b(\d{1,2}[-\/. ](?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\/. ]\d{2,4})\b/i;
+    const numRe=/\b(\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4})\b/;
     for(const ln of lines){ if(/date|dated/i.test(ln) && !/due\s*date/i.test(ln)){ const mm=ln.match(monRe)||ln.match(numRe); if(mm){ date=mm[1]; break; } } }
     if(date==="Missing"){ const mm=flat.match(monRe)||flat.match(numRe); if(mm) date=mm[1]; }
   }
@@ -662,7 +724,7 @@ function parseInvoiceText(text, fileName){
   r.CGST_Amount=amtWith(/\bCGST\b/i,/cess/i) || "0";
   r.SGST_Amount=amtWith(/\b(SGST|UTGST)\b/i,/cess/i) || "0";
   r.IGST_Amount=amtWith(/\bIGST\b/i,/cess/i) || "0";
-  r.Taxable_Amount=amtWith(/taxable\s*(value|amount)|sub\s*total|amount\s*before\s*tax/i) || "Missing";
+  r.Taxable_Amount=amtWith(/taxable\s*(value|amount)|sub\s*total|amount\s*before\s*tax|net\s*(amount|total|value)/i) || "Missing";
   let tot=amtWith(/grand\s*total|total\s*amount|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|total\s*value/i, /sub\s*total|taxable/i);
   if(!tot) tot=amtWith(/^total\b/i, /sub\s*total|taxable/i);   // Tally bare "Total" row
   r.Total_Amount=tot || "Missing";
@@ -706,6 +768,63 @@ async function offlineExtract(file){
   if(!isPdf) return null;               // images need OCR/API
   let text=""; try{ text=await extractPdfText(file); }catch(e){ return null; }
   if(!text || text.replace(/\s/g,"").length<80) return null;  // scanned / no text layer
+  return parseInvoiceText(text, file.name);
+}
+
+/* ============== FREE OCR (Tesseract.js, client-side, no API key, no cost) ==============
+   Loads the engine lazily from a CDN on first use (~5 MB, English). After the first
+   scan the browser caches it. Images are OCR'd directly; scanned PDFs are rendered to a
+   canvas with pdf.js then OCR'd. The raw text flows into the existing parseInvoiceText(). */
+const TESS_CDN = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+let __tessWorker=null, __tessLoading=null;
+function loadScriptOnce(src){
+  return new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src=src; s.async=true;
+    s.onload=()=>res();
+    s.onerror=()=>rej(new Error("Could not load OCR engine (no internet?) from "+src));
+    document.head.appendChild(s);
+  });
+}
+async function getTessWorker(){
+  if(__tessWorker) return __tessWorker;
+  if(__tessLoading) return __tessLoading;
+  __tessLoading=(async()=>{
+    if(!window.Tesseract) await loadScriptOnce(TESS_CDN);
+    const w=await Tesseract.createWorker("eng");   // tesseract.js v5 auto-loads core+lang
+    __tessWorker=w;
+    return w;
+  })();
+  try{ return await __tessLoading; } finally { __tessLoading=null; }
+}
+async function ocrRecognize(srcOrCanvas){
+  const w=await getTessWorker();
+  const {data}=await w.recognize(srcOrCanvas);
+  return (data&&data.text)||"";
+}
+/* Render each scanned-PDF page to a canvas and OCR it (max 10 pages). */
+async function ocrPdfPages(file){
+  if(!window.pdfjsLib) throw new Error("pdf engine unavailable");
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let out=""; const maxP=Math.min(pdf.numPages,10);
+  for(let p=1;p<=maxP;p++){
+    const page=await pdf.getPage(p);
+    const vp=page.getViewport({scale:2});                 // 2x for sharper OCR
+    const cv=document.createElement("canvas");
+    cv.width=Math.ceil(vp.width); cv.height=Math.ceil(vp.height);
+    await page.render({canvasContext:cv.getContext("2d"), viewport:vp}).promise;
+    out += await ocrRecognize(cv) + "\n";
+  }
+  return out;
+}
+/* Free-OCR orchestration: returns parsed row (with __quality) or null if unreadable. */
+async function ocrExtract(file){
+  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
+  let text="";
+  try{ text = isPdf ? await ocrPdfPages(file) : await ocrRecognize(file); }
+  catch(e){ console.warn("free OCR failed:", e); return null; }
+  if(!text || text.replace(/\s/g,"").length<40) return null;
   return parseInvoiceText(text, file.name);
 }
 
@@ -815,10 +934,10 @@ $("#runExtract").onclick = runExtraction;
 $("#stopExtract").onclick = ()=>{ S.abort=true; $("#stopExtract").disabled=true; $("#invProgTxt").textContent="Stopping after in-flight jobs…"; };
 
 async function runExtraction(){
-  // Offline-first: digital PDFs read for free with no key. Only scanned/image files need a key.
+  // Offline-first: digital PDFs read free via text layer; images/scans read free via Tesseract.js (no key).
   const hasImages = invQueue.some(q=>q.status!=="done" && !((q.file.type||"").includes("pdf")||/\.pdf$/i.test(q.file.name)));
   if(hasImages && !getKey()){
-    if(!confirm("Some files are images/scans that can't be read offline. Without an API key they'll be flagged for manual entry. Continue anyway?")) return;
+    if(!confirm("Scanned/image invoices will be read by the free in-browser OCR engine (Tesseract.js). The engine (~5 MB) downloads on first use, so the first scan needs internet. Continue?")) return;
   }
   S.running=true; S.abort=false;
   $("#runExtract").disabled=true; $("#stopExtract").disabled=false; $("#clearInv").disabled=true;
@@ -837,14 +956,21 @@ async function runExtraction(){
         let raw=null, src="", lastErr=null;
         // TIER 1 — offline (free), for digital PDFs with a text layer
         try{ const off=await offlineExtract(q.file); if(off){ raw=off; src=(off.__quality>=3)?"offline":"offline-low"; } }catch(e){}
-        // TIER 2 — API fallback for scanned/image or low-confidence offline result
+        // TIER 2 — free OCR (Tesseract.js, no key) for images / scanned PDFs or low-confidence offline result
+        if(!raw || (raw.__quality!==undefined && raw.__quality<3)){
+          try{
+            const oc=await ocrExtract(q.file);
+            if(oc && (!raw || (oc.__quality||0) > (raw.__quality||0))){ raw=oc; src=(oc.__quality>=3)?"ocr":"ocr-low"; }
+          }catch(e){ lastErr=e; }
+        }
+        // TIER 3 — Anthropic API fallback (optional, paid) for anything still low-confidence
         const needApi = !raw || (raw.__quality!==undefined && raw.__quality<3);
         if(needApi && getKey()){
           let ar=null;
           for(let a=0;a<2 && !ar;a++){ try{ ar=await callEngine(q.file); }catch(e){ lastErr=e; await sleep(400); } }
           if(ar){ raw=ar; src="AI"; }
         }
-        if(!raw) throw lastErr || new Error(getKey()? "extraction failed" : "Scanned/image — set an API key (top bar) or enter manually");
+        if(!raw) throw lastErr || new Error("Could not read this file (free OCR returned nothing). Check the scan is legible, ensure internet for first-time OCR load, or enter manually.");
         q.row=finalizeRow(raw,q.file.name); q.row._src=src; q.status="done";
       }catch(e){
         q.status="err";
@@ -860,8 +986,9 @@ async function runExtraction(){
   S.running=false; $("#stopExtract").disabled=true; $("#clearInv").disabled=false;
   $("#runExtract").disabled=false;
   const offN=invQueue.filter(q=>q.row&&/^offline/.test(q.row._src||"")).length;
+  const ocrN=invQueue.filter(q=>q.row&&/^ocr/.test(q.row._src||"")).length;
   const aiN=invQueue.filter(q=>q.row&&q.row._src==="AI").length;
-  const srcTxt = ` · ${offN} read offline (free), ${aiN} via AI`;
+  const srcTxt = ` · ${offN} offline (free), ${ocrN} free OCR, ${aiN} via AI`;
   $("#invProgTxt").textContent = (S.abort ? `Stopped — ${done}/${total} processed.` : `Done — ${done}/${total} invoices extracted.`) + srcTxt;
   rebuildInvoices();
 }
@@ -972,6 +1099,349 @@ function download(name, text){
 }
 $("#dlInvCsv").onclick=()=> download("invoice_extract_"+stamp()+".csv", toCSV(S.invoices,HEADERS));
 function stamp(){ const d=new Date(); return d.toISOString().slice(0,10); }
+
+/* ===================================================================== */
+/* ===================== UAE VAT MODULE (FTA) ========================== */
+/* ===================================================================== */
+const UAE_HEADERS=["File_Name","Invoice_Type","Invoice_Number","Invoice_Date","Supplier_Name","Supplier_TRN","Recipient_Name","Recipient_TRN","Currency","Taxable_Amount","VAT_Rate","VAT_Amount","Total_Amount","Supply_Classification","RCM_Applicable","VAT_Math_Pass","Compliance_Status"];
+
+/* ---- Own (recipient) TRN: your UAE entity is the BUYER on a purchase invoice ---- */
+function getOwnTrns(){
+  let v=""; try{ v=localStorage.getItem("own_trns")||""; }catch(e){}
+  const arr=(v||"104073509200003").split(/[,\s]+/).map(x=>x.replace(/\D/g,"")).filter(x=>x.length===15);
+  return arr.length?arr:["104073509200003"];
+}
+/* ---- TRN validation: 15-digit format only (FTA publishes no checksum) ---- */
+function validateTRN(t){
+  if(isMissing(t)) return {valid:false, reason:"missing"};
+  t=String(t).replace(/\s/g,"");
+  if(t.length!==15) return {valid:false, reason:"length"};
+  if(!/^\d{15}$/.test(t)) return {valid:false, reason:"format"};
+  return {valid:true, reason:"ok"};
+}
+
+/* ============== UAE OCR PROMPT (AI tier) ============== */
+const UAE_OCR_PROMPT=[
+"You are an expert UAE VAT (FTA) consultant and a precise OCR data-extraction engine.",
+"Read the attached UAE invoice (Tax Invoice / Simplified Tax Invoice / handwritten receipt). Transcribe carefully, including handwriting.",
+"Return ONLY a single minified JSON object — no markdown, no code fences — with EXACTLY these keys:",
+'"File_Name","Invoice_Type","Invoice_Number","Invoice_Date","Supplier_Name","Supplier_TRN","Recipient_Name","Recipient_TRN","Currency","Taxable_Amount","VAT_Rate","VAT_Amount","Total_Amount","Supply_Classification","RCM_Applicable".',
+"Rules:",
+"- Absent field => \"Missing\".",
+"- TRN: 15-digit Tax Registration Number (labels: TRN, Tax Reg. No, Tax Registration Number). Supplier_TRN = the issuer's TRN; Recipient_TRN = the 'Bill To'/customer TRN only if printed.",
+"- Amount fields (Taxable_Amount, VAT_Amount, Total_Amount): plain number STRING, no currency symbol, no thousands separators, two decimals (e.g. \"105.00\"). Taxable_Amount = value before VAT (Sub Total / Total Without VAT / Net Total). VAT_Amount = VAT charged. Total_Amount = total incl. VAT. If a head does not apply, \"0\". Use amounts exactly as printed.",
+"- Currency: 'AED' unless another currency is clearly shown.",
+"- VAT_Rate: '5%', '0%' (zero-rated), or '—' (exempt).",
+"- Supply_Classification: 'Standard (5%)', 'Zero-rated (0%)', or 'Exempt'.",
+"- Invoice_Type: 'Tax Invoice (Full)' if total > AED 10,000 or a recipient TRN is shown; 'Simplified Tax Invoice' if total <= AED 10,000; 'Not a Tax Invoice' if the words 'Tax Invoice' are absent or there is no VAT and no supplier TRN.",
+"- Invoice_Date: DD-MM-YYYY if determinable, else as printed.",
+"- RCM_Applicable: 'Yes' if reverse charge applies / 'recipient to account for VAT', else 'No'.",
+"Output the JSON object now."
+].join("\n");
+
+/* ============== UAE OFFLINE FIELD PARSER ============== */
+function parseUaeInvoiceText(text, fileName){
+  const T=text.replace(/\r/g,"");
+  const lines=T.split("\n").map(s=>s.trim()).filter(Boolean);
+  const flat=T.replace(/\s+/g," ");
+  const r={File_Name:fileName};
+  const MON="Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec";
+  const MONEY="(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\\.[0-9]{1,2})?|[0-9]+\\.[0-9]{1,2}|[0-9]{1,9})";
+  const isTaxInvoice=/tax\s*invoice/i.test(T);
+
+  // ---- TRN (15-digit) : own = recipient/buyer ----
+  const trnRe=/\b\d{15}\b/g; const found=[]; let m;
+  while((m=trnRe.exec(T))) found.push({t:m[0], i:m.index});
+  const uniq=[...new Map(found.map(o=>[o.t,o])).values()];
+  const OWN=getOwnTrns();
+  let supT="", recT="";
+  const ownHit=uniq.find(o=>OWN.includes(o.t));
+  if(ownHit){ recT=ownHit.t; const o=uniq.find(x=>x.t!==recT); if(o) supT=o.t; }
+  if(!supT){ const o=uniq.find(x=>x.t!==recT); if(o) supT=o.t; }
+  r.Supplier_TRN=supT||"Missing";
+  r.Recipient_TRN=recT||"Missing";
+
+  // ---- invoice number ----
+  let inv="Missing";
+  const invG=/(?:tax\s*invoice|invoice|inv|bill)\s*(?:no|number|num|#|\.)?\s*[:#\-\.]*\s*([A-Za-z0-9][A-Za-z0-9\/\-]{1,28})/ig;
+  let g; while((g=invG.exec(flat))){ const c=g[1].replace(/[.,;:]+$/,""); if(/\d/.test(c)&&!/^(date|dated|no|number)$/i.test(c)){ inv=c; break; } }
+  r.Invoice_Number=inv;
+
+  // ---- date (dot / slash / dash / "April 9, 2026") ----
+  let date="Missing";
+  const monRe=new RegExp("\\b(\\d{1,2}[-\\/. ](?:"+MON+")[a-z]*[-\\/. ]\\d{2,4})\\b","i");
+  const numRe=/\b(\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4})\b/;
+  const txtRe=new RegExp("\\b((?:"+MON+")[a-z]*\\s+\\d{1,2},?\\s+\\d{4})\\b","i");
+  for(const ln of lines){ if(/date|dated/i.test(ln) && !/due\s*date|po\s*date|delivery|valid/i.test(ln)){ const mm=ln.match(numRe)||ln.match(monRe)||ln.match(txtRe); if(mm){ date=mm[1]; break; } } }
+  if(date==="Missing"){ const mm=flat.match(numRe)||flat.match(monRe)||flat.match(txtRe); if(mm) date=mm[1]; }
+  r.Invoice_Date=date;
+
+  // ---- currency ----
+  r.Currency = (/\bAED\b|dirham|د\.إ/i.test(T)) ? "AED" : (/\bUSD\b|\$/.test(T) ? "USD" : (/\bEUR\b|€/.test(T) ? "EUR" : "AED"));
+
+  // ---- amounts (label + value on same line; take last money token) ----
+  function lastMoney(s){ const a=[...s.matchAll(new RegExp(MONEY,"g"))].map(x=>x[0]); for(let k=a.length-1;k>=0;k--){ const val=a[k].replace(/,/g,""); if(/[.,]/.test(a[k])||parseFloat(val)>=5) return val; } return a.length?a[a.length-1].replace(/,/g,""):null; }
+  function amtWith(keys, excl){ for(const ln of lines){ if(excl&&excl.test(ln))continue; if(keys.test(ln)){ const v=lastMoney(ln); if(v)return v; } } return null; }
+  r.Taxable_Amount = amtWith(/sub\s*total|taxable\s*(value|amount|amt)|total\s*without\s*vat|net\s*total|amount\s*before\s*vat/i) || "Missing";
+  r.VAT_Amount = amtWith(/\bvat\b|v\.a\.t/i, /sub\s*total|total\s*without|taxable/i);
+  if(r.VAT_Amount===null) r.VAT_Amount = (/\bvat\b/i.test(T)) ? "0" : "Missing";
+  let tot = amtWith(/total\s*with\s*vat|grand\s*total|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|^total\b/i, /sub\s*total|without\s*vat|taxable|received|balance\s*b\/f/i);
+  if(!tot) tot = amtWith(/\bbalance\b|\btotal\b/i, /sub\s*total|without\s*vat|taxable/i);
+  r.Total_Amount = tot || "Missing";
+
+  // ---- derive a missing amount when the other two are present (no derivation for zero-rated/exempt) ----
+  (function(){
+    const tx=num(r.Taxable_Amount), v=num(r.VAT_Amount), tot2=num(r.Total_Amount);
+    const zeroOrExempt = /zero[\s\-]*rated|\bexempt\b/i.test(T);
+    if(isMissing(r.Taxable_Amount) && !isNaN(tot2) && !isNaN(v)) r.Taxable_Amount=round2(tot2-v).toFixed(2);
+    else if((isMissing(r.VAT_Amount)) && !isNaN(tot2) && !isNaN(tx) && (tot2-tx)>0.01 && !zeroOrExempt) r.VAT_Amount=round2(tot2-tx).toFixed(2);
+    else if(isMissing(r.Total_Amount) && !isNaN(tx) && !isNaN(v)) r.Total_Amount=round2(tx+v).toFixed(2);
+  })();
+
+  // ---- VAT rate + supply classification ----
+  let cls="Standard (5%)", rate="5%";
+  const rm=flat.match(/vat\s*[@(]?\s*(\d{1,2}(?:\.\d+)?)\s*%/i);
+  if(/zero[\s\-]*rated/i.test(T)){ cls="Zero-rated (0%)"; rate="0%"; }
+  else if(/\bexempt\b/i.test(T)){ cls="Exempt"; rate="—"; }
+  else if(rm){ rate=rm[1]+"%"; }
+  r.VAT_Rate=rate; r.Supply_Classification=cls;
+  r.RCM_Applicable = (/reverse\s*charge/i.test(T) || /recipient\s+(?:to|shall|must)\s+account/i.test(T)) ? "Yes":"No";
+
+  // ---- supplier name (top non-header line) ----
+  let sup="Missing";
+  const skip=/^(tax\s*invoice|invoice|original|duplicate|simplified|bill\s*to|issued\s*to|customer|trn|tax\s*reg|date|phone|tel|email|address)/i;
+  for(const ln of lines.slice(0,7)){
+    if(skip.test(ln)) continue;
+    if(ln.length<4 || !/[A-Za-z]{3}/.test(ln)) continue;
+    sup=ln.replace(/\s*(TRN|tax\s*reg).*$/i,"").replace(/[\s,.:-]+$/,"").trim(); break;
+  }
+  r.Supplier_Name=sup;
+
+  // ---- recipient name (after Bill To / Customer / Issued To) ----
+  let rec="Missing";
+  const rl=lines.findIndex(l=>/bill\s*to|issued\s*to|customer\s*name|^customer\b|buyer/i.test(l));
+  if(rl>=0){
+    let same=lines[rl].replace(/.*?(bill\s*to|issued\s*to|customer\s*name|customer|buyer)\s*[:\-]?\s*/i,"").trim();
+    rec = same.length>=3 ? same : ((lines[rl+1]||"").trim()||"Missing");
+  }
+  r.Recipient_Name=rec||"Missing";
+
+  // ---- invoice type ----
+  const totN=num(r.Total_Amount);
+  let type;
+  if(!isTaxInvoice && (isMissing(r.Supplier_TRN) || r.VAT_Amount==="0" || r.VAT_Amount==="Missing")) type="Not a Tax Invoice";
+  else if(!isMissing(r.Recipient_TRN) || (!isNaN(totN) && totN>10000)) type="Tax Invoice (Full)";
+  else type="Simplified Tax Invoice";
+  r.Invoice_Type=type;
+
+  // ---- quality 0..5 ----
+  let q=0; ["Supplier_TRN","Invoice_Number","Invoice_Date","Taxable_Amount","Total_Amount"].forEach(k=>{ if(r[k]&&r[k]!=="Missing") q++; });
+  r.__quality=q;
+  return r;
+}
+
+/* ============== UAE MATH CHECK (5% VAT; total = taxable + vat) ============== */
+function uaeMathCheck(r){
+  const tx=num(r.Taxable_Amount), vat=num(r.VAT_Amount), tot=num(r.Total_Amount);
+  if(isNaN(tx)||isNaN(tot)) return {pass:null, diff:null, text:"Skipped (no amounts)"};
+  const v=isNaN(vat)?0:vat;
+  const diff=round2(tot-(tx+v));
+  const sumPass=Math.abs(diff)<=1.0;
+  let note="";
+  if(!isNaN(vat)&&vat>0 && !/Zero|Exempt/.test(r.Supply_Classification)){
+    const exp=round2(tx*0.05);
+    if(Math.abs(exp-vat)>Math.max(1.0, tx*0.005)) note=" · VAT≠5% of taxable (mixed/out-of-scope lines? review)";
+  }
+  return {pass:sumPass, diff, text: sumPass?("Pass"+note):("Fail (AED "+fINR(Math.abs(diff))+")")};
+}
+
+/* ============== UAE COMPLIANCE STATUS (Art. 59) ============== */
+function uaeComplianceStatus(r, sT, rT, mc){
+  if(r.Invoice_Type==="Not a Tax Invoice") return "Not a Tax Invoice (no input VAT)";
+  const miss=[];
+  if(isMissing(r.Invoice_Number)) miss.push("Invoice_Number");
+  if(isMissing(r.Invoice_Date)) miss.push("Invoice_Date");
+  if(!sT.valid) miss.push(sT.reason==="missing"?"Supplier_TRN":"Supplier_TRN(format)");
+  const recRequired = (r.Invoice_Type==="Tax Invoice (Full)");   // > AED 10,000 → recipient TRN mandatory
+  if(recRequired && !rT.valid) miss.push(rT.reason==="missing"?"Recipient_TRN":"Recipient_TRN(format)");
+  if(mc.pass===false) miss.push("VAT_Math");
+  return miss.length===0 ? "Compliant" : ("Non-Compliant (Missing: "+miss.join(", ")+")");
+}
+
+/* ============== BUILD A FINAL UAE ROW ============== */
+function finalizeUaeRow(raw, fileName){
+  const r={}; UAE_HEADERS.forEach(h=> r[h]= (raw && raw[h]!=null && raw[h]!=="") ? String(raw[h]) : "Missing");
+  r.File_Name = fileName || (raw&&raw.File_Name) || "Missing";
+  const sT=validateTRN(r.Supplier_TRN), rT=validateTRN(r.Recipient_TRN);
+  const mc=uaeMathCheck(r);
+  r.VAT_Math_Pass = mc.pass===null ? "Skipped" : (mc.pass?"Pass":mc.text);
+  r.Compliance_Status = uaeComplianceStatus(r, sT, rT, mc);
+  r._sT=sT; r._rT=rT; r._mc=mc;
+  return r;
+}
+
+/* ============== UAE EXTRACTION TIERS (reuse free OCR + AI) ============== */
+async function offlineExtractUae(file){
+  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
+  if(!isPdf) return null;
+  let text=""; try{ text=await extractPdfText(file); }catch(e){ return null; }
+  if(!text || text.replace(/\s/g,"").length<60) return null;
+  return parseUaeInvoiceText(text, file.name);
+}
+async function ocrExtractUae(file){
+  const isPdf=(file.type||"").includes("pdf")||/\.pdf$/i.test(file.name);
+  let text="";
+  try{ text = isPdf ? await ocrPdfPages(file) : await ocrRecognize(file); }catch(e){ return null; }
+  if(!text || text.replace(/\s/g,"").length<40) return null;
+  return parseUaeInvoiceText(text, file.name);
+}
+async function callEngineUae(file){
+  if(!getKey()) throw new Error("No API key set");
+  const b64=await readAsBase64(file); const block=blockFor(file,b64);
+  const body={ model:"claude-sonnet-4-6", max_tokens:1000, messages:[{ role:"user", content:[ block, {type:"text", text: UAE_OCR_PROMPT + "\n\nThis file's name is: " + file.name} ] }] };
+  const resp=await fetch("https://api.anthropic.com/v1/messages",{ method:"POST", headers:engineHeaders(), body:JSON.stringify(body) });
+  if(!resp.ok){ let d=""; try{ d=(await resp.json()).error?.message||""; }catch(e){} throw new Error("engine HTTP "+resp.status+(d?": "+d:"")); }
+  const data=await resp.json();
+  const text=(data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("\n");
+  const clean=text.replace(/```json/gi,"").replace(/```/g,"").trim();
+  const s=clean.indexOf("{"), e=clean.lastIndexOf("}");
+  if(s<0||e<0) throw new Error("no JSON in response");
+  return JSON.parse(clean.slice(s,e+1));
+}
+
+/* ============== UAE INTAKE + RUN ============== */
+const Su={running:false, abort:false, rows:[]};
+let uaeQueue=[];
+(function initUaeOwnTrn(){
+  const inp=$("#uaeOwnTrn"); if(!inp) return;
+  try{ inp.value = (localStorage.getItem("own_trns")||"104073509200003"); }catch(e){ inp.value="104073509200003"; }
+  inp.addEventListener("change",()=>{ try{ localStorage.setItem("own_trns", inp.value.trim()); }catch(e){} });
+})();
+const uaeDrop=$("#uaeDrop"), uaeFile=$("#uaeFile");
+uaeDrop.addEventListener("click",()=>uaeFile.click());
+["dragover","dragenter"].forEach(e=>uaeDrop.addEventListener(e,ev=>{ev.preventDefault();uaeDrop.classList.add("drag");}));
+["dragleave","drop"].forEach(e=>uaeDrop.addEventListener(e,ev=>{ev.preventDefault();uaeDrop.classList.remove("drag");}));
+uaeDrop.addEventListener("drop",ev=>addUaeFiles(ev.dataTransfer.files));
+uaeFile.addEventListener("change",ev=>addUaeFiles(ev.target.files));
+function addUaeFiles(files){
+  for(const f of files){ if(uaeQueue.length>=100){ alert("Limit is 100 invoices per batch."); break; } uaeQueue.push({file:f, status:"queued", row:null}); }
+  renderUaeFileList(); $("#runUae").disabled = uaeQueue.length===0;
+}
+function renderUaeFileList(){
+  const el=$("#uaeFileList");
+  if(uaeQueue.length===0){ el.innerHTML=""; return; }
+  el.innerHTML = uaeQueue.map((q,i)=>{
+    const kb=(q.file.size/1024).toFixed(0);
+    let st = q.status==="queued"?'<span class="fstatus queued">Queued</span>'
+      : q.status==="proc"?'<span class="fstatus proc"><span class="spin"></span>Reading</span>'
+      : q.status==="done"?'<span class="fstatus done">Extracted</span>'
+      : '<span class="fstatus err">Error</span>';
+    return `<div class="frow"><span class="fname" title="${esc(q.file.name)}">${esc(q.file.name)}</span>
+      <span class="fmeta">${kb} KB</span>${st}
+      <button class="btn btn-danger sm" data-rm="${i}" ${Su.running?"disabled":""} title="Remove">✕</button></div>`;
+  }).join("");
+  el.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{ if(Su.running)return; uaeQueue.splice(+b.dataset.rm,1); renderUaeFileList(); $("#runUae").disabled=uaeQueue.length===0; });
+}
+$("#clearUae").onclick=()=>{ if(Su.running)return; uaeQueue=[]; renderUaeFileList(); $("#runUae").disabled=true; };
+$("#runUae").onclick=runUaeExtraction;
+$("#stopUae").onclick=()=>{ Su.abort=true; $("#stopUae").disabled=true; $("#uaeProgTxt").textContent="Stopping after in-flight jobs…"; };
+
+async function runUaeExtraction(){
+  const hasImages = uaeQueue.some(q=>q.status!=="done" && !((q.file.type||"").includes("pdf")||/\.pdf$/i.test(q.file.name)));
+  if(hasImages && !getKey()){
+    if(!confirm("Scanned/image invoices will be read by the free in-browser OCR engine. The engine (~5 MB) downloads on first use, so the first scan needs internet. Continue?")) return;
+  }
+  Su.running=true; Su.abort=false;
+  $("#runUae").disabled=true; $("#stopUae").disabled=false; $("#clearUae").disabled=true;
+  $("#uaeProg").classList.add("show");
+  const conc=Math.max(1,Math.min(6, parseInt($("#uaeConc").value)||3));
+  const pending=uaeQueue.filter(q=>q.status!=="done");
+  let done=0, total=pending.length; uaeUpdateProg(0,total);
+  let idx=0;
+  async function worker(){
+    while(idx<pending.length && !Su.abort){
+      const q=pending[idx++]; q.status="proc"; renderUaeFileList();
+      try{
+        let raw=null, src="", lastErr=null;
+        try{ const off=await offlineExtractUae(q.file); if(off){ raw=off; src=(off.__quality>=3)?"offline":"offline-low"; } }catch(e){}
+        if(!raw || (raw.__quality!==undefined && raw.__quality<3)){
+          try{ const oc=await ocrExtractUae(q.file); if(oc && (!raw || (oc.__quality||0)>(raw.__quality||0))){ raw=oc; src=(oc.__quality>=3)?"ocr":"ocr-low"; } }catch(e){ lastErr=e; }
+        }
+        if((!raw || (raw.__quality!==undefined && raw.__quality<3)) && getKey()){
+          let ar=null; for(let a=0;a<2 && !ar;a++){ try{ ar=await callEngineUae(q.file); }catch(e){ lastErr=e; await sleep(400); } }
+          if(ar){ raw=ar; src="AI"; }
+        }
+        if(!raw) throw lastErr || new Error("Could not read this file (free OCR returned nothing). Check legibility / internet, or enter manually.");
+        q.row=finalizeUaeRow(raw,q.file.name); q.row._src=src; q.status="done";
+      }catch(e){
+        q.status="err"; q.row=finalizeUaeRow({File_Name:q.file.name}, q.file.name);
+        q.row.Compliance_Status="Extraction error: "+(e.message||"unknown"); q.row._src="error";
+      }
+      done++; uaeUpdateProg(done,total); renderUaeFileList(); rebuildUae();
+    }
+  }
+  await Promise.all(Array.from({length:Math.min(conc,pending.length)},worker));
+  Su.running=false; $("#stopUae").disabled=true; $("#clearUae").disabled=false; $("#runUae").disabled=false;
+  const offN=uaeQueue.filter(q=>q.row&&/^offline/.test(q.row._src||"")).length;
+  const ocrN=uaeQueue.filter(q=>q.row&&/^ocr/.test(q.row._src||"")).length;
+  const aiN=uaeQueue.filter(q=>q.row&&q.row._src==="AI").length;
+  $("#uaeProgTxt").textContent=(Su.abort?`Stopped — ${done}/${total} processed.`:`Done — ${done}/${total} invoices extracted.`)+` · ${offN} offline (free), ${ocrN} free OCR, ${aiN} via AI`;
+  rebuildUae();
+}
+function uaeUpdateProg(d,t){ const p=t?Math.round(d/t*100):0; $("#uaeProgBar").style.width=p+"%"; if(!Su.abort)$("#uaeProgTxt").textContent=`Processing ${d} / ${t} (${p}%)`; }
+function rebuildUae(){ Su.rows=uaeQueue.filter(q=>q.row).map(q=>q.row); renderUaeResults(); }
+
+/* ============== RENDER UAE RESULTS ============== */
+function renderUaeResults(){
+  const rows=Su.rows;
+  const badge=$("#b-uae"); if(badge){ badge.textContent=rows.length; badge.classList.toggle("zero", rows.length===0); }
+  if(rows.length===0){ $("#uaeResults").style.display="none"; return; }
+  $("#uaeResults").style.display="block";
+  const n=rows.length;
+  const compliant=rows.filter(r=>r.Compliance_Status==="Compliant").length;
+  const mathFail=rows.filter(r=>/^Fail/.test(r.VAT_Math_Pass)).length;
+  const notTax=rows.filter(r=>r.Invoice_Type==="Not a Tax Invoice").length;
+  const rcm=rows.filter(r=>/^yes/i.test(r.RCM_Applicable)).length;
+  let totTaxable=0, totVat=0;
+  rows.forEach(r=>{ const tx=num(r.Taxable_Amount), v=num(r.VAT_Amount); if(!isNaN(tx))totTaxable+=tx; if(!isNaN(v))totVat+=v; });
+  $("#uaeKpis").innerHTML = `
+    ${kpi("Invoices",n,"")}
+    ${kpi("Compliant",compliant+'<small>/'+n+'</small>',"pass")}
+    ${kpi("VAT math fails",mathFail,mathFail?"fail":"")}
+    ${kpi("Not tax invoice",notTax,notTax?"flag":"")}
+    ${kpi("RCM flagged",rcm,rcm?"flag":"")}
+    ${kpi("Recoverable input VAT","AED "+fINR(totVat),"tealv")}`;
+
+  const head=["#","File","Type","Inv No.","Date","Supplier","Supplier TRN","Recipient TRN","Cur","Taxable","VAT","Total","Class","RCM","VAT math","Status"];
+  let html="<thead><tr>"+head.map(h=>`<th>${h}</th>`).join("")+"</tr></thead><tbody>";
+  rows.forEach((r,i)=>{
+    const sT=r._sT||validateTRN(r.Supplier_TRN), rT=r._rT||validateTRN(r.Recipient_TRN);
+    const typeP = r.Invoice_Type==="Not a Tax Invoice"?`<span class="pill red">Not Tax Inv</span>`
+      : r.Invoice_Type==="Simplified Tax Invoice"?`<span class="pill grey">Simplified</span>`:`<span class="pill green">Full</span>`;
+    const rcmP = /^yes/i.test(r.RCM_Applicable)?'<span class="pill amber">YES</span>':'<span class="pill grey">No</span>';
+    const mathP = /^Pass/.test(r.VAT_Math_Pass)?`<span class="pill green" title="${esc(r.VAT_Math_Pass)}">PASS</span>`:(/^Skip/.test(r.VAT_Math_Pass)?'<span class="pill grey">SKIP</span>':`<span class="pill red" title="${esc(r.VAT_Math_Pass)}">FAIL</span>`);
+    const stP = r.Compliance_Status==="Compliant"?'<span class="pill green">Compliant</span>':(/^Not a Tax/.test(r.Compliance_Status)?`<span class="pill grey" title="${esc(r.Compliance_Status)}">N/A</span>`:`<span class="pill red" title="${esc(r.Compliance_Status)}">Non-Compliant</span>`);
+    const recReq = r.Invoice_Type==="Tax Invoice (Full)";
+    html+=`<tr>
+      <td class="muted">${i+1}</td>
+      <td title="${esc(r.File_Name)}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${esc(r.File_Name)}</td>
+      <td>${typeP}</td>
+      <td class="id">${cell(r.Invoice_Number)}</td>
+      <td class="id">${cell(r.Invoice_Date)}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis" title="${esc(r.Supplier_Name)}">${cell(r.Supplier_Name)}</td>
+      <td class="id ${sT.valid?'gstin-ok':'gstin-bad'}" title="${sT.valid?'15-digit format ok (verify on FTA portal)':'Invalid: '+sT.reason}">${cell(r.Supplier_TRN)}</td>
+      <td class="id ${rT.valid?'gstin-ok':(recReq?'gstin-bad':'')}" title="${rT.valid?'15-digit format ok':(recReq?'Required on full invoice':'Not required for simplified')}">${cell(r.Recipient_TRN)}</td>
+      <td class="id">${cell(r.Currency)}</td>
+      <td class="num">${amt(r.Taxable_Amount)}</td>
+      <td class="num">${amt(r.VAT_Amount)}</td>
+      <td class="num"><b>${amt(r.Total_Amount)}</b></td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis" title="${esc(r.Supply_Classification)}">${cell(r.Supply_Classification)}</td>
+      <td>${rcmP}</td><td>${mathP}</td><td>${stP}</td>
+    </tr>`;
+  });
+  html+="</tbody>"; $("#uaeTable").innerHTML=html;
+}
+$("#dlUaeCsv").onclick=()=> download("uae_vat_extract_"+stamp()+".csv", toCSV(Su.rows, UAE_HEADERS));
 
 /* ============== TEMPLATES ============== */
 $("#dlInvTemplate").onclick=e=>{e.preventDefault(); download("purchase_register_template.csv",
@@ -1141,8 +1611,8 @@ async function checkEngine(){
   if(!getKey()){
     S.engineOk=false;
     if(dot) dot.className="engine-dot off";
-    st.innerHTML='<span class="engine-dot"></span>Offline mode · digital PDFs free (no key)';
-    if(note) note.style.display="none";
+    st.innerHTML='<span class="engine-dot"></span>Free mode · PDFs + scans/images via free OCR (no key)';
+    if(note) note.style.display="block";
     $("#runExtract").disabled = invQueue.length===0;   // offline still works
     return;
   }
