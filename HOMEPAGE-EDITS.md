@@ -38,7 +38,19 @@ The homepage should show only your **6 newest/featured tools**, then a button to
 
 ---
 
-## Edit 3 — (optional) add a footer link to Privacy Policy
+## Edit 3 — add a "Glossary" link to the nav (optional but recommended)
+
+Next to the Tools/Insights links in both the desktop nav and mobile menu of `index.html`, add:
+
+```html
+<a href="glossary.html">Glossary</a>
+```
+
+The Tools, Insights and Glossary hubs already link to each other.
+
+---
+
+## Edit 4 — (optional) add a footer link to Privacy Policy
 
 Wherever your homepage footer lists links, add:
 
@@ -46,8 +58,4 @@ Wherever your homepage footer lists links, add:
 <a href="privacy-policy.html">Privacy</a>
 ```
 
-This is needed for the AdSense application (a visible privacy policy is required).
-
----
-
-That's all for the homepage. Everything else (tools.html, calculators, charts, calendar, insights, articles) is already wired to link back to `index.html`, `tools.html` and `insights.html`, so the navigation closes the loop automatically.
+This is needed for the AdSense appl

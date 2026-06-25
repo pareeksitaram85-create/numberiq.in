@@ -7,10 +7,11 @@ Everything has been copied into your `deploy/` folder (the live site folder with
 ### 1. Publish the `deploy/` folder
 Publish/sync the `deploy/` folder the way you normally do for numberiq.in (e.g. commit & push to your GitHub Pages repo, or upload via cPanel File Manager to the site root). New files added:
 - `assets/numberiq.css`
-- `tools.html`, `insights.html` (insights.html is the updated index — this replacement is intended)
+- `tools.html`, `insights.html` (updated index — replacement intended), `glossary.html`
 - 6 calculators, 6 rate charts, `due-date-calendar.html`
-- `robots.txt`, `llms.txt`, `sitemap.xml`, `privacy-policy.html`
-- `insights/` — 65 articles (GST 35, Direct Tax 20, International Tax 10)
+- `robots.txt`, `llms.txt`, `sitemap.xml` (173 URLs), `privacy-policy.html`
+- `insights/` — **100 articles** (GST 35, TDS 25, Direct Tax 20, International Tax 10, Compliance 10)
+- `glossary/` — **50 definition pages**
 
 ### 2. Apply the homepage edits
 Open `HOMEPAGE-EDITS.md` and make the three small find-and-replace changes to `index.html` (nav "Finance Tools" → "Tools" → `tools.html`, a "View all tools" button, and a Privacy footer link).
@@ -32,4 +33,4 @@ Share the tools and key articles in CA WhatsApp groups, on LinkedIn, and on CAcl
 
 ---
 
-**Still to build (next sessions):** TDS articles (25), Compliance articles (10), Glossary (50 pages), then a final QA pass + full sitemap regeneration + a `QA-REPORT.md`.
+**Build status: COMPLETE.** 100 articles, 50 glossary pages, 6 calculators, 6 rate charts, the due-dat

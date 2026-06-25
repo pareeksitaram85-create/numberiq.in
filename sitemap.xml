@@ -3,6 +3,7 @@
   <url><loc>https://numberiq.in/</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://numberiq.in/tools.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://numberiq.in/insights.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://numberiq.in/glossary.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://numberiq.in/privacy-policy.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://numberiq.in/due-date-calendar.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://numberiq.in/gst-late-fee-calculator.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -18,7 +19,7 @@
   <url><loc>https://numberiq.in/gst-late-fee-chart-fy2026-27.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://numberiq.in/advance-tax-due-dates-fy2026-27.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://numberiq.in/Invoice%20Compliance.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://numberiq.in/GST_ReCO_Studio_IMS_FIXED.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://numberiq.in/GST_ReCO_Studio_IMS_FIXED.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://numberiq.in/HSN_SAC_Finder.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://numberiq.in/numberiq-tds-chart-fy2026-27.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://numberiq.in/insights-tds-income-tax-act-2025.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
@@ -87,4 +88,89 @@
   <url><loc>https://numberiq.in/insights/fema-compliance-foreign-subsidiary.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://numberiq.in/insights/equalisation-levy-india-fy2026-27.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://numberiq.in/insights/beps-pillar-two-india-impact.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-rate-chart-fy2026-27-guide.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-194j-professional-fees.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-194c-contractor-payments.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-on-rent-194i-vs-194ib.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-on-salary-new-tax-regime.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-194h-commission.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/lower-tds-certificate-section-197.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-return-filing-24q-26q-27q.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-non-deduction-penalty-interest.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/form-26as-ais-tis-difference.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-property-purchase-194ia.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-194a-interest-bank-company.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-194o-ecommerce-operators.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tcs-sale-of-goods-206c.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-foreign-payments-section-195-dtaa.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-mismatch-26as-how-to-correct.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/new-tds-sections-income-tax-act-2025.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/advance-tax-vs-tds-difference.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-dividend-section-194.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-return-correction-online.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-on-gst-component.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tcs-lrs-foreign-remittance.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/form-15g-15h-tds-exemption.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tds-winnings-194b-fantasy-gaming.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/challan-281-tds-payment-online.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/gst-registration-process-2026.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/how-to-verify-gstin-online.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/gst-notice-types-drc01-drc01a-drc01c.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/how-to-read-income-tax-notice.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/tax-compliance-due-date-calendar-fy2026-27.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/gstr-2b-itc-reconciliation-how-to.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/ai-tools-ca-india-tax-research.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/mis-reporting-cfo-monthly-format.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/chart-of-accounts-india-best-practice.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/insights/financial-ratios-ca-client-monitoring.html</loc><lastmod>2026-06</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://numberiq.in/glossary/input-tax-credit.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/reverse-charge-mechanism.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/gstr-2b.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/place-of-supply.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/e-invoice.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/composition-scheme.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/zero-rated-supply.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/blocked-credit-17-5.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/gstr-9.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/gstr-9c.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/ims.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/hsn-code.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/sac-code.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/qrmp-scheme.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/advance-ruling.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/tds.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/tcs.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/form-26as.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/ais.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/tis.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/advance-tax.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/self-assessment-tax.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/tax-audit.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/form-3cd.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/presumptive-taxation.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/block-of-assets.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/set-off-of-losses.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/capital-gains.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/indexation.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/section-80c.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/transfer-pricing.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/arm-length-price.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/associated-enterprise.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/form-3ceb.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/dtaa.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/withholding-tax.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/permanent-establishment.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/fema.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/odi.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/fdi.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/equalisation-levy.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/beps.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/pillar-two.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/ecb.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/form-15ca-15cb.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/lower-deduction-certificate.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/scrutiny-assessment.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/faceless-assessment.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/drc-01-notice.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://numberiq.in/glossary/show-cause-notice.html</loc><lastmod>2026-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
