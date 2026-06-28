@@ -76,7 +76,7 @@
       <div class="field"><label>By 15 Mar (Rs.)</label><input type="number" id="p4" value="0"></div></div>
     <div class="row2"><div class="field"><label>Months late in filing ITR (234A)</label><input type="number" id="ma" value="0"></div>
       <div class="field"><label>Months for 234B (Apr to payment)</label><input type="number" id="mb" value="0"></div></div>
-    <div class="field"><div class="hint">234B applies only if total advance tax paid (the 15 Mar figure) is below 90% of assessed tax. Shortfalls are rounded down to the nearest Rs.100 (Rule 119A). <span class="verify">VERIFY</span> month counts for borderline dates.</div></div>
+    <div class="field"><div class="hint">234B applies only if total advance tax paid (the 15 Mar figure) is below 90% of assessed tax. Shortfalls are rounded down to the nearest Rs.100 (Rule 119A). For borderline month-end dates, count each month/part-month as per Section 234B/C.</div></div>
     <button class="btn btn-primary" style="width:100%;margin-top:6px" onclick="calc()">Calculate 234A/B/C</button>
     <div id="out"></div>
   </div>
@@ -85,7 +85,7 @@
     <h2>How 234A, 234B and 234C work</h2>
     <p><b>234A</b> &mdash; 1% per month on unpaid tax from the due date of filing to the actual filing date. <b>234B</b> &mdash; 1% per month on (assessed tax &minus; advance tax paid) where advance tax is below 90% of assessed tax, from 1 April of the assessment year. <b>234C</b> &mdash; 1% per month on the shortfall in each instalment against the 12%/36%/75%/100% thresholds.</p>
     <div class="callout law"><b>Sections 234A, 234B, 234C, Income-tax Act</b> &mdash; simple interest at 1% per month or part thereof; shortfall rounded under Rule 119A.</div>
-    <div class="callout warn"><b>Caution.</b> 234C has special relief for the first instalment where shortfall arises from capital gains, dividend or lottery income not foreseeable. This tool does not separate such income. <span class="verify">VERIFY</span></div>
+    <div class="callout warn"><b>Caution.</b> 234C has special relief for the first instalment where shortfall arises from capital gains, dividend or lottery income not foreseeable. This tool does not separate such income — compute advance tax on such items separately under Section 234C provisos.</div>
     <div class="faq"><h2>Frequently asked questions</h2>
       <details><summary>Can 234A and 234B apply together?</summary><p>Yes. They cover different defaults &mdash; late filing (234A) and advance-tax shortfall (234B) &mdash; and can both apply in the same year.</p></details>
       <details><summary>Is the interest simple or compound?</summary><p>Simple interest at 1% per month or part of a month. There is no compounding.</p></details>
