@@ -667,41 +667,41 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
       </span>
     </a>
 
-    <!-- 6. SOON: Input Utilization -->
-    <a class="tool-card reveal d2" style="--c:#22d3ee" data-tool="itcutil">
+    <!-- 6. LIVE: ITC Utilization Optimizer -->
+    <a class="tool-card live reveal d2" style="--c:#22d3ee" href="itc-utilization-calculator.html" data-tool="itcutil">
       <div class="t-top">
-        <div class="t-ic">🔁</div>
-        <span class="badge soon">Coming Soon</span>
+        <div class="t-ic">🔀</div>
+        <span class="badge live">● Live</span>
       </div>
-      <h3>Input Utilization</h3>
-      <p>Optimise ITC set-off across IGST, CGST and SGST per the Section 49 order of utilisation and project the cash payable.</p>
-      <span class="t-open">Launching soon
+      <h3>ITC Utilization Optimizer</h3>
+      <p>Section 49(5) mandatory set-off sequence — IGST/CGST/SGST ITC applied in the correct order. Shows exact cash payable.</p>
+      <span class="t-open">Open tool
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </a>
 
-    <!-- 7. SOON: GRN Report -->
-    <a class="tool-card reveal d3" style="--c:#6f9bff" data-tool="grn">
+    <!-- 7. LIVE: Capital Gains Tax -->
+    <a class="tool-card live reveal d3" style="--c:#6f9bff" href="capital-gains-tax-calculator.html" data-tool="capgains">
       <div class="t-top">
-        <div class="t-ic">📦</div>
-        <span class="badge soon">Coming Soon</span>
+        <div class="t-ic">📊</div>
+        <span class="badge live">● Live</span>
       </div>
-      <h3>GRN Report</h3>
-      <p>Match goods-receipt notes to purchase invoices, flag quantity / rate gaps and surface pending and short receipts.</p>
-      <span class="t-open">Launching soon
+      <h3>Capital Gains Tax Calculator</h3>
+      <p>LTCG/STCG on property (CII indexation, Sec 54/54EC), equity shares and mutual funds — FY 2026-27 rates.</p>
+      <span class="t-open">Open tool
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </a>
 
-    <!-- 8. SOON: PG Recon -->
-    <a class="tool-card reveal" style="--c:#ff5d73" data-tool="pgrecon">
+    <!-- 8. LIVE: LRS TCS -->
+    <a class="tool-card live reveal" style="--c:#f4b740" href="lrs-tcs-calculator.html" data-tool="lrstcs">
       <div class="t-top">
-        <div class="t-ic">💳</div>
-        <span class="badge soon">Coming Soon</span>
+        <div class="t-ic">✈️</div>
+        <span class="badge live">● Live</span>
       </div>
-      <h3>PG Reconciliation</h3>
-      <p>Reconcile payment-gateway settlements (Tabby, Tamara, cards) to sales and bank credits, netting fees and chargebacks.</p>
-      <span class="t-open">Launching soon
+      <h3>LRS / TCS Calculator</h3>
+      <p>TCS on foreign remittances under Section 206C(1G) — ₹10L threshold, Finance Act 2025 rates for education, medical, tour and general LRS.</p>
+      <span class="t-open">Open tool
         <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </span>
     </a>
@@ -1128,9 +1128,4 @@ window.addEventListener('scroll',()=>{
   });
 })();
 
-/* ============================ COUNT-UP STATS ============================ */
-(function(){
-  var els=document.querySelectorAll('[data-count]');
-  if(!els.length) return;
-  var io=new IntersectionObserver(function(entries){
-    entri
+/* ============================ COUNT-UP STATS ==================
