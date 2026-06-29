@@ -1,4 +1,4 @@
-const CACHE_NAME = 'numberiq-cache-v1';
+const CACHE_NAME = 'numberiq-cache-v2';
 const ASSETS = [
   'index.html',
   'tools.html',
@@ -25,10 +25,25 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS).catch(err => console.warn('Cache install warning:', err));
     })
+  );
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -39,3 +54,4 @@ self.addEventListener('fetch', (e) => {
     })
   );
 });
+
