@@ -1,4 +1,4 @@
-const CACHE_NAME = 'numberiq-cache-v2';
+const CACHE_NAME = 'numberiq-cache-v3';
 const ASSETS = [
   'index.html',
   'tools.html',
@@ -21,7 +21,8 @@ const ASSETS = [
   'interest-234abc-calculator.html',
   'capital-gains-tax-calculator.html',
   'depreciation-block-assets-calculator.html',
-  'msme-payment-tracker-calculator.html'
+  'msme-payment-tracker-calculator.html',
+  'due-date-calendar.html'
 ];
 
 self.addEventListener('install', (e) => {
