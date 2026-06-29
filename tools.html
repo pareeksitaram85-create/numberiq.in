@@ -242,5 +242,305 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+<!-- ============================ PREMIUM CHECKOUT MODAL ============================ -->
+<style>
+.c-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.c-modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 6, 10, 0.85);
+  backdrop-filter: blur(16px);
+}
+.c-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(135deg, rgba(20, 24, 40, 0.96), rgba(8, 10, 18, 0.98));
+  border: 1px solid var(--stroke-2);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  z-index: 1;
+  color: #fff;
+  font-family: var(--font);
+}
+.c-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.c-modal-close:hover {
+  color: #fff;
+}
+.c-modal-card h3 {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  padding-right: 20px;
+  color: #fff;
+}
+.c-subtitle {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.c-price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 14px 20px;
+  margin: 20px 0;
+}
+.c-price-lbl {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.c-price-val {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--emerald);
+}
+.c-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.c-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.c-step-content {
+  flex: 1;
+}
+.c-step-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 3px;
+  margin-bottom: 12px;
+}
+.c-qr-wrap {
+  text-align: center;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.c-qr-wrap img {
+  width: 150px;
+  height: 150px;
+  display: block;
+}
+.c-upi-id-box {
+  display: flex;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.c-upi-id-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  outline: none;
+}
+.c-upi-id-box button {
+  background: var(--panel-2);
+  border: none;
+  border-left: 1px solid var(--stroke);
+  color: #fff;
+  padding: 0 14px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.c-upi-id-box button:hover {
+  background: var(--stroke-2);
+}
+.c-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.c-input-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.c-input-group input:focus {
+  border-color: var(--blue);
+}
+.c-success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.15);
+  border: 1.5px solid var(--emerald);
+  color: var(--emerald);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+</style>
+
+<div id="checkoutModal" class="c-modal" style="display:none">
+  <div class="c-modal-bg" onclick="closeCheckoutModal()"></div>
+  <div class="c-modal-card">
+    <button class="c-modal-close" onclick="closeCheckoutModal()">×</button>
+    <h3 id="modalTitle">Product Name</h3>
+    <p class="c-subtitle">Premium Power Query Excel Workbook</p>
+    
+    <div class="c-price-box">
+      <span class="c-price-lbl">Payable Amount:</span>
+      <span id="modalPrice" class="c-price-val">₹0</span>
+    </div>
+    
+    <form action="https://formspree.io/f/placeholder" method="POST" id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+      <input type="hidden" name="product_name" id="hiddenProdName">
+      <input type="hidden" name="product_price" id="hiddenProdPrice">
+      
+      <div class="c-step">
+        <span class="c-step-num">1</span>
+        <div class="c-step-content">
+          <h4>Scan QR or Pay to UPI ID</h4>
+          <div class="c-qr-wrap">
+            <img id="modalQR" src="" alt="Scan to pay via UPI">
+          </div>
+          <div class="c-upi-id-box">
+            <input type="text" id="upiId" value="pareek.sitaram85@okaxis" readonly>
+            <button type="button" onclick="copyUPI()">Copy ID</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="c-step">
+        <span class="c-step-num">2</span>
+        <div class="c-step-content">
+          <h4>Enter Delivery Details</h4>
+          <div class="c-input-group">
+            <input type="text" name="customer_name" placeholder="Your Name" required>
+            <input type="email" name="customer_email" placeholder="Your Email Address" required>
+            <input type="text" name="transaction_id" placeholder="UPI Ref / Transaction ID (12 digits)" required pattern="[0-9]{12}" title="Please enter the 12-digit UPI transaction number">
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:20px;padding:14px 0">Submit Details &amp; Request Sheet</button>
+    </form>
+    
+    <div id="checkoutSuccess" style="display:none; text-align:center; padding:20px 0">
+      <div class="c-success-icon">✓</div>
+      <h4 style="color:#fff;font-family:var(--display);font-size:18px;font-weight:700">Request Submitted!</h4>
+      <p style="font-size:14px;color:var(--ink-soft);margin-top:10px;line-height:1.5">Thank you for your purchase! We are verifying the transaction. The Excel workbook link will be sent to your email address within 5–10 minutes.</p>
+      <button class="btn btn-ghost" onclick="closeCheckoutModal()" style="margin-top:20px;padding:10px 24px">Close Window</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openCheckoutModal(title, price) {
+  var numericPrice = price.replace(/[^\d]/g, '');
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalPrice').textContent = price;
+  
+  document.getElementById('hiddenProdName').value = title;
+  document.getElementById('hiddenProdPrice').value = price;
+  
+  var upiUri = "upi://pay?pa=pareek.sitaram85@okaxis&pn=Sitaram%20Pareek&am=" + numericPrice + "&cu=INR&tn=" + encodeURIComponent(title.substring(0, 30));
+  var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(upiUri);
+  document.getElementById('modalQR').src = qrUrl;
+  
+  document.getElementById('checkoutForm').style.display = 'block';
+  document.getElementById('checkoutSuccess').style.display = 'none';
+  document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+function closeCheckoutModal() {
+  document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function copyUPI() {
+  var input = document.getElementById('upiId');
+  input.select();
+  input.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(input.value);
+  var btn = document.querySelector('.c-upi-id-box button');
+  var oldText = btn.textContent;
+  btn.textContent = 'Copied!';
+  setTimeout(function() {
+    btn.textContent = oldText;
+  }, 2000);
+}
+
+function handleCheckoutSubmit(e) {
+  e.preventDefault();
+  var form = document.getElementById('checkoutForm');
+  
+  form.style.display = 'none';
+  document.getElementById('checkoutSuccess').style.display = 'block';
+  
+  if (form.action && !form.action.includes('placeholder')) {
+    var formData = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).catch(function(err) { console.warn('Checkout form submission failed', err); });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#premium a').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var title = el.querySelector('h3').textContent;
+      var price = el.querySelector('.tag.live').textContent;
+      openCheckoutModal(title, price);
+    });
+  });
+});
+</script>
 </body>
 </html>
