@@ -402,6 +402,17 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
 .mobile-menu.show{display:flex}
 .mobile-menu a{padding:13px 16px;border-radius:12px;font-family:var(--display);font-weight:500;color:var(--ink-soft)}
 .mobile-menu a:hover{background:var(--panel-2);color:#fff}
+
+/* ===== Suite tabs (Modules / Tools) ===== */
+.suite-tabs{display:flex;gap:10px;justify-content:center;margin:40px auto 0;flex-wrap:wrap}
+.suite-tab{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:99px;border:1px solid var(--stroke);background:var(--panel);color:var(--ink-soft);font-family:var(--display);font-weight:600;font-size:15px;cursor:pointer;transition:.25s}
+.suite-tab:hover{border-color:var(--stroke-2);color:#fff}
+.suite-tab.active{background:linear-gradient(135deg,#4f7cff,#9a6bff);color:#fff;border-color:transparent;box-shadow:0 10px 26px -10px rgba(79,124,255,.7)}
+.suite-tab .n{font-size:12px;padding:2px 9px;border-radius:99px;background:rgba(255,255,255,.18)}
+.suite-panel{display:none}
+.suite-panel.active{display:block;animation:fade .45s both}
+.tool-cat-label{font-family:var(--display);font-weight:700;font-size:1.06rem;color:#eef1f8;margin:34px 0 2px;display:flex;align-items:center;gap:10px}
+.tool-cat-label .cl{font-size:.72rem;font-weight:600;color:var(--ink-dim);background:var(--panel);border:1px solid var(--stroke);padding:2px 9px;border-radius:99px}
 </style>
 </head>
 <body>
@@ -478,15 +489,23 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   </div>
 </div>
 
-<!-- ===================== MODULES ===================== -->
+<!-- ===================== SUITE: MODULES + TOOLS (tabbed) ===================== -->
 <section id="modules" class="wrap">
-  <div class="center" style="max-width:680px;margin:0 auto">
+  <div class="center" style="max-width:700px;margin:0 auto">
     <span class="eyebrow reveal"><span class="dot"></span>The Suite</span>
     <h2 class="section-title reveal d1">Every function, <span class="grad-text">one console</span></h2>
-    <p class="section-sub reveal d2">Nine secure modules across MIS, GST, direct &amp; international tax and compliance. One is live today — UAE MIS &amp; Analytics — the rest are mapped and on the roadmap. Below the suite sits a growing set of <b style="color:#fff">Finance Tools</b> you can open instantly, no login required.</p>
+    <p class="section-sub reveal d2">Nine secure <b style="color:#fff">Modules</b> across MIS, GST, direct &amp; international tax and compliance — plus <b style="color:#fff">14 free Finance Tools</b> you can open instantly, no login. Switch between them below.</p>
   </div>
 
-  <div class="modules-grid">
+  <a id="tools"></a>
+  <div class="suite-tabs reveal d2" role="tablist">
+    <button class="suite-tab active" data-tab="modules" role="tab" aria-selected="true">🗂️ Modules <span class="n">9</span></button>
+    <button class="suite-tab" data-tab="tools" role="tab" aria-selected="false">🧰 Finance Tools <span class="n">14</span></button>
+  </div>
+
+  <!-- MODULES PANEL -->
+  <div class="suite-panel active" id="panel-modules">
+    <div class="modules-grid">
 
     <!-- 1. UAE MIS (LIVE) -->
     <div class="mod-card is-live reveal" style="--c:#34d399" data-open="uae">
@@ -588,148 +607,139 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
     </div>
 
   </div>
-</section>
-
-<!-- ===================== FINANCE TOOLS ===================== -->
-<section id="tools" class="wrap">
-  <div class="center" style="max-width:720px;margin:0 auto">
-    <span class="eyebrow reveal"><span class="dot" style="background:var(--cyan);box-shadow:0 0 12px var(--cyan)"></span>Open access · No login</span>
-    <h2 class="section-title reveal d1">Finance <span class="grad-text">Tools</span></h2>
-    <p class="section-sub reveal d2">Practical, single-purpose utilities for GST, tax and compliance — each opens in its own page, instantly, with nothing to sign in to. Fourteen are live now; more land every few weeks.</p>
   </div>
 
+  <!-- TOOLS PANEL -->
+  <div class="suite-panel" id="panel-tools">
+  <div class="tool-cat-label reveal">🧾 GST <span class="cl">6 live</span></div>
   <div class="tools-grid">
-
-    <!-- 1. LIVE: Invoice Verification -->
-    <a class="tool-card live reveal" style="--c:#34d399" href="Invoice Compliance.html" data-tool="invoice">
-      <div class="t-top">
-        <div class="t-ic">🧾</div>
-        <span class="badge live">● Live</span>
-      </div>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="Invoice%20Compliance.html">
+      <div class="t-top"><div class="t-ic">🧾</div><span class="badge live">● Live</span></div>
       <h3>Invoice Verification</h3>
-      <p>Validate sales &amp; purchase invoices for GST field-level compliance — GSTIN, HSN, rate, place of supply and e-invoice readiness.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+      <p>Validate sales & purchase invoices for GST field-level compliance — GSTIN, HSN, rate, place of supply, e-invoice.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 2. LIVE: GST Input Reconciliation -->
-    <a class="tool-card live reveal d1" style="--c:#38e1d6" href="GST_ReCO_Studio_IMS_FIXED.html" data-tool="gstreco">
-      <div class="t-top">
-        <div class="t-ic">⚙️</div>
-        <span class="badge live">● Live</span>
-      </div>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="GST_ReCO_Studio_IMS_FIXED.html">
+      <div class="t-top"><div class="t-ic">🔁</div><span class="badge live">● Live</span></div>
       <h3>GST Input Reconciliation</h3>
-      <p>Reconcile GSTR-2B ITC vs books with ageing, match GSTR-1 vs 3B, and auto-flag mismatches into notice-ready working papers.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+      <p>Reconcile GSTR-2B ITC vs books, match 1 vs 3B and auto-flag mismatches into notice-ready papers.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 3. SOON: HSN Finder -->
-    <a class="tool-card live reveal d2" style="--c:#4f7cff" href="HSN_SAC_Finder.html" data-tool="hsn">
-      <div class="t-top">
-        <div class="t-ic">🔎</div>
-        <span class="badge live">● Live</span>
-      </div>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="HSN_SAC_Finder.html">
+      <div class="t-top"><div class="t-ic">🔎</div><span class="badge live">● Live</span></div>
       <h3>HSN / SAC Finder</h3>
-      <p>Search 8-digit HSN / SAC by product or description — GST 2.0 rate, notification reference, threshold &amp; ITC conditions, plus a quick GST calculator.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+      <p>Search 8-digit HSN / SAC by product — GST rate, notification reference, threshold & ITC conditions.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 4. LIVE: TDS Rate Finder -->
-    <a class="tool-card live reveal" style="--c:#f4b740" href="numberiq-tds-chart-fy2026-27.html" data-tool="tdsrate">
-      <div class="t-top">
-        <div class="t-ic">📑</div>
-        <span class="badge live">● Live</span>
-      </div>
-      <h3>TDS Rate Finder</h3>
-      <p>Every TDS/TCS section re-mapped to the new Income-tax Act, 2025 — old vs new section (393/392/394), rate, threshold, new forms and plain-English examples for FY 2026-27.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="gst-late-fee-calculator.html">
+      <div class="t-top"><div class="t-ic">🧮</div><span class="badge live">● Live</span></div>
+      <h3>GST Late Fee Calculator</h3>
+      <p>Section 47 late fee for delayed GSTR-1 / 3B with the correct daily caps.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 5. LIVE: Advance Tax -->
-    <a class="tool-card live reveal d1" style="--c:#9a6bff" href="advance-tax-calculator.html" data-tool="advtax">
-      <div class="t-top">
-        <div class="t-ic">🧮</div>
-        <span class="badge live">● Live</span>
-      </div>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="gst-interest-calculator.html">
+      <div class="t-top"><div class="t-ic">⏱️</div><span class="badge live">● Live</span></div>
+      <h3>GST Interest Calculator</h3>
+      <p>Section 50 interest on delayed GST payment and wrongly availed ITC.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="tool-card live reveal" style="--c:#38e1d6" href="itc-utilization-calculator.html">
+      <div class="t-top"><div class="t-ic">🔀</div><span class="badge live">● Live</span></div>
+      <h3>ITC Utilization Optimizer</h3>
+      <p>Section 49(5) IGST/CGST/SGST set-off order — shows cash payable after ITC.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+  <div class="tool-cat-label reveal">📑 TDS / TCS <span class="cl">3 live</span></div>
+  <div class="tools-grid">
+    <a class="tool-card live reveal" style="--c:#f4b740" href="numberiq-tds-chart-fy2026-27.html">
+      <div class="t-top"><div class="t-ic">📋</div><span class="badge live">● Live</span></div>
+      <h3>TDS Rate Finder FY 2026-27</h3>
+      <p>Every TDS section re-mapped to the Income-tax Act 2025 — rate, threshold, new forms, examples.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="tool-card live reveal" style="--c:#f4b740" href="tds-interest-calculator.html">
+      <div class="t-top"><div class="t-ic">⏱️</div><span class="badge live">● Live</span></div>
+      <h3>TDS Interest Calculator</h3>
+      <p>Section 201(1A) interest for late deduction (1%) and late deposit (1.5%).</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="tool-card live reveal" style="--c:#f4b740" href="lrs-tcs-calculator.html">
+      <div class="t-top"><div class="t-ic">✈️</div><span class="badge live">● Live</span></div>
+      <h3>LRS / TCS Calculator</h3>
+      <p>TCS on foreign remittances u/s 206C(1G) — ₹10L threshold, Finance Act 2025 rates.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+  <div class="tool-cat-label reveal">🏛️ Income Tax <span class="cl">4 live</span></div>
+  <div class="tools-grid">
+    <a class="tool-card live reveal" style="--c:#4f7cff" href="advance-tax-calculator.html">
+      <div class="t-top"><div class="t-ic">📅</div><span class="badge live">● Live</span></div>
       <h3>Advance Tax Calculator</h3>
-      <p>Compute quarterly advance-tax instalments with 234B / 234C interest and old vs new regime comparison.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+      <p>Quarterly advance-tax instalments (15/45/75/100%) with 234B/234C for FY 2026-27.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 6. LIVE: Input Utilization -->
-    <a class="tool-card live reveal d2" style="--c:#22d3ee" href="itc-utilization-calculator.html" data-tool="itcutil">
-      <div class="t-top">
-        <div class="t-ic">🔁</div>
-        <span class="badge live">● Live</span>
-      </div>
-      <h3>Input Utilization</h3>
-      <p>Optimise ITC set-off across IGST, CGST and SGST per the Section 49 order of utilisation and project the cash payable.</p>
-      <span class="t-open">Open tool
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+    <a class="tool-card live reveal" style="--c:#4f7cff" href="income-tax-calculator-fy2026-27.html">
+      <div class="t-top"><div class="t-ic">🧮</div><span class="badge live">● Live</span></div>
+      <h3>Income Tax Calculator FY 2026-27</h3>
+      <p>Old vs new regime computation with Section 87A rebate and cess.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 7. SOON: GRN Report -->
-    <a class="tool-card reveal d3" style="--c:#6f9bff" data-tool="grn">
-      <div class="t-top">
-        <div class="t-ic">📦</div>
-        <span class="badge soon">Coming Soon</span>
-      </div>
-      <h3>GRN Report</h3>
-      <p>Match goods-receipt notes to purchase invoices, flag quantity / rate gaps and surface pending and short receipts.</p>
-      <span class="t-open">Launching soon
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
+    <a class="tool-card live reveal" style="--c:#4f7cff" href="interest-234abc-calculator.html">
+      <div class="t-top"><div class="t-ic">⚖️</div><span class="badge live">● Live</span></div>
+      <h3>234A/B/C Interest Calculator</h3>
+      <p>Interest for default in advance tax and late filing of ITR.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-
-    <!-- 8. SOON: PG Recon -->
-    <a class="tool-card reveal" style="--c:#ff5d73" data-tool="pgrecon">
-      <div class="t-top">
-        <div class="t-ic">💳</div>
-        <span class="badge soon">Coming Soon</span>
-      </div>
-      <h3>PG Reconciliation</h3>
-      <p>Reconcile payment-gateway settlements (Tabby, Tamara, cards) to sales and bank credits, netting fees and chargebacks.</p>
-      <span class="t-open">Launching soon
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </a>
-
-    <!-- 9. SOON: Others -->
-    <a class="tool-card reveal d1" style="--c:#c084fc" data-tool="toolothers">
-      <div class="t-top">
-        <div class="t-ic">🧩</div>
-        <span class="badge soon">Coming Soon</span>
-      </div>
-      <h3>Others</h3>
-      <p>More utilities on the way — Due-Date Tracker, Form 26AS / AIS analyser, Rule 42/43 ITC reversal and a presumptive-tax calculator.</p>
-      <span class="t-open">Launching soon
-        <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </a>
-
-  </div>
-
-  <div style="text-align:center;margin-top:32px" class="reveal d1">
-    <a href="tools.html" class="btn btn-primary">View all 14 tools
-      <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <a class="tool-card live reveal" style="--c:#4f7cff" href="capital-gains-tax-calculator.html">
+      <div class="t-top"><div class="t-ic">📊</div><span class="badge live">● Live</span></div>
+      <h3>Capital Gains Tax Calculator</h3>
+      <p>LTCG/STCG on property (CII, Sec 54/54EC), equity (112A) & mutual funds.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
   </div>
-
-  <div class="tools-note reveal d1">
-    <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8v4M12 16h.01"/></svg>
-    Tools are open utilities — no sign-in, no data leaves your browser. The nine modules above stay behind secure login.
+  <div class="tool-cat-label reveal">📉 Calculators <span class="cl">1 live</span></div>
+  <div class="tools-grid">
+    <a class="tool-card live reveal" style="--c:#9a6bff" href="depreciation-block-assets-calculator.html">
+      <div class="t-top"><div class="t-ic">📉</div><span class="badge live">● Live</span></div>
+      <h3>Depreciation (Block of Assets)</h3>
+      <p>Section 32 block-wise WDV depreciation with half-year rule, additional depreciation & STCG u/s 50.</p>
+      <span class="t-open">Open tool <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+  <div class="tool-cat-label reveal">🗓️ Coming soon</div>
+  <div class="tools-grid">
+    <div class="tool-card soon reveal" style="--c:#34d399">
+      <div class="t-top"><div class="t-ic">🗓️</div><span class="badge soon">Coming Soon</span></div>
+      <h3>Due-Date Tracker</h3>
+      <p>Personalised GST / TDS / income-tax compliance reminders. In build.</p>
+      <span class="t-open" style="opacity:.6">In build</span>
+    </div>
+  </div>
+    <div style="text-align:center;margin-top:34px">
+      <a href="tools.html" class="btn btn-primary">Open full tools page <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="tools-note reveal" style="margin-top:26px">
+      <svg viewBox="0 0 24 24" width="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8v4M12 16h.01"/></svg>
+      Tools are open utilities — no sign-in, no data leaves your browser. The nine modules stay behind secure login.
+    </div>
   </div>
 </section>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.suite-tab');
+  var panels={modules:document.getElementById('panel-modules'),tools:document.getElementById('panel-tools')};
+  function activate(name){
+    tabs.forEach(function(t){var on=t.dataset.tab===name;t.classList.toggle('active',on);t.setAttribute('aria-selected',on);});
+    Object.keys(panels).forEach(function(k){if(panels[k])panels[k].classList.toggle('active',k===name);});
+    var ap=panels[name]; if(ap){ap.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});}
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){activate(t.dataset.tab);});});
+  function fromHash(){if(location.hash==='#tools')activate('tools');else if(location.hash==='#modules')activate('modules');}
+  window.addEventListener('hashchange',fromHash); fromHash();
+})();
+</script>
 
 <!-- ===================== ROADMAP (pricing-style) ===================== -->
 <section id="roadmap" class="wrap">
