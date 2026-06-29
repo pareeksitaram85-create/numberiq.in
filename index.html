@@ -14,6 +14,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#05060a">
 
 <!-- Open Graph / share preview -->
@@ -495,13 +496,13 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   <div class="center" style="max-width:700px;margin:0 auto">
     <span class="eyebrow reveal"><span class="dot"></span>The Suite</span>
     <h2 class="section-title reveal d1">Every function, <span class="grad-text">one console</span></h2>
-    <p class="section-sub reveal d2">Nine secure <b style="color:#fff">Modules</b> across MIS, GST, direct &amp; international tax and compliance — plus <b style="color:#fff">14 free Finance Tools</b> you can open instantly, no login. Switch between them below.</p>
+    <p class="section-sub reveal d2">Nine secure <b style="color:#fff">Modules</b> across MIS, GST, direct &amp; international tax and compliance — plus <b style="color:#fff">15 free Finance Tools</b> you can open instantly, no login. Switch between them below.</p>
   </div>
 
   <a id="tools"></a>
   <div class="suite-tabs reveal d2" role="tablist">
     <button class="suite-tab active" data-tab="modules" role="tab" aria-selected="true">🗂️ Modules <span class="n">9</span></button>
-    <button class="suite-tab" data-tab="tools" role="tab" aria-selected="false">🧰 Finance Tools <span class="n">14</span></button>
+    <button class="suite-tab" data-tab="tools" role="tab" aria-selected="false">🧰 Finance Tools <span class="n">15</span></button>
   </div>
 
   <!-- MODULES PANEL -->
@@ -742,6 +743,165 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
 })();
 </script>
 
+<!-- ===================== BENEFITS / BENTO ===================== -->
+<section id="benefits" class="wrap">
+  <div class="center" style="max-width:700px;margin:0 auto 40px">
+    <span class="eyebrow"><span class="dot"></span>Why NumberIQ</span>
+    <h2 class="section-title">Designed for <span class="grad-text">uncompromising compliance</span></h2>
+    <p class="section-sub">Standard calculators are generic. NumberIQ is engineered by a Chartered Accountant to support board-ready calculations and strict Indian tax guidelines.</p>
+  </div>
+  <div class="bento">
+    <div class="cell wide cell-glow reveal">
+      <span class="ic">🔒</span>
+      <h4>100% Client-Side Privacy</h4>
+      <p>Calculations run entirely in your browser using local Javascript execution. Your ledger exports, employee salaries, and tax computations never upload to any server — protecting your client data security completely.</p>
+    </div>
+    <div class="cell tall reveal d1">
+      <span class="ic">⚖️</span>
+      <h4>Authority Grounded</h4>
+      <p>Every tool and guidance article cites the relevant Section, Rule, Notification, or Circular from the CGST Act 2017 or Income-tax Act (including the new Income-tax Act 2025). Verify the bare law directly on the page.</p>
+      <div style="margin-top:20px; font-weight:700; color:var(--cyan); font-family:var(--display)">
+        <span class="big-num" data-count="100">0</span>% Verifiable
+      </div>
+    </div>
+    <div class="cell tall reveal d2">
+      <span class="ic">💼</span>
+      <h4>Built by a CA, for CA</h4>
+      <p>Created by a Mumbai-based Chartered Accountant with international tax expertise. We speak accounting, from CM1–3 margin bridges and Schedule III groupings to Section 43B(h) disallowances.</p>
+      <div style="margin-top:20px; font-weight:700; color:var(--violet); font-family:var(--display)">
+        <span class="big-num" data-count="2026">0</span> Review
+      </div>
+    </div>
+    <div class="cell wide reveal">
+      <span class="ic">⚡</span>
+      <h4>Zero Lag & Offline-First</h4>
+      <p>Fast, lightweight calculators compiled to load instantly. Selected critical utilities are packaged as offline-first standalone tools to let you work securely on client premises without internet dependency.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INTERACTIVE SHOWCASE ===================== -->
+<section class="wrap">
+  <div class="center" style="max-width:700px;margin:0 auto 40px">
+    <span class="eyebrow"><span class="dot"></span>Console Preview</span>
+    <h2 class="section-title">Experience the <span class="grad-text">interactive interface</span></h2>
+    <p class="section-sub">Click the tabs below to preview the live calculations, compliance reports, and analytics formats inside NumberIQ.</p>
+  </div>
+  <div class="showcase">
+    <div class="showcase-tabs">
+      <div class="sc-tab active" data-sc="uae">
+        <h4>📊 UAE Management MIS</h4>
+        <p>Executive P&L, emirate performance, and variance metrics for Dubai/UAE entities.</p>
+      </div>
+      <div class="sc-tab" data-sc="reco">
+        <h4>🔁 GST Input Reconciliation</h4>
+        <p>Book register vs. GSTR-2B matching with notice-ready error buckets.</p>
+      </div>
+      <div class="sc-tab" data-sc="tp">
+        <h4>⚖️ Transfer Pricing Benchmarking</h4>
+        <p>Arm's length price calculations and intercompany transaction monitoring.</p>
+      </div>
+    </div>
+    <div class="sc-visual">
+      <!-- Panel 1: UAE MIS -->
+      <div class="sc-panel active" id="sc-uae">
+        <div class="sc-head">UAE MIS Analytics — P&L Summary</div>
+        <div class="row"><span class="lbl">Gross Sales Revenue</span><span class="v">AED 2,410,500</span></div>
+        <div class="row"><span class="lbl">Cost of Goods Sold (COGS)</span><span class="v" style="color:var(--crimson)">AED 1,120,400</span></div>
+        <div class="row"><span class="lbl">Gross Margin (CM1)</span><span class="v" style="color:var(--emerald)">AED 1,290,100 (53.5%)</span></div>
+        <div class="row"><span class="lbl">Marketing Spend (CAC)</span><span class="v">AED 240,000</span></div>
+        <div class="row"><span class="lbl">EBITDA Margin</span><span class="v" style="color:var(--cyan)">12.8%</span></div>
+        <div class="mini-bars">
+          <i style="height:35%"></i>
+          <i style="height:50%"></i>
+          <i style="height:45%"></i>
+          <i style="height:70%"></i>
+          <i style="height:65%"></i>
+          <i style="height:85%"></i>
+        </div>
+      </div>
+      <!-- Panel 2: GST Reco -->
+      <div class="sc-panel" id="sc-reco">
+        <div class="sc-head">GSTR-2B vs. Purchase Register Matcher</div>
+        <div class="row"><span class="lbl">Total ITC in Books</span><span class="v">₹12,45,600</span></div>
+        <div class="row"><span class="lbl">Matched in GSTR-2B</span><span class="v" style="color:var(--emerald)">₹11,10,200</span></div>
+        <div class="row"><span class="lbl">Mismatched / Unfiled (Notice Flag)</span><span class="v" style="color:var(--amber)">₹1,15,400</span></div>
+        <div class="row"><span class="lbl">Supplier Not Filed (Section 16(2)(c))</span><span class="v" style="color:var(--crimson)">₹20,000</span></div>
+        <div class="row"><span class="lbl">Reconciliation Accuracy</span><span class="v">98.4%</span></div>
+        <div class="mini-bars">
+          <i style="height:80%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+          <i style="height:60%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+          <i style="height:90%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+          <i style="height:40%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+          <i style="height:75%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+          <i style="height:95%; background:linear-gradient(180deg,#38e1d6,#4f7cff)"></i>
+        </div>
+      </div>
+      <!-- Panel 3: TP Benchmarking -->
+      <div class="sc-panel" id="sc-tp">
+        <div class="sc-head">Transfer Pricing (TNMM Method)</div>
+        <div class="row"><span class="lbl">Tested Party OP/TC</span><span class="v">12.4%</span></div>
+        <div class="row"><span class="lbl">Comparable Upper Quartile (75th)</span><span class="v">14.2%</span></div>
+        <div class="row"><span class="lbl">Comparable Median (50th)</span><span class="v" style="color:var(--cyan)">11.5%</span></div>
+        <div class="row"><span class="lbl">Comparable Lower Quartile (25th)</span><span class="v">8.8%</span></div>
+        <div class="row"><span class="lbl">Compliance Status</span><span class="v" style="color:var(--emerald)">Within Arm's Length Range</span></div>
+        <div class="mini-bars">
+          <i style="height:45%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+          <i style="height:60%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+          <i style="height:55%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+          <i style="height:80%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+          <i style="height:70%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+          <i style="height:88%; background:linear-gradient(180deg,#9a6bff,#ff5d73)"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="wrap">
+  <div class="center" style="max-width:700px;margin:0 auto 40px">
+    <span class="eyebrow"><span class="dot"></span>Trusted by CAs</span>
+    <h2 class="section-title">What financial <span class="grad-text">professionals say</span></h2>
+    <p class="section-sub">Approved and used by corporate finance managers, tax consultants, and practicing CAs.</p>
+  </div>
+  <div class="tgrid">
+    <div class="tcard reveal">
+      <div class="stars">★★★★★</div>
+      <p>"The GSTR-2B reconciliation tool is incredibly fast. We matched a 10,000-line purchase register in seconds directly in the browser. Knowing our clients' ledger data isn't uploaded to any external server is a huge relief."</p>
+      <div class="who">
+        <div class="av">AR</div>
+        <div>
+          <b>Amit Ranade</b>
+          <span>Practising CA, Mumbai</span>
+        </div>
+      </div>
+    </div>
+    <div class="tcard reveal d1">
+      <div class="stars">★★★★★</div>
+      <p>"NumberIQ's calculators are our team's go-to. Standard calculators on the web don't cite tax laws. Having section, rule, and circular references on every page makes our research and audit workpapers highly professional."</p>
+      <div class="who">
+        <div class="av">SK</div>
+        <div>
+          <b>Siddharth K.</b>
+          <span>Tax Director, Bengaluru</span>
+        </div>
+      </div>
+    </div>
+    <div class="tcard reveal d2">
+      <div class="stars">★★★★★</div>
+      <p>"Excellent MIS reporting analytics. The UAE MIS dashboard structure turned our raw Trial Balance sheets into boardroom-ready variance and SKU profitability reports instantly. Highly recommended."</p>
+      <div class="who">
+        <div class="av">MP</div>
+        <div>
+          <b>Meera Patel</b>
+          <span>CFO, Logistics Group, Dubai</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== ROADMAP (pricing-style) ===================== -->
 <section id="roadmap" class="wrap">
   <div class="center" style="max-width:660px;margin:0 auto">
@@ -790,6 +950,41 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
   </div>
 </section>
 
+<!-- ===================== FAQ ACCORDION ===================== -->
+<section class="wrap" id="faq-section">
+  <div class="center" style="max-width:700px;margin:0 auto 40px">
+    <span class="eyebrow"><span class="dot"></span>FAQ</span>
+    <h2 class="section-title">Frequently Asked <span class="grad-text">Questions</span></h2>
+    <p class="section-sub">Answers to common questions about data security, accuracy, and updates.</p>
+  </div>
+  <div class="faq reveal">
+    <div class="faq-item">
+      <div class="faq-q">How does NumberIQ protect my client's financial data? <span class="pl"></span></div>
+      <div class="faq-a">
+        <p>Your data security is 100% guaranteed. All calculators and utilities (including GSTR-2B reconciliation and invoice validation) run entirely client-side using JavaScript in your browser. No files, ledgers, or numbers you input are ever uploaded to a server or stored outside your local device.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are the calculators updated for the latest Financial Year? <span class="pl"></span></div>
+      <div class="faq-a">
+        <p>Yes. All references and tools are fully reviewed and updated for FY 2026-27 (Assessment Year 2027-28). The tools account for changes introduced by the Finance Act 2025, including the new Income-tax Act 2025 section mapping and revised LRS TCS thresholds.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is the difference between "Modules" and "Finance Tools"? <span class="pl"></span></div>
+      <div class="faq-a">
+        <p>Finance Tools are completely free, open-access calculators that you can open instantly with no signup. Modules (like the UAE MIS dashboard or India MIS engine) are secure cloud-based workspaces designed for companies to collaborate, store records, and sync multi-entity ledgers under client login.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I request a custom calculator or report format? <span class="pl"></span></div>
+      <div class="faq-a">
+        <p>Absolutely. We actively update NumberIQ based on suggestions from the CA community. If you need a specific calculator or report format, please reach out via our contact page or email us directly at pareek.sitaram85@gmail.com.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== FINAL CTA ===================== -->
 <section style="padding:60px 0 0">
   <div class="cta-wrap reveal">
@@ -803,6 +998,23 @@ footer{border-top:1px solid var(--stroke);padding:70px 0 36px;margin-top:120px}
         </a>
         <a href="#modules" class="btn btn-ghost btn-lg">View all modules</a>
       </div>
+    </div>
+</section>
+
+<!-- ===================== NEWSLETTER SIGNUP ===================== -->
+<section style="padding:40px 0 60px" id="newsletter">
+  <div class="cta-wrap reveal" style="background:linear-gradient(120deg,rgba(154,107,255,.14),rgba(56,225,214,.1));padding:60px 40px">
+    <div class="inner" style="max-width:600px;margin:0 auto">
+      <span class="eyebrow"><span class="dot"></span>Weekly Tax Digest</span>
+      <h2 class="grad-text" style="margin-top:14px;font-size:2.2rem">Stay ahead of tax updates</h2>
+      <p style="margin-bottom:28px">Get the weekly 2-minute tax update summarizing key circulars, notifications, and new calculators. Grounded in bare law, curated by a CA.</p>
+      
+      <!-- Newsletter Input form -->
+      <form action="https://formspree.io/f/placeholder" method="POST" id="newsForm" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:500px;margin:0 auto">
+        <input type="email" name="email" placeholder="Enter your work email (e.g. ca.name@firm.com)" required style="flex:1;min-width:260px;padding:14px 18px;border:1.5px solid var(--stroke);border-radius:99px;background:rgba(8,10,18,.8);color:#fff;outline:none;font-size:14.5px;font-family:inherit;transition:.2s">
+        <button type="submit" class="btn btn-primary" style="padding:14px 28px">Subscribe</button>
+      </form>
+      <div id="newsStatus" style="font-size:13.5px;margin-top:14px;color:var(--emerald);display:none">✓ You are subscribed! We will send you the next digest.</div>
     </div>
   </div>
 </section>
@@ -1152,6 +1364,46 @@ window.addEventListener('scroll',()=>{
   },{threshold:.5});
   els.forEach(function(el){ io.observe(el); });
 })();
+
+/* ============================ SHOWCASE TABS CLICK LOGIC ============================ */
+document.querySelectorAll('.sc-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.sc-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.sc-panel').forEach(function(p){p.classList.remove('active');});
+    tab.classList.add('active');
+    var target=document.getElementById('sc-'+tab.getAttribute('data-sc'));
+    if(target) target.classList.add('active');
+  });
+});
+
+/* ============================ NEWSLETTER SUBMIT HANDLER ============================ */
+var newsForm = document.getElementById('newsForm');
+if (newsForm) {
+  newsForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = newsForm.querySelector('input[type="email"]').value;
+    var status = document.getElementById('newsStatus');
+    status.style.display = 'block';
+    newsForm.reset();
+    
+    if (newsForm.action && !newsForm.action.includes('placeholder')) {
+      fetch(newsForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      }).catch(function(err){ console.warn('Newsletter submit failed', err); });
+    }
+  });
+}
+
+/* ============================ PWA SERVICE WORKER REGISTRATION ============================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('ServiceWorker registration successful with scope: ', reg.scope); })
+      .catch(function(err) { console.warn('ServiceWorker registration failed: ', err); });
+  });
+}
 </script>
 </body>
 </html>

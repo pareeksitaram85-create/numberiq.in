@@ -22,6 +22,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#05060a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +100,28 @@
   <div id="liveEmpty"></div>
 </section>
 
+<!-- PREMIUM TEMPLATES -->
+<section class="wrap" id="premium">
+  <div class="section-head">
+    <h2>Premium Audit Workpapers (Excel)</h2>
+    <p>Power Query-enabled spreadsheets engineered to automate audit verification, MSME reporting, and reconciliation. Saves hours of manual matching.</p>
+  </div>
+  <div class="tool-grid">
+    <a class="tool-card live" style="--c:#f4b740; border-color:rgba(244,183,64,.35)" href="https://cosmofeed.com/vp/placeholder" target="_blank" rel="noopener">
+      <div class="t-top"><div class="t-ic">📊</div><span class="tag live" style="color:#ffd98a; background:rgba(244,183,64,.13); border-color:rgba(244,183,64,.35)">₹499</span></div>
+      <h3>MSME Payment Tracker (Sec 43B(h))</h3>
+      <p>Automate compliance for Section 43B(h). Tracks micro/small vendor invoices, flags payments outstanding past 15/45 days, and computes disallowed interest expenses.</p>
+      <div class="tool-foot"><span></span><span class="tool-open" style="color:#ffd98a">Buy & Download <svg viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="tool-card live" style="--c:#4f7cff; border-color:rgba(79,124,255,.35)" href="https://cosmofeed.com/vp/placeholder" target="_blank" rel="noopener">
+      <div class="t-top"><div class="t-ic">🔁</div><span class="tag live" style="color:#9ec2ff; background:rgba(79,124,255,.16); border-color:rgba(79,124,255,.34)">₹799</span></div>
+      <h3>GSTR-2B Offline Excel Reconciliation</h3>
+      <p>A Power Query workbook that automatically reconciles purchase ledgers vs GSTR-2B in seconds. Matches by invoice number, date, tax values, and flags vendor mismatches.</p>
+      <div class="tool-foot"><span></span><span class="tool-open" style="color:#9ec2ff">Buy & Download <svg viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+  </div>
+</section>
+
 <!-- COMING SOON -->
 <section class="wrap" id="soon">
   <div class="section-head"><h2>Coming soon</h2><p>In build — these will appear here as each one ships.</p></div>
@@ -135,18 +158,24 @@ const TOOLS = [
   {file:"HSN_SAC_Finder.html", cat:"gst", icon:"🔎", name:"HSN / SAC Finder", desc:"Look up HSN codes for goods and SAC codes for services, with GST rates.", status:"live", accent:"#38e1d6"},
   {file:"gst-late-fee-calculator.html", cat:"gst", icon:"🧮", name:"GST Late Fee Calculator", desc:"Section 47 late fee for delayed GSTR-1 / GSTR-3B, with the correct daily caps.", status:"live", accent:"#38e1d6"},
   {file:"gst-interest-calculator.html", cat:"gst", icon:"⏱️", name:"GST Interest Calculator", desc:"Section 50 interest on delayed GST payment and wrongly availed ITC.", status:"live", accent:"#38e1d6"},
+  {file:"itc-utilization-calculator.html", cat:"gst", icon:"🔀", name:"ITC Utilization Optimizer", desc:"Section 49(5) IGST/CGST/SGST set-off order — shows cash payable after ITC.", status:"live", accent:"#38e1d6"},
 
   // ---- TDS (live) ----
   {file:"numberiq-tds-chart-fy2026-27.html", cat:"tds", icon:"📋", name:"TDS Rate Finder FY 2026-27", desc:"Search TDS rates and thresholds, mapped to the new Income-tax Act 2025 sections.", status:"live", accent:"#f4b740"},
   {file:"tds-interest-calculator.html", cat:"tds", icon:"⏱️", name:"TDS Interest Calculator", desc:"Section 201(1A) interest for late deduction (1%) and late deposit (1.5%) of TDS.", status:"live", accent:"#f4b740"},
+  {file:"lrs-tcs-calculator.html", cat:"tds", icon:"✈️", name:"LRS / TCS Calculator", desc:"TCS on foreign remittances u/s 206C(1G) — ₹10L threshold, Finance Act 2025 rates.", status:"live", accent:"#f4b740"},
 
   // ---- Income Tax (live) ----
   {file:"advance-tax-calculator.html", cat:"it", icon:"📅", name:"Advance Tax Calculator", desc:"Quarterly advance-tax instalments (15/45/75/100%) for FY 2026-27.", status:"live", accent:"#4f7cff"},
   {file:"income-tax-calculator-fy2026-27.html", cat:"it", icon:"🧮", name:"Income Tax Calculator FY 2026-27", desc:"Old vs new regime tax computation with rebate and cess.", status:"live", accent:"#4f7cff"},
   {file:"interest-234abc-calculator.html", cat:"it", icon:"⚖️", name:"234A/B/C Interest Calculator", desc:"Interest for default in advance tax and late filing of ITR.", status:"live", accent:"#4f7cff"},
+  {file:"capital-gains-tax-calculator.html", cat:"it", icon:"📊", name:"Capital Gains Tax Calculator", desc:"LTCG/STCG on property (CII, Sec 54/54EC), equity (112A) & mutual funds.", status:"live", accent:"#4f7cff"},
+  {file:"msme-payment-tracker-calculator.html", cat:"it", icon:"⏱️", name:"MSME Payment / 43B(h) Tracker", desc:"Calculate MSMED Act Sec 16 interest and track Section 43B(h) disallowances.", status:"live", accent:"#4f7cff"},
+
+  // ---- Calculators (live) ----
+  {file:"depreciation-block-assets-calculator.html", cat:"calc", icon:"📉", name:"Depreciation (Block of Assets)", desc:"Section 32 block-wise WDV depreciation with half-year rule, additional depreciation & STCG u/s 50.", status:"live", accent:"#9a6bff"},
 
   // ---- Coming soon ----
-  {file:"", cat:"calc", icon:"📉", name:"Depreciation Schedule", desc:"Block-of-assets depreciation under Section 32 with WDV roll-forward.", status:"soon", accent:"#9a6bff"},
   {file:"", cat:"util", icon:"💱", name:"Forex / LRS Converter", desc:"Convert foreign-currency amounts at RBI reference rates for FEMA / TCS workings.", status:"soon", accent:"#34d399"},
   {file:"", cat:"util", icon:"🗓️", name:"Due-Date Tracker", desc:"Personalised GST / TDS / income-tax compliance reminders.", status:"soon", accent:"#34d399"}
 ];
@@ -203,6 +232,15 @@ ham.addEventListener('click',()=>mm.classList.toggle('show'));
 mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
 
 buildCats(); render();
+
+/* ============================ PWA SERVICE WORKER REGISTRATION ============================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('ServiceWorker registration successful with scope: ', reg.scope); })
+      .catch(function(err) { console.warn('ServiceWorker registration failed: ', err); });
+  });
+}
 </script>
 </body>
 </html>
