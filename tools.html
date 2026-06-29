@@ -145,13 +145,9 @@ const TOOLS = [
   {file:"income-tax-calculator-fy2026-27.html", cat:"it", icon:"🧮", name:"Income Tax Calculator FY 2026-27", desc:"Old vs new regime tax computation with rebate and cess.", status:"live", accent:"#4f7cff"},
   {file:"interest-234abc-calculator.html", cat:"it", icon:"⚖️", name:"234A/B/C Interest Calculator", desc:"Interest for default in advance tax and late filing of ITR.", status:"live", accent:"#4f7cff"},
 
-  // ---- Calculators (live) ----
-  {file:"depreciation-block-assets-calculator.html", cat:"calc", icon:"📉", name:"Depreciation Schedule (Block of Assets)", desc:"Section 32 block-wise WDV depreciation with half-year rule, additional depreciation and STCG u/s 50.", status:"live", accent:"#9a6bff"},
-  {file:"itc-utilization-calculator.html", cat:"gst", icon:"🔀", name:"ITC Utilization Optimizer", desc:"Section 49(5) mandatory IGST/CGST/SGST set-off sequence calculator — shows cash payable after ITC.", status:"live", accent:"#38e1d6"},
-  {file:"capital-gains-tax-calculator.html", cat:"it", icon:"📊", name:"Capital Gains Tax Calculator", desc:"LTCG/STCG on property (CII indexation, Sec 54/54EC), equity (Sec 112A) and mutual funds. FY 2026-27.", status:"live", accent:"#4f7cff"},
-  {file:"lrs-tcs-calculator.html", cat:"tds", icon:"✈️", name:"LRS / TCS Calculator", desc:"TCS on foreign remittances under Section 206C(1G) — ₹10L threshold, Finance Act 2025 rates.", status:"live", accent:"#f4b740"},
-
   // ---- Coming soon ----
+  {file:"", cat:"calc", icon:"📉", name:"Depreciation Schedule", desc:"Block-of-assets depreciation under Section 32 with WDV roll-forward.", status:"soon", accent:"#9a6bff"},
+  {file:"", cat:"util", icon:"💱", name:"Forex / LRS Converter", desc:"Convert foreign-currency amounts at RBI reference rates for FEMA / TCS workings.", status:"soon", accent:"#34d399"},
   {file:"", cat:"util", icon:"🗓️", name:"Due-Date Tracker", desc:"Personalised GST / TDS / income-tax compliance reminders.", status:"soon", accent:"#34d399"}
 ];
 
@@ -195,4 +191,18 @@ function render(){
   const live=TOOLS.filter(t=>t.status==="live"&&match(t));
   const soon=TOOLS.filter(t=>t.status==="soon"&&match(t));
   liveGrid.innerHTML=live.map(card).join('');
-  liveEmpty.innerHTML = live.length ? '' : '<div class="empty"><b>No matching tools</b>Try another keyword or clear the 
+  liveEmpty.innerHTML = live.length ? '' : '<div class="empty"><b>No matching tools</b>Try another keyword or clear the filter.</div>';
+  soonGrid.innerHTML=soon.map(card).join('');
+  soonSection.style.display = soon.length ? 'block' : 'none';
+}
+
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+
+buildCats(); render();
+</script>
+</body>
+</html>
