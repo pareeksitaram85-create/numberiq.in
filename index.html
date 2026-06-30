@@ -1174,22 +1174,16 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 /* ============================ NEWS TICKER ============================ */
 /* Curated headlines — refreshed weekly. cat: gst | idt (Income Tax/TDS) | itx (Intl/TP/DTAA) | cmp (Compliance/due dates) */
-const NEWS_UPDATED="20 Jun 2026";
+const NEWS_UPDATED="30 Jun 2026";
 const NEWS=[
-  {cat:"cmp",date:"15 Jun 2026",txt:"Advance tax 1st instalment (15%) for TY 2026-27 falls due",url:"https://www.taxscan.in/top-stories/income-tax-gst-mca-compliance-calendar-for-june-2026-1446737"},
-  {cat:"gst",date:"Jun 2026",txt:"GSTN defers e-Way Bill 'Ship-to GSTIN' & voluntary-closure go-live; revised dates awaited",url:"https://cleartax.in/s/gst-news-and-announcements"},
-  {cat:"idt",date:"AY 2026-27",txt:"CBDT notifies ITR-1 to ITR-7, ITR-V & ITR-U; online filing and utilities now live",url:"https://www.incometax.gov.in/iec/foportal/latest-news"},
-  {cat:"itx",date:"01 Apr 2026",txt:"Final Income-tax Rules, 2026 notified — safe harbour rationalised, APA process expedited",url:"https://kpmg.com/us/en/taxnewsflash/news/2026/03/india-transfer-pricing-income-tax-rules-2026.html"},
-  {cat:"cmp",date:"20 Jun 2026",txt:"GSTR-3B for May 2026 due for monthly filers (turnover above ₹5 crore)",url:"https://irisgst.com/gst-compliance-calendar-gst-due-dates/"},
-  {cat:"idt",date:"01 Apr 2026",txt:"Income-tax Rules, 2026 replace 1962 Rules — new forms, revised limits, 50% HRA extended to 4 more cities",url:"https://cleartax.in/s/draft-income-tax-rules"},
+  {cat:"gst",date:"30 Jun 2026",txt:"GST Council 53rd Meeting decisions live — waiver of interest/penalty for legacy demands u/s 73(1)",url:"https://cbic-gst.gov.in/"},
+  {cat:"idt",date:"30 Jun 2026",txt:"ITR-1 to ITR-7 filing AY 2026-27 open; non-audit due date is 31 July 2026",url:"https://www.incometax.gov.in/iec/foportal/latest-news"},
+  {cat:"cmp",date:"30 Jun 2026",txt:"Form DPT-3 (return of deposits) filing due today with RoC",url:"https://www.setindiabiz.com/blog/june-2026-due-date-compliance-calendar"},
+  {cat:"gst",date:"11 Jul 2026",txt:"GSTR-1 return for June 2026 due for monthly filers",url:"https://irisgst.com/gst-compliance-calendar-gst-due-dates/"},
+  {cat:"idt",date:"31 Jul 2026",txt:"Quarterly TDS/TCS statement (Form 24Q/26Q/27Q) for Q1 FY 2026-27 due",url:"https://blog.saginfotech.com/income-tax-tds-latest-updates"},
   {cat:"gst",date:"01 Aug 2026",txt:"e-Invoice & e-Way Bill API changes — 'Ship-to GSTIN' becomes mandatory where present",url:"https://cleartax.in/s/gst-news-and-announcements"},
   {cat:"itx",date:"FY 2026-27",txt:"TP safe harbour: value limit raised from ₹200 cr to ₹300 cr; IT services clubbed under a 5-year block",url:"https://www.nexdigm.com/insights_post/budget-2026-a-structural-reset-of-indias-transfer-pricing-framework/"},
-  {cat:"cmp",date:"15 Jun 2026",txt:"Form 16 / 16A for FY 2025-26 to be issued to employees and deductees",url:"https://www.taxscan.in/top-stories/income-tax-gst-mca-compliance-calendar-for-june-2026-1446737"},
   {cat:"itx",date:"2026",txt:"Pillar Two transitional CbCR safe harbour applies for fiscal years beginning on or before 31 Dec 2026",url:"https://www.pwc.com/us/en/services/tax/library/transfer-pricing-pillar-two-cbcr-safe-harbor-rule.html"},
-  {cat:"cmp",date:"30 Jun 2026",txt:"Form DPT-3 (return of deposits) filing with RoC due",url:"https://www.setindiabiz.com/blog/june-2026-due-date-compliance-calendar"},
-  {cat:"idt",date:"2026",txt:"Income-tax Amendment Rules, 2026 — Notifications 54/2026 & 55/2026 issued by CBDT",url:"https://blog.saginfotech.com/income-tax-tds-latest-updates"},
-  {cat:"cmp",date:"31 Jul 2026",txt:"ITR-1 / ITR-2 filing due for AY 2026-27 (non-audit cases)",url:"https://eztax.in/tax-compliance-calendar-it-tds-gst-roc"},
-  {cat:"itx",date:"2026",txt:"India signals review of its Global Minimum Tax (Pillar Two) participation",url:"https://practiceguides.chambers.com/practice-guides/transfer-pricing-2026"},
   {cat:"cmp",date:"22-24 Jul 2026",txt:"QRMP quarterly GSTR-3B for Q1 FY 2026-27 due",url:"https://irisgst.com/gst-compliance-calendar-gst-due-dates/"}
 ];
 (function(){
