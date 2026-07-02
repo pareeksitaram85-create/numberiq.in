@@ -33,7 +33,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is presumptive taxation?","acceptedAnswer":{"@type":"Answer","text":"A scheme to declare income at a fixed percentage of turnover, avoiding detailed books and audit."}},{"@type":"Question","name":"What are the limits?","acceptedAnswer":{"@type":"Answer","text":"Rs.3 crore for 44AD and Rs.75 lakh for 44ADA where cash receipts are within 5%."}}]}
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="bg-canvas"></div>
@@ -90,4 +89,8 @@
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.cla
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

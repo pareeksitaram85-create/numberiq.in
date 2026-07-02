@@ -33,7 +33,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a scrutiny assessment?","acceptedAnswer":{"@type":"Answer","text":"A detailed examination of a return under Section 143(3), started by a 143(2) notice."}},{"@type":"Question","name":"What is the time limit for the 143(2) notice?","acceptedAnswer":{"@type":"Answer","text":"Within three months from the end of the financial year in which the return was filed."}}]}
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="bg-canvas"></div>
@@ -90,4 +89,8 @@
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.cla
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

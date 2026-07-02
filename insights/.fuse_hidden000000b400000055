@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "The new Income-tax Act 2025: what changes", "description": "The Income-tax Act 2025 replaces the 1961 Act from FY 2026-27. What changes for taxpayers - simplified structure, the 'tax year' concept, renumbered TDS sections 392/393/394.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/new-income-tax-act-2025-changes.html"}
@@ -82,13 +82,13 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">What the new Act is and is not</h2>
-<p>The Income-tax Act 2025 is largely a <b>structural rewrite</b>: it removes redundant provisos and explanations, consolidates scattered sections, and uses simpler language and tables. It is <b>not</b> a wholesale change in tax policy &mdash; rates, regimes and most computational concepts continue. The bigger practical impact is renumbering and reorganisation, which affects every reference, software mapping and template a finance team uses.</p><div class="callout warn"><b>Caution.</b> Exact new-Act section numbers should be confirmed against the enacted text and notified rules. Where a mapping is uncertain, we flag it. <b>Income Tax Act, 2025</b> (in force from 1 April 2026) —</div>
+<p>The Income-tax Act 2025 is largely a <b>structural rewrite</b>: it removes redundant provisos and explanations, consolidates scattered sections, and uses simpler language and tables. It is <b>not</b> a wholesale change in tax policy &mdash; rates, regimes and most computational concepts continue. The bigger practical impact is renumbering and reorganisation, which affects every reference, software mapping and template a finance team uses.</p><div class="callout warn"><b>Caution.</b> Exact new-Act section numbers should be confirmed against the enacted text and notified rules. Where a mapping is uncertain, we flag it. <span class="verify">VERIFY new-Act section</span></div>
 
   <h2 id="s1">The 'tax year' concept</h2>
 <p>The new Act replaces the dual <b>'previous year' and 'assessment year'</b> terminology with a single <b>'tax year'</b>. This removes a long-standing source of confusion for taxpayers, aligning the period of income with the year of reference. Returns, assessments and compliance will be described by the tax year.</p>
 
   <h2 id="s2">Renumbered TDS and TCS</h2>
-<div class="table-wrap"><table><thead><tr><th>Provision</th><th>Old Act (1961)</th><th>New Act (2025)</th></tr></thead><tbody><tr><td>TDS on salary</td><td>Section 192</td><td>Section 392</td></tr><tr><td>TDS on non-salary payments</td><td>Sections 193-196 etc.</td><td>Section 393 (consolidated)</td></tr><tr><td>TCS</td><td>Section 206C</td><td>Section 394</td></tr></tbody></table></div><p>See <a href="../numberiq-tds-chart-fy2026-27.html">the TDS chart</a> for the rate-and-section map. TDS: Section 392 (salary), 393 (other payments); TCS: Section 394. Rates and thresholds same as the 1961 Act. ✓ Act in force 1 April 2026.</p>
+<div class="table-wrap"><table><thead><tr><th>Provision</th><th>Old Act (1961)</th><th>New Act (2025)</th></tr></thead><tbody><tr><td>TDS on salary</td><td>Section 192</td><td>Section 392</td></tr><tr><td>TDS on non-salary payments</td><td>Sections 193-196 etc.</td><td>Section 393 (consolidated)</td></tr><tr><td>TCS</td><td>Section 206C</td><td>Section 394</td></tr></tbody></table></div><p>See <a href="../numberiq-tds-chart-fy2026-27.html">the TDS chart</a> for the rate-and-section map. <span class="verify">VERIFY</span> exact sub-section references as rules are notified.</p>
 
   <h2 id="s3">What finance teams should do now</h2>
 <ul><li>Re-map standard letters, notices, and engagement templates to new-Act references.</li><li>Update accounting/payroll software section masters for TDS/TCS.</li><li>Train teams on the tax-year terminology.</li><li>Keep a 1961-to-2025 concordance handy during the transition.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

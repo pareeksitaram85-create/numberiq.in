@@ -33,7 +33,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an associated enterprise?","acceptedAnswer":{"@type":"Answer","text":"An enterprise linked to another by management, control or capital, as defined in Section 92A."}},{"@type":"Question","name":"Why does it matter?","acceptedAnswer":{"@type":"Answer","text":"Transactions between associated enterprises are subject to transfer-pricing rules and Form 3CEB."}}]}
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="bg-canvas"></div>
@@ -90,4 +89,8 @@
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.cla
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

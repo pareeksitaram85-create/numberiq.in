@@ -33,7 +33,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who can opt for the composition scheme?","acceptedAnswer":{"@type":"Answer","text":"Small taxpayers with turnover up to Rs.1.5 crore (Rs.50 lakh for service providers under the special scheme)."}},{"@type":"Question","name":"Can a composition dealer claim ITC?","acceptedAnswer":{"@type":"Answer","text":"No. Composition dealers pay a flat rate and cannot claim input tax credit or charge GST on invoices."}}]}
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="bg-canvas"></div>
@@ -90,4 +89,8 @@
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.cla
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

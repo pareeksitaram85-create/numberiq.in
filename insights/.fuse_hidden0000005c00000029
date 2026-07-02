@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "FEMA compliance for a foreign subsidiary (ODI)", "description": "Setting up or investing in a foreign subsidiary under FEMA - the Overseas Investment Rules 2022, Form FC, the Unique Identification Number, the Annual Performance Report and APR deadlines.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/fema-compliance-foreign-subsidiary.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>Step</th><th>Requirement</th></tr></thead><tbody><tr><td>Report the investment</td><td>Form FC through the AD bank</td></tr><tr><td>Identification</td><td>Unique Identification Number (UIN) for the foreign entity</td></tr><tr><td>Annual reporting</td><td>Annual Performance Report (APR) by 31 December</td></tr><tr><td>Other filings</td><td>Reporting of disinvestment, restructuring, etc.</td></tr></tbody></table></div>
 
   <h2 id="s2">Financial commitment and conditions</h2>
-<ul><li>Total financial commitment is generally capped at <b>400% of the net worth</b> of the Indian entity under the automatic route (with conditions).</li><li><b>Round-tripping</b> is now permitted within limits (up to two layers of subsidiaries), subject to conditions.</li><li>The foreign entity should be engaged in a bona fide business activity.</li><li><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current limits and layer conditions under the 2022 rules.</li></ul>
+<ul><li>Total financial commitment is generally capped at <b>400% of the net worth</b> of the Indian entity under the automatic route (with conditions).</li><li><b>Round-tripping</b> is now permitted within limits (up to two layers of subsidiaries), subject to conditions.</li><li>The foreign entity should be engaged in a bona fide business activity.</li><li><span class="verify">VERIFY</span> the current limits and layer conditions under the 2022 rules.</li></ul>
 
   <h2 id="s3">Practical compliance</h2>
 <p>File Form FC before/at the time of remittance, track the UIN, and file the <b>APR</b> based on the audited financials of the foreign entity by 31 December each year &mdash; late or non-filing of APR is a common default that blocks further remittances. Coordinate ODI with <a href="income-tax-foreign-income-dtaa-fema.html">income-tax disclosure (Schedule FA)</a> and transfer pricing on intra-group dealings.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

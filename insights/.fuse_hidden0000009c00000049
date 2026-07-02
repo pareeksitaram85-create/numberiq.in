@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "ICDS: Income Computation and Disclosure Standards", "description": "ICDS are ten standards notified under Section 145(2) for computing business and other-source income on the mercantile basis. The list of standards and how they adjust taxable income.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/icds-income-computation-standards.html"}
@@ -91,7 +91,7 @@
 <ul><li>No recognition of <b>expected losses or mark-to-market losses</b> unless specifically permitted (ICDS I).</li><li>Revenue and contract recognition broadly on the <b>percentage-completion</b> method (ICDS III/IV).</li><li>Government grants generally taxed on receipt/accrual rather than deferred indefinitely (ICDS VII).</li><li>Forex differences recognised per ICDS VI, which can differ from AS/Ind AS.</li></ul>
 
   <h2 id="s3">Compliance</h2>
-<p>Reconcile book profit to taxable income with an <b>ICDS adjustment schedule</b>, and disclose the net effect of each ICDS in Form 3CD (clauses 13(e)/(f)). Following the High Court rulings that struck down parts of ICDS as exceeding the Act, some provisions were amended by retrospective legislative change &mdash; <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current position for contentious items.</p>
+<p>Reconcile book profit to taxable income with an <b>ICDS adjustment schedule</b>, and disclose the net effect of each ICDS in Form 3CD (clauses 13(e)/(f)). Following the High Court rulings that struck down parts of ICDS as exceeding the Act, some provisions were amended by retrospective legislative change &mdash; <span class="verify">VERIFY</span> the current position for contentious items.</p>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

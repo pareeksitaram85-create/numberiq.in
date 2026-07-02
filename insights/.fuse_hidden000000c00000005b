@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Reverse charge (RCM) under Notification 13/2017", "description": "Reverse charge under GST: the services notified under Notification 13/2017-CT(R) - GTA, advocate, director, sponsorship and more - where the recipient pays the tax.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/rcm-gst-notification-13-2017.html"}
@@ -85,7 +85,7 @@
 <p>Under Section 9(3) of the CGST Act, the Government notifies categories of supply on which the <b>recipient</b> is liable to pay GST. The supplier does not charge GST on the invoice; the recipient pays it directly to the Government in cash (RCM liability cannot be set off using ITC), reports it in GSTR-3B Table 3.1(d), and then claims it back as ITC in the same or a later period if otherwise eligible.</p><div class="callout law"><b>Section 9(3), CGST Act + Notification 13/2017-CT(R).</b> Plus Section 9(4) for specified inward supplies from unregistered persons in notified cases.</div>
 
   <h2 id="s1">Key notified services under 13/2017</h2>
-<div class="table-wrap"><table><thead><tr><th>Service</th><th>Supplier</th><th>Recipient who pays RCM</th></tr></thead><tbody><tr><td>Goods Transport Agency (road)</td><td>GTA (not opting forward charge)</td><td>Specified business recipients</td></tr><tr><td>Legal services</td><td>Advocate / firm of advocates</td><td>Business entity</td></tr><tr><td>Services by a director</td><td>Director (in personal capacity)</td><td>The company / body corporate</td></tr><tr><td>Sponsorship</td><td>Any person</td><td>Body corporate / partnership firm</td></tr><tr><td>Services by government</td><td>Central/State Government</td><td>Business entity (with exceptions)</td></tr><tr><td>Import of services</td><td>Person outside India</td><td>Recipient in India</td></tr></tbody></table></div><p>This is an indicative extract; the notification has been amended several times. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current entry and any conditions for your specific service.</p>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>Supplier</th><th>Recipient who pays RCM</th></tr></thead><tbody><tr><td>Goods Transport Agency (road)</td><td>GTA (not opting forward charge)</td><td>Specified business recipients</td></tr><tr><td>Legal services</td><td>Advocate / firm of advocates</td><td>Business entity</td></tr><tr><td>Services by a director</td><td>Director (in personal capacity)</td><td>The company / body corporate</td></tr><tr><td>Sponsorship</td><td>Any person</td><td>Body corporate / partnership firm</td></tr><tr><td>Services by government</td><td>Central/State Government</td><td>Business entity (with exceptions)</td></tr><tr><td>Import of services</td><td>Person outside India</td><td>Recipient in India</td></tr></tbody></table></div><p>This is an indicative extract; the notification has been amended several times. <span class="verify">VERIFY</span> the current entry and any conditions for your specific service.</p>
 
   <h2 id="s2">Worked example: GTA</h2>
 <p>A manufacturer pays a goods transport agency Rs.1,00,000 for freight; the GTA has not opted for forward charge. The manufacturer pays GST at 5% under RCM = <b>Rs.5,000</b> in cash, reports it in GSTR-3B 3.1(d), and claims Rs.5,000 as ITC (freight for business is not blocked). Net cash impact is timing only, but the compliance step is mandatory and missing it attracts interest.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

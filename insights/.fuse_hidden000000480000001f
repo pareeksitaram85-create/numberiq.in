@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "BEPS Pillar Two and its impact on India", "description": "BEPS Pillar Two sets a 15% global minimum tax for large multinational groups through the GloBE rules - IIR, UTPR and QDMTT. What it means for Indian groups and the implementation status.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/beps-pillar-two-india-impact.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>Rule</th><th>How it collects the top-up</th></tr></thead><tbody><tr><td>Income Inclusion Rule (IIR)</td><td>Parent entity pays top-up on low-taxed foreign profits</td></tr><tr><td>Undertaxed Profits Rule (UTPR)</td><td>Backstop denying deductions/allocating top-up where IIR does not apply</td></tr><tr><td>Qualified Domestic Minimum Top-up Tax (QDMTT)</td><td>The source country collects its own top-up first</td></tr></tbody></table></div>
 
   <h2 id="s2">India's position</h2>
-<p>Many jurisdictions began applying Pillar Two from 2024. India had <b>not, as of the latest position known, enacted domestic Pillar Two legislation</b>, though it is an active participant in the framework and a QDMTT/IIR is under consideration. Indian-headquartered MNE groups in scope are nonetheless affected by other countries' rules, and Indian subsidiaries of foreign groups may face top-up computations abroad. ✓ India has not yet enacted domestic Pillar Two (GloBE) rules as of June 2026. MNE groups with Indian entities may face top-up tax in other jurisdictions that have enacted Pillar Two. India's current enactment status.</p>
+<p>Many jurisdictions began applying Pillar Two from 2024. India had <b>not, as of the latest position known, enacted domestic Pillar Two legislation</b>, though it is an active participant in the framework and a QDMTT/IIR is under consideration. Indian-headquartered MNE groups in scope are nonetheless affected by other countries' rules, and Indian subsidiaries of foreign groups may face top-up computations abroad. <span class="verify">VERIFY</span> India's current enactment status.</p>
 
   <h2 id="s3">What in-scope groups should do</h2>
 <ul><li>Confirm whether the group meets the <b>EUR 750 million</b> revenue threshold.</li><li>Compute jurisdictional <b>effective tax rates</b> under GloBE, considering Indian incentives (SEZ, concessional 115BAA) that may lower the ETR.</li><li>Assess exposure to IIR/UTPR/QDMTT in each country of operation.</li><li>Upgrade data systems for GloBE reporting and the GloBE Information Return.</li></ul>
@@ -142,4 +142,8 @@ const nav=document.getElementById('nav'),progress=document.getElementById('progr
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.classL
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

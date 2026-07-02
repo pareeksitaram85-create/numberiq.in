@@ -33,7 +33,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is TCS?","acceptedAnswer":{"@type":"Answer","text":"Tax collected by a seller from a buyer on specified transactions under Section 206C."}},{"@type":"Question","name":"Can TCS be claimed back?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is a creditable prepaid tax adjusted against income tax in the return."}}]}
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="bg-canvas"></div>
@@ -90,4 +89,8 @@
 <script>
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.cla
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TDS Rate Chart FY 2026-27 (Income-tax Act, 2025) — NumberIQ</title>
+<meta name="description" content="Interactive TDS rate chart for FY 2026-27 under the new Income-tax Act, 2025. Old section (1961) to new section (393/392/394) mapping, rates, thresholds, new forms and plain-English explanations. Built by NumberIQ.">
+
+<!-- Favicons (dark + light adaptive) -->
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#0b1437">
+
+<!-- Open Graph / share preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="TDS Rate Chart FY 2026-27 — Income-tax Act, 2025">
+<meta property="og:description" content="Every TDS section re-mapped to the new Income-tax Act, 2025 — rates, thresholds, new forms and plain-English explanations.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/tools/numberiq-tds-chart-fy2026-27.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TDS Rate Chart FY 2026-27 — Income-tax Act, 2025">
+<meta name="twitter:description" content="Old vs new section mapping, rates, thresholds & new forms under the Income-tax Act, 2025.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="canonical" href="https://numberiq.in/tools/numberiq-tds-chart-fy2026-27.html">
+<style>
+  :root{
+    --ink:#0b1437;
+    --ink-soft:#3a4577;
+    --paper:#f4f6fc;
+    --card:#ffffff;
+    --line:#e3e8f5;
+    --teal:#0fb5a6;
+    --teal-d:#0a8b80;
+    --indigo:#3b4ed6;
+    --indigo-d:#2a3bb0;
+    --amber:#f5a524;
+    --rose:#e5484d;
+    --shadow:0 10px 30px -12px rgba(13,22,64,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(59,78,214,.10), transparent 60%),
+      radial-gradient(900px 400px at -10% 0%, rgba(15,181,166,.10), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+    padding:0 0 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+  /* Header */
+  header{
+    background:linear-gradient(120deg,#0b1437 0%, #20308f 55%, #0a8b80 130%);
+    color:#fff;padding:34px 0 30px;position:relative;overflow:hidden;
+  }
+  header::after{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 2px,transparent 2px 26px);
+    pointer-events:none;
+  }
+  .brand{display:flex;align-items:center;gap:13px}
+  .logo{
+    width:46px;height:46px;border-radius:13px;flex:none;
+    background:linear-gradient(140deg,var(--teal),var(--indigo));
+    display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;
+    box-shadow:0 6px 18px -4px rgba(15,181,166,.6);letter-spacing:-1px;
+  }
+  .brand h1{font-size:21px;font-weight:800;letter-spacing:-.3px}
+  .brand h1 span{color:var(--teal);}
+  .brand p{font-size:12.5px;color:#b9c2ee;font-weight:500}
+  .hero{margin-top:22px;position:relative;z-index:1}
+  .hero h2{font-size:27px;font-weight:800;letter-spacing:-.6px;line-height:1.2}
+  .hero h2 b{color:var(--amber)}
+  .hero .sub{margin-top:8px;font-size:14px;color:#cdd5f5;max-width:680px}
+  .badges{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .badge{
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    padding:5px 12px;border-radius:30px;font-size:12px;font-weight:600;color:#eaeefc;
+    backdrop-filter:blur(4px);
+  }
+  .badge b{color:var(--teal)}
+
+  /* Controls */
+  .controls{
+    margin-top:-26px;position:relative;z-index:3;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:16px;
+  }
+  .search{position:relative;margin-bottom:12px}
+  .search input{
+    width:100%;padding:13px 14px 13px 42px;border:1.5px solid var(--line);
+    border-radius:11px;font-size:14.5px;color:var(--ink);background:#fbfcff;outline:none;
+    transition:.18s;
+  }
+  .search input:focus{border-color:var(--indigo);background:#fff;box-shadow:0 0 0 3px rgba(59,78,214,.12)}
+  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.45}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px}
+  .tab{
+    border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);
+    padding:8px 14px;border-radius:30px;font-size:12.5px;font-weight:700;cursor:pointer;
+    transition:.16s;white-space:nowrap;
+  }
+  .tab:hover{border-color:var(--indigo);color:var(--indigo)}
+  .tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tab .n{opacity:.6;font-weight:600;margin-left:4px}
+  .tab.active .n{opacity:.8}
+
+  /* Toolbar */
+  .toolbar{
+    margin-top:13px;padding-top:12px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .stamp{font-size:11.5px;font-weight:600;color:var(--ink-soft)}
+  .stamp b{color:var(--teal-d)}
+  .toolbar-actions{display:flex;gap:8px}
+  .tbtn{
+    border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);
+    padding:7px 13px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;
+    text-decoration:none;transition:.16s;font-family:inherit;
+  }
+  .tbtn:hover{border-color:var(--indigo);color:var(--indigo)}
+  .tbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tbtn.primary:hover{background:var(--indigo);border-color:var(--indigo);color:#fff}
+
+  /* Section group label */
+  .grouplbl{
+    margin:26px 4px 10px;font-size:12px;font-weight:800;letter-spacing:1.4px;
+    text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:9px;
+  }
+  .grouplbl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal)}
+  .grouplbl::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* Card */
+  .item{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    margin-bottom:11px;overflow:hidden;transition:.18s;box-shadow:0 2px 5px rgba(13,22,64,.03)
+  }
+  .item.open{border-color:var(--indigo);box-shadow:var(--shadow)}
+  .row{
+    display:grid;grid-template-columns:128px 1fr 132px 40px;gap:14px;align-items:center;
+    padding:15px 17px;cursor:pointer;
+  }
+  .secblock{display:flex;flex-direction:column;gap:5px}
+  .sec-new{
+    font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--indigo),var(--indigo-d));
+    padding:3px 9px;border-radius:7px;display:inline-block;width:fit-content;letter-spacing:.2px;
+  }
+  .sec-old{
+    font-size:11px;font-weight:700;color:var(--ink-soft);background:#eef1fb;
+    padding:2px 8px;border-radius:6px;display:inline-block;width:fit-content;
+  }
+  .sec-old s{color:#aeb6d6;text-decoration:none}
+  .nature{font-size:14.5px;font-weight:600;color:var(--ink)}
+  .nature .tl{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-top:3px}
+  .rt{display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right}
+  .rate{font-size:15px;font-weight:800;color:var(--teal-d)}
+  .thr{font-size:11.5px;font-weight:600;color:var(--ink-soft)}
+  .chev{
+    width:30px;height:30px;border-radius:9px;background:#eef1fb;display:grid;place-items:center;
+    transition:.22s;justify-self:end;
+  }
+  .item.open .chev{background:var(--indigo);transform:rotate(180deg)}
+  .item.open .chev svg{stroke:#fff}
+
+  /* Explanation panel */
+  .exp{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .exp-in{
+    padding:2px 17px 18px;border-top:1px dashed var(--line);margin:0 0 0;
+  }
+  .exp-in .lead{
+    font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--teal-d);margin:14px 0 7px;display:flex;align-items:center;gap:7px;
+  }
+  .exp-in .lead::before{content:"💡";font-size:13px}
+  .exp-in p{font-size:14px;color:#28335f;margin-bottom:10px}
+  .exp-in p b{color:var(--ink)}
+  .eg{
+    background:linear-gradient(120deg,#f0fdfa,#eef2ff);border:1px solid #d9f2ee;
+    border-radius:10px;padding:11px 13px;font-size:13px;color:#1f5d56;
+  }
+  .eg b{color:var(--teal-d)}
+  .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:7px;background:#f3f5fc;color:var(--ink-soft)}
+  .chip.form{background:#fff4e0;color:#9a6207}
+
+  .empty{text-align:center;padding:40px;color:var(--ink-soft);font-size:14px}
+
+  /* Footer note */
+  .note{
+    margin-top:28px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--amber);
+    border-radius:12px;padding:15px 18px;font-size:12.5px;color:var(--ink-soft);
+  }
+  .note b{color:var(--ink)}
+  .src{margin-top:14px;font-size:11.5px;color:#8a93b8;text-align:center;line-height:1.7}
+  .src a{color:var(--indigo);text-decoration:none}
+  @media(max-width:660px){
+    .row{grid-template-columns:96px 1fr 34px;grid-template-rows:auto auto}
+    .rt{grid-column:1/3;flex-direction:row;justify-content:flex-start;gap:12px;text-align:left;align-items:center}
+    .chev{grid-row:1/2;grid-column:3/4}
+    .hero h2{font-size:22px}
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    header{background:#0b1437 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .search,.tabs,.toolbar-actions,.chev{display:none !important}
+    .controls{box-shadow:none;margin-top:14px}
+    .item{break-inside:avoid;box-shadow:none;border-color:var(--line) !important}
+    .exp{max-height:none !important;overflow:visible !important}
+    .exp-in{display:block !important}
+    .row{cursor:default}
+    .src a{color:var(--ink-soft)}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">N<span style="color:#9af3ea">Q</span></div>
+      <div>
+        <h1>Number<span>IQ</span></h1>
+        <p>Smart Tax & Compliance Tools</p>
+      </div>
+    </div>
+    <div class="hero">
+      <h2>TDS Rate Chart <b>FY 2026-27</b> &nbsp;·&nbsp; New Income-tax Act, 2025</h2>
+      <p class="sub">Every TDS section, re-mapped. Old section (Act 1961) → New section (Act 2025), with rate &amp; threshold. <b style="color:#fff">Tap any row</b> to open a plain-English explanation.</p>
+      <div class="badges">
+        <span class="badge">Effective <b>01 Apr 2026</b></span>
+        <span class="badge">Non-salary TDS → <b>Sec 393</b></span>
+        <span class="badge">Salary &amp; EPF → <b>Sec 392</b></span>
+        <span class="badge">TCS → <b>Sec 394</b></span>
+        <span class="badge">Payment codes <b>1001–1067</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b1437" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search section, payment type… (e.g. 194C, rent, professional, partner)">
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="toolbar">
+      <span class="stamp">Reviewed <b>23 Jun 2026</b> · against Income-tax Act, 2025 &amp; Rules, 2026</span>
+      <div class="toolbar-actions">
+        <a class="tbtn" href="../index.html">← All tools</a>
+        <button class="tbtn primary" onclick="window.print()">⤓ Save / Print PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="note">
+    <b>Practitioner note.</b> Under the Income-tax Act, 2025 (in force 01.04.2026), all non-salary TDS is consolidated under <b>Section 393</b> (393(1) residents, 393(2) non-residents); salary &amp; premature-EPF sit under <b>Sec 392</b> and TCS under <b>Sec 394</b>. The old section numbers (194C, 194J, etc.) are shown only for reference and must <b>not</b> be quoted in returns for payments on/after 01.04.2026 — instead quote the relevant <b>numeric payment code (1001–1067)</b> of the Section 393/394 table on the challan and statement. The governing date is the <b>earlier of credit or payment</b>; transactions up to 31.03.2026 stay under the 1961 Act. Rates &amp; thresholds carry forward unchanged from FY 2025-26. Add applicable surcharge &amp; cess for non-residents; deduct at <b>20%</b> (or higher) where PAN is not furnished (Sec 206AA / new Act equivalent). Verify against the bare Act, the Income-tax Rules, 2026 &amp; CBDT notifications before filing — get CA sign-off for non-routine cases.
+  </div>
+
+  <div class="src">
+    Sources: incometax.gov.in (Income-tax Act, 2025) ·
+    <a href="https://cleartax.in/s/tds-rate-chart" target="_blank">ClearTax – TDS Rate Chart FY 2026-27</a> ·
+    <a href="https://cleartax.in/s/section-393-of-income-tax-act" target="_blank">ClearTax – Section 393</a> ·
+    <a href="https://www.kolteassociates.in/post/tds-tcs-under-income-tax-act-2025-complete-old-vs-new-section-mapping" target="_blank">Kolte &amp; Associates – Old vs New Mapping</a><br>
+    Built for the NumberIQ website · For guidance only, not a substitute for professional advice.
+  </div>
+</div>
+
+<script>
+const DATA = [
+ // group, oldSec, newSec, nature, sub, rate, threshold, easy, example, forms
+ {g:"Salary & PF", old:"192", neu:"392(1)", nat:"Salary", sub:"", rate:"Slab rates", thr:"Basic exemption limit",
+  easy:"Employer cuts tax on your salary every month based on your expected yearly income and the slab you fall in. Default is the <b>new regime (Sec 202)</b> unless the employee opts for old slabs.",
+  eg:"Salary ₹12L/yr, new regime → employer spreads the year's tax across 12 months and deposits it.", forms:["Return: Form 138 (was 24Q)","Cert: Form 130 (was 16)"]},
+
+ {g:"Salary & PF", old:"192A", neu:"392(7)", nat:"Premature EPF withdrawal", sub:"", rate:"10%", thr:"₹50,000",
+  easy:"If you withdraw your PF before 5 years of service and the amount is ₹50,000 or more, the EPF office deducts 10% TDS. Give PAN, else 20% applies. Under the new Act this sits with salary in <b>Sec 392(7)</b> (payment code 1004), not the non-salary Sec 393.",
+  eg:"Withdraw ₹80,000 PF after 3 yrs → ₹8,000 TDS.", forms:["Return: Form 138 (was 24Q)","Code 1004"]},
+
+ {g:"Interest & Investment Income", old:"193", neu:"393(1)", nat:"Interest on securities", sub:"", rate:"10%", thr:"₹10,000",
+  easy:"Interest paid on bonds/debentures attracts 10% TDS once it crosses ₹10,000 in the year.",
+  eg:"Debenture interest ₹15,000 → ₹1,500 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Interest & Investment Income", old:"194", neu:"393(1)", nat:"Dividend", sub:"Paid by a company", rate:"10%", thr:"₹10,000",
+  easy:"When a company pays you dividend above ₹10,000 in a year, it cuts 10% before paying. Claim it back in your ITR if your slab is lower.",
+  eg:"Dividend ₹25,000 from shares → ₹2,500 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Interest & Investment Income", old:"194A", neu:"393(1)", nat:"Interest — bank / post-office deposits", sub:"Senior citizen: ₹1,00,000 · Others (non-bank): ₹10,000", rate:"10%", thr:"₹50,000",
+  easy:"Bank/post-office FD interest: TDS at 10% once interest crosses <b>₹50,000</b> in a year (<b>₹1,00,000</b> for senior citizens). For interest from others (e.g. company deposits) the limit is ₹10,000. Budget 2025 raised these limits.",
+  eg:"FD interest ₹60,000 (age 45) → ₹6,000 TDS. Same for a senior citizen → nil (under ₹1L).", forms:["Form 140 / Form 131","Nil: Form 121 (was 15G/15H)"]},
+
+ {g:"Interest & Investment Income", old:"194K", neu:"393(1)", nat:"Dividend from mutual funds", sub:"", rate:"10%", thr:"₹10,000",
+  easy:"Mutual fund dividend (income option) above ₹10,000/yr → 10% TDS. Capital gains on units are not covered here.",
+  eg:"MF dividend ₹14,000 → ₹1,400 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Winnings", old:"194B", neu:"393(1)", nat:"Lottery, game shows, gambling", sub:"", rate:"30%", thr:"₹10,000",
+  easy:"Winnings from lottery, TV game shows, betting etc. are taxed flat at 30% (no slab benefit) once a single win crosses ₹10,000.",
+  eg:"Game show prize ₹1,00,000 → ₹30,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Winnings", old:"194BA", neu:"393(1)", nat:"Online gaming winnings", sub:"", rate:"30%", thr:"No threshold — on net winnings",
+  easy:"Net winnings from online games are taxed at 30% with no minimum limit, computed on your net winnings in the user account.",
+  eg:"Net online-game winnings ₹40,000 → ₹12,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Winnings", old:"194BB", neu:"393(1)", nat:"Winnings from horse races", sub:"", rate:"30%", thr:"₹10,000 (aggregate in FY)",
+  easy:"Horse-race winnings above ₹10,000 in the year → flat 30% TDS.",
+  eg:"Race winnings ₹50,000 → ₹15,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194C", neu:"393(1)", nat:"Payment to contractors / sub-contractors", sub:"Transport (PAN given): Nil", rate:"1% Indiv/HUF · 2% Others", thr:"₹30,000 single / ₹1,00,000 in FY",
+  easy:"Paying a contractor for work (job-work, AMC, civil work, etc.)? Cut <b>1%</b> if the contractor is an individual/HUF, <b>2%</b> for company/firm. Trigger: a single bill over ₹30,000 <b>or</b> total over ₹1,00,000 in the year.",
+  eg:"₹2,00,000 to a Pvt Ltd contractor → 2% = ₹4,000 TDS. To a proprietor → 1% = ₹2,000.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194J(b)", neu:"393(1)", nat:"Professional fees", sub:"Legal, CA, medical, architect, consultancy", rate:"10%", thr:"₹50,000",
+  easy:"Fees for professional services attract 10% TDS once payment crosses ₹50,000 in the year (limit raised by Budget 2025 from ₹30,000).",
+  eg:"CA fee ₹80,000 → ₹8,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194J(a)", neu:"393(1)", nat:"Technical services / royalty / call-centre", sub:"Fees for technical services", rate:"2%", thr:"₹50,000",
+  easy:"Technical services, call-centre work and certain royalties are at the lower <b>2%</b> rate (not 10%). Threshold ₹50,000/yr.",
+  eg:"Technical service bill ₹1,00,000 → 2% = ₹2,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194H", neu:"393(1)", nat:"Commission / brokerage", sub:"", rate:"2%", thr:"₹20,000",
+  easy:"Commission or brokerage above ₹20,000/yr → 2% TDS (rate cut from 5% and limit raised from ₹15,000 by Budget 2025).",
+  eg:"Brokerage ₹50,000 → ₹1,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194D", neu:"393(1)", nat:"Insurance commission", sub:"", rate:"2% Indiv/HUF · 10% Others", thr:"₹20,000",
+  easy:"Commission to insurance agents: 2% for individuals/HUF, 10% for companies, once it crosses ₹20,000/yr.",
+  eg:"Agent commission ₹40,000 (individual) → ₹800 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194G", neu:"393(1)", nat:"Commission on lottery tickets", sub:"", rate:"2%", thr:"₹20,000",
+  easy:"Commission to lottery ticket sellers/distributors above ₹20,000 → 2% TDS.",
+  eg:"Lottery commission ₹30,000 → ₹600 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Contractors & Professionals", old:"194M", neu:"393(1)", nat:"Contract / professional fee by Individual/HUF", sub:"Not liable to tax audit", rate:"2%", thr:"₹50,00,000",
+  easy:"If an individual/HUF (not under tax audit) pays a big contractor/professional bill, they still cut 2% once total crosses ₹50 lakh — deposited using a simple challan-cum-statement, no TAN needed.",
+  eg:"Individual pays ₹60L to a builder → 2% = ₹1,20,000 TDS.", forms:["Form 141 (challan-cum-statement)"]},
+
+ {g:"Contractors & Professionals", old:"194T", neu:"393(1)", nat:"Payment by firm/LLP to partners", sub:"Salary, remuneration, interest, bonus, commission", rate:"10%", thr:"₹20,000",
+  easy:"New from FY 2025-26: a firm/LLP must cut <b>10% TDS</b> on remuneration, interest, bonus or commission paid to its partners once it crosses ₹20,000 in the year.",
+  eg:"Partner remuneration ₹6,00,000/yr → ₹60,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Rent & Property", old:"194I(b)", neu:"393(1)", nat:"Rent — land, building & furniture", sub:"", rate:"10%", thr:"₹50,000 per month",
+  easy:"Business tenants (under tax audit) cutting rent on building/land: 10% TDS once rent crosses <b>₹50,000 per month</b> (Budget 2025 shifted this to a monthly basis).",
+  eg:"Office rent ₹70,000/month → ₹7,000/month TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Rent & Property", old:"194I(a)", neu:"393(1)", nat:"Rent — plant & machinery", sub:"", rate:"2%", thr:"₹50,000 per month",
+  easy:"Rent for plant, machinery or equipment is at the lower 2% rate, same ₹50,000/month threshold.",
+  eg:"Machinery hire ₹80,000/month → ₹1,600/month TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Rent & Property", old:"194IB", neu:"393(1)", nat:"Rent by Individual/HUF (no audit)", sub:"Tenants not covered by 194I", rate:"2%", thr:"₹50,000 per month",
+  easy:"A salaried person or small individual/HUF paying house rent over ₹50,000/month cuts 2% TDS — only once a year (last month), no TAN needed.",
+  eg:"Flat rent ₹60,000/month → 2% of annual rent, deducted in March.", forms:["Form 141 (challan-cum-statement)"]},
+
+ {g:"Rent & Property", old:"194IA", neu:"393(1)", nat:"Purchase of immovable property", sub:"Other than agricultural land", rate:"1%", thr:"₹50,00,000",
+  easy:"Buying property worth ₹50 lakh or more? The buyer cuts 1% TDS on the full amount and deposits it for the seller. No TAN required.",
+  eg:"Flat bought for ₹90L → ₹90,000 TDS by buyer.", forms:["Form 141 (challan-cum-statement)"]},
+
+ {g:"Rent & Property", old:"194IC", neu:"393(1)", nat:"Joint Development Agreement", sub:"Monetary consideration to land owner", rate:"10%", thr:"No threshold",
+  easy:"Under a JDA, the developer cuts 10% TDS on any cash part paid to the land owner (apart from the constructed area).",
+  eg:"Cash component ₹20L under JDA → ₹2,00,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Rent & Property", old:"194LA", neu:"393(1)", nat:"Compensation on compulsory acquisition", sub:"Other than agricultural land", rate:"10%", thr:"₹5,00,000",
+  easy:"When govt acquires immovable property and pays compensation above ₹5 lakh, 10% TDS applies.",
+  eg:"Acquisition compensation ₹8L → ₹80,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194Q", neu:"393(1)", nat:"Purchase of goods", sub:"Buyer turnover > ₹10 cr", rate:"0.1%", thr:"₹50,00,000",
+  easy:"A big buyer (turnover above ₹10 cr) cuts 0.1% TDS on purchases from a seller beyond ₹50 lakh in the year. Applies to the amount over ₹50 lakh.",
+  eg:"Buy goods worth ₹80L from one seller → 0.1% on ₹30L = ₹3,000.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194O", neu:"393(1)", nat:"E-commerce operator → participant", sub:"", rate:"0.1%", thr:"₹5,00,000",
+  easy:"E-commerce platforms cut 0.1% TDS on the gross sale value of resident sellers on the platform, once they cross ₹5 lakh in the year.",
+  eg:"Seller sells ₹10L on a marketplace → ₹1,000 TDS by platform.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194R", neu:"393(1)", nat:"Benefits / perquisites of business or profession", sub:"", rate:"10%", thr:"₹20,000",
+  easy:"Giving a business partner a freebie, gift, sponsored trip or any benefit above ₹20,000/yr? Cut 10% TDS on its value (even if given in kind).",
+  eg:"Dealer incentive trip worth ₹1,00,000 → ₹10,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194S", neu:"393(1)", nat:"Transfer of Virtual Digital Asset (crypto)", sub:"Specified person: ₹50,000", rate:"1%", thr:"₹10,000",
+  easy:"Buying crypto/VDA from a resident? 1% TDS on the consideration once it crosses ₹10,000 (₹50,000 for specified small persons).",
+  eg:"Buy crypto worth ₹2,00,000 → ₹2,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194N", neu:"393(1)", nat:"Cash withdrawal from bank", sub:"₹20 lakh if ITR not filed for 3 yrs", rate:"2% / 5%", thr:"₹1,00,00,000",
+  easy:"Withdraw more than ₹1 crore cash in a year → 2% TDS on the excess. If you haven't filed ITR for 3 years, it starts at ₹20 lakh (2% up to ₹1cr, 5% above).",
+  eg:"Cash withdrawal ₹1.2 cr (ITR filed) → 2% on ₹20L = ₹40,000.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194EE", neu:"393(1)", nat:"National Savings Scheme (NSS) payout", sub:"", rate:"10%", thr:"₹2,500",
+  easy:"Repayment of NSS deposits above ₹2,500/yr → 10% TDS.",
+  eg:"NSS payout ₹40,000 → ₹4,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Business & Digital", old:"194DA", neu:"393(1)", nat:"Life insurance policy payout (taxable)", sub:"", rate:"2%", thr:"₹1,00,000",
+  easy:"If a life-insurance maturity amount is taxable (not exempt u/s 10(10D)) and ≥ ₹1 lakh, insurer cuts 2% TDS on the income portion.",
+  eg:"Taxable policy payout, income part ₹2L → ₹4,000 TDS.", forms:["Form 140 / Form 131"]},
+
+ {g:"Non-Resident & TCS", old:"195", neu:"393(1)", nat:"Payments to non-residents", sub:"Royalty, FTS, interest, capital gains etc.", rate:"As per Act / DTAA", thr:"No basic threshold",
+  easy:"Any taxable sum paid to a non-resident is covered under the non-resident part of Sec 393. Rate is per the Act (often 20%) — but apply the lower <b>DTAA</b> rate if a treaty applies and Form 10F + TRC are available. Add surcharge & cess.",
+  eg:"FTS ₹10L to a UAE firm → 20% (Act) vs ~10% (India-UAE DTAA) — apply lower if TRC/10F on file.", forms:["Return: Form 144 (was 27Q)","Form 145/146 (was 15CA/15CB)"]},
+
+ {g:"Non-Resident & TCS", old:"206C", neu:"394", nat:"Tax Collected at Source (all)", sub:"Sale of goods, scrap, motor vehicle, LRS, tour package", rate:"0.1% – 20%", thr:"Varies",
+  easy:"All TCS now sits under <b>Section 394</b>. Examples: motor vehicle > ₹10L → 1%; foreign tour package → 2%; LRS remittance > ₹10L → 20% (2% for education/medical). Note: TCS on sale of goods (old 206C(1H)) was withdrawn from 01.04.2025.",
+  eg:"Car sold for ₹15L → 1% TCS = ₹15,000 collected from buyer.", forms:["Return: Form 143 (was 27EQ)"]},
+];
+
+const GROUPS = [...new Set(DATA.map(d=>d.g))];
+let active = "All";
+let query = "";
+
+const tabsEl = document.getElementById('tabs');
+const listEl = document.getElementById('list');
+
+function buildTabs(){
+  const all = [{k:"All", n:DATA.length}].concat(GROUPS.map(g=>({k:g, n:DATA.filter(d=>d.g===g).length})));
+  tabsEl.innerHTML = all.map(t=>
+    `<button class="tab ${t.k===active?'active':''}" data-k="${t.k}">${t.k}<span class="n">${t.n}</span></button>`
+  ).join('');
+  tabsEl.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{active=b.dataset.k;buildTabs();render();});
+}
+
+function render(){
+  const q = query.trim().toLowerCase();
+  let rows = DATA.filter(d=>{
+    const inTab = active==="All" || d.g===active;
+    const hay = (d.old+' '+d.neu+' '+d.nat+' '+d.sub+' '+d.g+' '+d.easy).toLowerCase();
+    return inTab && (q==="" || hay.includes(q));
+  });
+  if(!rows.length){ listEl.innerHTML='<div class="empty">No matching section found. Try “rent”, “194J”, or “partner”.</div>'; return; }
+
+  let html='', lastG='';
+  rows.forEach((d,i)=>{
+    if(d.g!==lastG && (active==="All" || q!=="")){ html+=`<div class="grouplbl">${d.g}</div>`; lastG=d.g; }
+    const chips = d.forms.map(f=>`<span class="chip ${/Form 14|Form 13|Form 121|Form 16/.test(f)?'form':''}">${f}</span>`).join('');
+    html+=`
+    <div class="item" data-i="${i}">
+      <div class="row" onclick="toggle(this)">
+        <div class="secblock">
+          <span class="sec-new">${d.neu}</span>
+          <span class="sec-old">old: <s>${d.old}</s></span>
+        </div>
+        <div class="nature">${d.nat}${d.sub?`<span class="tl">${d.sub}</span>`:''}</div>
+        <div class="rt"><span class="rate">${d.rate}</span><span class="thr">Limit: ${d.thr}</span></div>
+        <div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b4ed6" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></div>
+      </div>
+      <div class="exp">
+        <div class="exp-in">
+          <div class="lead">In easy words</div>
+          <p>${d.easy}</p>
+          <div class="eg"><b>Example:</b> ${d.eg}</div>
+          <div class="meta">
+            <span class="chip">New: Sec ${d.neu}</span>
+            <span class="chip">Old: Sec ${d.old}</span>
+            ${chips}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  listEl.innerHTML = html;
+}
+
+function toggle(rowEl){
+  const item = rowEl.parentElement;
+  const exp = item.querySelector('.exp');
+  const open = item.classList.contains('open');
+  // close others
+  document.querySelectorAll('.item.open').forEach(it=>{
+    if(it!==item){ it.classList.remove('open'); it.querySelector('.exp').style.maxHeight=null; }
+  });
+  if(open){ item.classList.remove('open'); exp.style.maxHeight=null; }
+  else{ item.classList.add('open'); exp.style.maxHeight = exp.scrollHeight+'px'; }
+}
+
+document.getElementById('q').addEventListener('input', e=>{ query=e.target.value; render(); });
+
+buildTabs();
+render();
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "E-invoice applicability under GST", "description": "GST e-invoicing applies to businesses above the notified turnover threshold (Rs.5 crore). How IRN and QR codes work, who is exempt, and the 30-day reporting time limit on the IRP.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/e-invoice-gst-applicability-guide.html"}
@@ -88,7 +88,7 @@
 <ol><li>The supplier creates the invoice in its accounting/ERP system.</li><li>The invoice JSON is uploaded to the IRP.</li><li>The IRP validates it, generates a unique <b>IRN</b> and a signed <b>QR code</b>, and returns them.</li><li>Data auto-flows to GSTR-1 and the e-way bill system.</li></ol><p>An invoice issued without a valid IRN, where e-invoicing applies, is <b>not a valid tax invoice</b>, and the recipient may be denied ITC.</p>
 
   <h2 id="s2">Who is exempt</h2>
-<p>Specified categories are exempt regardless of turnover: SEZ <b>units</b> (not developers), insurers, banking companies and financial institutions, goods transport agencies, passenger transport services, and suppliers of admission to cinematograph/multiplex exhibitions. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current exempt list before concluding.</p>
+<p>Specified categories are exempt regardless of turnover: SEZ <b>units</b> (not developers), insurers, banking companies and financial institutions, goods transport agencies, passenger transport services, and suppliers of admission to cinematograph/multiplex exhibitions. <span class="verify">VERIFY</span> the current exempt list before concluding.</p>
 
   <h2 id="s3">The 30-day reporting window</h2>
 <p>Taxpayers above a notified turnover must report invoices to the IRP within <b>30 days</b> of the invoice date; older invoices are rejected by the portal. Build IRN generation into the billing workflow so no B2B invoice is issued without it, and reconcile IRNs to GSTR-1 monthly.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GST on rent: commercial vs residential", "description": "GST on renting - residential dwelling for residence is exempt but attracts RCM when let to a registered person; commercial rent is 18%. The rules, RCM triggers and ITC.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-on-rent-commercial-residential.html"}
@@ -82,10 +82,10 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Residential renting</h2>
-<p>Renting of a residential dwelling for use as a residence is exempt. However, since <b>18 July 2022</b> (Notification 05/2022-CT(R)), when such a dwelling is rented to a <b>registered person</b>, the registered tenant must pay GST at 18% under reverse charge. A later clarification carved out the case where the property is rented to a registered person in their <b>personal capacity</b> for their own residence &mdash; then it remains exempt. ✓ Notification 09/2024-CT(R) brought renting of commercial property by unregistered landlord to registered tenant under RCM. Confirmed in force FY 2026-27. June 2026. the current carve-outs.</p>
+<p>Renting of a residential dwelling for use as a residence is exempt. However, since <b>18 July 2022</b> (Notification 05/2022-CT(R)), when such a dwelling is rented to a <b>registered person</b>, the registered tenant must pay GST at 18% under reverse charge. A later clarification carved out the case where the property is rented to a registered person in their <b>personal capacity</b> for their own residence &mdash; then it remains exempt. <span class="verify">VERIFY</span> the current carve-outs.</p>
 
   <h2 id="s1">Commercial renting</h2>
-<p>Renting of immovable property for commercial or business use is a taxable supply at <b>18%</b>. The landlord, if registered, charges GST on forward charge and the tenant claims ITC (renting for business is not a blocked credit). From <b>10 October 2024</b>, renting of commercial property by an <b>unregistered</b> landlord to a <b>registered</b> tenant was brought under reverse charge (Notification 09/2024-CT(R)). ✓ Notification 09/2024-CT(R) brought renting of commercial property by unregistered landlord to registered tenant under RCM. Confirmed in force FY 2026-27. June 2026. the effective scope.</p>
+<p>Renting of immovable property for commercial or business use is a taxable supply at <b>18%</b>. The landlord, if registered, charges GST on forward charge and the tenant claims ITC (renting for business is not a blocked credit). From <b>10 October 2024</b>, renting of commercial property by an <b>unregistered</b> landlord to a <b>registered</b> tenant was brought under reverse charge (Notification 09/2024-CT(R)). <span class="verify">VERIFY</span> the effective scope.</p>
 
   <h2 id="s2">Quick reference</h2>
 <div class="table-wrap"><table><thead><tr><th>Scenario</th><th>GST treatment</th></tr></thead><tbody><tr><td>Residential to individual for residence</td><td>Exempt</td></tr><tr><td>Residential to registered person (business)</td><td>18% under RCM (tenant pays)</td></tr><tr><td>Commercial, registered landlord</td><td>18% forward charge</td></tr><tr><td>Commercial, unregistered landlord to registered tenant</td><td>18% under RCM (from Oct 2024)</td></tr></tbody></table></div>
@@ -141,4 +141,9 @@
 const nav=document.getElementById('nav'),progress=document.getElementById('progress');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
-const ham=docu
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

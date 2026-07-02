@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-1 vs GSTR-3B: what is the difference?", "description": "GSTR-1 is the invoice-level statement of outward supplies; GSTR-3B is the summary return through which GST is paid. Key differences, due dates and how they interact.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr1-vs-gstr3b-difference.html"}
@@ -85,7 +85,7 @@
 <p><b>GSTR-1</b> is a statement of outward supplies filed under Section 37 of the CGST Act. It captures every B2B invoice, consolidated B2C supplies, credit and debit notes, exports and amendments. No tax is paid through GSTR-1 &mdash; it feeds the recipient's <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> and so directly affects whether your customers can claim input tax credit.</p><p><b>GSTR-3B</b> is a self-assessed summary return under Section 39 read with Rule 61. It reports total outward liability, ITC availed, reverse-charge tax and the net cash payable, and it is the return through which the tax is paid. Tax liability is discharged only on filing GSTR-3B after offsetting ITC and cash.</p>
 
   <h2 id="s1">Key differences at a glance</h2>
-<div class="table-wrap"><table><thead><tr><th>Particulars</th><th>GSTR-1</th><th>GSTR-3B</th></tr></thead><tbody><tr><td>Nature</td><td>Outward supply statement</td><td>Summary return</td></tr><tr><td>Legal provision</td><td>Section 37, Rule 59</td><td>Section 39, Rule 61</td></tr><tr><td>Level of detail</td><td>Invoice-wise</td><td>Consolidated totals</td></tr><tr><td>Tax payment</td><td>No</td><td>Yes &mdash; tax is paid here</td></tr><tr><td>Effect on customer ITC</td><td>Direct (flows to GSTR-2B)</td><td>None</td></tr><tr><td>Monthly due date</td><td>11th of next month</td><td>20th of next month</td></tr><tr><td>QRMP frequency</td><td>Quarterly (IFF optional monthly)</td><td>Quarterly (22nd/24th)</td></tr></tbody></table></div><p>Due dates above are the standard ones; QRMP staggered 3B dates (22nd/24th) depend on the State. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the exact date for your State and period.</p>
+<div class="table-wrap"><table><thead><tr><th>Particulars</th><th>GSTR-1</th><th>GSTR-3B</th></tr></thead><tbody><tr><td>Nature</td><td>Outward supply statement</td><td>Summary return</td></tr><tr><td>Legal provision</td><td>Section 37, Rule 59</td><td>Section 39, Rule 61</td></tr><tr><td>Level of detail</td><td>Invoice-wise</td><td>Consolidated totals</td></tr><tr><td>Tax payment</td><td>No</td><td>Yes &mdash; tax is paid here</td></tr><tr><td>Effect on customer ITC</td><td>Direct (flows to GSTR-2B)</td><td>None</td></tr><tr><td>Monthly due date</td><td>11th of next month</td><td>20th of next month</td></tr><tr><td>QRMP frequency</td><td>Quarterly (IFF optional monthly)</td><td>Quarterly (22nd/24th)</td></tr></tbody></table></div><p>Due dates above are the standard ones; QRMP staggered 3B dates (22nd/24th) depend on the State. <span class="verify">VERIFY</span> the exact date for your State and period.</p>
 
   <h2 id="s2">How the two returns interact</h2>
 <p>Since the sequential-filing rules and auto-population reforms, the system now <b>pulls GSTR-1 data into GSTR-3B Table 3</b> as an editable draft, and pulls GSTR-2B into the ITC table. This makes reconciliation between GSTR-1 and GSTR-3B critical: any mismatch in outward liability is flagged in Form GSTR-1/3B comparison and can trigger a <a href="section-73-vs-74-gst-difference.html">notice</a> or recovery under Section 75(12).</p><p><b>Worked example.</b> If your GSTR-1 reports outward tax of Rs.5,00,000 but GSTR-3B Table 3.1 shows Rs.4,60,000, the Rs.40,000 difference is treated as self-assessed tax not paid and can be recovered with interest under Section 50 without a show-cause notice.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

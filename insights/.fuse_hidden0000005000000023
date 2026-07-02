@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Depreciation and the block of assets concept", "description": "Depreciation under Section 32 uses the block-of-assets concept and the WDV method. The rates, the 180-day half-depreciation rule, additional depreciation, and how blocks work.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/depreciation-income-tax-block-assets.html"}
@@ -85,7 +85,7 @@
 <p>Income-tax depreciation does not track individual assets; it groups them into <b>blocks</b> by class (building, plant and machinery, furniture, intangibles) and rate. Additions are added to the block and sale proceeds are reduced from it. Depreciation is charged on the block's <b>WDV</b>, so individual-asset profit/loss is generally not computed unless the block ceases or empties.</p>
 
   <h2 id="s1">Common rates and the half-year rule</h2>
-<div class="table-wrap"><table><thead><tr><th>Asset block</th><th>Rate (WDV)</th></tr></thead><tbody><tr><td>Buildings (general)</td><td>10%</td></tr><tr><td>Buildings (residential)</td><td>5%</td></tr><tr><td>Furniture and fittings</td><td>10%</td></tr><tr><td>Plant and machinery (general)</td><td>15%</td></tr><tr><td>Computers and software</td><td>40%</td></tr><tr><td>Intangible assets (patents, know-how)</td><td>25%</td></tr></tbody></table></div><p>An asset put to use for <b>less than 180 days</b> in the year of acquisition gets <b>half</b> the normal depreciation that year. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current rate for a specific asset.</p>
+<div class="table-wrap"><table><thead><tr><th>Asset block</th><th>Rate (WDV)</th></tr></thead><tbody><tr><td>Buildings (general)</td><td>10%</td></tr><tr><td>Buildings (residential)</td><td>5%</td></tr><tr><td>Furniture and fittings</td><td>10%</td></tr><tr><td>Plant and machinery (general)</td><td>15%</td></tr><tr><td>Computers and software</td><td>40%</td></tr><tr><td>Intangible assets (patents, know-how)</td><td>25%</td></tr></tbody></table></div><p>An asset put to use for <b>less than 180 days</b> in the year of acquisition gets <b>half</b> the normal depreciation that year. <span class="verify">VERIFY</span> the current rate for a specific asset.</p>
 
   <h2 id="s2">Additional depreciation</h2>
 <p>A manufacturing business can claim <b>additional depreciation of 20%</b> of cost on new plant and machinery under Section 32(1)(iia), over and above normal depreciation (10% if used under 180 days, with the balance in the next year). Note that the concessional-regime sections restrict additional depreciation &mdash; check the regime opted.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

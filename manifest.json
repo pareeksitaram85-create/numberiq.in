@@ -1,0 +1,22 @@
+{
+  "name": "NumberIQ — Finance Intelligence",
+  "short_name": "NumberIQ",
+  "description": "Unified finance, tax & MIS workspace across India, UAE and Singapore.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#05060a",
+  "theme_color": "#05060a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

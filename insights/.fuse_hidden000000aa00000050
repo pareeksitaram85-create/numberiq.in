@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "ITR filing due dates FY 2026-27 (AY 2027-28)", "description": "ITR due dates for FY 2026-27 (AY 2027-28) - 31 July for non-audit cases, 31 October for audit cases, 30 November for transfer-pricing cases, plus belated and updated return windows.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/itr-filing-due-dates-fy2026-27.html"}
@@ -82,10 +82,10 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">The main due dates</h2>
-<div class="table-wrap"><table><thead><tr><th>Taxpayer</th><th>Due date (AY 2027-28)</th></tr></thead><tbody><tr><td>Individuals/HUF not under audit</td><td>31 July 2027</td></tr><tr><td>Taxpayers requiring tax audit</td><td>31 October 2027</td></tr><tr><td>Tax audit report (3CA/3CB-3CD)</td><td>30 September 2027</td></tr><tr><td>Transfer-pricing cases (Form 3CEB)</td><td>30 November 2027</td></tr></tbody></table></div><p>Dates are subject to extension by the CBDT. ✓ Due dates for FY 2026-27 (AY 2027-28) as per standard provisions; CBDT extensions, if any, to be checked on incometax.gov.in. Verified June 2026. any notified extension for the year.</p>
+<div class="table-wrap"><table><thead><tr><th>Taxpayer</th><th>Due date (AY 2027-28)</th></tr></thead><tbody><tr><td>Individuals/HUF not under audit</td><td>31 July 2027</td></tr><tr><td>Taxpayers requiring tax audit</td><td>31 October 2027</td></tr><tr><td>Tax audit report (3CA/3CB-3CD)</td><td>30 September 2027</td></tr><tr><td>Transfer-pricing cases (Form 3CEB)</td><td>30 November 2027</td></tr></tbody></table></div><p>Dates are subject to extension by the CBDT. <span class="verify">VERIFY</span> any notified extension for the year.</p>
 
   <h2 id="s1">Belated, revised and updated returns</h2>
-<ul><li><b>Belated/revised return:</b> up to 31 December 2027 (with a late fee under Section 234F for belated returns).</li><li><b>Updated return (ITR-U):</b> can be filed within the extended window from the end of the assessment year, on payment of additional tax. ✓ Due dates for FY 2026-27 (AY 2027-28) as per standard provisions; CBDT extensions, if any, to be checked on incometax.gov.in. Verified June 2026. the current ITR-U time limit and rates.</li></ul>
+<ul><li><b>Belated/revised return:</b> up to 31 December 2027 (with a late fee under Section 234F for belated returns).</li><li><b>Updated return (ITR-U):</b> can be filed within the extended window from the end of the assessment year, on payment of additional tax. <span class="verify">VERIFY</span> the current ITR-U time limit and rates.</li></ul>
 
   <h2 id="s2">Late filing costs</h2>
 <p>Filing after the due date attracts a fee under <b>Section 234F</b> (Rs.5,000, reduced to Rs.1,000 where total income is up to Rs.5 lakh) and interest under <a href="../interest-234abc-calculator.html">Section 234A</a> on unpaid tax. Certain losses cannot be carried forward if the return is filed late &mdash; see <a href="set-off-carry-forward-losses-income-tax.html">set-off and carry-forward</a>.</p>
@@ -141,4 +141,9 @@
 const nav=document.getElementById('nav'),progress=document.getElementById('progress');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
-const ham=document.getElementById('hamburger'),mm=do
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

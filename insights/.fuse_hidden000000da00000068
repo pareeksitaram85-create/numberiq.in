@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TCS on LRS and foreign remittances under 206C(1G)", "description": "TCS on foreign remittances under LRS and overseas tour packages - Section 206C(1G) rates (5%/20%), the threshold, the education/medical concession, and how to claim the TCS credit.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tcs-lrs-foreign-remittance.html"}
@@ -82,13 +82,13 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">The rates</h2>
-<div class="table-wrap"><table><thead><tr><th>Purpose</th><th>TCS rate</th></tr></thead><tbody><tr><td>Education funded by an education loan (above threshold)</td><td>0.5%</td></tr><tr><td>Education / medical treatment (above threshold)</td><td>5%</td></tr><tr><td>Overseas tour programme package</td><td>5% (up to Rs.10 lakh) / 20% (above Rs.10 lakh) — Finance Act 2025 ✓</td></tr><tr><td>Other LRS remittances (above threshold)</td><td>20%</td></tr></tbody></table></div><p>The threshold for LRS TCS was raised to Rs.10 lakh per year by Finance Act 2025 (from Rs.7 lakh earlier). Rate: 5% up to Rs.10L, 20% above. Confirmed for FY 2026-27. ✓</p>
+<div class="table-wrap"><table><thead><tr><th>Purpose</th><th>TCS rate</th></tr></thead><tbody><tr><td>Education funded by an education loan (above threshold)</td><td>0.5%</td></tr><tr><td>Education / medical treatment (above threshold)</td><td>5%</td></tr><tr><td>Overseas tour programme package</td><td>5% up to threshold, 20% beyond [VERIFY]</td></tr><tr><td>Other LRS remittances (above threshold)</td><td>20%</td></tr></tbody></table></div><p>The threshold for LRS TCS was raised (to around Rs.10 lakh per year by the Finance Act 2025, from Rs.7 lakh). <span class="verify">VERIFY</span> the current threshold and tour-package slabs.</p>
 
   <h2 id="s1">How it works</h2>
 <p>The <b>authorised dealer</b> (bank) or the tour operator collects the TCS at the time of the remittance/booking and deposits it. The amount is reflected in the remitter's <a href="form-26as-ais-tis-difference.html">Form 26AS/AIS</a> and can be <b>claimed as a credit</b> against income tax (or adjusted against salary TDS by intimating the employer).</p>
 
   <h2 id="s2">Worked example</h2>
-<p>An individual remits Rs.15 lakh abroad for investment (non-education, non-medical) in a year, threshold Rs.10 lakh. TCS at 20% applies on the amount above the threshold = 20% of Rs.5 lakh = <b>Rs.1,00,000</b>, collected by the bank and creditable in the return. TCS under Section 206C(1G) / new Act Section 394 — threshold Rs.10L, rate 5%/20% depending on purpose. ✓ Verified June 2026.</p>
+<p>An individual remits Rs.15 lakh abroad for investment (non-education, non-medical) in a year, threshold Rs.10 lakh. TCS at 20% applies on the amount above the threshold = 20% of Rs.5 lakh = <b>Rs.1,00,000</b>, collected by the bank and creditable in the return. <span class="verify">VERIFY</span> the threshold and computation basis.</p>
 
   <h2 id="s3">Practical points</h2>
 <ul><li>TCS is a <b>credit, not a cost</b> &mdash; claim it in the return or adjust against TDS.</li><li>Education via a loan gets the concessional 0.5% rate.</li><li>Salaried taxpayers can ask the employer to factor LRS TCS into salary TDS.</li><li>Coordinate with <a href="../insights/fema-compliance-foreign-subsidiary.html">FEMA</a> for the underlying remittance.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click'
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "QRMP scheme under GST", "description": "The QRMP scheme lets taxpayers up to Rs.5 crore turnover file GSTR-1 and GSTR-3B quarterly while paying tax monthly via PMT-06. The fixed-sum vs self-assessment methods and IFF.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/qrmp-scheme-gst-guide.html"}
@@ -91,7 +91,7 @@
 <p>Under QRMP, B2B sales invoices can be uploaded monthly through the <b>IFF</b> (up to Rs.50 lakh per month) so that customers get their ITC in <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> without waiting for the quarterly GSTR-1. The remaining invoices go in the quarterly GSTR-1.</p>
 
   <h2 id="s3">Should you opt for QRMP?</h2>
-<ul><li><b>Pro:</b> fewer returns, simpler compliance for small businesses.</li><li><b>Con:</b> the fixed-sum method can over- or under-pay; reconcile each quarter.</li><li>Use IFF if your B2B customers need timely ITC.</li><li>Due dates for quarterly GSTR-3B (22nd/24th) depend on the State. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> your State's date.</li></ul>
+<ul><li><b>Pro:</b> fewer returns, simpler compliance for small businesses.</li><li><b>Con:</b> the fixed-sum method can over- or under-pay; reconcile each quarter.</li><li>Use IFF if your B2B customers need timely ITC.</li><li>Due dates for quarterly GSTR-3B (22nd/24th) depend on the State. <span class="verify">VERIFY</span> your State's date.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

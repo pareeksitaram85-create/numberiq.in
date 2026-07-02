@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "New TDS sections under the Income-tax Act 2025", "description": "From FY 2026-27, TDS provisions are renumbered under the Income-tax Act 2025 - salary to Section 392, non-salary payments to 393, and TCS to 394. The mapping and what to update.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/new-tds-sections-income-tax-act-2025.html"}
@@ -82,7 +82,7 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">The high-level mapping</h2>
-<div class="table-wrap"><table><thead><tr><th>Old Act (1961)</th><th>New Act (2025)</th></tr></thead><tbody><tr><td>192 (salary), 192A (EPF)</td><td>392</td></tr><tr><td>193-196 and 194-series (non-salary)</td><td>393 (consolidated, with sub-clauses)</td></tr><tr><td>206C (TCS)</td><td>394</td></tr></tbody></table></div><p>The non-salary payments (194C, 194J, 194I, 194H, 194A, 195, etc.) are reorganised as sub-clauses within <b>Section 393</b>. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> for each specific payment against the enacted text.</p>
+<div class="table-wrap"><table><thead><tr><th>Old Act (1961)</th><th>New Act (2025)</th></tr></thead><tbody><tr><td>192 (salary), 192A (EPF)</td><td>392</td></tr><tr><td>193-196 and 194-series (non-salary)</td><td>393 (consolidated, with sub-clauses)</td></tr><tr><td>206C (TCS)</td><td>394</td></tr></tbody></table></div><p>The non-salary payments (194C, 194J, 194I, 194H, 194A, 195, etc.) are reorganised as sub-clauses within <b>Section 393</b>. <span class="verify">VERIFY new-Act sub-section</span> for each specific payment against the enacted text.</p>
 
   <h2 id="s1">What stays the same</h2>
 <ul><li>The <b>rates and thresholds</b> broadly continue from the 1961 framework (as amended by recent Finance Acts).</li><li>The mechanics &mdash; deduct at credit/payment, deposit, quarterly returns &mdash; continue.</li><li>Higher-rate rules for no-PAN/non-filers carry over.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.r
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

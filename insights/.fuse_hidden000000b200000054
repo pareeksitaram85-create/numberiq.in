@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Composite supply vs mixed supply under GST", "description": "Composite supply is naturally bundled and taxed at the principal supply's rate; mixed supply is taxed at the highest rate of any item. The Section 8 rule with clear examples.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/mixed-supply-vs-composite-supply-gst.html"}
@@ -91,7 +91,7 @@
 <p><b>Composite:</b> A laptop sold with a pre-loaded warranty and delivery is a composite supply; the laptop is the principal supply, so the whole is taxed at the laptop's rate. <b>Mixed:</b> A festival hamper containing items taxed at 5%, 12% and 18% sold for one price is a mixed supply, taxed entirely at 18% (the highest). Pricing items separately can change the outcome.</p>
 
   <h2 id="s3">Why it matters in practice</h2>
-<ul><li>Mixed-supply classification can raise the effective rate &mdash; structure bundles deliberately.</li><li>'Naturally bundled' is judged by trade practice and customer expectation.</li><li>Invoice description should support the classification taken.</li><li>Restaurant, hotel and works-contract bundles have specific clarifications &mdash; <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> sector rulings.</li></ul>
+<ul><li>Mixed-supply classification can raise the effective rate &mdash; structure bundles deliberately.</li><li>'Naturally bundled' is judged by trade practice and customer expectation.</li><li>Invoice description should support the classification taken.</li><li>Restaurant, hotel and works-contract bundles have specific clarifications &mdash; <span class="verify">VERIFY</span> sector rulings.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

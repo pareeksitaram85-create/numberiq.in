@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GTA under GST: RCM vs forward charge", "description": "Goods Transport Agency under GST - the recipient pays 5% under reverse charge, or the GTA opts for forward charge at 5% (no ITC) or 12% (with ITC). The Annexure V/VI option.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gta-gst-rcm-forward-charge.html"}
@@ -91,7 +91,7 @@
 <p>A GTA with significant input GST (fuel ITC is restricted, but trucks, tyres, services) may prefer the <b>12% with ITC</b> route. A GTA with little input tax often stays at 5%. For the recipient, RCM at 5% with ITC is usually cost-neutral. The decision affects pricing and should be aligned across contracts.</p>
 
   <h2 id="s3">Exemptions and notes</h2>
-<ul><li>Transport of certain goods (e.g. agricultural produce, milk, where notified) is exempt.</li><li>Consignments where the freight per carriage is below the notified small limit may be exempt.</li><li>The consignment note is the defining document of a GTA (vs a mere transporter).</li><li><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current Annexure V filing deadline and any rate changes.</li></ul>
+<ul><li>Transport of certain goods (e.g. agricultural produce, milk, where notified) is exempt.</li><li>Consignments where the freight per carriage is below the notified small limit may be exempt.</li><li>The consignment note is the defining document of a GTA (vs a mere transporter).</li><li><span class="verify">VERIFY</span> the current Annexure V filing deadline and any rate changes.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

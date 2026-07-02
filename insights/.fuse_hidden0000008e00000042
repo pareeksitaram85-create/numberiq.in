@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-9 annual return: a filing guide", "description": "A practical guide to filing GSTR-9, the GST annual return - who must file, the table-by-table structure, reconciliation with GSTR-1/3B and books, and the 31 December due date.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr-9-annual-return-guide.html"}
@@ -91,7 +91,7 @@
 <p>GSTR-9 is auto-populated from GSTR-1 and GSTR-3B, but the figures must be reconciled with the <b>books of account</b> and with GSTR-2B before submission, because the return <b>cannot be revised</b> once filed. Reconcile: outward turnover (books vs GSTR-1 vs 3B), ITC (books vs 2B vs 3B), and tax paid. Differences belong in Part V or are explained in <a href="gstr-9-vs-gstr-9c-difference.html">GSTR-9C</a>.</p>
 
   <h2 id="s3">What you cannot do in GSTR-9</h2>
-<ul><li>You cannot claim ITC that was missed in the monthly returns.</li><li>You can pay additional liability through Form <b>DRC-03</b>, but not via the annual return itself.</li><li>You cannot revise the return after filing &mdash; reconcile first.</li><li>Optional tables (some ITC bifurcation, HSN on inward) may be relaxed year to year &mdash; <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the relaxations notified for the year.</li></ul>
+<ul><li>You cannot claim ITC that was missed in the monthly returns.</li><li>You can pay additional liability through Form <b>DRC-03</b>, but not via the annual return itself.</li><li>You cannot revise the return after filing &mdash; reconcile first.</li><li>Optional tables (some ITC bifurcation, HSN on inward) may be relaxed year to year &mdash; <span class="verify">VERIFY</span> the relaxations notified for the year.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

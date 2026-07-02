@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Replying to a GST show-cause notice under Section 73", "description": "A practical guide to replying to a GST show-cause notice under Section 73 (non-fraud cases) in Form DRC-01 - timelines, structure of the reply, and how to use the tax-paid relief.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-show-cause-notice-section-73-reply.html"}
@@ -82,7 +82,7 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Understanding the Section 73 notice</h2>
-<p>A Section 73 SCN is issued where the shortfall is <b>not</b> due to fraud, wilful misstatement or suppression. It is preceded by an intimation in <b>Form DRC-01A</b> and formalised in <b>Form DRC-01</b>, specifying the tax, interest and penalty proposed and the period. The proper officer must issue the order within the statutory time limit (historically three years from the due date of the annual return for the year).</p><div class="callout warn"><b>Note.</b> For periods from FY 2024-25, Section 74A introduces a common limitation framework replacing the separate 73/74 timelines. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> which regime applies to your period.</div>
+<p>A Section 73 SCN is issued where the shortfall is <b>not</b> due to fraud, wilful misstatement or suppression. It is preceded by an intimation in <b>Form DRC-01A</b> and formalised in <b>Form DRC-01</b>, specifying the tax, interest and penalty proposed and the period. The proper officer must issue the order within the statutory time limit (historically three years from the due date of the annual return for the year).</p><div class="callout warn"><b>Note.</b> For periods from FY 2024-25, Section 74A introduces a common limitation framework replacing the separate 73/74 timelines. <span class="verify">VERIFY</span> which regime applies to your period.</div>
 
   <h2 id="s1">The reduced-penalty windows</h2>
 <div class="table-wrap"><table><thead><tr><th>When you pay tax + interest</th><th>Penalty</th></tr></thead><tbody><tr><td>Before the SCN (on DRC-01A)</td><td>Nil</td></tr><tr><td>Within 30 days of the SCN</td><td>Nil</td></tr><tr><td>After order</td><td>10% of tax or Rs.10,000, whichever is higher</td></tr></tbody></table></div><p>This is the key strategic point: in a genuine Section 73 case, early payment can extinguish penalty entirely.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

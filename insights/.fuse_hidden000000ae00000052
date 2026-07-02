@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "LTCG on shares under Section 112A", "description": "Long-term capital gains on listed shares and equity mutual funds are taxed under Section 112A at 12.5% above the Rs.1.25 lakh exemption, where STT is paid. Grandfathering and computation.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/ltcg-shares-section-112a.html"}
@@ -91,7 +91,7 @@
 <p>For shares acquired <b>before 1 February 2018</b>, the cost is taken as the <b>higher of</b> actual cost or the lower of (fair market value on 31 January 2018) and (the sale consideration). This 'grandfathers' gains accrued up to 31 January 2018, so only the appreciation after that date is taxed.</p><p><b>Example.</b> Shares bought in 2015 at Rs.100, FMV on 31 Jan 2018 Rs.250, sold at Rs.400. Cost for LTCG = higher of Rs.100 or min(Rs.250, Rs.400) = Rs.250. Taxable gain = Rs.150 per share.</p>
 
   <h2 id="s3">Computation and points</h2>
-<ul><li>The Rs.1.25 lakh exemption applies <b>once per year</b> across all 112A gains.</li><li>STCG on the same securities is taxed under Section 111A at 20% (post Budget 2024).</li><li>No indexation and no Chapter VI-A deductions against these gains.</li><li>Reconcile broker statements with <a href="form-26as-ais-tis-difference.html">AIS</a> before filing. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> figures.</li></ul>
+<ul><li>The Rs.1.25 lakh exemption applies <b>once per year</b> across all 112A gains.</li><li>STCG on the same securities is taxed under Section 111A at 20% (post Budget 2024).</li><li>No indexation and no Chapter VI-A deductions against these gains.</li><li>Reconcile broker statements with <a href="form-26as-ais-tis-difference.html">AIS</a> before filing. <span class="verify">VERIFY</span> figures.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

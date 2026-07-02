@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Equalisation levy in India: where it stands", "description": "Equalisation levy taxed certain digital transactions - 6% on online advertising and a 2% e-commerce levy. The 2% levy was withdrawn from August 2024; track the status of the 6% levy.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/equalisation-levy-india-fy2026-27.html"}
@@ -85,10 +85,10 @@
 <div class="table-wrap"><table><thead><tr><th>Levy</th><th>Rate</th><th>Scope</th></tr></thead><tbody><tr><td>Advertising EL (2016)</td><td>6%</td><td>Online advertisement payments to non-residents (B2B, above Rs.1 lakh/year)</td></tr><tr><td>E-commerce EL (2020)</td><td>2%</td><td>E-commerce supply/services by non-resident operators</td></tr></tbody></table></div>
 
   <h2 id="s1">The 2% levy withdrawal</h2>
-<p>The <b>2% e-commerce equalisation levy</b> was <b>withdrawn with effect from 1 August 2024</b>, responding to concerns over scope and the global digital-tax negotiations. Transactions on or after <b>1 August 2024</b> are not subject to the 2% levy (withdrawn via Finance (No. 2) Act, 2024).</p>
+<p>The <b>2% e-commerce equalisation levy</b> was <b>withdrawn with effect from 1 August 2024</b>, responding to concerns over scope and the global digital-tax negotiations. Transactions on or after that date are not subject to the 2% levy. <span class="verify">VERIFY</span> the precise sunset date and any transitional treatment.</p>
 
   <h2 id="s2">Status of the 6% levy</h2>
-<p>The <b>6% advertising equalisation levy</b> on online advertisement payments to non-residents was the original 2016 levy. The 6% levy is governed by Chapter VIII of the Finance Act, 2016 — it is separate from the Income Tax Act, 2025 and continues in force as of FY 2026-27. The 2% e-commerce levy was separately abolished w.e.f. 1 August 2024.</p>
+<p>The <b>6% advertising equalisation levy</b> on online advertisement payments to non-residents was the original 2016 levy. Its continuation or withdrawal has been the subject of subsequent Finance Act changes &mdash; <span class="verify">VERIFY new-Act / Finance Act position</span> for the relevant period, as proposals to remove it have been discussed.</p>
 
   <h2 id="s3">Compliance where it applies</h2>
 <ul><li>Where the levy applies, the <b>payer</b> deducts and deposits it (advertising EL) and files the annual statement in <b>Form 1</b>.</li><li>Income subject to equalisation levy is <b>exempt</b> from income tax under Section 10(50) to avoid double taxation.</li><li>Interest and penalty apply for late deposit or non-compliance.</li><li>Watch the overlap with <a href="gst-import-of-services-rcm.html">GST on import of services</a> on the same payment.</li></ul>
@@ -147,4 +147,3 @@ mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.
 </script>
 </body>
 </html>
-                                                   

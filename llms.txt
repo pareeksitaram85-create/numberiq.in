@@ -3,16 +3,16 @@
 > Free GST, TDS, income-tax and international-tax reference, calculators and rate charts for Indian finance professionals. Written by a Chartered Accountant in Mumbai. Grounded in the bare Indian tax law (Income-tax Act 1961 & 2025, CGST Act 2017, FEMA), with section, rule, notification and circular citations on every page. Last reviewed: June 2026.
 
 ## Tools (interactive, client-side — no data leaves the browser)
-- [Invoice Verification](https://numberiq.in/Invoice%20Compliance.html): Validate GST tax invoices for the mandatory particulars under Rule 46, CGST Rules 2017.
-- [GST Input Reconciliation (ReCo Studio / IMS)](https://numberiq.in/GST_ReCO_Studio_IMS_FIXED.html): Reconcile purchase register vs GSTR-2B / IMS to claim correct ITC under Section 16.
-- [HSN / SAC Finder](https://numberiq.in/HSN_SAC_Finder.html): Look up HSN codes for goods and SAC codes for services with GST rates.
-- [TDS Rate Finder FY 2026-27](https://numberiq.in/numberiq-tds-chart-fy2026-27.html): Search TDS rates and thresholds, mapped to the new Income-tax Act 2025 sections.
-- [GST Late Fee Calculator](https://numberiq.in/gst-late-fee-calculator.html): Section 47 late fee for delayed GSTR-1 / GSTR-3B with daily caps.
-- [GST Interest Calculator](https://numberiq.in/gst-interest-calculator.html): Section 50 interest on delayed GST payment / wrong ITC.
-- [TDS Interest Calculator](https://numberiq.in/tds-interest-calculator.html): Section 201(1A) interest for late deduction / late deposit of TDS.
-- [Advance Tax Calculator](https://numberiq.in/advance-tax-calculator.html): Quarterly advance-tax instalments for FY 2026-27.
-- [Income Tax Calculator FY 2026-27](https://numberiq.in/income-tax-calculator-fy2026-27.html): Old vs new regime tax computation.
-- [234A/B/C Interest Calculator](https://numberiq.in/interest-234abc-calculator.html): Interest for default in advance tax and late ITR filing.
+- [Invoice Verification](https://numberiq.in/tools/Invoice%20Compliance.html): Validate GST tax invoices for the mandatory particulars under Rule 46, CGST Rules 2017.
+- [GST Input Reconciliation (ReCo Studio / IMS)](https://numberiq.in/tools/GST_ReCO_Studio_IMS_FIXED.html): Reconcile purchase register vs GSTR-2B / IMS to claim correct ITC under Section 16.
+- [HSN / SAC Finder](https://numberiq.in/tools/HSN_SAC_Finder.html): Look up HSN codes for goods and SAC codes for services with GST rates.
+- [TDS Rate Finder FY 2026-27](https://numberiq.in/tools/numberiq-tds-chart-fy2026-27.html): Search TDS rates and thresholds, mapped to the new Income-tax Act 2025 sections.
+- [GST Late Fee Calculator](https://numberiq.in/tools/gst-late-fee-calculator.html): Section 47 late fee for delayed GSTR-1 / GSTR-3B with daily caps.
+- [GST Interest Calculator](https://numberiq.in/tools/gst-interest-calculator.html): Section 50 interest on delayed GST payment / wrong ITC.
+- [TDS Interest Calculator](https://numberiq.in/tools/tds-interest-calculator.html): Section 201(1A) interest for late deduction / late deposit of TDS.
+- [Advance Tax Calculator](https://numberiq.in/tools/advance-tax-calculator.html): Quarterly advance-tax instalments for FY 2026-27.
+- [Income Tax Calculator FY 2026-27](https://numberiq.in/tools/income-tax-calculator-fy2026-27.html): Old vs new regime tax computation.
+- [234A/B/C Interest Calculator](https://numberiq.in/tools/interest-234abc-calculator.html): Interest for default in advance tax and late ITR filing.
 - [All tools library](https://numberiq.in/tools.html): Searchable hub of every NumberIQ finance tool.
 
 ## Rate charts (reference tables, updated for FY 2026-27)
@@ -22,7 +22,7 @@
 - [PF / ESI / PT Rate Chart 2026](https://numberiq.in/pf-esi-pt-rate-chart-2026.html)
 - [GST Late Fee Chart FY 2026-27](https://numberiq.in/gst-late-fee-chart-fy2026-27.html)
 - [Advance Tax Due Dates FY 2026-27](https://numberiq.in/advance-tax-due-dates-fy2026-27.html)
-- [Compliance Due-Date Calendar FY 2026-27](https://numberiq.in/due-date-calendar.html)
+- [Compliance Due-Date Calendar FY 2026-27](https://numberiq.in/tools/due-date-calendar.html)
 
 ## Articles & glossary
 - [Insights — all articles](https://numberiq.in/insights.html): 100+ practitioner articles on GST, TDS, direct tax, transfer pricing, DTAA, FEMA and the Income-tax Act 2025.

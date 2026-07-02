@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GST registration process 2026", "description": "How to register for GST in 2026 - the turnover thresholds, mandatory registration cases, the Form REG-01 process with Aadhaar/biometric authentication, documents and timelines.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-registration-process-2026.html"}
@@ -82,7 +82,7 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Thresholds and compulsory cases</h2>
-<div class="table-wrap"><table><thead><tr><th>Trigger</th><th>Threshold / case</th></tr></thead><tbody><tr><td>Goods (normal states)</td><td>Rs.40 lakh aggregate turnover</td></tr><tr><td>Services (normal states)</td><td>Rs.20 lakh</td></tr><tr><td>Special-category states</td><td>Rs.20 lakh (goods) / Rs.10 lakh (services)</td></tr><tr><td>Inter-state supply of goods</td><td>Compulsory (Section 24)</td></tr><tr><td>E-commerce operators / suppliers</td><td>Compulsory</td></tr><tr><td>Reverse-charge liability, casual/NR taxable person</td><td>Compulsory</td></tr></tbody></table></div><p><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the threshold for your state and supply type.</p>
+<div class="table-wrap"><table><thead><tr><th>Trigger</th><th>Threshold / case</th></tr></thead><tbody><tr><td>Goods (normal states)</td><td>Rs.40 lakh aggregate turnover</td></tr><tr><td>Services (normal states)</td><td>Rs.20 lakh</td></tr><tr><td>Special-category states</td><td>Rs.20 lakh (goods) / Rs.10 lakh (services)</td></tr><tr><td>Inter-state supply of goods</td><td>Compulsory (Section 24)</td></tr><tr><td>E-commerce operators / suppliers</td><td>Compulsory</td></tr><tr><td>Reverse-charge liability, casual/NR taxable person</td><td>Compulsory</td></tr></tbody></table></div><p><span class="verify">VERIFY</span> the threshold for your state and supply type.</p>
 
   <h2 id="s1">The application process</h2>
 <ol><li>File <b>Form REG-01 Part A</b> (PAN, mobile, email) &mdash; get a TRN.</li><li>Complete <b>Part B</b> with business details, place of business, bank, and authorised signatory.</li><li>Complete <b>Aadhaar authentication</b>; many applicants now undergo <b>biometric authentication</b> at a GST Suvidha Kendra.</li><li>Upload documents; the officer verifies (and may seek clarification in REG-03).</li><li>The <b>GSTIN and certificate REG-06</b> are issued.</li></ol>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

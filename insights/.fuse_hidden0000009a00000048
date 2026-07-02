@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "How many HSN digits are mandatory on GST invoices?", "description": "How many HSN digits must appear on a GST invoice and in GSTR-1? 4 digits up to Rs.5 crore turnover and 6 digits above, per Notification 78/2020-CT. The rules with examples.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/hsn-code-mandatory-digits-gst.html"}
@@ -82,7 +82,7 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">The turnover-based requirement</h2>
-<div class="table-wrap"><table><thead><tr><th>Aggregate annual turnover (preceding FY)</th><th>HSN digits &mdash; B2B</th><th>HSN digits &mdash; B2C</th></tr></thead><tbody><tr><td>Up to Rs.5 crore</td><td>4 digits</td><td>4 digits (optional in some cases)</td></tr><tr><td>Above Rs.5 crore</td><td>6 digits</td><td>6 digits</td></tr></tbody></table></div><p>This applies to tax invoices and to HSN-summary reporting in GSTR-1 (Table 12). SAC codes for services follow the same digit logic. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the latest position, as the portal has progressively tightened HSN reporting in GSTR-1.</p>
+<div class="table-wrap"><table><thead><tr><th>Aggregate annual turnover (preceding FY)</th><th>HSN digits &mdash; B2B</th><th>HSN digits &mdash; B2C</th></tr></thead><tbody><tr><td>Up to Rs.5 crore</td><td>4 digits</td><td>4 digits (optional in some cases)</td></tr><tr><td>Above Rs.5 crore</td><td>6 digits</td><td>6 digits</td></tr></tbody></table></div><p>This applies to tax invoices and to HSN-summary reporting in GSTR-1 (Table 12). SAC codes for services follow the same digit logic. <span class="verify">VERIFY</span> the latest position, as the portal has progressively tightened HSN reporting in GSTR-1.</p>
 
   <h2 id="s1">When 8 digits are required</h2>
 <p>Eight-digit HSN is mandatory for a notified list of items (for example, certain chemicals) regardless of turnover, and for <b>exports and imports</b>, which follow the Customs Tariff at the 8-digit level. Using a shorter code for these can hold up shipping-bill and refund processing.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

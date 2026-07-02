@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Section 74 GST demands: fraud and suppression", "description": "Section 74 of the CGST Act covers GST demands involving fraud, wilful misstatement or suppression - 100% penalty, a 5-year time limit, and the reduced 15%/25% payment windows.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-demand-section-74-fraud.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>When tax + interest is paid</th><th>Penalty</th></tr></thead><tbody><tr><td>Before the SCN</td><td>15% of tax</td></tr><tr><td>Within 30 days of the SCN</td><td>25% of tax</td></tr><tr><td>Within 30 days of the order</td><td>50% of tax</td></tr><tr><td>Otherwise (in the order)</td><td>100% of tax</td></tr></tbody></table></div><p>These graded reductions reward early closure even in a Section 74 case.</p>
 
   <h2 id="s2">Time limit</h2>
-<p>The order under Section 74 must be passed within <b>five years</b> from the due date of the annual return for the financial year (versus three years under <a href="section-73-vs-74-gst-difference.html">Section 73</a>). For periods from FY 2024-25, the unified <b>Section 74A</b> framework applies. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> which limitation governs your period.</p>
+<p>The order under Section 74 must be passed within <b>five years</b> from the due date of the annual return for the financial year (versus three years under <a href="section-73-vs-74-gst-difference.html">Section 73</a>). For periods from FY 2024-25, the unified <b>Section 74A</b> framework applies. <span class="verify">VERIFY</span> which limitation governs your period.</p>
 
   <h2 id="s3">Defending a Section 74 notice</h2>
 <ul><li>Attack the <b>jurisdiction</b>: show full disclosure in returns, negating suppression, to push the case into Section 73 limits or out of time.</li><li>Address each allegation with documents and reconciliations.</li><li>Consider the 15%/25% windows where part of the demand is conceded.</li><li>Always seek a personal hearing under Section 75(4).</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

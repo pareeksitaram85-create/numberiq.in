@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-2B reconciliation: a practical guide", "description": "GSTR-2B is the static auto-drafted ITC statement. How to reconcile your purchase register with GSTR-2B, handle mismatches, and claim ITC correctly under Section 16(2)(aa).", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr-2b-reconciliation-guide.html"}
@@ -85,7 +85,7 @@
 <p>GSTR-2B is generated on the 14th of each month and, unlike the dynamic GSTR-2A, <b>does not change</b> once generated. It lists ITC available from suppliers' GSTR-1/IFF and GSTR-5/6 filings, classified as available or not available with reasons (for example, supply from a different State, time-barred under Section 16(4), or place of supply in the supplier's State).</p><p>Section 16(2)(aa) makes the appearance of an invoice in GSTR-2B a <b>condition</b> for claiming ITC. So your eligible credit is, broadly, the intersection of (a) goods/services actually received, (b) a valid tax invoice, and (c) the invoice reflected in 2B.</p>
 
   <h2 id="s1">A monthly reconciliation method</h2>
-<ol><li>Download GSTR-2B (JSON/Excel) for the period from the portal.</li><li>Match against the purchase register on GSTIN + invoice number + invoice value + tax.</li><li>Classify each line: <b>matched</b>, <b>in books not in 2B</b>, <b>in 2B not in books</b>, or <b>value/tax mismatch</b>.</li><li>Claim ITC only for matched and 2B-reflected invoices in GSTR-3B Table 4.</li><li>Park "in books not in 2B" credit; follow up with the supplier to file/amend GSTR-1.</li></ol><p>The <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation tool</a> automates this matching against 2B and the new IMS.</p>
+<ol><li>Download GSTR-2B (JSON/Excel) for the period from the portal.</li><li>Match against the purchase register on GSTIN + invoice number + invoice value + tax.</li><li>Classify each line: <b>matched</b>, <b>in books not in 2B</b>, <b>in 2B not in books</b>, or <b>value/tax mismatch</b>.</li><li>Claim ITC only for matched and 2B-reflected invoices in GSTR-3B Table 4.</li><li>Park "in books not in 2B" credit; follow up with the supplier to file/amend GSTR-1.</li></ol><p>The <a href="../tools/GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation tool</a> automates this matching against 2B and the new IMS.</p>
 
   <h2 id="s2">Handling the common mismatch types</h2>
 <div class="table-wrap"><table><thead><tr><th>Mismatch</th><th>Likely cause</th><th>Action</th></tr></thead><tbody><tr><td>In books, not in 2B</td><td>Supplier missed/late GSTR-1</td><td>Defer ITC; chase supplier; claim when it appears</td></tr><tr><td>In 2B, not in books</td><td>Invoice not booked / wrong GSTIN</td><td>Verify and book, or reject in IMS</td></tr><tr><td>Tax value mismatch</td><td>Data entry / amendment</td><td>Reconcile to correct figure; claim eligible amount</td></tr><tr><td>Marked "not available"</td><td>Section 16(4) time bar / POS rules</td><td>Do not claim; record reason</td></tr></tbody></table></div>
@@ -106,7 +106,7 @@
     <ul><li>GSTR-2B is static and fixes eligible ITC for the period.</li><li>Section 16(2)(aa): ITC is restricted to invoices appearing in 2B.</li><li>Reconcile the purchase register to 2B every month before filing 3B.</li><li>Section 16(4) bars ITC after 30 November of the next financial year.</li></ul>
   </div>
 
-  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../tools/GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../tools/HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
 </article>
 
 <div class="sources">
@@ -131,6 +131,7 @@
 </div>
 
 <footer>
+  <div class="wrap" style="text-align:center;padding:6px 0 4px;font-size:.82rem"><span style="color:var(--ink-dim,#8a93a6)"><a href="../about.html">About</a> &middot; <a href="../contact.html">Contact</a> &middot; <a href="../disclaimer.html">Disclaimer</a> &middot; <a href="../privacy-policy.html">Privacy</a> &middot; <a href="../index.html">Home</a></span></div>
   <div class="wrap foot-bottom">
     <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
     <span><a href="../insights.html">&larr; Back to Insights</a></span>

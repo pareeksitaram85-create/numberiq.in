@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Tax compliance calendar FY 2026-27 (all laws)", "description": "A combined GST, income-tax, TDS and MCA compliance calendar for FY 2026-27 - the key monthly and annual deadlines in one view, with an interactive calendar and .ics export.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tax-compliance-due-date-calendar-fy2026-27.html"}
@@ -91,7 +91,7 @@
 <ul><li><b>DPT-3</b> &mdash; 30 June (return of deposits).</li><li><b>DIR-3 KYC</b> &mdash; 30 September.</li><li><b>AOC-4 / MGT-7</b> &mdash; within 30 / 60 days of the AGM.</li><li><b>LLP Form 11</b> (30 May) and <b>Form 8</b> (30 October).</li></ul>
 
   <h2 id="s3">Use the interactive calendar</h2>
-<p>The dates above are not automatically extended on holidays. Track them in the <a href="../due-date-calendar.html">NumberIQ due-date calendar</a>, which lets you filter by GST/IT/TDS/MCA and export the deadlines to your own calendar (.ics). <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> any CBIC/CBDT/MCA extensions.</p>
+<p>The dates above are not automatically extended on holidays. Track them in the <a href="../due-date-calendar.html">NumberIQ due-date calendar</a>, which lets you filter by GST/IT/TDS/MCA and export the deadlines to your own calendar (.ics). <span class="verify">VERIFY</span> any CBIC/CBDT/MCA extensions.</p>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

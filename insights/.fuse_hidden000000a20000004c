@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "LLP income tax: computation and filing", "description": "How an LLP is taxed - flat 30% plus surcharge and cess, AMT under Section 115JC, deductibility of partner remuneration and interest under Section 40(b), and the filing requirements.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/income-tax-llp-computation-filing.html"}
@@ -85,7 +85,7 @@
 <p>An LLP does not get slab benefits or the concessional company regimes &mdash; it is taxed at a <b>flat 30%</b>. A <b>surcharge of 12%</b> applies where total income exceeds Rs.1 crore, and a <b>4% cess</b> applies on tax plus surcharge. There is no dividend distribution tax; partners' profit share is exempt in their hands under Section 10(2A).</p>
 
   <h2 id="s1">Deduction of partner remuneration and interest</h2>
-<p>Remuneration to <b>working partners</b> and interest on partners' capital are deductible in computing the LLP's income, but only within the limits of <b>Section 40(b)</b> and if authorised by the LLP agreement:</p><div class="table-wrap"><table><thead><tr><th>Item</th><th>Section 40(b) limit</th></tr></thead><tbody><tr><td>Interest on capital</td><td>Up to 12% per annum</td></tr><tr><td>Remuneration &mdash; first Rs.3 lakh of book profit (or loss)</td><td>Rs.1,50,000 or 90% of book profit, whichever is higher</td></tr><tr><td>Remuneration &mdash; balance of book profit</td><td>60% of book profit</td></tr></tbody></table></div><p><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current Section 40(b) remuneration slabs, which were revised by the Finance Act 2024.</p>
+<p>Remuneration to <b>working partners</b> and interest on partners' capital are deductible in computing the LLP's income, but only within the limits of <b>Section 40(b)</b> and if authorised by the LLP agreement:</p><div class="table-wrap"><table><thead><tr><th>Item</th><th>Section 40(b) limit</th></tr></thead><tbody><tr><td>Interest on capital</td><td>Up to 12% per annum</td></tr><tr><td>Remuneration &mdash; first Rs.3 lakh of book profit (or loss)</td><td>Rs.1,50,000 or 90% of book profit, whichever is higher</td></tr><tr><td>Remuneration &mdash; balance of book profit</td><td>60% of book profit</td></tr></tbody></table></div><p><span class="verify">VERIFY</span> the current Section 40(b) remuneration slabs, which were revised by the Finance Act 2024.</p>
 
   <h2 id="s2">AMT and other points</h2>
 <ul><li><b>AMT under Section 115JC</b> at 18.5% (plus surcharge/cess) of adjusted total income applies where it exceeds the normal tax, with AMT credit carried forward.</li><li>An LLP <b>cannot</b> opt for presumptive taxation under Section 44AD.</li><li>A <a href="tax-audit-applicability-fy2026-27.html">tax audit</a> applies on the same turnover thresholds.</li><li>Losses carry forward subject to continuity of partners (Section 78).</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

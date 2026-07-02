@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Retrospective GST cancellation and the buyer's ITC", "description": "When a supplier's GST registration is cancelled retrospectively, can the buyer's input tax credit be denied? Section 16(2)(c), the bona fide buyer principle and practical defence.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/retrospective-gst-cancellation-supplier-itc.html"}
@@ -85,7 +85,7 @@
 <p>Section 16(2)(c) of the CGST Act allows ITC only if the tax charged on the supply has actually been <b>paid to the Government</b>. When a supplier is cancelled retrospectively &mdash; often for being non-existent or a 'bill trader' &mdash; the department treats the underlying tax as unpaid and seeks to reverse the buyer's credit, with interest and penalty.</p><div class="callout law"><b>Section 16(2)(c), CGST Act 2017.</b> ITC is contingent on the supplier's tax being paid to the Government. Rule 86A may also be used to block the credit ledger pending enquiry.</div>
 
   <h2 id="s1">The bona fide-buyer line of reasoning</h2>
-<p>A recurring judicial theme is that a genuine buyer cannot be made to suffer for the supplier's default where the buyer has (a) a valid tax invoice, (b) proof of receipt of goods/services, and (c) proof of payment to the supplier including tax, typically through banking channels. The Calcutta High Court in <b>Suncraft Energy</b> held that the department should first proceed against the defaulting supplier before reversing a bona fide buyer's credit, save in exceptional cases such as collusion. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current status and applicability of any judgment to your facts.</p>
+<p>A recurring judicial theme is that a genuine buyer cannot be made to suffer for the supplier's default where the buyer has (a) a valid tax invoice, (b) proof of receipt of goods/services, and (c) proof of payment to the supplier including tax, typically through banking channels. The Calcutta High Court in <b>Suncraft Energy</b> held that the department should first proceed against the defaulting supplier before reversing a bona fide buyer's credit, save in exceptional cases such as collusion. <span class="verify">VERIFY</span> the current status and applicability of any judgment to your facts.</p>
 
   <h2 id="s2">Building a defensible file</h2>
 <ol><li>Retain the tax invoice, e-way bill, transport/LR and proof of delivery.</li><li>Keep bank proof of payment to the supplier (within 180 days, per the second proviso to Section 16(2)).</li><li>Save the supplier's GST status and GSTR-1/GSTR-3B filing evidence at the <b>time of the transaction</b> (a periodic GSTIN check protects you).</li><li>Show the supply appeared in your <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> when claimed.</li></ol>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

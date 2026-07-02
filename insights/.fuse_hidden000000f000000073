@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TDS on payments to non-residents under Section 195", "description": "Section 195 requires TDS on any sum paid to a non-resident that is taxable in India, at rates under the Act or the DTAA, whichever is beneficial. Forms 15CA/15CB, grossing up and 197.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-non-resident-section-195-guide.html"}
@@ -85,7 +85,7 @@
 <p>Section 195 applies to <b>any sum chargeable to tax</b> in India paid to a non-resident &mdash; interest, royalty, fees for technical services, capital gains, and other income. It does not apply to salary (covered by Section 192) or to sums not chargeable to tax in India. The payer must determine taxability and the correct rate before paying.</p>
 
   <h2 id="s1">Act rate vs DTAA rate</h2>
-<p>The deductor applies the <b>more beneficial</b> of the rate under the Act or the applicable DTAA. To claim the treaty rate, the non-resident must furnish a <b>Tax Residency Certificate (TRC)</b>, Form 10F, and (where required) a no-PE declaration. Without these, the higher Act rate (and the Section 206AA fallback where no PAN) may apply.</p><div class="table-wrap"><table><thead><tr><th>Payment</th><th>Typical treaty rate (illustrative)</th></tr></thead><tbody><tr><td>Royalty / FTS</td><td>10% (varies by treaty)</td></tr><tr><td>Interest</td><td>10%-15% (varies)</td></tr><tr><td>Dividend</td><td>5%-15% (varies)</td></tr></tbody></table></div><p><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the exact rate in the specific DTAA article for the payment.</p>
+<p>The deductor applies the <b>more beneficial</b> of the rate under the Act or the applicable DTAA. To claim the treaty rate, the non-resident must furnish a <b>Tax Residency Certificate (TRC)</b>, Form 10F, and (where required) a no-PE declaration. Without these, the higher Act rate (and the Section 206AA fallback where no PAN) may apply.</p><div class="table-wrap"><table><thead><tr><th>Payment</th><th>Typical treaty rate (illustrative)</th></tr></thead><tbody><tr><td>Royalty / FTS</td><td>10% (varies by treaty)</td></tr><tr><td>Interest</td><td>10%-15% (varies)</td></tr><tr><td>Dividend</td><td>5%-15% (varies)</td></tr></tbody></table></div><p><span class="verify">VERIFY</span> the exact rate in the specific DTAA article for the payment.</p>
 
   <h2 id="s2">Forms 15CA and 15CB</h2>
 <ul><li><b>Form 15CB</b> &mdash; a CA's certificate on the taxability and rate, required for most taxable foreign remittances above the threshold.</li><li><b>Form 15CA</b> &mdash; the remitter's declaration, filed online, referencing 15CB.</li><li>Certain payments in the specified list (Rule 37BB) are exempt from 15CA/15CB.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

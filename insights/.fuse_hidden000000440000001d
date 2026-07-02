@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Anti-profiteering under GST (Section 171)", "description": "Section 171 requires businesses to pass on the benefit of rate cuts and ITC to consumers. How anti-profiteering worked, the authorities involved, and the sunset on new applications.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/anti-profiteering-gst.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>Authority</th><th>Role</th></tr></thead><tbody><tr><td>Standing/State screening committees</td><td>Initial examination of complaints</td></tr><tr><td>DGAP</td><td>Investigation</td></tr><tr><td>NAA (National Anti-Profiteering Authority)</td><td>Adjudication (till Nov 2022)</td></tr><tr><td>CCI (Competition Commission of India)</td><td>Took over anti-profiteering cases</td></tr><tr><td>GSTAT</td><td>To hear anti-profiteering matters going forward</td></tr></tbody></table></div>
 
   <h2 id="s2">The methodology debate and sunset</h2>
-<p>There was <b>no prescribed formula</b> for computing the profiteered amount, which led to extensive litigation; the Delhi High Court broadly upheld the constitutional validity of Section 171 while leaving room to challenge individual computations. The CBIC has provided that <b>no new anti-profiteering applications</b> will be accepted from <b>1 April 2025</b>, effectively sunsetting the regime for fresh cases. ✓ No new anti-profiteering applications accepted from 1 April 2025; pending cases still being adjudicated by CCI. Verified June 2026. the current status of pending cases.</p>
+<p>There was <b>no prescribed formula</b> for computing the profiteered amount, which led to extensive litigation; the Delhi High Court broadly upheld the constitutional validity of Section 171 while leaving room to challenge individual computations. The CBIC has provided that <b>no new anti-profiteering applications</b> will be accepted from <b>1 April 2025</b>, effectively sunsetting the regime for fresh cases. <span class="verify">VERIFY</span> the current status of pending cases.</p>
 
   <h2 id="s3">What businesses should retain</h2>
 <p>For periods when rate cuts occurred, keep working papers showing how the benefit was passed on (price/MRP changes, credit notes), as legacy cases may still be examined. Going forward, the compliance burden for fresh complaints has eased, but pricing transparency around rate changes remains good practice.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forE
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

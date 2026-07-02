@@ -1,0 +1,111 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String        @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role          @default(USER)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  calculations  SavedCalc[]
+  history       CalcHistory[]
+  favorites     Favorite[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SavedCalc {
+  id         String   @id @default(cuid())
+  userId     String
+  calcType   String // e.g. "gst-interest", "capital-gains"
+  name       String // Custom label from user
+  inputs     Json // JSON representing input values
+  outputs    Json // JSON representing calculated results
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CalcHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  calcType  String
+  inputs    Json
+  outputs   Json
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Favorite {
+  id       String @id @default(cuid())
+  userId   String
+  calcType String // e.g., "gst-interest"
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, calcType])
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  content     String   @db.Text
+  excerpt     String
+  published   Boolean  @default(false)
+  category    String // e.g., "gst", "tds"
+  readingTime String
+  authorName  String   @default("NumberIQ Editorial")
+  faq         Json? // Schema FAQ list
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Term {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  term        String
+  category    String
+  definition  String   @db.Text
+  explanation String   @db.Text
+  sections    String? // Citing law references
+  takeaways   String[]
+  createdAt   DateTime @default(now())
+}

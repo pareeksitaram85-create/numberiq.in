@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GST due dates calendar FY 2026-27", "description": "GST due dates for FY 2026-27 - GSTR-1 (11th), GSTR-3B (20th), QRMP (13th/22nd/24th), GSTR-5/6/7/8, and the GSTR-9/9C annual return by 31 December. A practitioner reference.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-due-dates-calendar-fy2026-27.html"}
@@ -91,7 +91,7 @@
 <p><b>GSTR-9 / GSTR-9C</b> for a financial year is due by <b>31 December</b> of the following year (for example, FY 2025-26 by 31 December 2026). GSTR-4 (annual, composition) is due by 30 June following the year.</p>
 
   <h2 id="s3">Practical notes</h2>
-<ul><li>Dates falling on a holiday are not automatically extended &mdash; file ahead.</li><li>Sequential filing rules block a later GSTR-1/3B if an earlier one is pending.</li><li>Track all this in the <a href="../due-date-calendar.html">NumberIQ due-date calendar</a>.</li><li><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> any CBIC extensions notified for specific periods.</li></ul>
+<ul><li>Dates falling on a holiday are not automatically extended &mdash; file ahead.</li><li>Sequential filing rules block a later GSTR-1/3B if an earlier one is pending.</li><li>Track all this in the <a href="../due-date-calendar.html">NumberIQ due-date calendar</a>.</li><li><span class="verify">VERIFY</span> any CBIC extensions notified for specific periods.</li></ul>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

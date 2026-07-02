@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TCS on sale of goods under Section 206C(1H)", "description": "Section 206C(1H) requires a seller with turnover above Rs.10 crore to collect 0.1% TCS on sale consideration above Rs.50 lakh per buyer, and how it interacts with TDS under Section 194Q.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tcs-sale-of-goods-206c.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>Provision</th><th>Who acts</th><th>Rate</th></tr></thead><tbody><tr><td>194Q (TDS)</td><td>Buyer deducts</td><td>0.1% on purchase above Rs.50 lakh</td></tr><tr><td>206C(1H) (TCS)</td><td>Seller collects</td><td>0.1% on receipts above Rs.50 lakh</td></tr></tbody></table></div><p>Both can apply to the same transaction. The rule: if the <b>buyer is liable under 194Q</b>, the buyer deducts TDS and the seller does <b>not</b> collect 206C(1H). 194Q takes precedence.</p>
 
   <h2 id="s2">Status note</h2>
-<p>The 206C(1H) levy has been subject to review and possible withdrawal in light of the overlap with 194Q. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> whether 206C(1H) remains in force for your period before applying it.</p>
+<p>The 206C(1H) levy has been subject to review and possible withdrawal in light of the overlap with 194Q. <span class="verify">VERIFY</span> whether 206C(1H) remains in force for your period before applying it.</p>
 
   <h2 id="s3">Practical points</h2>
 <ul><li>TCS under 206C(1H) is on <b>receipts</b>; 194Q TDS is on <b>purchase/credit</b>.</li><li>No PAN: TCS at 1% (Section 206CC).</li><li>Issue Form 27D to the buyer; report in 27EQ.</li><li>Coordinate buyer/seller declarations to avoid double collection.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

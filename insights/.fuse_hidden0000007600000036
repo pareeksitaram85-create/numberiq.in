@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Import of services and RCM under GST", "description": "Import of services is taxable under reverse charge - the Indian recipient pays IGST. The rules under Section 5(3) IGST Act, OIDAR services, and how to claim ITC of the RCM paid.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-import-of-services-rcm.html"}
@@ -85,7 +85,7 @@
 <p>An 'import of service' arises where the supplier is outside India, the recipient is in India and the place of supply is in India. Such supplies are taxable under <b>reverse charge</b>: the Indian recipient self-assesses IGST, pays it in cash, and reports it in GSTR-3B Table 3.1(d). This applies to professional fees, software subscriptions, royalties, technical services and similar cross-border purchases.</p>
 
   <h2 id="s1">The related-party and 'free' twist</h2>
-<p>Under Schedule I, import of services by a person from a <b>related person or an overseas establishment</b>, in the course of business, is taxable <b>even if made without consideration</b>. So a free management or IT service received from a foreign parent or group company can attract IGST under reverse charge on its open-market value. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> valuation for related-party imports.</p>
+<p>Under Schedule I, import of services by a person from a <b>related person or an overseas establishment</b>, in the course of business, is taxable <b>even if made without consideration</b>. So a free management or IT service received from a foreign parent or group company can attract IGST under reverse charge on its open-market value. <span class="verify">VERIFY</span> valuation for related-party imports.</p>
 
   <h2 id="s2">OIDAR services</h2>
 <p>For <b>OIDAR</b> (online information and database access or retrieval) services supplied to a registered recipient, reverse charge applies. Where supplied to a <b>non-taxable online recipient</b> (an unregistered individual), the overseas supplier itself must register and pay tax. This distinction matters for SaaS and digital platforms.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

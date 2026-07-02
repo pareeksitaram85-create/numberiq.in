@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Blocked credits under Section 17(5)", "description": "Section 17(5) of the CGST Act blocks ITC on motor vehicles, food and beverages, club membership, construction of immovable property, CSR and more. The full list with exceptions.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/section-17-5-blocked-credits-gst.html"}
@@ -88,7 +88,7 @@
 <div class="table-wrap"><table><thead><tr><th>Blocked item</th><th>Key exception (ITC allowed)</th></tr></thead><tbody><tr><td>Motor vehicles for transport of persons (&le;13 seats)</td><td>Further supply of vehicles, passenger transport, driving training</td></tr><tr><td>Food, beverages, outdoor catering, beauty, health services</td><td>Where it is an input for the same category of outward supply, or obligatory under law</td></tr><tr><td>Club, health and fitness centre membership</td><td>No general exception</td></tr><tr><td>Rent-a-cab, life and health insurance</td><td>Where obligatory for the employer under any law</td></tr><tr><td>Works contract / construction of immovable property</td><td>Plant and machinery; input for further works contract</td></tr><tr><td>Goods lost, stolen, destroyed, written off; gifts and free samples</td><td>None</td></tr><tr><td>CSR expenditure (Section 135, Companies Act)</td><td>Blocked w.e.f. amendment by Finance Act 2023</td></tr></tbody></table></div>
 
   <h2 id="s2">Worked notes</h2>
-<ul><li>A car bought by a consultancy is blocked; the same car bought by a cab operator or car dealer is creditable.</li><li>Free samples and business gifts are blocked &mdash; reverse any ITC on goods so disposed.</li><li>Health insurance for employees is blocked unless the employer is obligated by law to provide it.</li><li>CSR spend ITC is blocked from the Finance Act 2023 amendment &mdash; map CSR purchases separately. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> effective date.</li></ul>
+<ul><li>A car bought by a consultancy is blocked; the same car bought by a cab operator or car dealer is creditable.</li><li>Free samples and business gifts are blocked &mdash; reverse any ITC on goods so disposed.</li><li>Health insurance for employees is blocked unless the employer is obligated by law to provide it.</li><li>CSR spend ITC is blocked from the Finance Act 2023 amendment &mdash; map CSR purchases separately. <span class="verify">VERIFY</span> effective date.</li></ul>
 
   <h2 id="s3">Process control</h2>
 <p>Tag blocked-credit GL codes in your accounting system so GST on those expenses is never pushed to the credit ledger. Reconcile periodically against <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> to ensure blocked items are excluded from the ITC claimed in GSTR-3B.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

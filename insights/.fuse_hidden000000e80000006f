@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TDS on dividend under Section 194", "description": "Since dividends became taxable in shareholders' hands, companies deduct TDS at 10% under Section 194 on dividends above the threshold. The rate, threshold, and 15G/15H relief.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-dividend-section-194.html"}
@@ -85,7 +85,7 @@
 <p>After the abolition of dividend distribution tax, dividends are <b>taxable in the hands of shareholders</b> at their slab rate. To collect tax on this, the company paying the dividend deducts <b>10%</b> TDS under Section 194 (for residents) at the time of payment or distribution.</p>
 
   <h2 id="s1">Rate, threshold and no-PAN</h2>
-<div class="table-wrap"><table><thead><tr><th>Item</th><th>Position</th></tr></thead><tbody><tr><td>Rate (resident)</td><td>10%</td></tr><tr><td>Threshold</td><td>Rs.10,000 per year ✓ (raised by Finance Act 2025)</td></tr><tr><td>No PAN</td><td>20% (Section 206AA)</td></tr><tr><td>Non-resident shareholder</td><td>Section 195 / DTAA</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th>Position</th></tr></thead><tbody><tr><td>Rate (resident)</td><td>10%</td></tr><tr><td>Threshold</td><td>Rs.10,000 per year [VERIFY] (raised by Finance Act 2025)</td></tr><tr><td>No PAN</td><td>20% (Section 206AA)</td></tr><tr><td>Non-resident shareholder</td><td>Section 195 / DTAA</td></tr></tbody></table></div>
 
   <h2 id="s2">Avoiding deduction</h2>
 <p>A resident whose total income is below the taxable limit can submit <a href="form-15g-15h-tds-exemption.html">Form 15G (or 15H for senior citizens)</a> to the company for nil deduction. A <a href="lower-tds-certificate-section-197.html">Section 197 certificate</a> can also fix a lower rate.</p>
@@ -147,4 +147,3 @@ mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.
 </script>
 </body>
 </html>
-           

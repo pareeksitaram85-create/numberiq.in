@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-3B interest and Circular 192/2023", "description": "Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed ITC depends on whether the credit was utilised, tested against the electronic credit ledger balance.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr-3b-interest-circular-192-2023.html"}
@@ -88,7 +88,7 @@
 <p>The circular directs that the <b>electronic credit ledger balance</b> be examined over the period: if the balance was, at all times, equal to or greater than the wrongly availed credit, that credit is deemed not utilised and <b>no interest</b> is attracted. Interest applies only to the extent the ledger balance fell below the wrong credit, indicating utilisation.</p><div class="callout note"><b>Why it matters.</b> A clerical wrong-credit that is reversed before use, with sufficient balance throughout, should not carry 24% interest.</div>
 
   <h2 id="s2">Worked illustration</h2>
-<p>Wrong ITC availed = Rs.1,00,000. If the credit ledger balance never dropped below Rs.1,00,000 until the credit was reversed, no utilisation occurred &mdash; interest is nil. If, however, the balance fell to Rs.30,000 at some point, the wrong credit was utilised to the extent of Rs.70,000, and 24% interest applies on that Rs.70,000 for the period. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the day-wise ledger working for your case.</p>
+<p>Wrong ITC availed = Rs.1,00,000. If the credit ledger balance never dropped below Rs.1,00,000 until the credit was reversed, no utilisation occurred &mdash; interest is nil. If, however, the balance fell to Rs.30,000 at some point, the wrong credit was utilised to the extent of Rs.70,000, and 24% interest applies on that Rs.70,000 for the period. <span class="verify">VERIFY</span> the day-wise ledger working for your case.</p>
 
   <h2 id="s3">Documentation to keep</h2>
 <p>Maintain a <b>day-wise credit-ledger movement</b> for any period where wrong ITC is identified, to demonstrate non-utilisation. Reverse wrong credit promptly and record the reason. This single working can decide whether a 24% interest demand stands.</p>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

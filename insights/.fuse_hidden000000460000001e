@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Arm's length price methods under Section 92C", "description": "The five prescribed transfer-pricing methods under Section 92C - CUP, RPM, CPM, PSM and TNMM - plus the 'other method'. When each applies and how the most appropriate method is chosen.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/arm-length-price-methods-section-92c.html"}
@@ -88,7 +88,7 @@
 <p>There is <b>no hierarchy</b>; the taxpayer selects the <b>most appropriate method</b> based on the nature of the transaction, availability of reliable comparables, the functions performed, assets used and risks assumed (the <b>FAR analysis</b>), and the degree of comparability. TNMM is the most widely used because it tolerates product and functional differences better than transactional methods.</p>
 
   <h2 id="s2">The arm's length range and tolerance</h2>
-<p>Where more than one comparable price is available, the arm's length price is determined using a <b>range</b> (the 35th to 65th percentile, in prescribed cases) or the arithmetic mean. A <b>tolerance band</b> (notified each year, e.g. 1% for wholesale trading and 3% for others) means no adjustment is made if the transaction price is within the band of the ALP. ✓ Tolerance band: 1% for wholesale trading, 3% for others — notified annually by CBDT. Verify the notification for the relevant year. the current tolerance percentages.</p>
+<p>Where more than one comparable price is available, the arm's length price is determined using a <b>range</b> (the 35th to 65th percentile, in prescribed cases) or the arithmetic mean. A <b>tolerance band</b> (notified each year, e.g. 1% for wholesale trading and 3% for others) means no adjustment is made if the transaction price is within the band of the ALP. <span class="verify">VERIFY</span> the current tolerance percentages.</p>
 
   <h2 id="s3">Documentation and benchmarking</h2>
 <ul><li>Support the method choice with a documented FAR analysis.</li><li>Use reliable comparables from approved databases for the benchmarking study.</li><li>Apply suitable adjustments for differences (working capital, risk).</li><li>Report the chosen method per transaction in <a href="form-3ceb-transfer-pricing.html">Form 3CEB</a>.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').fo
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

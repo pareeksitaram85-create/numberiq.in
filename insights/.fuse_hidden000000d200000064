@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Section 73 vs Section 74 under GST", "description": "Section 73 covers GST demands without fraud; Section 74 covers fraud and suppression with higher penalty and longer time limits. The differences, penalties and the new Section 74A.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/section-73-vs-74-gst-difference.html"}
@@ -91,7 +91,7 @@
 <p>Invoking Section 74 lets the department reopen older periods and impose heavy penalty, so it is sometimes used where Section 73 would be apt. A key defence is to show the absence of any suppression &mdash; that all facts were disclosed in returns &mdash; which can knock the demand down to Section 73 limits or out of time entirely.</p>
 
   <h2 id="s3">The Section 74A reform</h2>
-<p>For periods from <b>FY 2024-25</b>, the Finance (No. 2) Act 2024 inserted <b>Section 74A</b>, providing a common time limit (broadly 42 months from the due date of the annual return) and a common SCN/order mechanism, while preserving the higher penalty where fraud is established. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the exact mechanics and dates as the provision is implemented.</p>
+<p>For periods from <b>FY 2024-25</b>, the Finance (No. 2) Act 2024 inserted <b>Section 74A</b>, providing a common time limit (broadly 42 months from the due date of the annual return) and a common SCN/order mechanism, while preserving the higher penalty where fraud is established. <span class="verify">VERIFY</span> the exact mechanics and dates as the provision is implemented.</p>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

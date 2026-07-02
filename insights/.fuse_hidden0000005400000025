@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "DTAA India-UAE: a practical guide", "description": "The India-UAE DTAA - tax residency, treaty rates on dividends, interest and royalty, the absence of a separate FTS article, capital gains, and the role of the Tax Residency Certificate.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/dtaa-india-uae-guide.html"}
@@ -82,10 +82,10 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Residency and the TRC</h2>
-<p>To claim India-UAE treaty benefits, the person must be a <b>resident of the UAE</b> under the treaty and furnish a <b>Tax Residency Certificate (TRC)</b> and Form 10F. With the UAE's <b>9% corporate tax</b> (effective June 2023) and individual residency rules, residency determination is now more substantive than in the past. ✓ Rates are treaty-based; verify the exact article and any protocol amendments at incometax.gov.in. June 2026. the current residency tests and corporate-tax interaction.</p>
+<p>To claim India-UAE treaty benefits, the person must be a <b>resident of the UAE</b> under the treaty and furnish a <b>Tax Residency Certificate (TRC)</b> and Form 10F. With the UAE's <b>9% corporate tax</b> (effective June 2023) and individual residency rules, residency determination is now more substantive than in the past. <span class="verify">VERIFY</span> the current residency tests and corporate-tax interaction.</p>
 
   <h2 id="s1">Treaty rates (illustrative)</h2>
-<div class="table-wrap"><table><thead><tr><th>Income</th><th>India-UAE treaty cap (illustrative)</th></tr></thead><tbody><tr><td>Dividends</td><td>10%</td></tr><tr><td>Interest</td><td>5% (banks) / 12.5% (others)</td></tr><tr><td>Royalty</td><td>10%</td></tr><tr><td>Fees for technical services</td><td>No separate FTS article</td></tr></tbody></table></div><p>The rates above are indicative &mdash; ✓ Rates are treaty-based; verify the exact article and any protocol amendments at incometax.gov.in. June 2026. the exact article and any protocol amendments before applying.</p>
+<div class="table-wrap"><table><thead><tr><th>Income</th><th>India-UAE treaty cap (illustrative)</th></tr></thead><tbody><tr><td>Dividends</td><td>10%</td></tr><tr><td>Interest</td><td>5% (banks) / 12.5% (others)</td></tr><tr><td>Royalty</td><td>10%</td></tr><tr><td>Fees for technical services</td><td>No separate FTS article</td></tr></tbody></table></div><p>The rates above are indicative &mdash; <span class="verify">VERIFY</span> the exact article and any protocol amendments before applying.</p>
 
   <h2 id="s2">The 'no FTS article' point</h2>
 <p>Because the India-UAE treaty has <b>no separate FTS article</b>, technical-service fees fall to be treated as <b>business profits</b>, taxable in India only if the UAE enterprise has a <a href="permanent-establishment-dtaa-india.html">PE</a> in India. This is a frequently litigated and planning-relevant feature, but it must be applied carefully with reference to the actual treaty text and PE analysis.</p>
@@ -142,4 +142,8 @@ const nav=document.getElementById('nav'),progress=document.getElementById('progr
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-ham.addEventListener('click',()=>mm.c
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

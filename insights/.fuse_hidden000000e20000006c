@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TDS under Section 194H on commission and brokerage", "description": "Section 194H deducts TDS on commission or brokerage at 2% (reduced from 5% from October 2024) above the annual threshold. What counts as commission, and the discount question.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-194h-commission.html"}
@@ -82,13 +82,13 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Rate and threshold</h2>
-<p>The rate is <b>2%</b> (the earlier 5% was reduced from 1 October 2024). TDS applies once aggregate commission/brokerage to a payee in the year exceeds the threshold (<b>Rs.20,000</b> following the Finance Act 2025 rationalisation; Rs.15,000 earlier). ✓ Verified June 2026 — Rs.20,000 threshold per Finance Act 2025. the current rate and threshold.</p>
+<p>The rate is <b>2%</b> (the earlier 5% was reduced from 1 October 2024). TDS applies once aggregate commission/brokerage to a payee in the year exceeds the threshold (<b>Rs.20,000</b> following the Finance Act 2025 rationalisation; Rs.15,000 earlier). <span class="verify">VERIFY</span> the current rate and threshold.</p>
 
   <h2 id="s1">What is commission or brokerage</h2>
 <p>It covers any payment received for services rendered (not being professional services) in the course of <b>buying or selling goods, or in relation to a transaction relating to any asset, valuable article or thing</b>, including services in the course of buying/selling. Insurance commission (Section 194D) and brokerage on securities are outside 194H.</p>
 
   <h2 id="s2">The discount dispute</h2>
-<p>A recurring issue is whether <b>trade discounts or margins</b> retained by distributors are 'commission' attracting 194H. Where the relationship is <b>principal-to-principal</b> (sale at a discount), TDS generally does not apply; where it is <b>principal-agent</b> (the dealer acts for the principal), it may. Telecom and similar cases have been heavily litigated. ✓ Verified June 2026 — Rs.20,000 threshold per Finance Act 2025. the position for your arrangement.</p>
+<p>A recurring issue is whether <b>trade discounts or margins</b> retained by distributors are 'commission' attracting 194H. Where the relationship is <b>principal-to-principal</b> (sale at a discount), TDS generally does not apply; where it is <b>principal-agent</b> (the dealer acts for the principal), it may. Telecom and similar cases have been heavily litigated. <span class="verify">VERIFY</span> the position for your arrangement.</p>
 
   <h2 id="s3">Practical points</h2>
 <ul><li>Examine the substance of the relationship, not just the label.</li><li>Non-deduction attracts 30% disallowance under Section 40(a)(ia).</li><li>Report in Form 26Q; deduct at credit or payment, whichever is earlier.</li><li>Insurance commission is covered separately by Section 194D.</li></ul>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click'
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

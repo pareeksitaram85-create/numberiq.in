@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "Capital gains on property FY 2026-27", "description": "Capital gains on property after Budget 2024 - LTCG at 12.5% without indexation, or 20% with indexation for older property held by resident individuals/HUF. Holding period and exemptions.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/capital-gains-property-fy2026-27.html"}
@@ -91,7 +91,7 @@
 <ul><li><b>Section 54</b> &mdash; LTCG on a residential house reinvested in another residential house (one, or two once-in-a-lifetime up to a cap).</li><li><b>Section 54F</b> &mdash; LTCG on any long-term asset reinvested in a residential house (with conditions).</li><li><b>Section 54EC</b> &mdash; up to Rs.50 lakh invested in NHAI/REC bonds within 6 months.</li><li>The exemption under 54/54F is now <b>capped at Rs.10 crore</b> of investment.</li></ul>
 
   <h2 id="s3">Practical points</h2>
-<p>Watch <b>Section 50C</b>: if the stamp-duty value exceeds the agreement value beyond the tolerance band, the stamp value is taken as the sale consideration. Where reinvestment is not completed before the return due date, deposit the gain in the <b>Capital Gains Account Scheme</b> to preserve the exemption. ✓ Capital Gains Account Scheme (CGAS) deposit required before ITR due date to preserve reinvestment exemption. Verified June 2026. the latest tolerance band and caps.</p>
+<p>Watch <b>Section 50C</b>: if the stamp-duty value exceeds the agreement value beyond the tolerance band, the stamp value is taken as the sale consideration. Where reinvestment is not completed before the return due date, deposit the gain in the <b>Capital Gains Account Scheme</b> to preserve the exemption. <span class="verify">VERIFY</span> the latest tolerance band and caps.</p>
 
   <div class="faq">
     <h2 id="faq">Frequently asked questions</h2>
@@ -143,4 +143,7 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scr
   const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
 const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>

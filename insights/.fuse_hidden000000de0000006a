@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/numberiq.css">
 <!-- ADSENSE — activate after approval
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
 -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "Article", "headline": "TDS on interest under Section 194A", "description": "Section 194A deducts 10% TDS on interest other than securities - bank deposits, loans and company deposits - above the threshold, with higher limits for senior citizens.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-194a-interest-bank-company.html"}
@@ -82,7 +82,7 @@
   <!-- ADSENSE SLOT 1 — activate after approval -->
 
   <h2 id="s0">Rate and thresholds</h2>
-<div class="table-wrap"><table><thead><tr><th>Payer / payee</th><th>Threshold (FY 2026-27)</th></tr></thead><tbody><tr><td>Bank / post office / co-op (general)</td><td>Rs.50,000 ✓</td></tr><tr><td>Bank interest to a senior citizen</td><td>Rs.1,00,000 ✓</td></tr><tr><td>Interest from others (e.g. company deposits, loans)</td><td>Rs.5,000 ✓</td></tr></tbody></table></div><p>The rate is 10% (20% without PAN under 206AA). Thresholds were rationalised by the Finance Act 2025 &mdash; ✓ Verified June 2026. the figure for your case.</p>
+<div class="table-wrap"><table><thead><tr><th>Payer / payee</th><th>Threshold (FY 2026-27)</th></tr></thead><tbody><tr><td>Bank / post office / co-op (general)</td><td>Rs.50,000 [VERIFY]</td></tr><tr><td>Bank interest to a senior citizen</td><td>Rs.1,00,000 [VERIFY]</td></tr><tr><td>Interest from others (e.g. company deposits, loans)</td><td>Rs.5,000 [VERIFY]</td></tr></tbody></table></div><p>The rate is 10% (20% without PAN under 206AA). Thresholds were rationalised by the Finance Act 2025 &mdash; <span class="verify">VERIFY</span> the figure for your case.</p>
 
   <h2 id="s1">What 194A covers</h2>
 <p>194A applies to <b>interest other than interest on securities</b> &mdash; fixed-deposit interest, recurring-deposit interest, interest on loans and advances, and interest on company deposits. Interest on securities is covered by Section 193. Interest paid by a firm to its partners and certain specified interest are excluded.</p>
@@ -147,4 +147,3 @@ mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.
 </script>
 </body>
 </html>
-                                
