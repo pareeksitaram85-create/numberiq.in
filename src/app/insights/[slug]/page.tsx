@@ -3,7 +3,8 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { getPostBySlug } from "@/lib/content";
 import Link from "next/link";
-import { ChevronRight, Calendar, User, Clock, Printer, Share2 } from "lucide-react";
+import { ChevronRight, Calendar, User, Clock, Share2 } from "lucide-react";
+import { PrintButton } from "@/components/print-button";
 
 interface PageProps {
   params: Promise<{
@@ -101,13 +102,7 @@ export default async function InsightArticlePage({ params }: PageProps) {
             &larr; Back to all articles
           </Link>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => window.print()}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/5 bg-white/5 text-xs text-[#aab2c5] hover:text-white transition-all cursor-pointer"
-            >
-              <Printer size={12} />
-              Print PDF
-            </button>
+            <PrintButton />
           </div>
         </div>
       </main>

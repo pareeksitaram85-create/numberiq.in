@@ -187,7 +187,7 @@ function HeroScene() {
           animate={float(1.2)}
           className="rounded-2xl border border-white/10 bg-[#11141d]/90 backdrop-blur px-4 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.5)]"
         >
-          <div className="text-[9px] uppercase tracking-widest text-[#737c92] font-bold mb-0.5">TDS 194C</div>
+          <div className="text-[9px] uppercase tracking-widest text-[#737c92] font-bold mb-0.5">TDS Contractors · S.393(1)</div>
           <div className="text-sm font-bold text-white font-mono">1% / 2%</div>
         </motion.div>
       </motion.div>
@@ -210,7 +210,7 @@ function HeroScene() {
           className="rounded-2xl border border-white/10 bg-[#11141d]/90 backdrop-blur px-4 py-2.5 flex items-center gap-2 shadow-[0_16px_40px_rgba(0,0,0,0.5)]"
         >
           <TrendingUp size={14} className="text-[#9a6bff]" />
-          <span className="text-[11px] font-semibold text-[#e2d9ff]">FY 2026-27 ready</span>
+          <span className="text-[11px] font-semibold text-[#e2d9ff]">Income-tax Act 2025 aligned</span>
         </motion.div>
       </motion.div>
     </div>
@@ -240,10 +240,10 @@ export default function Home() {
         "Compute advance tax liability, navigate presumptive taxation, and manage capital gains with section-wise accuracy.",
       color: "from-[#9a6bff] to-[#ff5c7a]",
       tools: [
-        { name: "Income Tax Calculator (FY26-27)", desc: "Compare new vs old tax regime slabs." },
-        { name: "Advance Tax Estimator", desc: "Installments with Section 234A/B/C interest." },
-        { name: "Capital Gains Studio (112/112A)", desc: "LTCG and STCG with indexation." },
-        { name: "TDS Rate Chart & Interest", desc: "FY 2026-27 rates with 201(1A) interest." },
+        { name: "Income Tax Calculator (FY26-27)", desc: "Regime comparison under the Income-tax Act 2025." },
+        { name: "Advance Tax Estimator", desc: "Installments with interest on shortfall and deferment." },
+        { name: "Capital Gains Studio", desc: "LTCG and STCG computations with indexation." },
+        { name: "TDS Rate Chart (S.393)", desc: "FY 2026-27 rates mapped to new ITA 2025 sections." },
       ],
     },
     mis: {
@@ -252,9 +252,9 @@ export default function Home() {
         "Track working capital, monitor MSME payment timelines, and analyse depreciation blocks for audit-ready MIS.",
       color: "from-[#f5b74a] to-[#b9812e]",
       tools: [
-        { name: "MSME Payment Tracker (S.43B(h))", desc: "Monitor due dates and avoid disallowances." },
-        { name: "Depreciation Block Analyzer", desc: "Block-of-assets depreciation as per S.32." },
-        { name: "LRS TCS Calculator (206C(1G))", desc: "Foreign remittance TCS thresholds." },
+        { name: "MSME Payment Tracker", desc: "Monitor payment timelines and avoid disallowances." },
+        { name: "Depreciation Block Analyzer", desc: "Block-of-assets depreciation, ITA 2025 aligned." },
+        { name: "LRS TCS Calculator", desc: "Foreign remittance TCS thresholds and rates." },
         { name: "Compliance Due-Date Calendar", desc: "GST, TDS, ROC timelines in one view." },
       ],
     },
@@ -271,7 +271,7 @@ export default function Home() {
       icon: <Shield size={20} />,
       color: "text-[#34d399]",
       title: "Section-wise Accuracy",
-      desc: "Built strictly on the CGST Act 2017, Income-tax Act 1961, and current FY 2026-27 rates, with section references on every output.",
+      desc: "Built on the CGST Act 2017 and the new Income-tax Act 2025, with current FY 2026-27 rates and section references on every output.",
     },
     {
       icon: <Zap size={20} />,
@@ -509,6 +509,41 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* ---------- WEEKLY TAX RADAR ---------- */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-24 relative overflow-hidden border border-white/5 bg-white/[0.03] rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
+        >
+          <div className="absolute top-[-60%] right-[-5%] w-[40%] h-[200%] bg-[#34d399]/5 blur-[80px] rounded-full pointer-events-none" />
+          <div className="flex items-start gap-4 relative">
+            <div className="w-11 h-11 shrink-0 rounded-xl bg-[#34d399]/10 border border-[#34d399]/20 flex items-center justify-center text-[#34d399]">
+              <TrendingUp size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-display text-lg font-bold text-white">Tax & Compliance Radar</h3>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#34d399] bg-[#34d399]/10 border border-[#34d399]/20 px-2 py-0.5 rounded-full">
+                  Updated every Saturday
+                </span>
+              </div>
+              <p className="text-xs text-[#737c92] leading-relaxed max-w-md">
+                The week&apos;s important CBDT, CBIC and MCA updates — notifications, circulars and due-date
+                changes — curated for practitioners, refreshed every Saturday.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/updates"
+            className="relative shrink-0 flex items-center gap-1.5 px-6 py-2.5 rounded-full border border-[#34d399]/30 bg-[#34d399]/10 hover:bg-[#34d399]/20 text-sm font-semibold text-[#7ee9c0] transition-all"
+          >
+            View this week&apos;s updates
+            <ArrowRight size={15} />
+          </Link>
+        </motion.section>
 
         {/* ---------- CTA BAND ---------- */}
         <motion.section
