@@ -72,6 +72,7 @@ const nextConfig: NextConfig = {
       { source: "/tds-interest-calculator.html", destination: "/tools/tds-interest-calculator", permanent: true },
 
       // 3. Sub-folder redirects
+      { source: "/tools/:slug.html", destination: "/tools/:slug", permanent: true },
       { source: "/glossary/:term.html", destination: "/glossary/:term", permanent: true },
       { source: "/insights/:slug.html", destination: "/insights/:slug", permanent: true },
 

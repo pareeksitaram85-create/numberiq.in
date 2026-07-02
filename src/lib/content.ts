@@ -1,19 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import fs from "fs";
-import path from "path";
-
-// Helper to load fallback seed data if database is not active
-function getFallbackData() {
-  try {
-    const seedPath = path.join(process.cwd(), "prisma", "seedData.json");
-    if (fs.existsSync(seedPath)) {
-      return JSON.parse(fs.readFileSync(seedPath, "utf8"));
-    }
-  } catch (e) {
-    console.error("Failed to read seedData.json:", e);
-  }
-  return { posts: [], terms: [] };
-}
+import fallbackData from "../../prisma/seedData.json";
 
 export async function getPosts() {
   try {
@@ -26,11 +12,14 @@ export async function getPosts() {
     console.warn("Database offline. Falling back to local seedData.json for posts list.");
   }
   
-  const fallback = getFallbackData();
-  return fallback.posts.map((p: any) => ({
+  return (fallbackData.posts as any[]).map((p: any) => ({
+    id: p.slug,
     ...p,
-    createdAt: new Date(p.createdAt),
-    updatedAt: new Date(p.createdAt)
+    published: p.published !== undefined ? p.published : true,
+    authorName: p.authorName || "NumberIQ Editorial",
+    faq: p.faq || null,
+    updatedAt: new Date(p.createdAt || "2026-06-01"),
+    createdAt: new Date(p.createdAt || "2026-06-01")
   }));
 }
 
@@ -44,13 +33,16 @@ export async function getPostBySlug(slug: string) {
     console.warn(`Database offline. Falling back to local seedData.json for post: ${slug}`);
   }
 
-  const fallback = getFallbackData();
-  const post = fallback.posts.find((p: any) => p.slug === slug);
+  const post: any = (fallbackData.posts as any[]).find((p: any) => p.slug === slug);
   if (post) {
     return {
+      id: post.slug,
       ...post,
-      createdAt: new Date(post.createdAt),
-      updatedAt: new Date(post.createdAt)
+      published: post.published !== undefined ? post.published : true,
+      authorName: post.authorName || "NumberIQ Editorial",
+      faq: post.faq || null,
+      updatedAt: new Date(post.createdAt || "2026-06-01"),
+      createdAt: new Date(post.createdAt || "2026-06-01")
     };
   }
   return null;
@@ -66,8 +58,7 @@ export async function getTerms() {
     console.warn("Database offline. Falling back to local seedData.json for terms list.");
   }
 
-  const fallback = getFallbackData();
-  return fallback.terms;
+  return fallbackData.terms;
 }
 
 export async function getTermBySlug(slug: string) {
@@ -80,6 +71,5 @@ export async function getTermBySlug(slug: string) {
     console.warn(`Database offline. Falling back to local seedData.json for term: ${slug}`);
   }
 
-  const fallback = getFallbackData();
-  return fallback.terms.find((t: any) => t.slug === slug) || null;
+  return fallbackData.terms.find((t: any) => t.slug === slug) || null;
 }
