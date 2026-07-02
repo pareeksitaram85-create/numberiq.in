@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Import of Services Under GST and RCM | NumberIQ</title>
+<meta name="description" content="Import of services is taxable under reverse charge - the Indian recipient pays IGST. The rules under Section 5(3) IGST Act, OIDAR services, and how to claim ITC of the RCM paid.">
+<link rel="canonical" href="https://numberiq.in/insights/gst-import-of-services-rcm.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Import of Services Under GST and RCM | NumberIQ">
+<meta property="og:description" content="Import of services is taxable under reverse charge - the Indian recipient pays IGST. The rules under Section 5(3) IGST Act, OIDAR services, and how to claim ITC of the RCM paid.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gst-import-of-services-rcm.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Import of Services Under GST and RCM | NumberIQ">
+<meta name="twitter:description" content="Import of services is taxable under reverse charge - the Indian recipient pays IGST. The rules under Section 5(3) IGST Act, OIDAR services, and how to claim ITC of the RCM paid.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Import of services and RCM under GST", "description": "Import of services is taxable under reverse charge - the Indian recipient pays IGST. The rules under Section 5(3) IGST Act, OIDAR services, and how to claim ITC of the RCM paid.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-import-of-services-rcm.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who pays GST on imported services?","acceptedAnswer":{"@type":"Answer","text":"The Indian recipient, under reverse charge, pays IGST under Section 5(3) of the IGST Act and can then claim it as input tax credit if the service is used for taxable business."}},{"@type":"Question","name":"Is a free service from a foreign parent taxable?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under Schedule I, import of services from a related person or overseas establishment in the course of business is taxable even without consideration, on the open-market value."}},{"@type":"Question","name":"What about software or SaaS subscriptions from abroad?","acceptedAnswer":{"@type":"Answer","text":"These are typically imports of service (often OIDAR) and attract IGST under reverse charge in the hands of a registered recipient."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>Import of services and RCM under GST</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Import of services is taxable in India under reverse charge, with the Indian recipient paying IGST under Section 5(3) of the IGST Act.</b> Even a free import of service from a related foreign party can be taxable. The IGST paid under reverse charge is available as input tax credit if used for taxable business.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">When import of services is taxable</a> &middot; <a href="#s1">The related-party and 'free' twist</a> &middot; <a href="#s2">OIDAR services</a> &middot; <a href="#s3">Claiming ITC and compliance</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">When import of services is taxable</h2>
+<p>An 'import of service' arises where the supplier is outside India, the recipient is in India and the place of supply is in India. Such supplies are taxable under <b>reverse charge</b>: the Indian recipient self-assesses IGST, pays it in cash, and reports it in GSTR-3B Table 3.1(d). This applies to professional fees, software subscriptions, royalties, technical services and similar cross-border purchases.</p>
+
+  <h2 id="s1">The related-party and 'free' twist</h2>
+<p>Under Schedule I, import of services by a person from a <b>related person or an overseas establishment</b>, in the course of business, is taxable <b>even if made without consideration</b>. So a free management or IT service received from a foreign parent or group company can attract IGST under reverse charge on its open-market value. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> valuation for related-party imports.</p>
+
+  <h2 id="s2">OIDAR services</h2>
+<p>For <b>OIDAR</b> (online information and database access or retrieval) services supplied to a registered recipient, reverse charge applies. Where supplied to a <b>non-taxable online recipient</b> (an unregistered individual), the overseas supplier itself must register and pay tax. This distinction matters for SaaS and digital platforms.</p>
+
+  <h2 id="s3">Claiming ITC and compliance</h2>
+<ul><li>Pay IGST under RCM in <b>cash</b> &mdash; it cannot be set off using ITC.</li><li>Issue a <b>self-invoice</b> under Section 31(3)(f) and a payment voucher.</li><li>Claim the IGST paid as ITC if the service is for taxable business and not blocked.</li><li>Watch overlap with <a href="../numberiq-tds-chart-fy2026-27.html">income-tax TDS under Section 195</a> and equalisation levy on the same payment.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Who pays GST on imported services?</summary><p>The Indian recipient, under reverse charge, pays IGST under Section 5(3) of the IGST Act and can then claim it as input tax credit if the service is used for taxable business.</p></details>
+    <details><summary>Is a free service from a foreign parent taxable?</summary><p>Yes. Under Schedule I, import of services from a related person or overseas establishment in the course of business is taxable even without consideration, on the open-market value.</p></details>
+    <details><summary>What about software or SaaS subscriptions from abroad?</summary><p>These are typically imports of service (often OIDAR) and attract IGST under reverse charge in the hands of a registered recipient.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Import of services is taxed under reverse charge; the recipient pays IGST.</li><li>Related-party imports can be taxable even when free (Schedule I).</li><li>OIDAR to unregistered recipients shifts the tax to the overseas supplier.</li><li>RCM IGST is paid in cash, then claimed as ITC if eligible.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a> &middot; <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 5(3), 5(4), IGST Act; Schedule I, CGST Act; OIDAR provisions</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="rcm-gst-notification-13-2017.html">Reverse charge under Notification 13/2017</a>
+    <a href="tds-foreign-payments-section-195-dtaa.html">TDS on foreign payments under Section 195</a>
+    <a href="equalisation-levy-india-fy2026-27.html">Equalisation levy in India</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCS on LRS & Foreign Remittances (206C(1G)) | NumberIQ</title>
+<meta name="description" content="TCS on foreign remittances under LRS and overseas tour packages - Section 206C(1G) rates (5%/20%), the threshold, the education/medical concession, and how to claim the TCS credit.">
+<link rel="canonical" href="https://numberiq.in/insights/tcs-lrs-foreign-remittance.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="TCS on LRS & Foreign Remittances (206C(1G)) | NumberIQ">
+<meta property="og:description" content="TCS on foreign remittances under LRS and overseas tour packages - Section 206C(1G) rates (5%/20%), the threshold, the education/medical concession, and how to claim the TCS credit.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/tcs-lrs-foreign-remittance.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TCS on LRS & Foreign Remittances (206C(1G)) | NumberIQ">
+<meta name="twitter:description" content="TCS on foreign remittances under LRS and overseas tour packages - Section 206C(1G) rates (5%/20%), the threshold, the education/medical concession, and how to claim the TCS credit.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "TCS on LRS and foreign remittances under 206C(1G)", "description": "TCS on foreign remittances under LRS and overseas tour packages - Section 206C(1G) rates (5%/20%), the threshold, the education/medical concession, and how to claim the TCS credit.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tcs-lrs-foreign-remittance.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the TCS rate on foreign remittance under LRS?","acceptedAnswer":{"@type":"Answer","text":"Generally 20% above the threshold, with 5% for education and medical remittances and 0.5% for education funded by a loan."}},{"@type":"Question","name":"What is the LRS TCS threshold?","acceptedAnswer":{"@type":"Answer","text":"Raised to around Rs.10 lakh per year by the Finance Act 2025 (from Rs.7 lakh). Confirm the current figure before remitting."}},{"@type":"Question","name":"Can I get the TCS back?","acceptedAnswer":{"@type":"Answer","text":"Yes. TCS is not a cost &mdash; it is credited against your income tax in the return, or can be adjusted against salary TDS by intimating your employer."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag tds">TDS / TCS</span>
+  <h1>TCS on LRS and foreign remittances under 206C(1G)</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Under Section 206C(1G), tax is collected at source on foreign remittances under the Liberalised Remittance Scheme (LRS) and on overseas tour packages, generally at 20%, with a 5% concessional rate for education and medical remittances above the threshold.</b> The TCS is creditable against the remitter's income tax.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The rates</a> &middot; <a href="#s1">How it works</a> &middot; <a href="#s2">Worked example</a> &middot; <a href="#s3">Practical points</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The rates</h2>
+<div class="table-wrap"><table><thead><tr><th>Purpose</th><th>TCS rate</th></tr></thead><tbody><tr><td>Education funded by an education loan (above threshold)</td><td>0.5%</td></tr><tr><td>Education / medical treatment (above threshold)</td><td>5%</td></tr><tr><td>Overseas tour programme package</td><td>5% (up to Rs.10 lakh) / 20% (above Rs.10 lakh) — Finance Act 2025 ✓</td></tr><tr><td>Other LRS remittances (above threshold)</td><td>20%</td></tr></tbody></table></div><p>The threshold for LRS TCS was raised to Rs.10 lakh per year by Finance Act 2025 (from Rs.7 lakh earlier). Rate: 5% up to Rs.10L, 20% above. Confirmed for FY 2026-27. ✓</p>
+
+  <h2 id="s1">How it works</h2>
+<p>The <b>authorised dealer</b> (bank) or the tour operator collects the TCS at the time of the remittance/booking and deposits it. The amount is reflected in the remitter's <a href="form-26as-ais-tis-difference.html">Form 26AS/AIS</a> and can be <b>claimed as a credit</b> against income tax (or adjusted against salary TDS by intimating the employer).</p>
+
+  <h2 id="s2">Worked example</h2>
+<p>An individual remits Rs.15 lakh abroad for investment (non-education, non-medical) in a year, threshold Rs.10 lakh. TCS at 20% applies on the amount above the threshold = 20% of Rs.5 lakh = <b>Rs.1,00,000</b>, collected by the bank and creditable in the return. TCS under Section 206C(1G) / new Act Section 394 — threshold Rs.10L, rate 5%/20% depending on purpose. ✓ Verified June 2026.</p>
+
+  <h2 id="s3">Practical points</h2>
+<ul><li>TCS is a <b>credit, not a cost</b> &mdash; claim it in the return or adjust against TDS.</li><li>Education via a loan gets the concessional 0.5% rate.</li><li>Salaried taxpayers can ask the employer to factor LRS TCS into salary TDS.</li><li>Coordinate with <a href="../insights/fema-compliance-foreign-subsidiary.html">FEMA</a> for the underlying remittance.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the TCS rate on foreign remittance under LRS?</summary><p>Generally 20% above the threshold, with 5% for education and medical remittances and 0.5% for education funded by a loan.</p></details>
+    <details><summary>What is the LRS TCS threshold?</summary><p>Raised to around Rs.10 lakh per year by the Finance Act 2025 (from Rs.7 lakh). Confirm the current figure before remitting.</p></details>
+    <details><summary>Can I get the TCS back?</summary><p>Yes. TCS is not a cost &mdash; it is credited against your income tax in the return, or can be adjusted against salary TDS by intimating your employer.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>206C(1G): TCS on LRS remittances and tour packages.</li><li>20% generally; 5% education/medical; 0.5% education loan.</li><li>Threshold raised to ~Rs.10 lakh (Finance Act 2025).</li><li>TCS is a creditable prepaid tax, not a cost.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../tcs-rate-chart-fy2026-27.html">TCS Rate Chart</a> &middot; <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Section 206C(1G); Finance Act 2025; <a href="https://www.rbi.org.in/" target="_blank" rel="noopener">RBI</a> &mdash; LRS</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="tcs-sale-of-goods-206c.html">TCS on sale of goods (206C)</a>
+    <a href="income-tax-foreign-income-dtaa-fema.html">Foreign income, DTAA and FEMA</a>
+    <a href="fema-compliance-foreign-subsidiary.html">FEMA & foreign subsidiary</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click'

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TDS Under Section 194C: Contractor Payments | NumberIQ</title>
+<meta name="description" content="Section 194C deducts TDS on payments to contractors - 1% for individuals/HUF and 2% for others, with thresholds of Rs.30,000 per contract and Rs.1,00,000 in aggregate.">
+<link rel="canonical" href="https://numberiq.in/insights/tds-194c-contractor-payments.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="TDS Under Section 194C: Contractor Payments | NumberIQ">
+<meta property="og:description" content="Section 194C deducts TDS on payments to contractors - 1% for individuals/HUF and 2% for others, with thresholds of Rs.30,000 per contract and Rs.1,00,000 in aggregate.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/tds-194c-contractor-payments.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TDS Under Section 194C: Contractor Payments | NumberIQ">
+<meta name="twitter:description" content="Section 194C deducts TDS on payments to contractors - 1% for individuals/HUF and 2% for others, with thresholds of Rs.30,000 per contract and Rs.1,00,000 in aggregate.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "TDS under Section 194C on contractor payments", "description": "Section 194C deducts TDS on payments to contractors - 1% for individuals/HUF and 2% for others, with thresholds of Rs.30,000 per contract and Rs.1,00,000 in aggregate.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-194c-contractor-payments.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the TDS rate under Section 194C?","acceptedAnswer":{"@type":"Answer","text":"1% where the contractor is an individual or HUF, and 2% for any other payee, above the prescribed thresholds."}},{"@type":"Question","name":"What are the 194C thresholds?","acceptedAnswer":{"@type":"Answer","text":"TDS applies if a single payment exceeds Rs.30,000 or the aggregate of payments in the year exceeds Rs.1,00,000."}},{"@type":"Question","name":"Is TDS deducted on payments to transporters?","acceptedAnswer":{"@type":"Answer","text":"No, if the goods-transport operator owns up to 10 carriages and furnishes a declaration along with PAN; otherwise normal 194C TDS applies."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag tds">TDS / TCS</span>
+  <h1>TDS under Section 194C on contractor payments</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 194C requires TDS on payments to a contractor or sub-contractor at 1% where the payee is an individual or HUF, and 2% for other payees.</b> TDS applies if a single payment exceeds Rs.30,000 or the aggregate in a year exceeds Rs.1,00,000.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">Rates and thresholds</a> &middot; <a href="#s1">What 194C covers</a> &middot; <a href="#s2">Transporter exemption</a> &middot; <a href="#s3">194C vs 194J</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">Rates and thresholds</h2>
+<div class="table-wrap"><table><thead><tr><th>Payee</th><th>Rate</th></tr></thead><tbody><tr><td>Individual / HUF</td><td>1%</td></tr><tr><td>Any other person (company, firm, etc.)</td><td>2%</td></tr></tbody></table></div><p>TDS triggers if a <b>single payment exceeds Rs.30,000</b> or the <b>aggregate in the year exceeds Rs.1,00,000</b>. Once either limit is crossed, TDS applies on all qualifying payments.</p>
+
+  <h2 id="s1">What 194C covers</h2>
+<p>194C applies to a 'work' contract &mdash; advertising, broadcasting, carriage of goods/passengers, catering, and manufacturing/supplying a product to a customer's specification using the customer's material. Pure supply of goods, and manufacture using the contractor's own material as a sale, are outside 194C.</p>
+
+  <h2 id="s2">Transporter exemption</h2>
+<p>No TDS under 194C is required on payment to a <b>goods-transport operator owning up to 10 goods carriages</b> who furnishes a declaration with PAN. Keep the declaration on file to support non-deduction.</p>
+
+  <h2 id="s3">194C vs 194J</h2>
+<ul><li>Routine contractual/annual maintenance work &rarr; usually 194C.</li><li>Services requiring professional/technical expertise &rarr; 194J.</li><li>Misclassification (deducting 1% instead of 10%) is a common audit issue.</li><li>Non-deduction triggers 30% disallowance under Section 40(a)(ia).</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the TDS rate under Section 194C?</summary><p>1% where the contractor is an individual or HUF, and 2% for any other payee, above the prescribed thresholds.</p></details>
+    <details><summary>What are the 194C thresholds?</summary><p>TDS applies if a single payment exceeds Rs.30,000 or the aggregate of payments in the year exceeds Rs.1,00,000.</p></details>
+    <details><summary>Is TDS deducted on payments to transporters?</summary><p>No, if the goods-transport operator owns up to 10 carriages and furnishes a declaration along with PAN; otherwise normal 194C TDS applies.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>194C: 1% (individual/HUF), 2% (others).</li><li>Threshold: Rs.30,000 single or Rs.1,00,000 aggregate.</li><li>Small transporters with PAN declaration are exempt.</li><li>Distinguish 194C work from 194J professional/technical services.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a> &middot; <a href="../tds-interest-calculator.html">TDS Interest Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Section 194C</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="tds-194j-professional-fees.html">TDS under Section 194J</a>
+    <a href="tds-on-gst-component.html">TDS on the GST component</a>
+    <a href="tds-return-filing-24q-26q-27q.html">TDS return filing (24Q/26Q/27Q)</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

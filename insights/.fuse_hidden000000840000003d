@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Reply to a GST Notice Under Section 73 | NumberIQ</title>
+<meta name="description" content="A practical guide to replying to a GST show-cause notice under Section 73 (non-fraud cases) in Form DRC-01 - timelines, structure of the reply, and how to use the tax-paid relief.">
+<link rel="canonical" href="https://numberiq.in/insights/gst-show-cause-notice-section-73-reply.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="How to Reply to a GST Notice Under Section 73 | NumberIQ">
+<meta property="og:description" content="A practical guide to replying to a GST show-cause notice under Section 73 (non-fraud cases) in Form DRC-01 - timelines, structure of the reply, and how to use the tax-paid relief.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gst-show-cause-notice-section-73-reply.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Reply to a GST Notice Under Section 73 | NumberIQ">
+<meta name="twitter:description" content="A practical guide to replying to a GST show-cause notice under Section 73 (non-fraud cases) in Form DRC-01 - timelines, structure of the reply, and how to use the tax-paid relief.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Replying to a GST show-cause notice under Section 73", "description": "A practical guide to replying to a GST show-cause notice under Section 73 (non-fraud cases) in Form DRC-01 - timelines, structure of the reply, and how to use the tax-paid relief.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-show-cause-notice-section-73-reply.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the penalty under Section 73 if I pay early?","acceptedAnswer":{"@type":"Answer","text":"Nil penalty if tax and interest are paid before the show-cause notice or within 30 days of it. After the order, the penalty is 10% of tax or Rs.10,000, whichever is higher."}},{"@type":"Question","name":"In which form do I reply to a GST SCN?","acceptedAnswer":{"@type":"Answer","text":"The reply is filed in Form DRC-06 on the GST portal, with supporting reconciliations and challans, and you should request a personal hearing under Section 75(4)."}},{"@type":"Question","name":"What is Form DRC-01A?","acceptedAnswer":{"@type":"Answer","text":"It is a pre-notice intimation of the proposed liability; responding to it with payment or explanation can resolve the matter before a formal DRC-01 notice is issued."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>Replying to a GST show-cause notice under Section 73</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>7 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 73 of the CGST Act covers demands of tax not paid, short paid or wrongly refunded for reasons other than fraud or wilful misstatement.</b> A show-cause notice is issued in Form DRC-01, and a reply is filed in Form DRC-06. Paying the tax with interest before the notice avoids penalty; paying within 30 days of the notice limits penalty significantly.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">Understanding the Section 73 notice</a> &middot; <a href="#s1">The reduced-penalty windows</a> &middot; <a href="#s2">Structuring the reply (DRC-06)</a> &middot; <a href="#s3">Common defences and pitfalls</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">Understanding the Section 73 notice</h2>
+<p>A Section 73 SCN is issued where the shortfall is <b>not</b> due to fraud, wilful misstatement or suppression. It is preceded by an intimation in <b>Form DRC-01A</b> and formalised in <b>Form DRC-01</b>, specifying the tax, interest and penalty proposed and the period. The proper officer must issue the order within the statutory time limit (historically three years from the due date of the annual return for the year).</p><div class="callout warn"><b>Note.</b> For periods from FY 2024-25, Section 74A introduces a common limitation framework replacing the separate 73/74 timelines. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> which regime applies to your period.</div>
+
+  <h2 id="s1">The reduced-penalty windows</h2>
+<div class="table-wrap"><table><thead><tr><th>When you pay tax + interest</th><th>Penalty</th></tr></thead><tbody><tr><td>Before the SCN (on DRC-01A)</td><td>Nil</td></tr><tr><td>Within 30 days of the SCN</td><td>Nil</td></tr><tr><td>After order</td><td>10% of tax or Rs.10,000, whichever is higher</td></tr></tbody></table></div><p>This is the key strategic point: in a genuine Section 73 case, early payment can extinguish penalty entirely.</p>
+
+  <h2 id="s2">Structuring the reply (DRC-06)</h2>
+<ol><li><b>Facts</b> &mdash; restate the period, the alleged shortfall and the figures.</li><li><b>Grounds</b> &mdash; address each allegation with the legal provision, reconciliation and documents (returns, ledgers, GSTR-2B).</li><li><b>Relief</b> &mdash; state what is accepted (if any) and paid, and what is contested and why.</li><li><b>Annexures</b> &mdash; reconciliations, invoices, payment challans (DRC-03).</li><li>Request a <b>personal hearing</b> under Section 75(4).</li></ol>
+
+  <h2 id="s3">Common defences and pitfalls</h2>
+<ul><li>Mismatch demands (GSTR-1 vs 3B, 2B vs 3B) are often explained by timing &mdash; reconcile and document.</li><li>Do not ignore the DRC-01A stage; a clear reply there can close the matter before a formal SCN.</li><li>Always ask for a personal hearing; an order passed without a requested hearing is vulnerable.</li><li>Pay admitted dues via <b>DRC-03</b> and quote the ARN in your reply.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the penalty under Section 73 if I pay early?</summary><p>Nil penalty if tax and interest are paid before the show-cause notice or within 30 days of it. After the order, the penalty is 10% of tax or Rs.10,000, whichever is higher.</p></details>
+    <details><summary>In which form do I reply to a GST SCN?</summary><p>The reply is filed in Form DRC-06 on the GST portal, with supporting reconciliations and challans, and you should request a personal hearing under Section 75(4).</p></details>
+    <details><summary>What is Form DRC-01A?</summary><p>It is a pre-notice intimation of the proposed liability; responding to it with payment or explanation can resolve the matter before a formal DRC-01 notice is issued.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Section 73 = non-fraud demands; SCN in DRC-01, reply in DRC-06.</li><li>Pay tax + interest before SCN or within 30 days for nil penalty.</li><li>Always request a personal hearing under Section 75(4).</li><li>Section 74A may govern limitation for FY 2024-25 onward.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../gst-interest-calculator.html">GST Interest Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 73, 74, 74A, 75, CGST Act; Forms DRC-01A/01/06</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="section-73-vs-74-gst-difference.html">Section 73 vs 74 under GST</a>
+    <a href="gst-notice-types-drc01-drc01a-drc01c.html">GST notice types: DRC-01/01A/01C</a>
+    <a href="gst-interest-section-50-calculation.html">GST interest under Section 50</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

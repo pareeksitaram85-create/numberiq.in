@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TDS on Property Purchase Under Section 194IA | NumberIQ</title>
+<meta name="description" content="Buying immovable property of Rs.50 lakh or more? Section 194IA requires the buyer to deduct 1% TDS and pay it via Form 26QB. The rules, joint-buyer position, and no-TAN process.">
+<link rel="canonical" href="https://numberiq.in/insights/tds-property-purchase-194ia.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="TDS on Property Purchase Under Section 194IA | NumberIQ">
+<meta property="og:description" content="Buying immovable property of Rs.50 lakh or more? Section 194IA requires the buyer to deduct 1% TDS and pay it via Form 26QB. The rules, joint-buyer position, and no-TAN process.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/tds-property-purchase-194ia.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TDS on Property Purchase Under Section 194IA | NumberIQ">
+<meta name="twitter:description" content="Buying immovable property of Rs.50 lakh or more? Section 194IA requires the buyer to deduct 1% TDS and pay it via Form 26QB. The rules, joint-buyer position, and no-TAN process.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "TDS on property purchase under Section 194IA", "description": "Buying immovable property of Rs.50 lakh or more? Section 194IA requires the buyer to deduct 1% TDS and pay it via Form 26QB. The rules, joint-buyer position, and no-TAN process.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-property-purchase-194ia.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When is TDS deducted on buying property?","acceptedAnswer":{"@type":"Answer","text":"When the consideration or stamp-duty value of the immovable property (other than rural agricultural land) is Rs.50 lakh or more; the buyer deducts 1% under Section 194IA."}},{"@type":"Question","name":"Do I need a TAN for 194IA TDS?","acceptedAnswer":{"@type":"Answer","text":"No. The buyer uses Form 26QB, a challan-cum-statement, and does not need a TAN; Form 16B is then issued to the seller."}},{"@type":"Question","name":"What if the seller is a non-resident?","acceptedAnswer":{"@type":"Answer","text":"Section 194IA does not apply; TDS is governed by Section 195, generally at a higher rate based on the capital gains, with treaty relief where applicable."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag tds">TDS / TCS</span>
+  <h1>TDS on property purchase under Section 194IA</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 194IA requires the buyer of immovable property (other than agricultural land) to deduct TDS at 1% where the consideration or the stamp-duty value is Rs.50 lakh or more.</b> The buyer pays it using Form 26QB within 30 days, without needing a TAN.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The rule</a> &middot; <a href="#s1">Joint buyers and sellers</a> &middot; <a href="#s2">Process</a> &middot; <a href="#s3">Common errors</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The rule</h2>
+<p>On purchase of immovable property (land or building, other than rural agricultural land) where the <b>consideration or stamp-duty value is Rs.50 lakh or more</b>, the buyer deducts <b>1%</b> TDS on the higher of the two values, at the time of payment or credit. No TAN is required; the buyer uses <b>Form 26QB</b> (a challan-cum-statement) and issues <b>Form 16B</b> to the seller.</p>
+
+  <h2 id="s1">Joint buyers and sellers</h2>
+<p>Where there are multiple buyers or sellers, the Rs.50 lakh threshold is judged on the <b>total consideration of the property</b>, not each person's share. Each buyer files a 26QB for their portion. For a <b>non-resident seller</b>, TDS is governed by <a href="tds-foreign-payments-section-195-dtaa.html">Section 195</a> (not 194IA), usually at a higher rate.</p>
+
+  <h2 id="s2">Process</h2>
+<ol><li>Deduct 1% at each payment/instalment.</li><li>File Form 26QB within <b>30 days</b> of the end of the month of deduction.</li><li>Download Form 16B and give it to the seller.</li><li>Ensure the seller's PAN is correct (else 20% under 206AA).</li></ol>
+
+  <h2 id="s3">Common errors</h2>
+<ul><li>Not deducting because each instalment is below Rs.50 lakh &mdash; the threshold is the property value, not the instalment.</li><li>Deducting 1% when the seller is a non-resident &mdash; that case is Section 195.</li><li>Missing the stamp-value comparison.</li><li>Late 26QB &mdash; attracts 234E fee and 201(1A) interest.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>When is TDS deducted on buying property?</summary><p>When the consideration or stamp-duty value of the immovable property (other than rural agricultural land) is Rs.50 lakh or more; the buyer deducts 1% under Section 194IA.</p></details>
+    <details><summary>Do I need a TAN for 194IA TDS?</summary><p>No. The buyer uses Form 26QB, a challan-cum-statement, and does not need a TAN; Form 16B is then issued to the seller.</p></details>
+    <details><summary>What if the seller is a non-resident?</summary><p>Section 194IA does not apply; TDS is governed by Section 195, generally at a higher rate based on the capital gains, with treaty relief where applicable.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>194IA: 1% TDS on property of Rs.50 lakh or more.</li><li>Threshold is the property value, not the instalment.</li><li>Pay via Form 26QB within 30 days; no TAN needed.</li><li>Non-resident seller: use Section 195, not 194IA.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Section 194IA; Forms 26QB/16B</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="tds-on-rent-194i-vs-194ib.html">TDS on rent (194I vs 194IB)</a>
+    <a href="capital-gains-property-fy2026-27.html">Capital gains on property</a>
+    <a href="tds-foreign-payments-section-195-dtaa.html">TDS on foreign payments (195)</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

@@ -146,7 +146,7 @@ const TOOLS = [
   {file:"interest-234abc-calculator.html", cat:"it", icon:"⚖️", name:"234A/B/C Interest Calculator", desc:"Interest for default in advance tax and late filing of ITR.", status:"live", accent:"#4f7cff"},
 
   // ---- Coming soon ----
-  {file:"", cat:"calc", icon:"📉", name:"Depreciation Schedule", desc:"Block-of-assets depreciation under Section 32 with WDV roll-forward.", status:"soon", accent:"#9a6bff"},
+  {file:"depreciation-block-assets-calculator.html", cat:"calc", icon:"📉", name:"Depreciation Schedule (Block of Assets)", desc:"Section 32 block-wise WDV depreciation with half-year rule, additional depreciation and STCG u/s 50.", status:"live", accent:"#9a6bff"},
   {file:"", cat:"util", icon:"💱", name:"Forex / LRS Converter", desc:"Convert foreign-currency amounts at RBI reference rates for FEMA / TCS workings.", status:"soon", accent:"#34d399"},
   {file:"", cat:"util", icon:"🗓️", name:"Due-Date Tracker", desc:"Personalised GST / TDS / income-tax compliance reminders.", status:"soon", accent:"#34d399"}
 ];
@@ -200,10 +200,4 @@ document.getElementById('q').addEventListener('input',e=>{query=e.target.value;r
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
 const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>mm.classList.toggle('show'));
-mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
-
-buildCats(); render();
-</script>
-</body>
-</html>
-    
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

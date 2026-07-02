@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 56(2)(x): When Gifts Are Taxable | NumberIQ</title>
+<meta name="description" content="Under Section 56(2)(x), money or property received without or for inadequate consideration above Rs.50,000 is taxable as income from other sources, with exceptions for relatives and occasions.">
+<link rel="canonical" href="https://numberiq.in/insights/section-56-2-gift-taxable-income.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Section 56(2)(x): When Gifts Are Taxable | NumberIQ">
+<meta property="og:description" content="Under Section 56(2)(x), money or property received without or for inadequate consideration above Rs.50,000 is taxable as income from other sources, with exceptions for relatives and occasions.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/section-56-2-gift-taxable-income.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Section 56(2)(x): When Gifts Are Taxable | NumberIQ">
+<meta name="twitter:description" content="Under Section 56(2)(x), money or property received without or for inadequate consideration above Rs.50,000 is taxable as income from other sources, with exceptions for relatives and occasions.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Section 56(2)(x): when gifts are taxable", "description": "Under Section 56(2)(x), money or property received without or for inadequate consideration above Rs.50,000 is taxable as income from other sources, with exceptions for relatives and occasions.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/section-56-2-gift-taxable-income.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are gifts from relatives taxable?","acceptedAnswer":{"@type":"Answer","text":"No. Gifts from a 'relative' as defined in Section 56(2)(x), as well as receipts on marriage, under a will or by inheritance, are exempt regardless of amount."}},{"@type":"Question","name":"What is the gift tax threshold?","acceptedAnswer":{"@type":"Answer","text":"Rs.50,000 in aggregate per year from non-relatives. Once the aggregate exceeds Rs.50,000, the whole amount is taxable, not just the excess."}},{"@type":"Question","name":"How is gifted property valued?","acceptedAnswer":{"@type":"Answer","text":"Immovable property is valued at its stamp-duty value, and specified movable property at fair market value, with taxability where this exceeds Rs.50,000."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag dt">Direct Tax</span>
+  <h1>Section 56(2)(x): when gifts are taxable</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Under Section 56(2)(x), any sum of money or specified property received without consideration (or for inadequate consideration) exceeding Rs.50,000 in a year is taxable as income from other sources.</b> Gifts from relatives, on marriage, under a will or inheritance, and certain other receipts are exempt.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The taxing provision</a> &middot; <a href="#s1">The exceptions</a> &middot; <a href="#s2">Worked example</a> &middot; <a href="#s3">Practical points</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The taxing provision</h2>
+<p>Section 56(2)(x) taxes the recipient on:</p><ul><li><b>Money</b> &mdash; if the aggregate received without consideration exceeds Rs.50,000, the whole amount is taxable.</li><li><b>Immovable property</b> &mdash; if received free, the stamp-duty value (above Rs.50,000); if for inadequate consideration, the shortfall beyond the tolerance band.</li><li><b>Specified movable property</b> (shares, jewellery, art, etc.) &mdash; the fair market value above Rs.50,000.</li></ul>
+
+  <h2 id="s1">The exceptions</h2>
+<div class="table-wrap"><table><thead><tr><th>Receipt</th><th>Taxable?</th></tr></thead><tbody><tr><td>From a 'relative' (as defined)</td><td>Exempt</td></tr><tr><td>On the occasion of marriage of the individual</td><td>Exempt</td></tr><tr><td>Under a will or by inheritance</td><td>Exempt</td></tr><tr><td>From a local authority / specified fund / trust</td><td>Exempt</td></tr><tr><td>From a non-relative above Rs.50,000</td><td>Taxable</td></tr></tbody></table></div><p>'Relative' includes spouse, siblings, siblings of spouse/parents, lineal ascendants/descendants and their spouses &mdash; a defined list.</p>
+
+  <h2 id="s2">Worked example</h2>
+<p>An individual receives Rs.80,000 cash from a friend (non-relative) and Rs.2,00,000 from a brother. The Rs.2,00,000 from the brother is <b>exempt</b> (relative); the Rs.80,000 from the friend exceeds Rs.50,000, so the <b>entire Rs.80,000</b> is taxable as income from other sources.</p>
+
+  <h2 id="s3">Practical points</h2>
+<ul><li>The Rs.50,000 threshold is aggregate per category per year, and once crossed the whole amount is taxable.</li><li>For property, the <b>stamp-duty value</b> (immovable) or FMV (movable) governs.</li><li>Maintain gift deeds and proof of relationship to support exemption.</li><li>Loans are not gifts, but unexplained credits can attract Section 68.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Are gifts from relatives taxable?</summary><p>No. Gifts from a 'relative' as defined in Section 56(2)(x), as well as receipts on marriage, under a will or by inheritance, are exempt regardless of amount.</p></details>
+    <details><summary>What is the gift tax threshold?</summary><p>Rs.50,000 in aggregate per year from non-relatives. Once the aggregate exceeds Rs.50,000, the whole amount is taxable, not just the excess.</p></details>
+    <details><summary>How is gifted property valued?</summary><p>Immovable property is valued at its stamp-duty value, and specified movable property at fair market value, with taxability where this exceeds Rs.50,000.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>56(2)(x): free/under-valued money or property above Rs.50,000 is taxable.</li><li>Once Rs.50,000 is crossed, the whole amount is taxed.</li><li>Relatives, marriage, will and inheritance receipts are exempt.</li><li>Property valued at stamp value (immovable) or FMV (movable).</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../income-tax-calculator-fy2026-27.html">Income Tax Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Sections 56(2)(x), 68</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="capital-gains-property-fy2026-27.html">Capital gains on property</a>
+    <a href="set-off-carry-forward-losses-income-tax.html">Set-off and carry-forward of losses</a>
+    <a href="income-tax-foreign-income-dtaa-fema.html">Foreign income, DTAA and FEMA</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

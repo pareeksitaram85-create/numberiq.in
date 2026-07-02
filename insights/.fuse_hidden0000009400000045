@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTA Under GST: RCM vs Forward Charge | NumberIQ</title>
+<meta name="description" content="Goods Transport Agency under GST - the recipient pays 5% under reverse charge, or the GTA opts for forward charge at 5% (no ITC) or 12% (with ITC). The Annexure V/VI option.">
+<link rel="canonical" href="https://numberiq.in/insights/gta-gst-rcm-forward-charge.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GTA Under GST: RCM vs Forward Charge | NumberIQ">
+<meta property="og:description" content="Goods Transport Agency under GST - the recipient pays 5% under reverse charge, or the GTA opts for forward charge at 5% (no ITC) or 12% (with ITC). The Annexure V/VI option.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gta-gst-rcm-forward-charge.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GTA Under GST: RCM vs Forward Charge | NumberIQ">
+<meta name="twitter:description" content="Goods Transport Agency under GST - the recipient pays 5% under reverse charge, or the GTA opts for forward charge at 5% (no ITC) or 12% (with ITC). The Annexure V/VI option.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GTA under GST: RCM vs forward charge", "description": "Goods Transport Agency under GST - the recipient pays 5% under reverse charge, or the GTA opts for forward charge at 5% (no ITC) or 12% (with ITC). The Annexure V/VI option.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gta-gst-rcm-forward-charge.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who pays GST on GTA freight?","acceptedAnswer":{"@type":"Answer","text":"By default the specified recipient pays 5% under reverse charge. If the GTA opts for forward charge, the GTA charges GST at 5% (no ITC) or 12% (with ITC)."}},{"@type":"Question","name":"How does a GTA opt for forward charge?","acceptedAnswer":{"@type":"Answer","text":"By filing the annual declaration in Annexure V by the prescribed date for the financial year; the option then applies for that year."}},{"@type":"Question","name":"Can the recipient claim ITC of GTA RCM?","acceptedAnswer":{"@type":"Answer","text":"Yes, the 5% paid under reverse charge is available as ITC if the freight relates to taxable business and is not otherwise blocked."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GTA under GST: RCM vs forward charge</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Goods transport agency (GTA) services can be taxed under reverse charge, where the specified recipient pays 5% GST, or under forward charge, where the GTA charges 5% (without ITC) or 12% (with ITC).</b> A GTA opts for forward charge by filing an annual declaration (Annexure V).</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The default: reverse charge at 5%</a> &middot; <a href="#s1">The forward-charge option</a> &middot; <a href="#s2">Which option to use</a> &middot; <a href="#s3">Exemptions and notes</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The default: reverse charge at 5%</h2>
+<p>Where a GTA transports goods by road and does not opt for forward charge, the <b>specified recipient</b> (a registered person, company, factory, society, etc.) pays GST at <b>5% under reverse charge</b> (Notification 13/2017). The GTA does not charge GST; the recipient self-assesses, pays in cash, and claims ITC if the freight is for taxable business.</p>
+
+  <h2 id="s1">The forward-charge option</h2>
+<div class="table-wrap"><table><thead><tr><th>Option</th><th>Rate</th><th>ITC to GTA</th><th>Who pays</th></tr></thead><tbody><tr><td>Reverse charge (default)</td><td>5%</td><td>No</td><td>Recipient</td></tr><tr><td>Forward charge &mdash; 5%</td><td>5%</td><td>No</td><td>GTA charges</td></tr><tr><td>Forward charge &mdash; 12%</td><td>12%</td><td>Yes</td><td>GTA charges</td></tr></tbody></table></div><p>A GTA chooses forward charge for a financial year by filing <b>Annexure V</b> by the prescribed date; the choice then applies for the year.</p>
+
+  <h2 id="s2">Which option to use</h2>
+<p>A GTA with significant input GST (fuel ITC is restricted, but trucks, tyres, services) may prefer the <b>12% with ITC</b> route. A GTA with little input tax often stays at 5%. For the recipient, RCM at 5% with ITC is usually cost-neutral. The decision affects pricing and should be aligned across contracts.</p>
+
+  <h2 id="s3">Exemptions and notes</h2>
+<ul><li>Transport of certain goods (e.g. agricultural produce, milk, where notified) is exempt.</li><li>Consignments where the freight per carriage is below the notified small limit may be exempt.</li><li>The consignment note is the defining document of a GTA (vs a mere transporter).</li><li><span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current Annexure V filing deadline and any rate changes.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Who pays GST on GTA freight?</summary><p>By default the specified recipient pays 5% under reverse charge. If the GTA opts for forward charge, the GTA charges GST at 5% (no ITC) or 12% (with ITC).</p></details>
+    <details><summary>How does a GTA opt for forward charge?</summary><p>By filing the annual declaration in Annexure V by the prescribed date for the financial year; the option then applies for that year.</p></details>
+    <details><summary>Can the recipient claim ITC of GTA RCM?</summary><p>Yes, the 5% paid under reverse charge is available as ITC if the freight relates to taxable business and is not otherwise blocked.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Default: recipient pays 5% under reverse charge.</li><li>GTA can opt forward charge: 5% (no ITC) or 12% (with ITC).</li><li>Forward charge is chosen annually via Annexure V.</li><li>RCM-paid 5% is creditable to the recipient if for taxable business.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a> &middot; <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Notification 11/2017, 12/2017, 13/2017-CT(R); Annexure V/VI</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="rcm-gst-notification-13-2017.html">Reverse charge under Notification 13/2017</a>
+    <a href="itc-motor-vehicle-gst-when-allowed.html">ITC on motor vehicles</a>
+    <a href="place-of-supply-gst-guide.html">Place of supply under GST</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

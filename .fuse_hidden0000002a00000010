@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TDS under the Income-tax Act, 2025: what changes from 1 April 2026 — NumberIQ Insights</title>
+<meta name="description" content="Old TDS sections collapse into Sec 393, salary and EPF move to Sec 392, TCS to Sec 394, and returns shift to new Forms 138/140/143/144. A practical map for deductors for FY 2026-27.">
+<meta property="og:title" content="TDS under the Income-tax Act, 2025 — what changes from 1 April 2026">
+<meta property="og:description" content="Old vs new section mapping, new forms, payment codes and the transition rule — a deductor's guide.">
+<meta property="og:url" content="https://numberiq.in/insights-tds-income-tax-act-2025.html">
+<meta name="twitter:title" content="TDS under the Income-tax Act, 2025 — what changes from 1 April 2026">
+<meta name="twitter:description" content="Old vs new section mapping, new forms, payment codes and the transition rule.">
+<link rel="canonical" href="https://numberiq.in/insights-tds-income-tax-act-2025.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:image" content="og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="og-cover.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--panel:rgba(255,255,255,0.035);--panel-2:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.09);--stroke-2:rgba(255,255,255,0.16);
+  --ink:#eef1f8;--ink-soft:#aab2c5;--ink-dim:#737c92;
+  --blue:#4f7cff;--blue-2:#6f9bff;--violet:#9a6bff;--cyan:#38e1d6;--emerald:#34d399;--amber:#f4b740;--crimson:#ff5d73;
+  --radius:18px;--radius-lg:26px;--shadow:0 30px 80px -20px rgba(0,0,0,0.7);
+  --glow-blue:0 0 0 1px rgba(79,124,255,.35),0 18px 60px -12px rgba(79,124,255,.45);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --display:'Space Grotesk',var(--font);--maxw:1180px;--readw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(79,124,255,.4);color:#fff}
+.bg-canvas{position:fixed;inset:0;z-index:-4;overflow:hidden;background:
+  radial-gradient(1100px 640px at 12% -12%,rgba(79,124,255,.14),transparent 60%),
+  radial-gradient(900px 700px at 96% 0%,rgba(154,107,255,.12),transparent 55%);}
+.grid-overlay{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 50% at 50% 0%,#000 30%,transparent 80%);}
+.progress{position:fixed;top:0;left:0;height:3px;z-index:300;background:linear-gradient(90deg,#4f7cff,#9a6bff,#38e1d6);width:0;box-shadow:0 0 12px rgba(79,124,255,.7)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.read{max-width:var(--readw);margin:0 auto;padding:0 24px}
+header.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .4s}
+.nav-inner{max-width:var(--maxw);margin:14px auto 0;padding:11px 16px 11px 22px;display:flex;align-items:center;justify-content:space-between;
+  border:1px solid var(--stroke);border-radius:99px;background:rgba(8,10,18,.6);backdrop-filter:blur(20px) saturate(140%);transition:all .4s}
+header.nav.scrolled .nav-inner{background:rgba(8,10,18,.88);box-shadow:0 14px 40px -16px rgba(0,0,0,.7);border-color:var(--stroke-2)}
+.logo{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:700;font-size:16.5px}
+.logo .mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:18px;color:#fff;background:linear-gradient(135deg,#4f7cff,#9a6bff);box-shadow:0 8px 24px -6px rgba(79,124,255,.7)}
+.logo small{display:block;font-size:10.5px;font-weight:500;letter-spacing:.04em;color:var(--ink-dim);font-family:var(--font)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);padding:9px 15px;border-radius:99px;transition:.25s}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:var(--panel-2)}
+.hamburger{display:none;width:42px;height:42px;border:1px solid var(--stroke);border-radius:12px;background:var(--panel);cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center}
+.hamburger span{width:18px;height:2px;background:var(--ink);border-radius:2px}
+.mobile-menu{display:none;position:fixed;top:80px;left:14px;right:14px;z-index:99;border:1px solid var(--stroke-2);border-radius:22px;background:rgba(8,10,18,.96);backdrop-filter:blur(20px);padding:14px;flex-direction:column;gap:4px}
+.mobile-menu.show{display:flex}
+.mobile-menu a{padding:13px 16px;border-radius:12px;font-family:var(--display);font-weight:500;color:var(--ink-soft)}
+.art-head{padding:140px 0 26px}
+.crumb{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim);font-family:var(--display);margin-bottom:22px}
+.crumb a:hover{color:#fff}
+.tag{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:99px}
+.tag.tds{color:#ffd98a;background:rgba(244,183,64,.14);border:1px solid rgba(244,183,64,.32)}
+.art-head h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.6vw,46px);line-height:1.12;letter-spacing:-.02em;margin:16px 0 18px}
+.byline{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--ink-dim);font-size:13.5px}
+.byline .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,#4f7cff,#9a6bff)}
+.byline b{color:var(--ink-soft);font-weight:600}
+.byline .sep{width:4px;height:4px;border-radius:50%;background:var(--ink-dim)}
+.divide{max-width:var(--readw);margin:30px auto 0;height:1px;background:var(--stroke)}
+.prose{padding:34px 0 40px;font-size:17px;line-height:1.78;color:#dde3f2}
+.prose>*+*{margin-top:22px}
+.prose .lead{font-size:19.5px;line-height:1.65;color:var(--ink);font-weight:400}
+.prose h2{font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:-.01em;margin-top:46px;color:#fff;scroll-margin-top:100px}
+.prose h3{font-family:var(--display);font-size:20px;font-weight:600;margin-top:34px;color:#fff}
+.prose p{color:#cdd5e8}
+.prose b,.prose strong{color:#fff;font-weight:600}
+.prose a{color:var(--blue-2);border-bottom:1px solid rgba(111,155,255,.35)}
+.prose a:hover{color:#fff;border-color:#fff}
+.prose ul,.prose ol{padding-left:24px;color:#cdd5e8}
+.prose li{margin:9px 0}
+.prose li::marker{color:var(--blue-2)}
+.prose blockquote{border-left:3px solid var(--blue);background:var(--panel);padding:16px 20px;border-radius:0 12px 12px 0;color:var(--ink-soft);font-style:italic}
+.prose code{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;background:rgba(255,255,255,.07);border:1px solid var(--stroke);padding:2px 7px;border-radius:6px;color:#aee3ff}
+.prose hr{border:none;height:1px;background:var(--stroke);margin:38px 0}
+.prose .table-wrap{overflow-x:auto;border:1px solid var(--stroke);border-radius:14px;background:var(--panel)}
+.prose table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:480px}
+.prose th{background:rgba(255,255,255,.05);text-align:left;font-family:var(--display);font-weight:600;color:#fff;padding:12px 16px;border-bottom:1px solid var(--stroke-2);white-space:nowrap}
+.prose td{padding:11px 16px;border-bottom:1px solid var(--stroke);color:#cdd5e8;vertical-align:top}
+.prose tr:last-child td{border-bottom:none}
+.prose tbody tr:hover{background:rgba(255,255,255,.02)}
+.callout{border:1px solid var(--stroke-2);border-radius:14px;padding:16px 18px 16px 50px;position:relative;background:var(--panel);font-size:15.5px;color:var(--ink-soft)}
+.callout::before{position:absolute;left:16px;top:15px;font-size:18px}
+.callout.note{border-left:3px solid var(--blue)}.callout.note::before{content:"💡"}
+.callout.warn{border-left:3px solid var(--amber)}.callout.warn::before{content:"⚠️"}
+.callout.law{border-left:3px solid var(--emerald)}.callout.law::before{content:"§"}
+.callout b{color:#fff}
+.sources{max-width:var(--readw);margin:0 auto;padding:24px 24px 0;border-top:1px solid var(--stroke)}
+.sources h4{font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px}
+.sources ol{padding-left:20px;font-size:13.5px;color:var(--ink-soft);line-height:1.9}
+.sources a{color:var(--blue-2)}
+.art-actions{max-width:var(--readw);margin:28px auto 0;padding:0 24px;display:flex;gap:10px;flex-wrap:wrap}
+.tbtn{border:1.5px solid var(--stroke-2);background:var(--panel);color:var(--ink-soft);padding:10px 18px;border-radius:99px;font-family:var(--display);font-size:13.5px;font-weight:600;cursor:pointer;transition:.18s}
+.tbtn:hover{border-color:var(--blue);color:#fff;background:var(--panel-2)}
+.tbtn.primary{background:#fff;color:#05060a;border-color:#fff}
+footer{border-top:1px solid var(--stroke);padding:46px 0 36px;margin-top:80px}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--ink-dim);font-size:13px}
+.foot-bottom a{color:var(--ink-soft)}.foot-bottom a:hover{color:#fff}
+@media(max-width:980px){.nav-links{display:none}.hamburger{display:flex}}
+@media(max-width:640px){.art-head{padding:120px 0 18px}.prose{font-size:16px}}
+@media print{
+  .bg-canvas,.grid-overlay,.progress,header.nav,.mobile-menu,.art-actions,.crumb{display:none!important}
+  body{background:#fff;color:#111}.prose,.prose p,.prose td,.prose li{color:#111}
+  .art-head h1,.prose h2,.prose h3,.prose b{color:#000}
+  .prose .table-wrap,.callout,.prose blockquote{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="mark">◈</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="index.html#modules">Modules</a>
+      <a href="index.html#tools">Finance Tools</a>
+      <a href="insights.html" class="active">Insights</a>
+      <a href="index.html#roadmap">Roadmap</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#modules">Modules</a>
+  <a href="index.html#tools">Finance Tools</a>
+  <a href="insights.html">Insights</a>
+  <a href="index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="insights.html">← Insights</a></div>
+  <span class="tag tds">TDS / TCS</span>
+  <h1>TDS under the Income-tax Act, 2025: what changes from 1 April 2026</h1>
+  <div class="byline">
+    <span class="av">SR</span>
+    <b>CA SR</b>
+    <span class="sep"></span><span>23 Jun 2026</span>
+    <span class="sep"></span><span>7 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+
+  <p class="lead">The Income-tax Act, 2025 comes into force on 1 April 2026. The TDS machinery has not been re-invented — but every section number, return and certificate you quote on the deduction side changes. Here is the practical map for deductors.</p>
+
+  <p>The substantive law — who deducts, at what rate, above which threshold — is carried forward largely unchanged. What changes is the <b>architecture</b>: the scattered 1961-Act sections are consolidated, and the challan, return and certificate forms are renumbered under the Income-tax Rules, 2026. If you deduct tax, your masters, utilities and templates need updating before the first payment on or after 1 April 2026.</p>
+
+  <h2>Three sections now hold everything</h2>
+  <p>The old structure spread TDS across sections 192 to 194T and TCS under 206C. The new Act collapses this into three homes:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>New section</th><th>Covers</th><th>Replaces (1961 Act)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sec 392</b></td><td>Salary &amp; premature EPF withdrawal</td><td>192 and 192A (EPF under 392(7))</td></tr>
+        <tr><td><b>Sec 393</b></td><td>All non-salary TDS — 393(1) residents, 393(2) non-residents</td><td>193, 194, 194A–194T, 195 and the rest</td></tr>
+        <tr><td><b>Sec 394</b></td><td>All Tax Collected at Source (TCS)</td><td>206C and its sub-sections</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout note">Premature EPF withdrawal (old 194/192A territory) is a common slip: it sits with <b>salary in Sec 392(7)</b>, <b>not</b> in the non-salary Sec 393. Its payment code is 1004.</div>
+
+  <h2>Quote a payment code, not the old section</h2>
+  <p>For any payment where the earlier of <b>credit or payment</b> falls on or after 1 April 2026, you must reference the relevant table item of Section 393 (or 394 for TCS) — expressed as a <b>numeric payment code in the 1001–1067 range</b> — on the challan and statement. The old labels "194C", "194J" and so on must not be quoted for these payments. The challan format, the portal/bank payment process and the payment deadlines are unchanged; only the section reference changes.</p>
+
+  <h2>The forms you file are renumbered</h2>
+  <p>Every return and certificate gets a new number. The function is the same — only the form ID changes:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Purpose</th><th>Old form</th><th>New form</th></tr></thead>
+      <tbody>
+        <tr><td>Salary TDS return (quarterly)</td><td>24Q</td><td><b>138</b></td></tr>
+        <tr><td>Non-salary TDS return (resident)</td><td>26Q</td><td><b>140</b></td></tr>
+        <tr><td>TDS return — non-residents</td><td>27Q</td><td><b>144</b></td></tr>
+        <tr><td>TCS return (quarterly)</td><td>27EQ</td><td><b>143</b></td></tr>
+        <tr><td>Challan-cum-statement (property / rent / VDA / 194M)</td><td>26QB/QC/QD/QE</td><td><b>141</b></td></tr>
+        <tr><td>Salary TDS certificate</td><td>Form 16</td><td><b>130</b></td></tr>
+        <tr><td>Non-salary TDS certificate</td><td>Form 16A</td><td><b>131</b></td></tr>
+        <tr><td>No-deduction declaration</td><td>15G / 15H</td><td><b>121</b></td></tr>
+        <tr><td>Lower-deduction certificate application</td><td>Form 13</td><td><b>128</b></td></tr>
+        <tr><td>Foreign remittance</td><td>15CA / 15CB</td><td><b>145 / 146</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The transition rule that matters most</h2>
+  <p>The dividing line is the date of the transaction — specifically the <b>earlier of credit or payment</b>:</p>
+  <ul>
+    <li>Earlier event <b>up to 31 March 2026</b> → old Act: quote 194-series sections, file 24Q/26Q/27Q, issue Form 16/16A.</li>
+    <li>Earlier event <b>on or after 1 April 2026</b> → new Act: quote Section 393/394 payment codes, file Forms 138/140/143/144.</li>
+  </ul>
+  <p>For FY 2025-26, the Q4 (Jan–Mar 2026) returns continue in the old forms — for example, the Q4 TCS statement is still filed in Form 27EQ.</p>
+
+  <h2>Rates and thresholds: unchanged, but remember Budget 2025</h2>
+  <p>The new Act does not reset rates. The thresholds you should already be applying from FY 2025-26 carry forward, including the Budget 2025 rationalisations:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Payment</th><th>Rate</th><th>Threshold (FY 2026-27)</th></tr></thead>
+      <tbody>
+        <tr><td>Professional fees (old 194J)</td><td>10%</td><td>₹50,000</td></tr>
+        <tr><td>Commission / brokerage (old 194H)</td><td>2%</td><td>₹20,000</td></tr>
+        <tr><td>Rent — land &amp; building (old 194I)</td><td>10%</td><td>₹50,000 per month</td></tr>
+        <tr><td>Bank/post-office interest (old 194A)</td><td>10%</td><td>₹50,000 (₹1,00,000 senior citizen)</td></tr>
+        <tr><td>Firm/LLP to partners (old 194T)</td><td>10%</td><td>₹20,000</td></tr>
+        <tr><td>Compensation on acquisition (old 194LA)</td><td>10%</td><td>₹5,00,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout note">Look up any section, rate, threshold and the new form against the old number in the <a href="numberiq-tds-chart-fy2026-27.html">NumberIQ TDS Rate Finder</a> — it carries the full old-to-new mapping with plain-English examples.</div>
+
+  <h2>A short readiness checklist for deductors</h2>
+  <ol>
+    <li>Update accounting/payroll masters to the new payment codes (1001–1067) before the first April 2026 deduction.</li>
+    <li>Confirm your return-filing utility / vendor supports Forms 138, 140, 143 and 144.</li>
+    <li>Re-label certificate templates: Form 16 → 130, Form 16A → 131.</li>
+    <li>Brief AP and treasury that the cut-over is on the <b>earlier of credit or payment</b>, not the invoice date.</li>
+    <li>For non-residents, keep using the lower of Act vs DTAA rate with TRC + Form 10F on file; foreign-remittance reporting moves to Forms 145/146.</li>
+  </ol>
+
+  <div class="callout warn">This note reflects the Income-tax Act, 2025 and the Income-tax Rules, 2026 as reported by leading commentaries and the e-filing portal as on June 2026. Cross-check the final notified Rules and any CBDT circulars before relying on specific form numbers in client filings, and obtain professional sign-off for non-routine transactions.</div>
+
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol>
+    <li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> — Income-tax Act, 2025; Form 141 / Form 143 reference pages</li>
+    <li><a href="https://cleartax.in/s/section-393-of-income-tax-act" target="_blank" rel="noopener">ClearTax</a> — Section 393: TDS rates, payments covered, due dates</li>
+    <li><a href="https://blog.tdsman.com/2026/06/new-tds-tcs-forms-it-act-2025-mapping-with-old-forms/" target="_blank" rel="noopener">TDSMAN</a> — New TDS/TCS forms under IT Act 2025: mapping with old forms</li>
+    <li><a href="https://blog.tdsman.com/2026/04/tds-on-epf-withdrawal-section-3927-section-192a/" target="_blank" rel="noopener">TDSMAN</a> — TDS on EPF withdrawal under Section 392(7)</li>
+    <li><a href="https://taxguru.in/income-tax/section-194la-tds-threshold-raised-rs-5-lakh-1st-april-2025.html" target="_blank" rel="noopener">TaxGuru</a> — Section 194LA threshold raised to ₹5 lakh</li>
+  </ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="insights.html">← All articles</a>
+  <a class="tbtn" href="numberiq-tds-chart-fy2026-27.html">Open TDS Rate Finder →</a>
+  <button class="tbtn" onclick="window.print()">⤓ Save / Print PDF</button>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>© 2026 NumberIQ · For guidance only — not a substitute for professional advice.</span>
+    <span><a href="index.html">NumberIQ Command Centre →</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  progress.style.width=(window.scrollY/h*100)+'%';
+},{passive:tru

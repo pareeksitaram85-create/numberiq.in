@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TDS on the GST Component: Circular 23/2017 | NumberIQ</title>
+<meta name="description" content="Is TDS deducted on the GST portion of an invoice? Per CBDT Circular 23/2017, TDS is deducted on the amount excluding GST where GST is shown separately on the invoice.">
+<link rel="canonical" href="https://numberiq.in/insights/tds-on-gst-component.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="TDS on the GST Component: Circular 23/2017 | NumberIQ">
+<meta property="og:description" content="Is TDS deducted on the GST portion of an invoice? Per CBDT Circular 23/2017, TDS is deducted on the amount excluding GST where GST is shown separately on the invoice.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/tds-on-gst-component.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TDS on the GST Component: Circular 23/2017 | NumberIQ">
+<meta name="twitter:description" content="Is TDS deducted on the GST portion of an invoice? Per CBDT Circular 23/2017, TDS is deducted on the amount excluding GST where GST is shown separately on the invoice.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "TDS on the GST component of an invoice", "description": "Is TDS deducted on the GST portion of an invoice? Per CBDT Circular 23/2017, TDS is deducted on the amount excluding GST where GST is shown separately on the invoice.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tds-on-gst-component.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is TDS deducted on the GST amount?","acceptedAnswer":{"@type":"Answer","text":"No, provided GST is shown separately on the invoice. Per CBDT Circular 23/2017, TDS is deducted on the amount excluding the GST component."}},{"@type":"Question","name":"What if GST is not shown separately?","acceptedAnswer":{"@type":"Answer","text":"Then TDS is deducted on the gross (GST-inclusive) amount, as the relief in Circular 23/2017 requires GST to be separately indicated."}},{"@type":"Question","name":"Does this apply to all TDS sections?","acceptedAnswer":{"@type":"Answer","text":"Yes, the principle applies across Chapter XVII-B TDS sections such as 194C, 194J and 194I where GST on services is shown separately."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag tds">TDS / TCS</span>
+  <h1>TDS on the GST component of an invoice</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>4 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Per CBDT Circular 23/2017, income-tax TDS is deducted on the amount paid or payable excluding the GST component, provided the GST is indicated separately on the invoice.</b> If GST is not shown separately, TDS is deducted on the whole (gross) amount.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The rule</a> &middot; <a href="#s1">The condition and a caution</a> &middot; <a href="#s2">Worked example</a> &middot; <a href="#s3">Practical points</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The rule</h2>
+<p>CBDT Circular 23/2017 clarified that where, under the contract or invoice, the <b>GST on services is shown separately</b>, TDS under Chapter XVII-B is deducted on the amount <b>excluding</b> that GST. This avoids deducting tax on tax. The clarification applies across TDS sections (194C, 194J, 194I, etc.).</p>
+
+  <h2 id="s1">The condition and a caution</h2>
+<p>The relief applies only when GST is <b>separately indicated</b>. If the invoice shows a single consolidated amount without splitting GST, TDS is deducted on the <b>gross</b> amount. Note the circular refers to GST on <b>services</b>; for composite supplies, ensure the GST is clearly bifurcated.</p>
+
+  <h2 id="s2">Worked example</h2>
+<p>Professional fee Rs.1,00,000 + GST 18% Rs.18,000 = Rs.1,18,000, with GST shown separately. TDS under 194J at 10% = <b>Rs.10,000</b> (on Rs.1,00,000), not Rs.11,800. The payee receives Rs.1,08,000 and the GST is paid in full.</p>
+
+  <h2 id="s3">Practical points</h2>
+<ul><li>Always split GST on invoices to your customers to enable correct TDS.</li><li>The same logic applies to TDS under GST (Section 51) on the taxable value.</li><li>Document the bifurcation for audit.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Is TDS deducted on the GST amount?</summary><p>No, provided GST is shown separately on the invoice. Per CBDT Circular 23/2017, TDS is deducted on the amount excluding the GST component.</p></details>
+    <details><summary>What if GST is not shown separately?</summary><p>Then TDS is deducted on the gross (GST-inclusive) amount, as the relief in Circular 23/2017 requires GST to be separately indicated.</p></details>
+    <details><summary>Does this apply to all TDS sections?</summary><p>Yes, the principle applies across Chapter XVII-B TDS sections such as 194C, 194J and 194I where GST on services is shown separately.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>TDS is on the value excluding separately-shown GST (Circular 23/2017).</li><li>If GST is not split, TDS is on the gross amount.</li><li>Applies across 194C/194J/194I and similar sections.</li><li>Always bifurcate GST on invoices for correct TDS.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../numberiq-tds-chart-fy2026-27.html">TDS Rate Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; CBDT Circular 23/2017</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="tds-194j-professional-fees.html">TDS under Section 194J</a>
+    <a href="tds-on-rent-194i-vs-194ib.html">TDS on rent (194I vs 194IB)</a>
+    <a href="tds-194c-contractor-payments.html">TDS under Section 194C</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

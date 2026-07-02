@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSTR-1 vs GSTR-3B: Difference Explained | NumberIQ</title>
+<meta name="description" content="GSTR-1 is the invoice-level statement of outward supplies; GSTR-3B is the summary return through which GST is paid. Key differences, due dates and how they interact.">
+<link rel="canonical" href="https://numberiq.in/insights/gstr1-vs-gstr3b-difference.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GSTR-1 vs GSTR-3B: Difference Explained | NumberIQ">
+<meta property="og:description" content="GSTR-1 is the invoice-level statement of outward supplies; GSTR-3B is the summary return through which GST is paid. Key differences, due dates and how they interact.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gstr1-vs-gstr3b-difference.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GSTR-1 vs GSTR-3B: Difference Explained | NumberIQ">
+<meta name="twitter:description" content="GSTR-1 is the invoice-level statement of outward supplies; GSTR-3B is the summary return through which GST is paid. Key differences, due dates and how they interact.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-1 vs GSTR-3B: what is the difference?", "description": "GSTR-1 is the invoice-level statement of outward supplies; GSTR-3B is the summary return through which GST is paid. Key differences, due dates and how they interact.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr1-vs-gstr3b-difference.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I pay tax through GSTR-1?","acceptedAnswer":{"@type":"Answer","text":"No. GSTR-1 only reports outward supplies. Tax is paid only when you file GSTR-3B after setting off input tax credit and cash."}},{"@type":"Question","name":"What happens if GSTR-1 and GSTR-3B do not match?","acceptedAnswer":{"@type":"Answer","text":"A mismatch in outward liability can be recovered as self-assessed tax under Section 75(12) with interest, and persistent gaps invite scrutiny and notices in DRC-01."}},{"@type":"Question","name":"Is GSTR-1 mandatory if there are no sales?","acceptedAnswer":{"@type":"Answer","text":"Yes. A nil GSTR-1 must still be filed (it can be filed by SMS), otherwise late fee under Section 47 applies and subsequent returns may be blocked."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GSTR-1 vs GSTR-3B: what is the difference?</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>GSTR-1 is the invoice-level statement of outward supplies, while GSTR-3B is the summary return through which a taxpayer actually pays GST.</b> GSTR-1 carries no tax payment; GSTR-3B reports net liability and input tax credit and discharges the tax. Data filed in GSTR-1 now auto-populates GSTR-3B.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">What each return is</a> &middot; <a href="#s1">Key differences at a glance</a> &middot; <a href="#s2">How the two returns interact</a> &middot; <a href="#s3">Common mistakes for finance teams</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">What each return is</h2>
+<p><b>GSTR-1</b> is a statement of outward supplies filed under Section 37 of the CGST Act. It captures every B2B invoice, consolidated B2C supplies, credit and debit notes, exports and amendments. No tax is paid through GSTR-1 &mdash; it feeds the recipient's <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> and so directly affects whether your customers can claim input tax credit.</p><p><b>GSTR-3B</b> is a self-assessed summary return under Section 39 read with Rule 61. It reports total outward liability, ITC availed, reverse-charge tax and the net cash payable, and it is the return through which the tax is paid. Tax liability is discharged only on filing GSTR-3B after offsetting ITC and cash.</p>
+
+  <h2 id="s1">Key differences at a glance</h2>
+<div class="table-wrap"><table><thead><tr><th>Particulars</th><th>GSTR-1</th><th>GSTR-3B</th></tr></thead><tbody><tr><td>Nature</td><td>Outward supply statement</td><td>Summary return</td></tr><tr><td>Legal provision</td><td>Section 37, Rule 59</td><td>Section 39, Rule 61</td></tr><tr><td>Level of detail</td><td>Invoice-wise</td><td>Consolidated totals</td></tr><tr><td>Tax payment</td><td>No</td><td>Yes &mdash; tax is paid here</td></tr><tr><td>Effect on customer ITC</td><td>Direct (flows to GSTR-2B)</td><td>None</td></tr><tr><td>Monthly due date</td><td>11th of next month</td><td>20th of next month</td></tr><tr><td>QRMP frequency</td><td>Quarterly (IFF optional monthly)</td><td>Quarterly (22nd/24th)</td></tr></tbody></table></div><p>Due dates above are the standard ones; QRMP staggered 3B dates (22nd/24th) depend on the State. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the exact date for your State and period.</p>
+
+  <h2 id="s2">How the two returns interact</h2>
+<p>Since the sequential-filing rules and auto-population reforms, the system now <b>pulls GSTR-1 data into GSTR-3B Table 3</b> as an editable draft, and pulls GSTR-2B into the ITC table. This makes reconciliation between GSTR-1 and GSTR-3B critical: any mismatch in outward liability is flagged in Form GSTR-1/3B comparison and can trigger a <a href="section-73-vs-74-gst-difference.html">notice</a> or recovery under Section 75(12).</p><p><b>Worked example.</b> If your GSTR-1 reports outward tax of Rs.5,00,000 but GSTR-3B Table 3.1 shows Rs.4,60,000, the Rs.40,000 difference is treated as self-assessed tax not paid and can be recovered with interest under Section 50 without a show-cause notice.</p>
+
+  <h2 id="s3">Common mistakes for finance teams</h2>
+<ul><li>Reporting different outward values in GSTR-1 and GSTR-3B &mdash; always reconcile both monthly.</li><li>Missing GSTR-1 because "no tax is due" &mdash; non-filing still blocks customer ITC and attracts late fee.</li><li>Claiming ITC in 3B that is not reflected in GSTR-2B &mdash; from the Rule 36(4) / Section 16(2)(aa) regime, ITC is restricted to what appears in 2B.</li><li>Editing auto-populated 3B figures without documenting why &mdash; keep a reconciliation working for audit.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Can I pay tax through GSTR-1?</summary><p>No. GSTR-1 only reports outward supplies. Tax is paid only when you file GSTR-3B after setting off input tax credit and cash.</p></details>
+    <details><summary>What happens if GSTR-1 and GSTR-3B do not match?</summary><p>A mismatch in outward liability can be recovered as self-assessed tax under Section 75(12) with interest, and persistent gaps invite scrutiny and notices in DRC-01.</p></details>
+    <details><summary>Is GSTR-1 mandatory if there are no sales?</summary><p>Yes. A nil GSTR-1 must still be filed (it can be filed by SMS), otherwise late fee under Section 47 applies and subsequent returns may be blocked.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>GSTR-1 = invoice-level outward statement; GSTR-3B = summary return that pays the tax.</li><li>GSTR-1 feeds customer GSTR-2B; GSTR-3B does not affect customer ITC.</li><li>The two must reconcile &mdash; mismatches are recoverable under Section 75(12).</li><li>ITC in 3B is restricted to what appears in GSTR-2B (Section 16(2)(aa)).</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../gst-late-fee-calculator.html">GST Late Fee Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; CGST Act 2017, Sections 37, 39, 75; CGST Rules 59, 61</li><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener">GST Portal</a> &mdash; GSTR-1 and GSTR-3B filing instructions</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation: a practical guide</a>
+    <a href="gst-late-fee-section-47-guide.html">GST late fee under Section 47, explained</a>
+    <a href="gstr-9-vs-gstr-9c-difference.html">GSTR-9 vs GSTR-9C: which applies to you</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

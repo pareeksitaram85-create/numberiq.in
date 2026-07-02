@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Old vs New Tax Regime FY 2026-27: Which is Better | NumberIQ</title>
+<meta name="description" content="Old vs new tax regime for FY 2026-27 - the new regime's lower slabs and Rs.12 lakh rebate vs the old regime's deductions. A break-even view and who should choose which.">
+<link rel="canonical" href="https://numberiq.in/insights/old-vs-new-tax-regime-fy2026-27.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Old vs New Tax Regime FY 2026-27: Which is Better | NumberIQ">
+<meta property="og:description" content="Old vs new tax regime for FY 2026-27 - the new regime's lower slabs and Rs.12 lakh rebate vs the old regime's deductions. A break-even view and who should choose which.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/old-vs-new-tax-regime-fy2026-27.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Old vs New Tax Regime FY 2026-27: Which is Better | NumberIQ">
+<meta name="twitter:description" content="Old vs new tax regime for FY 2026-27 - the new regime's lower slabs and Rs.12 lakh rebate vs the old regime's deductions. A break-even view and who should choose which.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Old vs new tax regime FY 2026-27: which is better?", "description": "Old vs new tax regime for FY 2026-27 - the new regime's lower slabs and Rs.12 lakh rebate vs the old regime's deductions. A break-even view and who should choose which.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/old-vs-new-tax-regime-fy2026-27.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which regime is the default for FY 2026-27?","acceptedAnswer":{"@type":"Answer","text":"The new regime is the default. You must specifically opt for the old regime if it is more beneficial; business-income taxpayers use Form 10-IEA to opt and face switching restrictions."}},{"@type":"Question","name":"Is income up to Rs.12 lakh really tax-free?","acceptedAnswer":{"@type":"Answer","text":"For residents under the new regime, the Section 87A rebate makes tax nil up to Rs.12 lakh taxable income (Rs.12.75 lakh for salaried after standard deduction), with marginal relief just above."}},{"@type":"Question","name":"Can I switch regimes every year?","acceptedAnswer":{"@type":"Answer","text":"Salaried taxpayers can choose each year. Those with business or professional income have restrictions and use Form 10-IEA to opt out of the new regime."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag dt">Direct Tax</span>
+  <h1>Old vs new tax regime FY 2026-27: which is better?</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>7 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>The new tax regime is the default for FY 2026-27 and suits taxpayers with few deductions, offering lower slab rates and a rebate that makes income up to Rs.12 lakh tax-free for residents.</b> The old regime can still win where deductions like 80C, HRA and home-loan interest are large. The choice depends on your deduction profile.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The core trade-off</a> &middot; <a href="#s1">FY 2026-27 new-regime slabs</a> &middot; <a href="#s2">A break-even view</a> &middot; <a href="#s3">Practical points</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The core trade-off</h2>
+<p>The new regime (Section 115BAC) gives <b>lower slab rates</b> and a larger Section 87A rebate but disallows most deductions and exemptions. The old regime has higher slab rates but allows <b>80C, 80D, HRA, LTA, home-loan interest</b> and others. So the decision is simply: do your deductions save more tax than the new regime's lower rates?</p>
+
+  <h2 id="s1">FY 2026-27 new-regime slabs</h2>
+<div class="table-wrap"><table><thead><tr><th>Taxable income</th><th>New regime rate</th></tr></thead><tbody><tr><td>Up to Rs.4,00,000</td><td>Nil</td></tr><tr><td>Rs.4,00,001 - 8,00,000</td><td>5%</td></tr><tr><td>Rs.8,00,001 - 12,00,000</td><td>10%</td></tr><tr><td>Rs.12,00,001 - 16,00,000</td><td>15%</td></tr><tr><td>Rs.16,00,001 - 20,00,000</td><td>20%</td></tr><tr><td>Rs.20,00,001 - 24,00,000</td><td>25%</td></tr><tr><td>Above Rs.24,00,000</td><td>30%</td></tr></tbody></table></div><p>Residents with taxable income up to Rs.12,00,000 pay nil tax after the 87A rebate (Rs.12,75,000 for salaried after the Rs.75,000 standard deduction). <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the slabs against the Finance Act 2026.</p>
+
+  <h2 id="s2">A break-even view</h2>
+<p>As a rule of thumb, the old regime starts to win only when total deductions are <b>large</b> relative to income. Use the <a href="../income-tax-calculator-fy2026-27.html">Income Tax Calculator</a> to compare both for your exact figures &mdash; enter income and deductions and read the two outcomes side by side. For most salaried taxpayers without a home loan, the new regime is now lower.</p>
+
+  <h2 id="s3">Practical points</h2>
+<ul><li>The new regime is the <b>default</b>; opt for the old regime if beneficial (salaried may switch yearly; business income has restrictions via Form 10-IEA).</li><li>Standard deduction is Rs.75,000 (new) and Rs.50,000 (old) for salaried.</li><li>Employer NPS under 80CCD(2) is allowed even in the new regime.</li><li>Decide before paying <a href="advance-tax-due-dates-fy2026-27.html">advance tax</a>, as it affects instalments.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Which regime is the default for FY 2026-27?</summary><p>The new regime is the default. You must specifically opt for the old regime if it is more beneficial; business-income taxpayers use Form 10-IEA to opt and face switching restrictions.</p></details>
+    <details><summary>Is income up to Rs.12 lakh really tax-free?</summary><p>For residents under the new regime, the Section 87A rebate makes tax nil up to Rs.12 lakh taxable income (Rs.12.75 lakh for salaried after standard deduction), with marginal relief just above.</p></details>
+    <details><summary>Can I switch regimes every year?</summary><p>Salaried taxpayers can choose each year. Those with business or professional income have restrictions and use Form 10-IEA to opt out of the new regime.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>New regime is default: lower rates, Rs.12 lakh rebate, few deductions.</li><li>Old regime wins when 80C/HRA/home-loan deductions are large.</li><li>Standard deduction Rs.75,000 (new) / Rs.50,000 (old).</li><li>Compare both on your numbers before paying advance tax.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../income-tax-calculator-fy2026-27.html">Income Tax Calculator</a> &middot; <a href="../advance-tax-calculator.html">Advance Tax Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Section 115BAC, 87A; Finance Act 2025/2026</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="new-income-tax-act-2025-changes.html">The new Income-tax Act 2025</a>
+    <a href="advance-tax-due-dates-fy2026-27.html">Advance tax due dates FY 2026-27</a>
+    <a href="tds-on-salary-new-tax-regime.html">TDS on salary under the new regime</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

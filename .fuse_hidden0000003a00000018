@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Tools — Free GST, TDS & Income Tax Calculators | NumberIQ</title>
+<meta name="description" content="Free GST, TDS and income-tax calculators and finders for Indian CAs and finance teams — late fee, interest, advance tax, HSN/SAC, GST reconciliation. Run in your browser.">
+<link rel="canonical" href="https://numberiq.in/tools.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Finance Tools — Free GST, TDS & Income Tax Calculators | NumberIQ">
+<meta property="og:description" content="Free GST, TDS and income-tax calculators for Indian finance professionals — searchable, client-side, no signup.">
+<meta property="og:image" content="og-cover.png">
+<meta property="og:url" content="https://numberiq.in/tools.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Finance Tools — Free GST, TDS & Income Tax Calculators | NumberIQ">
+<meta name="twitter:description" content="Free GST, TDS and income-tax calculators for Indian finance professionals.">
+<meta name="twitter:image" content="og-cover.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/numberiq.css">
+
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"CollectionPage",
+  "name":"NumberIQ Finance Tools",
+  "description":"Free GST, TDS and income-tax calculators and finders for Indian finance professionals.",
+  "url":"https://numberiq.in/tools.html",
+  "isPartOf":{"@type":"WebSite","name":"NumberIQ","url":"https://numberiq.in"}
+}
+</script>
+</head>
+<body>
+<div class="bg-canvas"><div class="orb b1"></div><div class="orb b2"></div><div class="orb b3"></div></div>
+<div class="grid-overlay"></div>
+
+<!-- NAVBAR -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="mark">◈</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="index.html#modules">Modules</a>
+      <a href="tools.html" class="active">Tools</a>
+      <a href="insights.html">Insights</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#live" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#modules">Modules</a>
+  <a href="tools.html">Tools</a>
+  <a href="insights.html">Insights</a>
+  <a href="index.html#roadmap">Roadmap</a>
+</div>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span>NumberIQ Tools</span>
+  <h1>Finance tools, <span class="grad-text">free &amp; fast.</span></h1>
+  <p>GST, TDS and income-tax calculators and finders for Indian CAs and finance teams.</p>
+  <p class="answer-first"><b>NumberIQ tools are free, require no signup, and run entirely in your browser</b> — no data you enter ever leaves your device. Every calculator states the section it applies and is reviewed for FY 2026-27. Use the search and category filters below to find a tool.</p>
+
+  <!-- ADSENSE SLOT — activate after approval
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+
+  <div class="controls">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aab2c5" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search tools… (e.g. late fee, 234, HSN, advance tax)">
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<!-- LIVE TOOLS -->
+<section class="wrap" id="live">
+  <div class="tool-grid" id="liveGrid"></div>
+  <div id="liveEmpty"></div>
+</section>
+
+<!-- COMING SOON -->
+<section class="wrap" id="soon">
+  <div class="section-head"><h2>Coming soon</h2><p>In build — these will appear here as each one ships.</p></div>
+  <div class="tool-grid" id="soonGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer style="margin-top:70px">
+  <div class="wrap foot-bottom">
+    <span>© 2026 NumberIQ · Finance Intelligence — tools are for guidance only, not professional advice. Last reviewed: June 2026.</span>
+    <span><a href="index.html">← Back to Command Centre</a></span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   TOOLS — to add a tool, add ONE object below.
+   Fields:
+     file   : tool HTML file (omit/"" for coming-soon)
+     cat    : gst | tds | it | calc | util
+     icon   : emoji
+     name   : tool name
+     desc   : one-line description
+     status : "live" | "soon"
+     accent : category colour
+   Live tools render first; coming-soon render dimmed at the bottom.
+   ============================================================ */
+const CATS = {gst:"GST", tds:"TDS", it:"Income Tax", calc:"Calculators", util:"Utilities"};
+
+const TOOLS = [
+  // ---- GST (live) ----
+  {file:"Invoice Compliance.html", cat:"gst", icon:"🧾", name:"Invoice Verification", desc:"Validate GST tax invoices against the mandatory particulars under Rule 46, CGST Rules.", status:"live", accent:"#38e1d6"},
+  {file:"GST_ReCO_Studio_IMS_FIXED.html", cat:"gst", icon:"🔁", name:"GST Input Reconciliation (ReCo / IMS)", desc:"Reconcile purchase register vs GSTR-2B / IMS to claim correct ITC under Section 16.", status:"live", accent:"#38e1d6"},
+  {file:"HSN_SAC_Finder.html", cat:"gst", icon:"🔎", name:"HSN / SAC Finder", desc:"Look up HSN codes for goods and SAC codes for services, with GST rates.", status:"live", accent:"#38e1d6"},
+  {file:"gst-late-fee-calculator.html", cat:"gst", icon:"🧮", name:"GST Late Fee Calculator", desc:"Section 47 late fee for delayed GSTR-1 / GSTR-3B, with the correct daily caps.", status:"live", accent:"#38e1d6"},
+  {file:"gst-interest-calculator.html", cat:"gst", icon:"⏱️", name:"GST Interest Calculator", desc:"Section 50 interest on delayed GST payment and wrongly availed ITC.", status:"live", accent:"#38e1d6"},
+
+  // ---- TDS (live) ----
+  {file:"numberiq-tds-chart-fy2026-27.html", cat:"tds", icon:"📋", name:"TDS Rate Finder FY 2026-27", desc:"Search TDS rates and thresholds, mapped to the new Income-tax Act 2025 sections.", status:"live", accent:"#f4b740"},
+  {file:"tds-interest-calculator.html", cat:"tds", icon:"⏱️", name:"TDS Interest Calculator", desc:"Section 201(1A) interest for late deduction (1%) and late deposit (1.5%) of TDS.", status:"live", accent:"#f4b740"},
+
+  // ---- Income Tax (live) ----
+  {file:"advance-tax-calculator.html", cat:"it", icon:"📅", name:"Advance Tax Calculator", desc:"Quarterly advance-tax instalments (15/45/75/100%) for FY 2026-27.", status:"live", accent:"#4f7cff"},
+  {file:"income-tax-calculator-fy2026-27.html", cat:"it", icon:"🧮", name:"Income Tax Calculator FY 2026-27", desc:"Old vs new regime tax computation with rebate and cess.", status:"live", accent:"#4f7cff"},
+  {file:"interest-234abc-calculator.html", cat:"it", icon:"⚖️", name:"234A/B/C Interest Calculator", desc:"Interest for default in advance tax and late filing of ITR.", status:"live", accent:"#4f7cff"},
+
+  // ---- Coming soon ----
+  {file:"depreciation-block-assets-calculator.html", cat:"calc", icon:"📉", name:"Depreciation Schedule (Block of Assets)", desc:"Section 32 block-wise WDV depreciation with half-year rule, additional depreciation and STCG u/s 50.", status:"live", accent:"#9a6bff"},
+  {file:"", cat:"util", icon:"💱", name:"Forex / LRS Converter", desc:"Convert foreign-currency amounts at RBI reference rates for FEMA / TCS workings.", status:"soon", accent:"#34d399"},
+  {file:"", cat:"util", icon:"🗓️", name:"Due-Date Tracker", desc:"Personalised GST / TDS / income-tax compliance reminders.", status:"soon", accent:"#34d399"}
+];
+
+let activeCat="all", query="";
+const liveGrid=document.getElementById('liveGrid'), soonGrid=document.getElementById('soonGrid'),
+      catsEl=document.getElementById('cats'), liveEmpty=document.getElementById('liveEmpty'),
+      soonSection=document.getElementById('soon');
+
+function buildCats(){
+  const counts={};
+  TOOLS.forEach(t=>counts[t.cat]=(counts[t.cat]||0)+1);
+  const all=[{k:"all",label:"All",n:TOOLS.length}]
+    .concat(Object.keys(CATS).filter(k=>counts[k]).map(k=>({k,label:CATS[k],n:counts[k]})));
+  catsEl.innerHTML=all.map(c=>`<button class="cat ${c.k===activeCat?'active':''}" data-k="${c.k}">${c.label}<span class="n">${c.n}</span></button>`).join('');
+  catsEl.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{activeCat=b.dataset.k;buildCats();render();});
+}
+
+function card(t){
+  const tag = t.status==="live" ? '<span class="tag live">Live</span>' : '<span class="tag soon">Coming soon</span>';
+  const foot = t.status==="live"
+    ? '<span class="tool-open">Open tool <svg viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>'
+    : '<span class="tool-soonlbl">In build</span>';
+  const inner=`<div class="tool-cover"></div><div class="tool-body">
+      <div class="tool-top"><span class="tool-icon">${t.icon}</span>${tag}</div>
+      <h3>${t.name}</h3><p>${t.desc}</p>
+      <div class="tool-foot"><span></span>${foot}</div></div>`;
+  if(t.status==="live"){
+    return `<a class="tool-card clickable" style="--c:${t.accent}" href="${encodeURI(t.file)}">${inner}</a>`;
+  }
+  return `<div class="tool-card soon" style="--c:${t.accent}">${inner}</div>`;
+}
+
+function match(t){
+  const q=query.trim().toLowerCase();
+  const inCat=activeCat==="all"||t.cat===activeCat;
+  const hay=(t.name+' '+t.desc+' '+(CATS[t.cat]||'')).toLowerCase();
+  return inCat && (q===""||hay.includes(q));
+}
+
+function render(){
+  const live=TOOLS.filter(t=>t.status==="live"&&match(t));
+  const soon=TOOLS.filter(t=>t.status==="soon"&&match(t));
+  liveGrid.innerHTML=live.map(card).join('');
+  liveEmpty.innerHTML = live.length ? '' : '<div class="empty"><b>No matching tools</b>Try another keyword or clear the filter.</div>';
+  soonGrid.innerHTML=soon.map(card).join('');
+  soonSection.style.display = soon.length ? 'block' : 'none';
+}
+
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click            

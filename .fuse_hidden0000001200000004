@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advance Tax Calculator FY 2026-27 (Section 208/211) | NumberIQ</title>
+<meta name="description" content="Free advance tax instalment calculator for FY 2026-27 - 15%, 45%, 75% and 100% due by 15 Jun, 15 Sep, 15 Dec and 15 Mar under Section 211 of the Income-tax Act.">
+<link rel="canonical" href="https://numberiq.in/advance-tax-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Advance Tax Calculator FY 2026-27 (Section 208/211) | NumberIQ">
+<meta property="og:description" content="Free advance tax instalment calculator for FY 2026-27 - 15%, 45%, 75% and 100% due by 15 Jun, 15 Sep, 15 Dec and 15 Mar under Section 211 of the Income-tax Act.">
+<meta property="og:image" content="og-cover.png">
+<meta property="og:url" content="https://numberiq.in/advance-tax-calculator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Advance Tax Calculator FY 2026-27 (Section 208/211) | NumberIQ">
+<meta name="twitter:description" content="Free advance tax instalment calculator for FY 2026-27 - 15%, 45%, 75% and 100% due by 15 Jun, 15 Sep, 15 Dec and 15 Mar under Section 211 of the Income-tax Act.">
+<meta name="twitter:image" content="og-cover.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Advance Tax Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"url":"https://numberiq.in/advance-tax-calculator.html","description":"Free advance tax instalment calculator for FY 2026-27 - 15%, 45%, 75% and 100% due by 15 Jun, 15 Sep, 15 Dec and 15 Mar under Section 211 of the Income-tax Act."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who has to pay advance tax?","acceptedAnswer":{"@type":"Answer","text":"Under Section 208, every assessee whose estimated tax liability for the year, after reducing TDS/TCS, is Rs.10,000 or more must pay advance tax in instalments."}},{"@type":"Question","name":"What are the advance tax instalment dates?","acceptedAnswer":{"@type":"Answer","text":"Under Section 211: 15% by 15 June, 45% by 15 September, 75% by 15 December and 100% by 15 March. Presumptive-income assessees under 44AD/44ADA pay 100% by 15 March."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"><div class="orb b1"></div><div class="orb b2"></div><div class="orb b3"></div></div>
+<div class="grid-overlay"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="index.html#modules">Modules</a><a href="tools.html" class="active">Tools</a>
+      <a href="insights.html">Insights</a><a href="index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tools.html" class="btn btn-primary">All Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#modules">Modules</a><a href="tools.html">Tools</a>
+  <a href="insights.html">Insights</a><a href="index.html#roadmap">Roadmap</a>
+</div>
+
+<section class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span>Income Tax &middot; Section 211</span>
+  <h1>Advance Tax <span class="grad-text">Calculator</span></h1>
+  <p class="answer-first"><b>Advance tax is payable in four instalments &mdash; 15% by 15 June, 45% by 15 September, 75% by 15 December and 100% by 15 March.</b> It applies under Section 208 when the estimated tax liability for the year, net of TDS/TCS, is Rs.10,000 or more.</p>
+</section>
+
+<div class="panel-wrap">
+  <div class="calc-panel">
+    <div class="field"><label>Estimated total tax for the year (after rebate, surcharge &amp; cess) (Rs.)</label><input type="number" id="tax" placeholder="e.g. 150000"></div>
+    <div class="field"><label>Less: TDS / TCS already deducted (Rs.)</label><input type="number" id="tds" placeholder="e.g. 30000" value="0"></div>
+    <div class="field"><label>Taxpayer type</label>
+      <select id="ptype"><option value="normal">Normal &mdash; four instalments (15/45/75/100%)</option><option value="presumptive">Presumptive 44AD / 44ADA &mdash; 100% by 15 Mar</option></select></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:6px" onclick="calc()">Compute instalments</button>
+    <div id="out"></div>
+  </div>
+
+  <div class="prose" style="padding-top:30px">
+    <h2>How advance tax instalments work</h2>
+    <p>Advance tax is computed on your estimated total income for the year. Each instalment is a <b>cumulative</b> percentage of the net tax liability (tax less TDS/TCS). Shortfall in any instalment attracts interest under <a href="interest-234abc-calculator.html">Section 234C</a>, and an overall shortfall below 90% attracts Section 234B.</p>
+    <div class="callout law"><b>Sections 208, 209, 211, Income-tax Act</b> &mdash; liability threshold Rs.10,000; instalment dates and percentages; presumptive assessees pay 100% by 15 March.</div>
+    <div class="callout note"><b>Tip.</b> Senior citizens (60+) with no income under the head "Profits and gains of business or profession" are exempt from advance tax under Section 207(2).</div>
+    <div class="faq"><h2>Frequently asked questions</h2>
+      <details><summary>What if I miss an instalment?</summary><p>Interest under Section 234C applies at 1% per month on the shortfall for each deferred instalment. A year-end shortfall below 90% of assessed tax also attracts Section 234B.</p></details>
+      <details><summary>Do presumptive taxpayers pay quarterly?</summary><p>No. Assessees opting for 44AD or 44ADA pay the entire advance tax in a single instalment by 15 March.</p></details>
+      <details><summary>Is advance tax based on old or new regime?</summary><p>On whichever regime you will finally adopt. Estimate tax under your chosen regime for FY 2026-27. The new regime is the default for FY 2026-27; opt-out via Form 10-IEA if opting for old regime. ✓ Verified June 2026.</p></details>
+    </div>
+    <div class="key-takeaways"><h2>Key takeaways</h2><ul>
+      <li>Applies when net tax liability is Rs.10,000 or more.</li>
+      <li>Cumulative instalments: 15/45/75/100% by 15 Jun/Sep/Dec/Mar.</li>
+      <li>Presumptive 44AD/44ADA: 100% by 15 March.</li>
+      <li>Shortfall triggers interest under Sections 234B and 234C.</li>
+    </ul></div>
+    <div class="tools-cta"><b>Related tools:</b> <a href="interest-234abc-calculator.html">234A/B/C Interest Calculator</a> &middot; <a href="income-tax-calculator-fy2026-27.html">Income Tax Calculator</a></div>
+    <p class="disclaimer">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+  </div>
+</div>
+
+<footer style="margin-top:50px">
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="tools.html">&larr; All tools</a></span>
+  </div>
+</footer>
+
+<script>
+const fmt=n=>'Rs. '+Math.round(n).toLocaleString('en-IN');
+const fmt2=n=>'Rs. '+(Math.round(n*100)/100).toLocaleString('en-IN');
+function calc(){
+  const tax=parseFloat(document.getElementById('tax').value);
+  const tds=parseFloat(document.getElementById('tds').value)||0;
+  const ptype=document.getElementById('ptype').value;
+  const out=document.getElementById('out');
+  if(!tax){out.innerHTML='<div class="callout warn" style="margin-top:16px">Enter the estimated total tax.</div>';return;}
+  const net=Math.max(tax-tds,0);
+  if(net<10000){out.innerHTML='<div class="result" style="margin-top:16px"><div class="result-head">Advance tax not applicable</div><div style="padding:18px">Net liability is below Rs.10,000 (Section 208).</div></div>';return;}
+  let rows;
+  if(ptype==='presumptive'){
+    rows=[['15 March 2027','100%',net,net]];
+  }else{
+    const c=[0.15,0.45,0.75,1.00], d=['15 June 2026','15 September 2026','15 December 2026','15 March 2027'];
+    let prev=0; rows=c.map((p,i)=>{const cum=net*p; const inst=cum-prev; prev=cum; return [d[i],(p*100)+'%',inst,cum];});
+  }
+  const body=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${fmt(r[2])}</td><td>${fmt(r[3])}</td></tr>`).join('');
+  out.innerHTML=`<div class="result" style="margin-top:18px"><div class="result-head">Advance tax schedule &mdash; net liability ${fmt(net)}</div><div style="padding:18px">
+    <div class="table-wrap"><table><thead><tr><th>Due date</th><th>Cumulative %</th><th>Instalment</th><th>Cumulative</th></tr></thead><tbody>${body}</tbody></table></div></div></div>`;
+}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.c

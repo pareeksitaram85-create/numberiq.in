@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is Transfer Pricing? Definition | NumberIQ</title>
+<meta name="description" content="Transfer pricing is the set of rules requiring that transactions between associated enterprises be priced at arm's length, as if between unrelated parti…">
+<link rel="canonical" href="https://numberiq.in/glossary/transfer-pricing.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="What is Transfer Pricing? Definition | NumberIQ">
+<meta property="og:description" content="Transfer pricing is the set of rules requiring that transactions between associated enterprises be priced at arm's length, as if between unrelated parti…">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/glossary/transfer-pricing.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What is Transfer Pricing? Definition | NumberIQ">
+<meta name="twitter:description" content="Transfer pricing is the set of rules requiring that transactions between associated enterprises be priced at arm's length, as if between unrelated parti…">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "DefinedTerm", "name": "Transfer Pricing", "description": "Transfer pricing is the set of rules requiring that transactions between associated enterprises be priced at arm's length, as if between unrelated parties.", "inDefinedTermSet": "https://numberiq.in/glossary.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is transfer pricing?","acceptedAnswer":{"@type":"Answer","text":"Rules ensuring related-party cross-border transactions are priced at arm's length under Sections 92-92F."}},{"@type":"Question","name":"What report is required?","acceptedAnswer":{"@type":"Answer","text":"Form 3CEB, an accountant's report on international and specified domestic transactions, by 31 October."}}]}
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5741759178942074" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html">Insights</a><a href="../glossary.html" class="active">Glossary</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../glossary.html">Glossary</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../glossary.html">&larr; Glossary</a></div>
+  <span class="tag itx">Glossary</span>
+  <h1>What is Transfer Pricing?</h1>
+  <div class="byline"><span class="av">SR</span><b>NumberIQ Glossary</b><span class="sep"></span><span>Last reviewed June 2026</span></div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Transfer pricing is the set of rules requiring that transactions between associated enterprises be priced at arm's length, as if between unrelated parties.</b></p>
+  <h2>How it works</h2>
+  <p>Governed by Sections 92-92F, it requires documentation, an accountant's report in Form 3CEB, and can lead to adjustments and penalties where pricing is not at arm's length.</p>
+  <div class="callout law"><b>Reference.</b> Sections 92-92F, Income-tax Act.</div>
+  <div class="faq"><h2>Frequently asked questions</h2>
+    <details><summary>What is transfer pricing?</summary><p>Rules ensuring related-party cross-border transactions are priced at arm's length under Sections 92-92F.</p></details>
+    <details><summary>What report is required?</summary><p>Form 3CEB, an accountant's report on international and specified domestic transactions, by 31 October.</p></details>
+  </div>
+  <div class="key-takeaways"><h2>Key takeaways</h2><ul><li>TP requires arm's length pricing between AEs.</li><li>Documentation and Form 3CEB are mandatory.</li><li>Adjustments and penalties apply for non-compliance.</li></ul></div>
+  <div class="tools-cta" style="margin-top:22px"><b>Go deeper:</b> <a href="../insights/transfer-pricing-india-guide.html">Transfer pricing in India</a> </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+  <p><a href="../glossary.html">&larr; Back to the glossary</a></p>
+</article>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../glossary.html">&larr; Glossary</a></span>
+  </div>
+</footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.cla

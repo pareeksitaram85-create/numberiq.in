@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 40A(3): Cash Payment Disallowance | NumberIQ</title>
+<meta name="description" content="Section 40A(3) disallows business expenditure paid in cash above Rs.10,000 (Rs.35,000 for transporters) in a day to a person. The rule, the Rule 6DD exceptions and practical points.">
+<link rel="canonical" href="https://numberiq.in/insights/section-40a-3-cash-payment-disallowance.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Section 40A(3): Cash Payment Disallowance | NumberIQ">
+<meta property="og:description" content="Section 40A(3) disallows business expenditure paid in cash above Rs.10,000 (Rs.35,000 for transporters) in a day to a person. The rule, the Rule 6DD exceptions and practical points.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/section-40a-3-cash-payment-disallowance.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Section 40A(3): Cash Payment Disallowance | NumberIQ">
+<meta name="twitter:description" content="Section 40A(3) disallows business expenditure paid in cash above Rs.10,000 (Rs.35,000 for transporters) in a day to a person. The rule, the Rule 6DD exceptions and practical points.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Section 40A(3): disallowance of cash expenditure", "description": "Section 40A(3) disallows business expenditure paid in cash above Rs.10,000 (Rs.35,000 for transporters) in a day to a person. The rule, the Rule 6DD exceptions and practical points.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/section-40a-3-cash-payment-disallowance.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the cash payment limit under Section 40A(3)?","acceptedAnswer":{"@type":"Answer","text":"Rs.10,000 to a person in a day (Rs.35,000 for transporters). Cash payments above this are disallowed as a deduction."}},{"@type":"Question","name":"Is only the excess disallowed?","acceptedAnswer":{"@type":"Answer","text":"No. The entire payment is disallowed, not just the amount above Rs.10,000."}},{"@type":"Question","name":"Are there exceptions to 40A(3)?","acceptedAnswer":{"@type":"Answer","text":"Yes, Rule 6DD lists exceptions such as payments to banks/government, in places without banking facilities, on bank holidays, and certain agricultural payments."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag dt">Direct Tax</span>
+  <h1>Section 40A(3): disallowance of cash expenditure</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 40A(3) disallows a business expenditure as a deduction if the payment, or aggregate of payments to a person in a single day, exceeds Rs.10,000 and is made otherwise than by an account-payee cheque, bank draft or electronic mode.</b> The limit is Rs.35,000 for payments to transporters. Rule 6DD lists exceptions.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The rule</a> &middot; <a href="#s1">Worked example</a> &middot; <a href="#s2">Rule 6DD exceptions</a> &middot; <a href="#s3">Practical controls</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The rule</h2>
+<p>Where a business pays an expense in <b>cash above Rs.10,000</b> to a single person in a single day, the entire payment is <b>disallowed</b> as a deduction &mdash; not just the excess. The aim is to curb cash dealings and unaccounted transactions. Payments by account-payee cheque/draft, NEFT/RTGS/IMPS, UPI and other banking channels are outside the bar.</p><div class="callout law"><b>Section 40A(3)/40A(3A), Income-tax Act.</b> Rs.10,000 per person per day; Rs.35,000 for payments for plying, hiring or leasing goods carriages.</div>
+
+  <h2 id="s1">Worked example</h2>
+<p>A firm pays a supplier Rs.18,000 in cash in one day for goods. The <b>whole Rs.18,000</b> is disallowed under Section 40A(3) and added to taxable income. Splitting it into two cash payments of Rs.9,000 on the same day does not help &mdash; the test is the aggregate to one person in a day.</p>
+
+  <h2 id="s2">Rule 6DD exceptions</h2>
+<p>Rule 6DD exempts specified situations, including payments to banks and government, payments in a village without banking facilities, payments on a bank holiday, and certain payments to producers of agricultural/forest/dairy produce. These are narrow and fact-specific.</p>
+
+  <h2 id="s3">Practical controls</h2>
+<ul><li>Route all material payments through banking channels.</li><li>Watch the <b>aggregate-per-day</b> test, not just single-bill amounts.</li><li>40A(3A) also disallows a deduction allowed earlier if later paid in cash above the limit.</li><li>This is a tax-audit (<a href="form-3ca-3cb-3cd-difference.html">Form 3CD</a>) reporting clause &mdash; keep cash-payment records clean.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the cash payment limit under Section 40A(3)?</summary><p>Rs.10,000 to a person in a day (Rs.35,000 for transporters). Cash payments above this are disallowed as a deduction.</p></details>
+    <details><summary>Is only the excess disallowed?</summary><p>No. The entire payment is disallowed, not just the amount above Rs.10,000.</p></details>
+    <details><summary>Are there exceptions to 40A(3)?</summary><p>Yes, Rule 6DD lists exceptions such as payments to banks/government, in places without banking facilities, on bank holidays, and certain agricultural payments.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Cash expense above Rs.10,000/day to a person is fully disallowed.</li><li>Transporter limit is Rs.35,000.</li><li>Test is the aggregate per person per day, not per bill.</li><li>Rule 6DD provides narrow exceptions; report in Form 3CD.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../income-tax-calculator-fy2026-27.html">Income Tax Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Sections 40A(3), 40A(3A); Rule 6DD</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="tax-audit-applicability-fy2026-27.html">Tax audit applicability FY 2026-27</a>
+    <a href="form-3ca-3cb-3cd-difference.html">Form 3CA vs 3CB vs 3CD</a>
+    <a href="section-270a-penalty-underreporting.html">Penalty for under-reporting (270A)</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

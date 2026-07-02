@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST for Freelancers and Consultants in India | NumberIQ</title>
+<meta name="description" content="When do freelancers and consultants need GST registration? The Rs.20 lakh threshold, 18% on professional services, export of services under LUT, and reverse-charge basics.">
+<link rel="canonical" href="https://numberiq.in/insights/gst-for-freelancers-consultants.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GST for Freelancers and Consultants in India | NumberIQ">
+<meta property="og:description" content="When do freelancers and consultants need GST registration? The Rs.20 lakh threshold, 18% on professional services, export of services under LUT, and reverse-charge basics.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gst-for-freelancers-consultants.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GST for Freelancers and Consultants in India | NumberIQ">
+<meta name="twitter:description" content="When do freelancers and consultants need GST registration? The Rs.20 lakh threshold, 18% on professional services, export of services under LUT, and reverse-charge basics.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GST for freelancers and consultants", "description": "When do freelancers and consultants need GST registration? The Rs.20 lakh threshold, 18% on professional services, export of services under LUT, and reverse-charge basics.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-for-freelancers-consultants.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do freelancers need GST registration below Rs.20 lakh?","acceptedAnswer":{"@type":"Answer","text":"No, registration is mandatory only above Rs.20 lakh aggregate turnover (Rs.10 lakh in special-category states), though voluntary registration is allowed and sometimes useful for B2B clients."}},{"@type":"Question","name":"Is GST charged on services exported to foreign clients?","acceptedAnswer":{"@type":"Answer","text":"No, export of services is zero-rated. Supply under an LUT without charging GST and claim an ITC refund, or pay IGST and claim it back, keeping forex-receipt evidence."}},{"@type":"Question","name":"What GST rate applies to consultancy?","acceptedAnswer":{"@type":"Answer","text":"Most professional and consultancy services are taxed at 18%."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GST for freelancers and consultants</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>A freelancer or consultant must register for GST once aggregate turnover exceeds Rs.20 lakh in a financial year (Rs.10 lakh in special-category states).</b> Domestic professional services are taxed at 18%, while services exported to foreign clients are zero-rated and can be supplied under LUT without charging GST.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">Registration threshold</a> &middot; <a href="#s1">Rate and invoicing</a> &middot; <a href="#s2">Exporting services</a> &middot; <a href="#s3">Reverse charge and common slips</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">Registration threshold</h2>
+<p>For service providers, GST registration is required when aggregate turnover crosses <b>Rs.20 lakh</b> (Rs.10 lakh in specified special-category states). 'Aggregate turnover' is computed PAN-level and all-India, including exempt and export turnover. Voluntary registration is also possible below the threshold &mdash; useful when clients want a tax invoice for ITC.</p>
+
+  <h2 id="s1">Rate and invoicing</h2>
+<p>Most professional and consultancy services attract GST at <b>18%</b>. A registered freelancer issues a tax invoice with GSTIN, SAC code, and the place of supply, and files <a href="gstr1-vs-gstr3b-difference.html">GSTR-1 and GSTR-3B</a>. <a href="place-of-supply-gst-guide.html">Place of supply</a> decides IGST vs CGST+SGST &mdash; for a registered client in another State, charge IGST.</p>
+
+  <h2 id="s2">Exporting services</h2>
+<p>Services to foreign clients that meet the five export conditions are <b>zero-rated</b>. File an LUT (Form RFD-11) and invoice without GST, then claim a refund of input tax credit, or pay IGST and claim it back. Keep FIRC/BRC evidence of foreign-exchange receipt. See <a href="gst-export-of-services-zero-rated.html">export of services</a>.</p>
+
+  <h2 id="s3">Reverse charge and common slips</h2>
+<ul><li>Importing tools/subscriptions from abroad (e.g. SaaS) attracts IGST under <a href="gst-import-of-services-rcm.html">reverse charge</a>.</li><li>Legal fees to an advocate attract RCM in the recipient's hands.</li><li>Once registered, file nil returns even in lean months to avoid late fee.</li><li>Do not forget the LUT renewal each financial year if you export.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Do freelancers need GST registration below Rs.20 lakh?</summary><p>No, registration is mandatory only above Rs.20 lakh aggregate turnover (Rs.10 lakh in special-category states), though voluntary registration is allowed and sometimes useful for B2B clients.</p></details>
+    <details><summary>Is GST charged on services exported to foreign clients?</summary><p>No, export of services is zero-rated. Supply under an LUT without charging GST and claim an ITC refund, or pay IGST and claim it back, keeping forex-receipt evidence.</p></details>
+    <details><summary>What GST rate applies to consultancy?</summary><p>Most professional and consultancy services are taxed at 18%.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Register once turnover crosses Rs.20 lakh (Rs.10 lakh special states).</li><li>Domestic professional services: 18%; exports: zero-rated under LUT.</li><li>Place of supply decides IGST vs CGST+SGST for each client.</li><li>Imported subscriptions attract IGST under reverse charge.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a> &middot; <a href="../gst-late-fee-calculator.html">GST Late Fee Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 22, 24, CGST Act; Section 2(6), 16, IGST Act</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-export-of-services-zero-rated.html">Export of services: zero-rated</a>
+    <a href="place-of-supply-gst-guide.html">Place of supply under GST</a>
+    <a href="qrmp-scheme-gst-guide.html">QRMP scheme under GST</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

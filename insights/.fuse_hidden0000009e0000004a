@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMS: Invoice Management System Under GST | NumberIQ</title>
+<meta name="description" content="The GST Invoice Management System (IMS) lets recipients accept, reject or keep invoices pending before they flow into GSTR-2B. How IMS works and how to use it without losing ITC.">
+<link rel="canonical" href="https://numberiq.in/insights/ims-invoice-matching-gst.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="IMS: Invoice Management System Under GST | NumberIQ">
+<meta property="og:description" content="The GST Invoice Management System (IMS) lets recipients accept, reject or keep invoices pending before they flow into GSTR-2B. How IMS works and how to use it without losing ITC.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/ims-invoice-matching-gst.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IMS: Invoice Management System Under GST | NumberIQ">
+<meta name="twitter:description" content="The GST Invoice Management System (IMS) lets recipients accept, reject or keep invoices pending before they flow into GSTR-2B. How IMS works and how to use it without losing ITC.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "IMS invoice matching under GST", "description": "The GST Invoice Management System (IMS) lets recipients accept, reject or keep invoices pending before they flow into GSTR-2B. How IMS works and how to use it without losing ITC.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/ims-invoice-matching-gst.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is IMS in GST?","acceptedAnswer":{"@type":"Answer","text":"The Invoice Management System is a portal facility where recipients accept, reject or keep pending each supplier invoice before it flows into GSTR-2B, controlling which invoices become eligible ITC."}},{"@type":"Question","name":"Does no action on IMS mean I lose the credit?","acceptedAnswer":{"@type":"Answer","text":"No. Invoices with no action are deemed accepted and flow into GSTR-2B as available credit. You only lose 2B inclusion by marking an invoice rejected or pending."}},{"@type":"Question","name":"What happens to a pending invoice?","acceptedAnswer":{"@type":"Answer","text":"It is excluded from the current GSTR-2B and held until you accept it in a later period, but it must be actioned before the Section 16(4) ITC time limit."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>IMS invoice matching under GST</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>The Invoice Management System (IMS) is a GST portal facility that lets a recipient accept, reject or keep pending each invoice filed by suppliers before it flows into GSTR-2B.</b> Only accepted (and deemed-accepted) invoices form part of GSTR-2B and become eligible ITC, giving recipients control over their credit.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">What IMS does</a> &middot; <a href="#s1">The workflow</a> &middot; <a href="#s2">The pending-invoice trap</a> &middot; <a href="#s3">Impact on suppliers</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">What IMS does</h2>
+<p>When a supplier files GSTR-1/IFF, each invoice appears on the recipient's IMS dashboard with three actions: <b>Accept</b>, <b>Reject</b> or <b>Pending</b>. Accepted and no-action (deemed accepted) invoices flow into <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> as available ITC; rejected invoices do not; pending invoices are held and excluded from that month's 2B.</p>
+
+  <h2 id="s1">The workflow</h2>
+<div class="table-wrap"><table><thead><tr><th>Action</th><th>Effect on GSTR-2B</th><th>Use when</th></tr></thead><tbody><tr><td>Accept</td><td>ITC flows to 2B</td><td>Invoice matches books</td></tr><tr><td>No action (deemed accept)</td><td>ITC flows to 2B</td><td>Matched, no manual action taken</td></tr><tr><td>Reject</td><td>Excluded from 2B</td><td>Wrong GSTIN, not your invoice, duplicate</td></tr><tr><td>Pending</td><td>Held; excluded for now</td><td>Goods not yet received, dispute</td></tr></tbody></table></div>
+
+  <h2 id="s2">The pending-invoice trap</h2>
+<p>Marking an invoice <b>pending</b> keeps it out of the current 2B without rejecting it, which is useful for goods-in-transit. But credit on a pending invoice is deferred, and it must be actioned before the Section 16(4) time bar (30 November of the following year), or it can be lost. Build a routine to clear the pending queue each month.</p>
+
+  <h2 id="s3">Impact on suppliers</h2>
+<p>A rejection feeds back to the supplier and can affect their liability reconciliation, so reject only with reason and communicate with the supplier. Used well, IMS reduces the year-end mismatch burden in <a href="gstr-9-vs-gstr-9c-difference.html">GSTR-9/9C</a> and cuts wrong-ITC reversals.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is IMS in GST?</summary><p>The Invoice Management System is a portal facility where recipients accept, reject or keep pending each supplier invoice before it flows into GSTR-2B, controlling which invoices become eligible ITC.</p></details>
+    <details><summary>Does no action on IMS mean I lose the credit?</summary><p>No. Invoices with no action are deemed accepted and flow into GSTR-2B as available credit. You only lose 2B inclusion by marking an invoice rejected or pending.</p></details>
+    <details><summary>What happens to a pending invoice?</summary><p>It is excluded from the current GSTR-2B and held until you accept it in a later period, but it must be actioned before the Section 16(4) ITC time limit.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>IMS lets recipients accept, reject or hold invoices before 2B.</li><li>Accepted and deemed-accepted invoices become eligible ITC.</li><li>Pending invoices defer credit &mdash; clear them before the 16(4) time bar.</li><li>Reject only with reason; it affects the supplier's reconciliation.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener">GST Portal</a> &mdash; IMS advisories; Section 16(2)(aa), 16(4), CGST Act</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>
+    <a href="gstr1-vs-gstr3b-difference.html">GSTR-1 vs GSTR-3B</a>
+    <a href="gstr-9-vs-gstr-9c-difference.html">GSTR-9 vs GSTR-9C</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

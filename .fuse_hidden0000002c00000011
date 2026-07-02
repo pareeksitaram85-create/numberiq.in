@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights — Tax & Compliance Articles | NumberIQ</title>
+<meta name="description" content="NumberIQ Insights — practical articles on GST, direct tax, TDS, transfer pricing and international tax, written by a Chartered Accountant. Grounded in the bare law.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="theme-color" content="#05060a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="NumberIQ Insights — Tax & Compliance, explained">
+<meta property="og:description" content="Practical articles on GST, direct tax, TDS, transfer pricing and international tax.">
+<meta property="og:image" content="og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NumberIQ Insights — Tax & Compliance, explained">
+<meta name="twitter:description" content="Practical articles on GST, direct tax, TDS, transfer pricing and international tax.">
+<meta name="twitter:image" content="og-cover.png">
+<link rel="canonical" href="https://numberiq.in/insights.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/numberiq.css">
+</head>
+<body>
+<div class="bg-canvas"><div class="orb b1"></div><div class="orb b2"></div><div class="orb b3"></div></div>
+<div class="grid-overlay"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="index.html#modules">Modules</a>
+      <a href="tools.html">Tools</a>
+      <a href="insights.html" class="active">Insights</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#modules">Modules</a>
+  <a href="tools.html">Tools</a>
+  <a href="insights.html">Insights</a>
+  <a href="glossary.html">Glossary</a>
+</div>
+
+<section class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span>NumberIQ Insights</span>
+  <h1>Tax &amp; compliance, <span class="grad-text">explained.</span></h1>
+  <p>Practical notes on GST, direct tax, TDS, transfer pricing and international tax — written for finance teams, grounded in the bare law.</p>
+  <div class="controls">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aab2c5" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search articles… (e.g. GST, TDS, 194, transfer pricing)">
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<section class="feed wrap" style="padding:46px 0 110px">
+  <div class="feed-grid" id="feed" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px"></div>
+</section>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence — articles are for guidance only, not professional advice.</span>
+    <span><a href="index.html">&larr; Back to Command Centre</a></span>
+  </div>
+</footer>
+
+<script>
+const CATS = {gst:"GST", dt:"Direct Tax", tds:"TDS / TCS", itx:"Intl Tax & TP", cmp:"Compliance"};
+const ARTICLES = [
+  {
+    file:"insights/gstr1-vs-gstr3b-difference.html",
+    cat:"gst",
+    title:"GSTR-1 vs GSTR-3B: what is the difference?",
+    date:"24 Jun 2026",
+    excerpt:"GSTR-1 reports invoice-level sales; GSTR-3B summarises liability and ITC and discharges tax. How the two returns differ, their due dates, and how GSTR-1 now auto-populates 3B.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-late-fee-section-47-guide.html",
+    cat:"gst",
+    title:"GST late fee under Section 47, explained",
+    date:"24 Jun 2026",
+    excerpt:"Rs.50 per day (Rs.20 for nil returns) for late GSTR-1/3B, capped by turnover under Notification 07/2023-CT. The rates, the caps, and how the fee differs from interest.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gstr-2b-reconciliation-guide.html",
+    cat:"gst",
+    title:"GSTR-2B reconciliation: a practical guide",
+    date:"24 Jun 2026",
+    excerpt:"GSTR-2B is the static monthly ITC statement that now governs how much credit you can claim. A practitioner's method to reconcile the purchase register and resolve mismatches.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/rule-42-itc-reversal.html",
+    cat:"gst",
+    title:"Rule 42 ITC reversal: formula and worked example",
+    date:"24 Jun 2026",
+    excerpt:"When inputs and input services are used commonly for taxable and exempt supplies, Rule 42 requires reversal of the exempt-attributable credit. The full D1/D2 formula with numbers.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/rcm-gst-notification-13-2017.html",
+    cat:"gst",
+    title:"Reverse charge (RCM) under Notification 13/2017",
+    date:"24 Jun 2026",
+    excerpt:"The recipient pays GST instead of the supplier on notified services - GTA, advocate fees, director services, sponsorship and others. The list, the conditions, and the ITC position.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/gstr-9-vs-gstr-9c-difference.html",
+    cat:"gst",
+    title:"GSTR-9 vs GSTR-9C: which applies to you",
+    date:"24 Jun 2026",
+    excerpt:"GSTR-9 is the annual return; GSTR-9C reconciles the annual return with audited financials. The turnover thresholds, who files what, and the 31 December due date.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/retrospective-gst-cancellation-supplier-itc.html",
+    cat:"gst",
+    title:"Retrospective GST cancellation and the buyer's ITC",
+    date:"24 Jun 2026",
+    excerpt:"Departments often deny a buyer's ITC when the supplier is later cancelled with retrospective effect. The Section 16(2)(c) issue, the bona fide-buyer principle, and how to defend.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/gst-tcs-ecommerce-section-52.html",
+    cat:"gst",
+    title:"GST TCS on e-commerce under Section 52",
+    date:"24 Jun 2026",
+    excerpt:"E-commerce operators must collect tax at source on the net taxable supplies made through them, deposit it, file GSTR-8, and the seller claims it as credit. The rate and the mechanics.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/place-of-supply-gst-guide.html",
+    cat:"gst",
+    title:"Place of supply under GST: getting CGST/SGST vs IGST right",
+    date:"24 Jun 2026",
+    excerpt:"Place of supply determines whether you charge CGST+SGST or IGST. The core rules for goods and services, the tricky cases, and why getting it wrong is costly to fix.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/itc-capital-goods-gst.html",
+    cat:"gst",
+    title:"ITC on capital goods under GST",
+    date:"24 Jun 2026",
+    excerpt:"Capital goods can carry full ITC if used for taxable business, but watch the depreciation bar in Section 16(3), Rule 43 apportionment for mixed use, and reversal on sale.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/hsn-code-mandatory-digits-gst.html",
+    cat:"gst",
+    title:"How many HSN digits are mandatory on GST invoices?",
+    date:"24 Jun 2026",
+    excerpt:"4 or 6 digits depending on turnover, with 8 digits for specified items and exports. The Notification 78/2020-CT rules for invoices and GSTR-1, and the common reporting errors.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/works-contract-gst-rate-itc.html",
+    cat:"gst",
+    title:"Works contract under GST: rate and ITC",
+    date:"24 Jun 2026",
+    excerpt:"Works contract is treated as a service, usually at 18%. The key question is ITC - blocked for construction of immovable property under Section 17(5), with important exceptions.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-show-cause-notice-section-73-reply.html",
+    cat:"gst",
+    title:"Replying to a GST show-cause notice under Section 73",
+    date:"24 Jun 2026",
+    excerpt:"Section 73 covers demands where there is no fraud. The DRC-01 timeline, how to structure a reply, and the reduced-penalty windows that reward early payment.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/section-73-vs-74-gst-difference.html",
+    cat:"gst",
+    title:"Section 73 vs Section 74 under GST",
+    date:"24 Jun 2026",
+    excerpt:"73 is for honest errors, 74 for fraud and suppression - the penalties and time limits differ sharply. Plus how Section 74A changes the picture from FY 2024-25.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-interest-section-50-calculation.html",
+    cat:"gst",
+    title:"GST interest under Section 50, calculated",
+    date:"24 Jun 2026",
+    excerpt:"18% on delayed payment, 24% on wrongly utilised ITC, and an important relief that charges interest only on the net cash component of a late GSTR-3B. With worked numbers.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/section-17-5-blocked-credits-gst.html",
+    cat:"gst",
+    title:"Blocked credits under Section 17(5)",
+    date:"24 Jun 2026",
+    excerpt:"Even valid GST on a purchase may be non-creditable. The Section 17(5) blocked-credit list - motor vehicles, food, construction, CSR - and the important exceptions.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/gst-on-rent-commercial-residential.html",
+    cat:"gst",
+    title:"GST on rent: commercial vs residential",
+    date:"24 Jun 2026",
+    excerpt:"Residential letting for residence is exempt, but RCM can apply when the tenant is registered. Commercial rent is 18%. The current position on forward charge and reverse charge.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/ims-invoice-matching-gst.html",
+    cat:"gst",
+    title:"IMS invoice matching under GST",
+    date:"24 Jun 2026",
+    excerpt:"The Invoice Management System lets you accept, reject or hold each supplier invoice before it lands in GSTR-2B. How it changes ITC workflow - and the trap of pending invoices.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-export-of-services-zero-rated.html",
+    cat:"gst",
+    title:"Export of services under GST: zero-rated supply",
+    date:"24 Jun 2026",
+    excerpt:"Exports are zero-rated, but only if five conditions are met - including receipt of payment in convertible forex. The two refund routes (LUT or pay IGST) and how to choose.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/gstr-9-annual-return-guide.html",
+    cat:"gst",
+    title:"GSTR-9 annual return: a filing guide",
+    date:"24 Jun 2026",
+    excerpt:"The GST annual return consolidates the year's data into one form. Who must file, the table structure, how to reconcile to GSTR-1/3B and books, and what cannot be corrected.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/e-invoice-gst-applicability-guide.html",
+    cat:"gst",
+    title:"E-invoice applicability under GST",
+    date:"24 Jun 2026",
+    excerpt:"E-invoicing applies above Rs.5 crore turnover for B2B and export invoices. How the IRN/QR mechanism works, who is exempt, and the IRP reporting deadline you cannot miss.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-refund-export-process.html",
+    cat:"gst",
+    title:"GST refund on exports: the process",
+    date:"24 Jun 2026",
+    excerpt:"Two refund routes for exporters - automatic IGST refund through the shipping bill, or RFD-01 for unutilised ITC under LUT. The steps, the Rule 89(4) formula and the timelines.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gstr-3b-interest-circular-192-2023.html",
+    cat:"gst",
+    title:"GSTR-3B interest and Circular 192/2023",
+    date:"24 Jun 2026",
+    excerpt:"The circular that softened interest on wrong ITC - if the credit ledger balance always exceeded the wrong credit, it was never utilised, and 24% interest may not arise.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/gst-import-of-services-rcm.html",
+    cat:"gst",
+    title:"Import of services and RCM under GST",
+    date:"24 Jun 2026",
+    excerpt:"When you buy services from abroad, you usually pay IGST under reverse charge. The rules, the related-party twist, OIDAR services, and reclaiming the tax as ITC.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-for-freelancers-consultants.html",
+    cat:"gst",
+    title:"GST for freelancers and consultants",
+    date:"24 Jun 2026",
+    excerpt:"When registration is needed, the 18% rate on professional services, how export of services stays zero-rated under LUT, and the RCM points freelancers miss.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/mixed-supply-vs-composite-supply-gst.html",
+    cat:"gst",
+    title:"Composite supply vs mixed supply under GST",
+    date:"24 Jun 2026",
+    excerpt:"Bundled supplies are taxed differently depending on whether they are 'naturally bundled'. The Section 8 test, why it changes your rate, and worked examples.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/qrmp-scheme-gst-guide.html",
+    cat:"gst",
+    title:"QRMP scheme under GST",
+    date:"24 Jun 2026",
+    excerpt:"Quarterly returns, monthly tax. How the QRMP scheme works for taxpayers up to Rs.5 crore - the PMT-06 payment methods, the optional IFF, and who should opt in.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-directors-remuneration-rcm.html",
+    cat:"gst",
+    title:"GST on director's remuneration under RCM",
+    date:"24 Jun 2026",
+    excerpt:"The clarified position: a director's salary (employee) is outside GST, but sitting fees and commission to a non-executive director attract reverse charge in the company's hands.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/gta-gst-rcm-forward-charge.html",
+    cat:"gst",
+    title:"GTA under GST: RCM vs forward charge",
+    date:"24 Jun 2026",
+    excerpt:"Freight by a goods transport agency can be taxed under reverse charge or forward charge. The rate options (5% vs 12%), who pays, and the annual declaration that fixes it.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/itc-motor-vehicle-gst-when-allowed.html",
+    cat:"gst",
+    title:"ITC on motor vehicles: when is it allowed?",
+    date:"24 Jun 2026",
+    excerpt:"Section 17(5) blocks ITC on most passenger vehicles, but there are clear exceptions. When you can claim, when you cannot, and the position on bigger vehicles and repairs.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/gst-due-dates-calendar-fy2026-27.html",
+    cat:"gst",
+    title:"GST due dates calendar FY 2026-27",
+    date:"24 Jun 2026",
+    excerpt:"Every recurring GST deadline in one place - GSTR-1, GSTR-3B, QRMP, TDS/TCS returns and the annual return - so nothing slips and no avoidable late fee is incurred.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-demand-section-74-fraud.html",
+    cat:"gst",
+    title:"Section 74 GST demands: fraud and suppression",
+    date:"24 Jun 2026",
+    excerpt:"When the department alleges fraud or suppression, the stakes jump - 100% penalty and a 5-year window. What the department must prove, and the early-payment relief.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/gst-audit-section-65.html",
+    cat:"gst",
+    title:"GST audit under Section 65",
+    date:"24 Jun 2026",
+    excerpt:"A departmental GST audit can be ordered under Section 65. The ADT-01 notice, what officers examine, the timeline, and how to prepare so findings are minimised.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/anti-profiteering-gst.html",
+    cat:"gst",
+    title:"Anti-profiteering under GST (Section 171)",
+    date:"24 Jun 2026",
+    excerpt:"Section 171 required any GST rate cut or extra ITC benefit to be passed on to consumers. How it was enforced, the methodology debate, and the sunset on fresh complaints.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/gst-employee-secondment-india-foreign.html",
+    cat:"gst",
+    title:"GST on employee secondment from a foreign group",
+    date:"24 Jun 2026",
+    excerpt:"The Northern Operating Systems ruling made secondment a GST flashpoint. When seconded employees are a taxable import of service, the RCM exposure, and the 210/2024 valuation relief.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/new-income-tax-act-2025-changes.html",
+    cat:"dt",
+    title:"The new Income-tax Act 2025: what changes",
+    date:"24 Jun 2026",
+    excerpt:"The 1961 Act is replaced from FY 2026-27. A simplified, renumbered law with a single 'tax year', consolidated TDS sections and plain drafting - what practitioners need to track.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/old-vs-new-tax-regime-fy2026-27.html",
+    cat:"dt",
+    title:"Old vs new tax regime FY 2026-27: which is better?",
+    date:"24 Jun 2026",
+    excerpt:"The new regime offers lower slabs and a Rs.12 lakh rebate but few deductions; the old regime rewards 80C, HRA and home-loan interest. How to decide for your numbers.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/advance-tax-due-dates-fy2026-27.html",
+    cat:"dt",
+    title:"Advance tax due dates FY 2026-27",
+    date:"24 Jun 2026",
+    excerpt:"The four instalments, who must pay, and the interest under 234B/234C if you fall short. Plus the presumptive single-instalment rule and the senior-citizen exemption.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tax-audit-applicability-fy2026-27.html",
+    cat:"dt",
+    title:"Tax audit applicability FY 2026-27 (Section 44AB)",
+    date:"24 Jun 2026",
+    excerpt:"When a tax audit is required - the turnover thresholds, the 5% cash rule that lifts the business limit to Rs.10 crore, presumptive triggers, and the 30 September report deadline.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/section-44ad-44ada-presumptive-taxation.html",
+    cat:"dt",
+    title:"Presumptive taxation: Sections 44AD and 44ADA",
+    date:"24 Jun 2026",
+    excerpt:"Declare income at a fixed percentage and skip detailed books. The 44AD and 44ADA rates, the higher turnover limits where cash is low, and the 5-year continuation rule.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/itr-filing-due-dates-fy2026-27.html",
+    cat:"dt",
+    title:"ITR filing due dates FY 2026-27 (AY 2027-28)",
+    date:"24 Jun 2026",
+    excerpt:"The return deadlines by taxpayer type, the audit and transfer-pricing dates, and the belated, revised and updated-return windows - so you file on time and avoid 234A interest.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/capital-gains-property-fy2026-27.html",
+    cat:"dt",
+    title:"Capital gains on property FY 2026-27",
+    date:"24 Jun 2026",
+    excerpt:"After Budget 2024 the LTCG rate on property is 12.5% without indexation, with a grandfathering option of 20% with indexation for older property. Holding periods, and 54/54EC relief.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/income-tax-notice-143-2-reply-guide.html",
+    cat:"dt",
+    title:"Replying to a Section 143(2) scrutiny notice",
+    date:"24 Jun 2026",
+    excerpt:"A 143(2) notice starts a scrutiny assessment. The strict time limit that makes it valid, limited vs complete scrutiny, and how to respond through faceless e-proceedings.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/section-142-1-notice-income-tax.html",
+    cat:"dt",
+    title:"Section 142(1) notice: inquiry before assessment",
+    date:"24 Jun 2026",
+    excerpt:"The notice that asks you to file a return, produce documents, or furnish information. What the AO can demand, the penalty for ignoring it, and how to respond.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/faceless-assessment-144b-guide.html",
+    cat:"dt",
+    title:"Faceless assessment under Section 144B",
+    date:"24 Jun 2026",
+    excerpt:"Assessments now happen without a face-to-face officer. How the faceless system is structured, the draft-order and show-cause steps, and how to use video hearings.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/form-3ca-3cb-3cd-difference.html",
+    cat:"dt",
+    title:"Form 3CA vs 3CB vs 3CD explained",
+    date:"24 Jun 2026",
+    excerpt:"The three tax-audit forms and how they fit together - 3CA or 3CB as the report, and 3CD as the detailed statement of particulars. Which report form applies to you.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/section-270a-penalty-underreporting.html",
+    cat:"dt",
+    title:"Section 270A: penalty for under-reporting of income",
+    date:"24 Jun 2026",
+    excerpt:"50% for under-reporting, 200% for misreporting. What separates the two, how the penalty is calculated on the tax, and the 270AA immunity route that can avoid it.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/section-40a-3-cash-payment-disallowance.html",
+    cat:"dt",
+    title:"Section 40A(3): disallowance of cash expenditure",
+    date:"24 Jun 2026",
+    excerpt:"Pay a business expense in cash above Rs.10,000 in a day and you lose the deduction. The limit, the Rs.35,000 transporter relief, and the Rule 6DD exceptions.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/ltcg-shares-section-112a.html",
+    cat:"dt",
+    title:"LTCG on shares under Section 112A",
+    date:"24 Jun 2026",
+    excerpt:"Listed equity LTCG is taxed at 12.5% above a Rs.1.25 lakh annual exemption after Budget 2024. The STT condition, the 31 January 2018 grandfathering, and how to compute.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/depreciation-income-tax-block-assets.html",
+    cat:"dt",
+    title:"Depreciation and the block of assets concept",
+    date:"24 Jun 2026",
+    excerpt:"Income-tax depreciation is computed on blocks, not individual assets, using WDV. The rates, the half-year rule, additional depreciation, and what happens when a block empties.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/icds-income-computation-standards.html",
+    cat:"dt",
+    title:"ICDS: Income Computation and Disclosure Standards",
+    date:"24 Jun 2026",
+    excerpt:"Ten standards that govern how taxable business income is computed, independent of book accounting. The list, what they change, and where the 3CD adjustments arise.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/section-56-2-gift-taxable-income.html",
+    cat:"dt",
+    title:"Section 56(2)(x): when gifts are taxable",
+    date:"24 Jun 2026",
+    excerpt:"Receive money or property worth more than Rs.50,000 for free, and it can be taxable income. The threshold, the relative and occasion exceptions, and how property is valued.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/income-tax-llp-computation-filing.html",
+    cat:"dt",
+    title:"LLP income tax: computation and filing",
+    date:"24 Jun 2026",
+    excerpt:"LLPs are taxed at a flat 30%, with partner remuneration and interest deductible within Section 40(b) limits, AMT at 18.5%, and specific filing rules. A computation walkthrough.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/set-off-carry-forward-losses-income-tax.html",
+    cat:"dt",
+    title:"Set-off and carry-forward of losses",
+    date:"24 Jun 2026",
+    excerpt:"How losses are set off against income within and across heads, the carry-forward periods by loss type, and the crucial rule that late returns forfeit most carry-forwards.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/income-tax-foreign-income-dtaa-fema.html",
+    cat:"dt",
+    title:"Foreign income, DTAA and FEMA for residents",
+    date:"24 Jun 2026",
+    excerpt:"Residents are taxed on global income, but DTAAs and foreign tax credit prevent double tax. Residential status, the relief mechanism, Form 67, and the Schedule FA disclosure trap.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/transfer-pricing-india-guide.html",
+    cat:"itx",
+    title:"Transfer pricing in India: a practical guide",
+    date:"24 Jun 2026",
+    excerpt:"The framework that governs related-party cross-border pricing - associated enterprises, the arm's length principle, documentation under Rule 10D, Form 3CEB and the penalties.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/form-3ceb-transfer-pricing.html",
+    cat:"itx",
+    title:"Form 3CEB for transfer pricing",
+    date:"24 Jun 2026",
+    excerpt:"The accountant's report that every taxpayer with related-party cross-border dealings must file. What 3CEB certifies, the 31 October deadline, and the penalty for missing it.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/arm-length-price-methods-section-92c.html",
+    cat:"itx",
+    title:"Arm's length price methods under Section 92C",
+    date:"24 Jun 2026",
+    excerpt:"The five methods (plus the 'other method') used to test whether related-party pricing is at arm's length, what each suits, and how the 'most appropriate method' is selected.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-non-resident-section-195-guide.html",
+    cat:"itx",
+    title:"TDS on payments to non-residents under Section 195",
+    date:"24 Jun 2026",
+    excerpt:"Pay a non-resident a taxable sum and you must deduct TDS under Section 195 - at the Act or treaty rate, whichever helps. The 15CA/15CB drill, grossing up, and lower-deduction routes.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/permanent-establishment-dtaa-india.html",
+    cat:"itx",
+    title:"Permanent establishment under DTAA in India",
+    date:"24 Jun 2026",
+    excerpt:"A PE is what makes a foreign enterprise's business profits taxable in India. The types - fixed place, construction, service and agency PE - and the business-connection link.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/dtaa-india-uae-guide.html",
+    cat:"itx",
+    title:"DTAA India-UAE: a practical guide",
+    date:"24 Jun 2026",
+    excerpt:"A widely used treaty for India-Gulf structures. The residency conditions, the rates on dividends/interest/royalty, the notable absence of an FTS article, and the TRC requirement.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/dtaa-india-singapore-guide.html",
+    cat:"itx",
+    title:"DTAA India-Singapore: a practical guide",
+    date:"24 Jun 2026",
+    excerpt:"A leading treaty for investment into India. The rates on dividends/interest/royalty/FTS, the 2017 shift to source taxation of share gains, and the LOB substance test.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/fema-compliance-foreign-subsidiary.html",
+    cat:"itx",
+    title:"FEMA compliance for a foreign subsidiary (ODI)",
+    date:"24 Jun 2026",
+    excerpt:"An Indian company investing abroad must follow the FEMA overseas-investment framework. The Form FC filing, the UIN, financial-commitment limits, and the annual APR you cannot miss.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/equalisation-levy-india-fy2026-27.html",
+    cat:"itx",
+    title:"Equalisation levy in India: where it stands",
+    date:"24 Jun 2026",
+    excerpt:"The digital tax that taxed online ad payments and e-commerce supplies by non-residents. The 6% vs 2% levies, the August 2024 withdrawal of the 2% levy, and what to track.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/beps-pillar-two-india-impact.html",
+    cat:"itx",
+    title:"BEPS Pillar Two and its impact on India",
+    date:"24 Jun 2026",
+    excerpt:"A 15% global minimum tax for big multinational groups. The GloBE rules (IIR, UTPR, QDMTT), who is in scope, and where India's implementation currently stands.",
+    read:"7 min read"
+  },
+  {
+    file:"insights/tds-rate-chart-fy2026-27-guide.html",
+    cat:"tds",
+    title:"TDS rate chart FY 2026-27: a quick guide",
+    date:"24 Jun 2026",
+    excerpt:"The most-used TDS sections, their rates and thresholds for FY 2026-27, the PAN/206AB higher-rate traps, and how the old sections map to the new Income-tax Act 2025.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-194j-professional-fees.html",
+    cat:"tds",
+    title:"TDS under Section 194J on professional fees",
+    date:"24 Jun 2026",
+    excerpt:"The 10% vs 2% distinction that trips up many deductors. What counts as professional vs technical services, the threshold, and the disallowance risk of getting it wrong.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-194c-contractor-payments.html",
+    cat:"tds",
+    title:"TDS under Section 194C on contractor payments",
+    date:"24 Jun 2026",
+    excerpt:"The 1% vs 2% rate by payee type, the dual Rs.30,000/Rs.1,00,000 threshold, and the transporter exemption. Plus how 194C differs from 194J on technical work.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-on-rent-194i-vs-194ib.html",
+    cat:"tds",
+    title:"TDS on rent: Section 194I vs 194IB",
+    date:"24 Jun 2026",
+    excerpt:"Two rent-TDS regimes - 194I for businesses and 194IB for individuals paying high rent. The rates, thresholds, and the once-a-year deduction quirk of 194IB.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-on-salary-new-tax-regime.html",
+    cat:"tds",
+    title:"TDS on salary under the new tax regime",
+    date:"24 Jun 2026",
+    excerpt:"With the new regime the default, employers compute salary TDS on it unless the employee opts out. The average-rate method, the Rs.75,000 standard deduction, and the declaration drill.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-194h-commission.html",
+    cat:"tds",
+    title:"TDS under Section 194H on commission and brokerage",
+    date:"24 Jun 2026",
+    excerpt:"Commission and brokerage attract 2% TDS (cut from 5% in late 2024). What qualifies, the threshold, and the recurring dispute over whether trade discounts are 'commission'.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/lower-tds-certificate-section-197.html",
+    cat:"tds",
+    title:"Lower TDS certificate under Section 197",
+    date:"24 Jun 2026",
+    excerpt:"When TDS at the normal rate would exceed your actual tax liability, a Section 197 certificate fixes a lower or nil rate. The Form 13 process and how deductors must apply it.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-return-filing-24q-26q-27q.html",
+    cat:"tds",
+    title:"TDS return filing: 24Q, 26Q, 27Q",
+    date:"24 Jun 2026",
+    excerpt:"Which TDS return form applies to which payment, the quarterly due dates, and the Rs.200-a-day late fee under Section 234E that cannot be waived. A deductor's reference.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-non-deduction-penalty-interest.html",
+    cat:"tds",
+    title:"TDS non-deduction: penalty, interest and disallowance",
+    date:"24 Jun 2026",
+    excerpt:"Miss a TDS deduction and the costs stack up - interest, a 30% expense disallowance, penalty, and being treated as an assessee-in-default. How each applies and the way out.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/form-26as-ais-tis-difference.html",
+    cat:"tds",
+    title:"Form 26AS vs AIS vs TIS",
+    date:"24 Jun 2026",
+    excerpt:"Three statements taxpayers confuse. 26AS shows tax credits, AIS shows comprehensive financial information, and TIS summarises AIS. How to reconcile all three before filing.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-property-purchase-194ia.html",
+    cat:"tds",
+    title:"TDS on property purchase under Section 194IA",
+    date:"24 Jun 2026",
+    excerpt:"The 1% TDS every buyer of property worth Rs.50 lakh or more must deduct. The Form 26QB process, the joint-buyer/seller nuance, and the stamp-value rule.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-194a-interest-bank-company.html",
+    cat:"tds",
+    title:"TDS on interest under Section 194A",
+    date:"24 Jun 2026",
+    excerpt:"The 10% TDS on interest from banks, companies and loans. The thresholds (raised by the Finance Act 2025), the senior-citizen limit, and where Form 15G/15H avoids deduction.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-194o-ecommerce-operators.html",
+    cat:"tds",
+    title:"TDS under Section 194O on e-commerce operators",
+    date:"24 Jun 2026",
+    excerpt:"E-commerce platforms must withhold 0.1% on a seller's gross sales. The rate cut, the small-seller exemption, and how 194O differs from GST TCS under Section 52.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tcs-sale-of-goods-206c.html",
+    cat:"tds",
+    title:"TCS on sale of goods under Section 206C(1H)",
+    date:"24 Jun 2026",
+    excerpt:"The seller-side TCS on large sales, the Rs.10 crore and Rs.50 lakh thresholds, and the 194Q-vs-206C(1H) tie-breaker that decides who deducts.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-foreign-payments-section-195-dtaa.html",
+    cat:"tds",
+    title:"TDS on foreign payments: Section 195 and DTAA in practice",
+    date:"24 Jun 2026",
+    excerpt:"The practical withholding drill for paying non-residents - apply the Act or treaty rate, collect TRC/10F, get Form 15CB, file 15CA, and gross up where the contract is net of tax.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tds-mismatch-26as-how-to-correct.html",
+    cat:"tds",
+    title:"TDS mismatch in Form 26AS: how to correct it",
+    date:"24 Jun 2026",
+    excerpt:"When TDS was deducted from your income but does not appear in 26AS, the credit is at risk. The causes, and the exact steps to get the deductor to fix it.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/new-tds-sections-income-tax-act-2025.html",
+    cat:"tds",
+    title:"New TDS sections under the Income-tax Act 2025",
+    date:"24 Jun 2026",
+    excerpt:"The 1961 TDS sections collapse into a cleaner structure from FY 2026-27 - 392 for salary, 393 for non-salary, 394 for TCS. The deductor mapping for FY 2026-27.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/advance-tax-vs-tds-difference.html",
+    cat:"tds",
+    title:"Advance tax vs TDS: what is the difference?",
+    date:"24 Jun 2026",
+    excerpt:"Both are taxes paid before the return, but one is self-paid and one is withheld by someone else. How advance tax and TDS differ, and how they net off in your final liability.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-dividend-section-194.html",
+    cat:"tds",
+    title:"TDS on dividend under Section 194",
+    date:"24 Jun 2026",
+    excerpt:"Dividends are taxable in the shareholder's hands and the company withholds 10%. The threshold (raised by the Finance Act 2025), the no-PAN rate, and how to avoid deduction.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-return-correction-online.html",
+    cat:"tds",
+    title:"TDS return correction online (TRACES)",
+    date:"24 Jun 2026",
+    excerpt:"Filed a TDS return with a wrong PAN, challan or amount? How to file a correction statement on TRACES, the correction types, and how to clear default notices.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/tds-on-gst-component.html",
+    cat:"tds",
+    title:"TDS on the GST component of an invoice",
+    date:"24 Jun 2026",
+    excerpt:"A simple but often-missed rule: TDS is computed on the value excluding GST when GST is shown separately. The circular, the condition, and a worked example.",
+    read:"4 min read"
+  },
+  {
+    file:"insights/tcs-lrs-foreign-remittance.html",
+    cat:"tds",
+    title:"TCS on LRS and foreign remittances under 206C(1G)",
+    date:"24 Jun 2026",
+    excerpt:"Sending money abroad under LRS or buying a tour package triggers TCS. The 5% vs 20% rates, the threshold, the education and medical concessions, and reclaiming the TCS.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/form-15g-15h-tds-exemption.html",
+    cat:"tds",
+    title:"Form 15G and 15H for TDS exemption",
+    date:"24 Jun 2026",
+    excerpt:"Stop unnecessary TDS on interest with a simple declaration. Who is eligible for 15G vs 15H, the conditions, and the consequence of a false declaration.",
+    read:"4 min read"
+  },
+  {
+    file:"insights/tds-winnings-194b-fantasy-gaming.html",
+    cat:"tds",
+    title:"TDS on winnings: Section 194B and online gaming 194BA",
+    date:"24 Jun 2026",
+    excerpt:"Winnings from lotteries, game shows and online gaming are taxed at a flat 30% at source. The 194B threshold, the 194BA net-winnings method for online gaming, and no deductions.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/challan-281-tds-payment-online.html",
+    cat:"tds",
+    title:"Challan 281: paying TDS/TCS online",
+    date:"24 Jun 2026",
+    excerpt:"The challan every deductor uses to deposit TDS. The 200-vs-400 code, choosing the right section, the deposit due date, and saving the CIN for your return.",
+    read:"4 min read"
+  },
+  {
+    file:"insights/gst-registration-process-2026.html",
+    cat:"cmp",
+    title:"GST registration process 2026",
+    date:"24 Jun 2026",
+    excerpt:"Who must register, the turnover thresholds, the compulsory-registration cases, and the Form REG-01 process with Aadhaar/biometric authentication. A clean checklist.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/how-to-verify-gstin-online.html",
+    cat:"cmp",
+    title:"How to verify a GSTIN online",
+    date:"24 Jun 2026",
+    excerpt:"A two-minute check that protects your input tax credit. The 15-digit GSTIN structure, the Search Taxpayer tool, and what the filing status tells you about a vendor.",
+    read:"4 min read"
+  },
+  {
+    file:"insights/gst-notice-types-drc01-drc01a-drc01c.html",
+    cat:"cmp",
+    title:"GST notice types: DRC-01, DRC-01A, DRC-01B and DRC-01C",
+    date:"24 Jun 2026",
+    excerpt:"The alphabet soup of GST notices, decoded. What DRC-01A, DRC-01, DRC-01B and DRC-01C each mean, the response form, and the deadline that matters for each.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/how-to-read-income-tax-notice.html",
+    cat:"cmp",
+    title:"How to read an income-tax notice",
+    date:"24 Jun 2026",
+    excerpt:"Decode the section quoted on your notice. What 143(1), 139(9), 142(1), 143(2), 148 and 245 each mean, how urgent each is, and where to respond.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/tax-compliance-due-date-calendar-fy2026-27.html",
+    cat:"cmp",
+    title:"Tax compliance calendar FY 2026-27 (all laws)",
+    date:"24 Jun 2026",
+    excerpt:"One combined view of every recurring GST, TDS, income-tax and MCA deadline for FY 2026-27, so nothing slips across the four laws a finance team juggles.",
+    read:"5 min read"
+  },
+  {
+    file:"insights/gstr-2b-itc-reconciliation-how-to.html",
+    cat:"cmp",
+    title:"GSTR-2B ITC reconciliation: a how-to in Excel",
+    date:"24 Jun 2026",
+    excerpt:"A practical, repeatable monthly process to match your purchase register to GSTR-2B using Excel or Power Query - the matching keys, the mismatch buckets, and what to claim.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/ai-tools-ca-india-tax-research.html",
+    cat:"cmp",
+    title:"AI tools for CAs in India: tax research done right",
+    date:"24 Jun 2026",
+    excerpt:"AI can speed up tax research, drafting and reconciliation - but it can also invent sections and case law. Where it helps, where it fails, and a verify-before-you-rely workflow.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/mis-reporting-cfo-monthly-format.html",
+    cat:"cmp",
+    title:"Monthly MIS report format for the CFO",
+    date:"24 Jun 2026",
+    excerpt:"What a CFO actually wants in the monthly MIS - the statements, the KPI dashboard, variance commentary - and how to build it once and refresh it with Power Query and Power BI.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/chart-of-accounts-india-best-practice.html",
+    cat:"cmp",
+    title:"Chart of accounts: best practice for India",
+    date:"24 Jun 2026",
+    excerpt:"A well-designed chart of accounts makes statutory reporting, GST and MIS effortless. How to structure groups and ledgers, align with Schedule III, and use cost centres in Tally.",
+    read:"6 min read"
+  },
+  {
+    file:"insights/financial-ratios-ca-client-monitoring.html",
+    cat:"cmp",
+    title:"Financial ratios for CA client monitoring",
+    date:"24 Jun 2026",
+    excerpt:"The ratios that flag trouble early - liquidity, leverage, profitability and efficiency. What each measures, how to compute it, and what a healthy range looks like.",
+    read:"6 min read"
+  },
+  {
+    file:"insights-tds-income-tax-act-2025.html",
+    cat:"tds",
+    title:"TDS under the Income-tax Act, 2025: what changes from 1 April 2026",
+    date:"23 Jun 2026",
+    excerpt:"Old sections (194C, 194J\u2026) collapse into Sec 393, salary &amp; EPF move to 392, TCS to 394, and returns shift to new forms. A practical map for deductors.",
+    read:"7 min read"
+  }
+];
+let activeCat="all", query="";
+const feedEl=document.getElementById('feed'), catsEl=document.getElementById('cats');
+function buildCats(){
+  const counts={}; ARTICLES.forEach(a=>counts[a.cat]=(counts[a.cat]||0)+1);
+  const all=[{k:"all",label:"All",n:ARTICLES.length}].concat(Object.keys(CATS).filter(k=>counts[k]).map(k=>({k,label:CATS[k],n:counts[k]})));
+  catsEl.innerHTML=all.map(c=>`<button class="cat ${c.k===activeCat?'active':''}" data-k="${c.k}">${c.label}<span class="n">${c.n}</span></button>`).join('');
+  catsEl.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{activeCat=b.dataset.k;buildCats();render();});
+}
+function catColor(c){return {gst:"#38e1d6",dt:"#9a6bff",tds:"#f4b740",itx:"#4f7cff",cmp:"#34d399"}[c]||"#4f7cff";}
+function render(){
+  const q=query.trim().toLowerCase();
+  const rows=ARTICLES.filter(a=>{const inCat=activeCat==="all"||a.cat===activeCat;
+    const hay=(a.title+' '+a.excerpt+' '+(CATS[a.cat]||'')).toLowerCase();return inCat&&(q===""||hay.includes(q));});
+  if(!rows.length){feedEl.innerHTML='<div class="empty" style="grid-column:1/-1"><b>No articles found</b>Try another keyword, or clear the filter.</div>';return;}
+  feedEl.innerHTML=rows.map(a=>`
+    <a class="art-card tool-card clickable" style="--c:${catColor(a.cat)}" href="${a.file}">
+      <div class="tool-cover"></div>
+      <div class="tool-body">
+        <div class="tool-top"><span class="tag ${a.cat}">${CATS[a.cat]||'Update'}</span><span class="art-date" style="font-size:12px;color:var(--ink-dim)">${a.date}</span></div>
+        <h3>${a.title}</h3><p>${a.excerpt}</p>
+        <div class="tool-foot"><span style="font-size:12px;color:var(--ink-dim)">${a.read||''}</span>
+          <span class="tool-open">Read article <svg viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </div></a>`).join('');
+}
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+buildCats(); render();
+</script>
+</body>
+</html>
+          

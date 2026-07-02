@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circular 192/2023: Interest on Wrong ITC | NumberIQ</title>
+<meta name="description" content="Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed ITC depends on whether the credit was utilised, tested against the electronic credit ledger balance.">
+<link rel="canonical" href="https://numberiq.in/insights/gstr-3b-interest-circular-192-2023.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Circular 192/2023: Interest on Wrong ITC | NumberIQ">
+<meta property="og:description" content="Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed ITC depends on whether the credit was utilised, tested against the electronic credit ledger balance.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gstr-3b-interest-circular-192-2023.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Circular 192/2023: Interest on Wrong ITC | NumberIQ">
+<meta name="twitter:description" content="Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed ITC depends on whether the credit was utilised, tested against the electronic credit ledger balance.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-3B interest and Circular 192/2023", "description": "Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed ITC depends on whether the credit was utilised, tested against the electronic credit ledger balance.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr-3b-interest-circular-192-2023.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does wrongly availed ITC always attract interest?","acceptedAnswer":{"@type":"Answer","text":"No. Per Circular 192/2023, interest under Section 50(3) arises only to the extent the wrong credit is utilised, tested against the electronic credit ledger balance over the period."}},{"@type":"Question","name":"How is utilisation tested?","acceptedAnswer":{"@type":"Answer","text":"By examining whether the credit ledger balance ever fell below the wrongly availed amount. To that extent, the credit is treated as utilised and interest applies."}},{"@type":"Question","name":"What is the interest rate on wrong ITC?","acceptedAnswer":{"@type":"Answer","text":"24% per annum under Section 50(3), but only on the utilised portion as clarified by Circular 192/2023."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GSTR-3B interest and Circular 192/2023</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Circular 192/2023-GST clarifies that interest under Section 50(3) on wrongly availed input tax credit arises only when that credit is actually utilised.</b> If the balance in the electronic credit ledger never fell below the amount of the wrongly availed credit, the credit is treated as not utilised, and interest may not be payable.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The issue the circular addresses</a> &middot; <a href="#s1">The clarified position</a> &middot; <a href="#s2">Worked illustration</a> &middot; <a href="#s3">Documentation to keep</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The issue the circular addresses</h2>
+<p>Section 50(3), read with Rule 88B, charges 24% interest on ITC <b>wrongly availed and utilised</b>. The practical question was: if a taxpayer wrongly took credit but had ample other balance and never actually used the wrong portion, is interest due? Circular 192/2023-GST answers this.</p>
+
+  <h2 id="s1">The clarified position</h2>
+<p>The circular directs that the <b>electronic credit ledger balance</b> be examined over the period: if the balance was, at all times, equal to or greater than the wrongly availed credit, that credit is deemed not utilised and <b>no interest</b> is attracted. Interest applies only to the extent the ledger balance fell below the wrong credit, indicating utilisation.</p><div class="callout note"><b>Why it matters.</b> A clerical wrong-credit that is reversed before use, with sufficient balance throughout, should not carry 24% interest.</div>
+
+  <h2 id="s2">Worked illustration</h2>
+<p>Wrong ITC availed = Rs.1,00,000. If the credit ledger balance never dropped below Rs.1,00,000 until the credit was reversed, no utilisation occurred &mdash; interest is nil. If, however, the balance fell to Rs.30,000 at some point, the wrong credit was utilised to the extent of Rs.70,000, and 24% interest applies on that Rs.70,000 for the period. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the day-wise ledger working for your case.</p>
+
+  <h2 id="s3">Documentation to keep</h2>
+<p>Maintain a <b>day-wise credit-ledger movement</b> for any period where wrong ITC is identified, to demonstrate non-utilisation. Reverse wrong credit promptly and record the reason. This single working can decide whether a 24% interest demand stands.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Does wrongly availed ITC always attract interest?</summary><p>No. Per Circular 192/2023, interest under Section 50(3) arises only to the extent the wrong credit is utilised, tested against the electronic credit ledger balance over the period.</p></details>
+    <details><summary>How is utilisation tested?</summary><p>By examining whether the credit ledger balance ever fell below the wrongly availed amount. To that extent, the credit is treated as utilised and interest applies.</p></details>
+    <details><summary>What is the interest rate on wrong ITC?</summary><p>24% per annum under Section 50(3), but only on the utilised portion as clarified by Circular 192/2023.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Interest on wrong ITC depends on actual utilisation, not mere availment.</li><li>If ledger balance always exceeded the wrong credit, no interest arises.</li><li>Interest applies only to the utilised extent, at 24% per annum.</li><li>Keep a day-wise credit-ledger working as evidence.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../gst-interest-calculator.html">GST Interest Calculator</a> &middot; <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Circular 192/2023-GST; Section 50(3), CGST Act; Rule 88B</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-interest-section-50-calculation.html">GST interest under Section 50</a>
+    <a href="rule-42-itc-reversal.html">Rule 42 ITC reversal</a>
+    <a href="section-17-5-blocked-credits-gst.html">Blocked credits under Section 17(5)</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

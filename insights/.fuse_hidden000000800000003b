@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Refund on Exports: Step-by-Step Process | NumberIQ</title>
+<meta name="description" content="How to claim a GST refund on exports - the RFD-01 process for ITC refunds under LUT, the automatic IGST refund route via shipping bill, timelines and provisional refund.">
+<link rel="canonical" href="https://numberiq.in/insights/gst-refund-export-process.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GST Refund on Exports: Step-by-Step Process | NumberIQ">
+<meta property="og:description" content="How to claim a GST refund on exports - the RFD-01 process for ITC refunds under LUT, the automatic IGST refund route via shipping bill, timelines and provisional refund.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gst-refund-export-process.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GST Refund on Exports: Step-by-Step Process | NumberIQ">
+<meta name="twitter:description" content="How to claim a GST refund on exports - the RFD-01 process for ITC refunds under LUT, the automatic IGST refund route via shipping bill, timelines and provisional refund.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GST refund on exports: the process", "description": "How to claim a GST refund on exports - the RFD-01 process for ITC refunds under LUT, the automatic IGST refund route via shipping bill, timelines and provisional refund.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-refund-export-process.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long does a GST export refund take?","acceptedAnswer":{"@type":"Answer","text":"The officer must sanction the refund within 60 days of a complete application; 90% can be granted provisionally for zero-rated supplies, with interest at 6% payable for delays beyond 60 days."}},{"@type":"Question","name":"What is the time limit to claim an export refund?","acceptedAnswer":{"@type":"Answer","text":"Two years from the relevant date under Section 54 of the CGST Act."}},{"@type":"Question","name":"Do I need separate documents for service exports?","acceptedAnswer":{"@type":"Answer","text":"Yes. Service exporters must furnish FIRC/BRC evidence of receipt of payment in convertible foreign exchange to support the refund."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GST refund on exports: the process</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Exporters claim GST refunds either as an automatic refund of IGST paid (through the shipping bill, for goods) or as a refund of unutilised input tax credit in Form RFD-01 (under the LUT route).</b> Refund applications must be filed within two years of the relevant date, and 90% may be granted provisionally.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The two refund routes</a> &middot; <a href="#s1">The RFD-01 process</a> &middot; <a href="#s2">The Rule 89(4) formula</a> &middot; <a href="#s3">Timelines and common rejections</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The two refund routes</h2>
+<p><b>Route 1 &mdash; pay IGST, automatic refund.</b> For export of goods on payment of IGST, the shipping bill itself is treated as the refund application; the IGST is refunded to the exporter's bank account once the shipping bill and GSTR-1/3B data match (Rule 96).</p><p><b>Route 2 &mdash; LUT, refund of ITC.</b> For exports under LUT without payment of tax (typical for services), the exporter claims a refund of <b>unutilised ITC</b> in Form RFD-01 (Rule 89).</p>
+
+  <h2 id="s1">The RFD-01 process</h2>
+<ol><li>File Form <b>RFD-01</b> on the portal for the period, selecting the export category.</li><li>Upload statements (invoice details, FIRC/BRC for services, shipping bills for goods).</li><li>The officer issues an acknowledgment (RFD-02) or deficiency memo (RFD-03).</li><li>Provisional refund of <b>90%</b> via RFD-04, then final order in RFD-06.</li><li>Payment order in RFD-05 credits the bank account.</li></ol>
+
+  <h2 id="s2">The Rule 89(4) formula</h2>
+<p>Refund of ITC = (Turnover of zero-rated supply &times; Net ITC) &divide; Adjusted Total Turnover. 'Net ITC' is the ITC availed on inputs and input services in the period. <b>Worked example:</b> Net ITC Rs.5,00,000; zero-rated turnover Rs.40,00,000; adjusted total turnover Rs.50,00,000. Refund = 5,00,000 &times; 40,00,000 &divide; 50,00,000 = <b>Rs.4,00,000</b>.</p>
+
+  <h2 id="s3">Timelines and common rejections</h2>
+<ul><li>File within <b>two years</b> of the relevant date (Section 54).</li><li>Missing FIRC/BRC for service exports is the top rejection reason.</li><li>Mismatch between shipping bill and GSTR-1 stalls automatic IGST refunds.</li><li>Interest at 6% is payable by the department if refund is delayed beyond 60 days (Section 56).</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>How long does a GST export refund take?</summary><p>The officer must sanction the refund within 60 days of a complete application; 90% can be granted provisionally for zero-rated supplies, with interest at 6% payable for delays beyond 60 days.</p></details>
+    <details><summary>What is the time limit to claim an export refund?</summary><p>Two years from the relevant date under Section 54 of the CGST Act.</p></details>
+    <details><summary>Do I need separate documents for service exports?</summary><p>Yes. Service exporters must furnish FIRC/BRC evidence of receipt of payment in convertible foreign exchange to support the refund.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Two routes: automatic IGST refund (goods) or RFD-01 ITC refund (LUT).</li><li>Rule 89(4): refund = zero-rated turnover &times; Net ITC / adjusted turnover.</li><li>File within two years; 90% provisional refund available.</li><li>6% interest if the department delays beyond 60 days.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Sections 54, 56, CGST Act; Rules 89, 96; Forms RFD-01 to 06</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-export-of-services-zero-rated.html">Export of services: zero-rated</a>
+    <a href="place-of-supply-gst-guide.html">Place of supply under GST</a>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

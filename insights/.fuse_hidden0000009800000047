@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Verify a GSTIN Online | NumberIQ</title>
+<meta name="description" content="How to verify a GSTIN on the GST portal - the 15-digit structure, the Search Taxpayer tool, checking registration status and return-filing history, and why it protects your ITC.">
+<link rel="canonical" href="https://numberiq.in/insights/how-to-verify-gstin-online.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="How to Verify a GSTIN Online | NumberIQ">
+<meta property="og:description" content="How to verify a GSTIN on the GST portal - the 15-digit structure, the Search Taxpayer tool, checking registration status and return-filing history, and why it protects your ITC.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/how-to-verify-gstin-online.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Verify a GSTIN Online | NumberIQ">
+<meta name="twitter:description" content="How to verify a GSTIN on the GST portal - the 15-digit structure, the Search Taxpayer tool, checking registration status and return-filing history, and why it protects your ITC.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "How to verify a GSTIN online", "description": "How to verify a GSTIN on the GST portal - the 15-digit structure, the Search Taxpayer tool, checking registration status and return-filing history, and why it protects your ITC.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/how-to-verify-gstin-online.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I check if a GSTIN is valid?","acceptedAnswer":{"@type":"Answer","text":"Use the 'Search Taxpayer' tool on the GST portal &mdash; enter the GSTIN to see the legal name, status, type and filing history; an active status confirms validity."}},{"@type":"Question","name":"What does the GSTIN structure tell me?","acceptedAnswer":{"@type":"Answer","text":"The first two digits are the state code, digits 3-12 are the PAN, digit 13 is the entity number, digit 14 is 'Z', and digit 15 is a checksum."}},{"@type":"Question","name":"Why verify a vendor's GSTIN?","acceptedAnswer":{"@type":"Answer","text":"Because your input tax credit depends on the supplier's compliance; verifying status and filing history protects your ITC and supports a bona fide-buyer defence."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag cmp">Compliance</span>
+  <h1>How to verify a GSTIN online</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>4 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>You can verify any GSTIN free on the GST portal using the 'Search Taxpayer' tool, which shows the legal name, registration status, type and date.</b> Verifying a vendor's GSTIN and return-filing history before transacting protects your input tax credit, since ITC depends on the supplier's compliance.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The 15-digit GSTIN structure</a> &middot; <a href="#s1">How to verify</a> &middot; <a href="#s2">Why it matters for ITC</a> &middot; <a href="#s3">Practical points</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The 15-digit GSTIN structure</h2>
+<div class="table-wrap"><table><thead><tr><th>Digits</th><th>Meaning</th></tr></thead><tbody><tr><td>1-2</td><td>State code</td></tr><tr><td>3-12</td><td>PAN of the taxpayer</td></tr><tr><td>13</td><td>Entity number (registrations on the same PAN in the state)</td></tr><tr><td>14</td><td>Default 'Z'</td></tr><tr><td>15</td><td>Checksum character</td></tr></tbody></table></div><p>A GSTIN that does not fit this 15-character pattern, or whose embedded PAN does not match the vendor's PAN, is a red flag.</p>
+
+  <h2 id="s1">How to verify</h2>
+<ol><li>Go to the GST portal &rarr; <b>Search Taxpayer</b> &rarr; 'Search by GSTIN/UIN'.</li><li>Enter the GSTIN; view the <b>legal/trade name, status, registration date and type</b>.</li><li>Check <b>'Show Filing Table'</b> for the return-filing history.</li><li>Confirm the status is <b>Active</b> (not cancelled/suspended).</li></ol>
+
+  <h2 id="s2">Why it matters for ITC</h2>
+<p>Your <a href="../insights/gstr-2b-reconciliation-guide.html">input tax credit</a> depends on the supplier filing their returns and paying tax. A vendor whose registration is cancelled, or who consistently fails to file GSTR-1/3B, puts your ITC at risk (Section 16(2)(c)). A periodic GSTIN check builds the bona fide-buyer defence against <a href="../insights/retrospective-gst-cancellation-supplier-itc.html">retrospective cancellation</a>.</p>
+
+  <h2 id="s3">Practical points</h2>
+<ul><li>Verify new vendors at onboarding and high-risk vendors periodically.</li><li>Save a screenshot of the status at the transaction date.</li><li>Match the GSTIN's PAN with the vendor's PAN.</li><li>Cross-check the invoice GSTIN against the master before claiming ITC.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>How do I check if a GSTIN is valid?</summary><p>Use the 'Search Taxpayer' tool on the GST portal &mdash; enter the GSTIN to see the legal name, status, type and filing history; an active status confirms validity.</p></details>
+    <details><summary>What does the GSTIN structure tell me?</summary><p>The first two digits are the state code, digits 3-12 are the PAN, digit 13 is the entity number, digit 14 is 'Z', and digit 15 is a checksum.</p></details>
+    <details><summary>Why verify a vendor's GSTIN?</summary><p>Because your input tax credit depends on the supplier's compliance; verifying status and filing history protects your ITC and supports a bona fide-buyer defence.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Verify free via 'Search Taxpayer' on the GST portal.</li><li>GSTIN = state(2) + PAN(10) + entity(1) + Z + checksum.</li><li>Confirm status is Active and check filing history.</li><li>Protects ITC and builds the bona fide-buyer defence.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../Invoice%20Compliance.html">Invoice Verification</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener">GST Portal</a> &mdash; Search Taxpayer; Section 16(2)(c), CGST Act</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-registration-process-2026.html">GST registration process 2026</a>
+    <a href="retrospective-gst-cancellation-supplier-itc.html">Retrospective cancellation & ITC</a>
+    <a href="gstr-2b-itc-reconciliation-how-to.html">GSTR-2B ITC reconciliation how-to</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

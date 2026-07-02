@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSTR-2B ITC Reconciliation: How-To (Excel) | NumberIQ</title>
+<meta name="description" content="A step-by-step how-to for reconciling your purchase register with GSTR-2B in Excel/Power Query - matching keys, mismatch buckets, and a monthly workflow to protect ITC.">
+<link rel="canonical" href="https://numberiq.in/insights/gstr-2b-itc-reconciliation-how-to.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GSTR-2B ITC Reconciliation: How-To (Excel) | NumberIQ">
+<meta property="og:description" content="A step-by-step how-to for reconciling your purchase register with GSTR-2B in Excel/Power Query - matching keys, mismatch buckets, and a monthly workflow to protect ITC.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gstr-2b-itc-reconciliation-how-to.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GSTR-2B ITC Reconciliation: How-To (Excel) | NumberIQ">
+<meta name="twitter:description" content="A step-by-step how-to for reconciling your purchase register with GSTR-2B in Excel/Power Query - matching keys, mismatch buckets, and a monthly workflow to protect ITC.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GSTR-2B ITC reconciliation: a how-to in Excel", "description": "A step-by-step how-to for reconciling your purchase register with GSTR-2B in Excel/Power Query - matching keys, mismatch buckets, and a monthly workflow to protect ITC.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gstr-2b-itc-reconciliation-how-to.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best key to match GSTR-2B?","acceptedAnswer":{"@type":"Answer","text":"Supplier GSTIN plus a normalised invoice number, with taxable value and tax compared using a small tolerance for rounding differences."}},{"@type":"Question","name":"Can I claim ITC for invoices in my books but not in 2B?","acceptedAnswer":{"@type":"Answer","text":"Generally no until they appear in GSTR-2B (Section 16(2)(aa)); defer the credit and follow up with the supplier, within the Section 16(4) time limit."}},{"@type":"Question","name":"Can Power Query automate this?","acceptedAnswer":{"@type":"Answer","text":"Yes &mdash; merge the purchase register and GSTR-2B on the matching key, classify the rows, and save the steps so each month is a single refresh."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag cmp">Compliance</span>
+  <h1>GSTR-2B ITC reconciliation: a how-to in Excel</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>To reconcile ITC, match your purchase register against GSTR-2B on supplier GSTIN plus invoice number, value and tax, then classify each line as matched, in-books-not-in-2B, in-2B-not-in-books, or value-mismatch.</b> Claim ITC in GSTR-3B only for matched, 2B-reflected invoices, and follow up the rest.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">Set up the data</a> &middot; <a href="#s1">Match in Excel / Power Query</a> &middot; <a href="#s2">Decide the ITC action</a> &middot; <a href="#s3">Make it monthly</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">Set up the data</h2>
+<ol><li>Download <b>GSTR-2B</b> (Excel/JSON) for the period from the portal.</li><li>Export your <b>purchase register</b> from Tally/ERP for the same period.</li><li>Standardise both: clean GSTIN, invoice number (trim spaces/case), invoice date, taxable value, IGST/CGST/SGST.</li></ol>
+
+  <h2 id="s1">Match in Excel / Power Query</h2>
+<p>Build a <b>matching key</b> = GSTIN + normalised invoice number. In Power Query, <b>merge</b> the two tables on the key (full outer join) and compare tax amounts with a small tolerance for rounding. A simple Excel alternative is <code>XLOOKUP</code>/<code>SUMIFS</code> on the key, with a status column.</p><div class="table-wrap"><table><thead><tr><th>Status</th><th>Logic</th></tr></thead><tbody><tr><td>Matched</td><td>Key in both; tax within tolerance</td></tr><tr><td>In books, not in 2B</td><td>Key only in purchase register</td></tr><tr><td>In 2B, not in books</td><td>Key only in 2B</td></tr><tr><td>Value/tax mismatch</td><td>Key in both; tax differs</td></tr></tbody></table></div>
+
+  <h2 id="s2">Decide the ITC action</h2>
+<ul><li><b>Matched</b> &rarr; claim ITC in GSTR-3B Table 4.</li><li><b>In books, not in 2B</b> &rarr; defer; chase the supplier to file/amend GSTR-1.</li><li><b>In 2B, not in books</b> &rarr; verify and book, or reject in IMS.</li><li><b>Mismatch</b> &rarr; reconcile to the correct figure; claim the eligible amount.</li></ul><p>Remember the Section 16(4) time limit (30 November of the next FY) for parked credit.</p>
+
+  <h2 id="s3">Make it monthly</h2>
+<p>Save the Power Query steps so next month is one refresh. For the concepts behind this, see the <a href="../insights/gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>; to automate the matching, use the <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation tool</a>.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the best key to match GSTR-2B?</summary><p>Supplier GSTIN plus a normalised invoice number, with taxable value and tax compared using a small tolerance for rounding differences.</p></details>
+    <details><summary>Can I claim ITC for invoices in my books but not in 2B?</summary><p>Generally no until they appear in GSTR-2B (Section 16(2)(aa)); defer the credit and follow up with the supplier, within the Section 16(4) time limit.</p></details>
+    <details><summary>Can Power Query automate this?</summary><p>Yes &mdash; merge the purchase register and GSTR-2B on the matching key, classify the rows, and save the steps so each month is a single refresh.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Match on GSTIN + normalised invoice number; compare tax with tolerance.</li><li>Four buckets: matched, in-books-only, in-2B-only, mismatch.</li><li>Claim ITC only for matched, 2B-reflected invoices.</li><li>Automate with Power Query; mind the Section 16(4) deadline.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener">GST Portal</a> &mdash; GSTR-2B; Section 16(2)(aa), 16(4), CGST Act</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>
+    <a href="ims-invoice-matching-gst.html">IMS invoice matching</a>
+    <a href="gst-notice-types-drc01-drc01a-drc01c.html">GST notice types</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

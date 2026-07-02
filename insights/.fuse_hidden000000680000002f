@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Audit Under Section 65 by Tax Authorities | NumberIQ</title>
+<meta name="description" content="GST audit under Section 65 lets the Commissioner audit a registered person - the ADT-01 notice, the 3-month timeline, ADT-02 findings, and how it differs from a special audit under 66.">
+<link rel="canonical" href="https://numberiq.in/insights/gst-audit-section-65.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="GST Audit Under Section 65 by Tax Authorities | NumberIQ">
+<meta property="og:description" content="GST audit under Section 65 lets the Commissioner audit a registered person - the ADT-01 notice, the 3-month timeline, ADT-02 findings, and how it differs from a special audit under 66.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/gst-audit-section-65.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GST Audit Under Section 65 by Tax Authorities | NumberIQ">
+<meta name="twitter:description" content="GST audit under Section 65 lets the Commissioner audit a registered person - the ADT-01 notice, the 3-month timeline, ADT-02 findings, and how it differs from a special audit under 66.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "GST audit under Section 65", "description": "GST audit under Section 65 lets the Commissioner audit a registered person - the ADT-01 notice, the 3-month timeline, ADT-02 findings, and how it differs from a special audit under 66.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/gst-audit-section-65.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much notice is given before a GST audit?","acceptedAnswer":{"@type":"Answer","text":"At least 15 days, through Form ADT-01, before the audit under Section 65 begins."}},{"@type":"Question","name":"How long can a Section 65 audit take?","acceptedAnswer":{"@type":"Answer","text":"It must be completed within three months of commencement, extendable by the Commissioner by up to a further six months."}},{"@type":"Question","name":"How is Section 65 audit different from Section 66?","acceptedAnswer":{"@type":"Answer","text":"Section 65 is a general audit by the tax authorities; Section 66 is a special audit by a CA/CMA nominated by the department in cases of complexity or doubtful value/credit."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>GST audit under Section 65</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 65 of the CGST Act empowers the tax authorities to audit the records of a registered person at their premises or office.</b> The audit begins with a notice in Form ADT-01, must generally be completed within three months (extendable), and the findings are communicated in Form ADT-02.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">What a Section 65 audit is</a> &middot; <a href="#s1">The process and timeline</a> &middot; <a href="#s2">What officers typically examine</a> &middot; <a href="#s3">Preparing for the audit</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">What a Section 65 audit is</h2>
+<p>A departmental audit under Section 65 is a verification of a registered person's returns, records and compliance by the GST authorities. It is distinct from the taxpayer's own GSTR-9C reconciliation and from a <b>special audit under Section 66</b> (which is conducted by a CA/CMA nominated by the department in complex cases).</p>
+
+  <h2 id="s1">The process and timeline</h2>
+<ol><li>Notice in <b>Form ADT-01</b> at least 15 days before the audit.</li><li>Audit completed within <b>three months</b> of commencement, extendable by up to six months by the Commissioner.</li><li>Findings, rights and obligations communicated in <b>Form ADT-02</b> within 30 days of conclusion.</li><li>Any tax/interest/penalty arising is pursued under Section 73 or 74.</li></ol>
+
+  <h2 id="s2">What officers typically examine</h2>
+<ul><li>Reconciliation of GSTR-1, GSTR-3B, GSTR-2B and the books.</li><li>ITC eligibility, blocked credits and reversals under Rules 42/43.</li><li>RCM liabilities and self-invoicing.</li><li>Classification, rate and HSN; place of supply on inter-State transactions.</li></ul>
+
+  <h2 id="s3">Preparing for the audit</h2>
+<p>Keep a year-wise reconciliation file (turnover, ITC, tax paid), the RCM register, and documentation for major ITC claims and reversals. Respond to ADT-01 with organised records; resolving issues during the audit (via DRC-03) can avoid a formal demand and reduce penalty exposure.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>How much notice is given before a GST audit?</summary><p>At least 15 days, through Form ADT-01, before the audit under Section 65 begins.</p></details>
+    <details><summary>How long can a Section 65 audit take?</summary><p>It must be completed within three months of commencement, extendable by the Commissioner by up to a further six months.</p></details>
+    <details><summary>How is Section 65 audit different from Section 66?</summary><p>Section 65 is a general audit by the tax authorities; Section 66 is a special audit by a CA/CMA nominated by the department in cases of complexity or doubtful value/credit.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Section 65 is a departmental audit, starting with Form ADT-01.</li><li>Complete within 3 months (extendable by 6); findings in ADT-02.</li><li>Focus areas: GSTR reconciliation, ITC, RCM, classification.</li><li>A reconciliation file and DRC-03 can pre-empt formal demands.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Sections 65, 66, CGST Act; Forms ADT-01/02</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gstr-9-vs-gstr-9c-difference.html">GSTR-9 vs GSTR-9C</a>
+    <a href="section-73-vs-74-gst-difference.html">Section 73 vs 74 under GST</a>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

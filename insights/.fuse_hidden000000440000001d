@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti-Profiteering Under GST (Section 171) | NumberIQ</title>
+<meta name="description" content="Section 171 requires businesses to pass on the benefit of rate cuts and ITC to consumers. How anti-profiteering worked, the authorities involved, and the sunset on new applications.">
+<link rel="canonical" href="https://numberiq.in/insights/anti-profiteering-gst.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Anti-Profiteering Under GST (Section 171) | NumberIQ">
+<meta property="og:description" content="Section 171 requires businesses to pass on the benefit of rate cuts and ITC to consumers. How anti-profiteering worked, the authorities involved, and the sunset on new applications.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/anti-profiteering-gst.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anti-Profiteering Under GST (Section 171) | NumberIQ">
+<meta name="twitter:description" content="Section 171 requires businesses to pass on the benefit of rate cuts and ITC to consumers. How anti-profiteering worked, the authorities involved, and the sunset on new applications.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Anti-profiteering under GST (Section 171)", "description": "Section 171 requires businesses to pass on the benefit of rate cuts and ITC to consumers. How anti-profiteering worked, the authorities involved, and the sunset on new applications.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/anti-profiteering-gst.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does Section 171 require?","acceptedAnswer":{"@type":"Answer","text":"That the benefit of any GST rate reduction or additional input tax credit be passed on to the recipient through a commensurate reduction in price."}},{"@type":"Question","name":"Who handles anti-profiteering complaints now?","acceptedAnswer":{"@type":"Answer","text":"The function moved from the NAA to the Competition Commission of India, with the GST Appellate Tribunal designated to hear such matters; new applications are not accepted from 1 April 2025."}},{"@type":"Question","name":"Was there a formula for profiteering?","acceptedAnswer":{"@type":"Answer","text":"No statutory formula was prescribed, which led to significant litigation over the computation methodology in individual cases."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>Anti-profiteering under GST (Section 171)</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>5 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Section 171 of the CGST Act requires that any reduction in the GST rate or benefit of input tax credit be passed on to the recipient by a commensurate reduction in price.</b> Anti-profiteering complaints were examined by the NAA and later the CCI; acceptance of new applications was sunset with effect from 1 April 2025.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">What anti-profiteering requires</a> &middot; <a href="#s1">The institutional journey</a> &middot; <a href="#s2">The methodology debate and sunset</a> &middot; <a href="#s3">What businesses should retain</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">What anti-profiteering requires</h2>
+<p>Section 171 obliges a supplier to pass on, by a <b>commensurate price reduction</b>, (a) the benefit of any GST rate cut and (b) the benefit of additional input tax credit. The idea is that GST relief should reach the consumer, not be absorbed as margin. It applied product-by-product and SKU-by-SKU, which made compliance and measurement contentious.</p>
+
+  <h2 id="s1">The institutional journey</h2>
+<div class="table-wrap"><table><thead><tr><th>Authority</th><th>Role</th></tr></thead><tbody><tr><td>Standing/State screening committees</td><td>Initial examination of complaints</td></tr><tr><td>DGAP</td><td>Investigation</td></tr><tr><td>NAA (National Anti-Profiteering Authority)</td><td>Adjudication (till Nov 2022)</td></tr><tr><td>CCI (Competition Commission of India)</td><td>Took over anti-profiteering cases</td></tr><tr><td>GSTAT</td><td>To hear anti-profiteering matters going forward</td></tr></tbody></table></div>
+
+  <h2 id="s2">The methodology debate and sunset</h2>
+<p>There was <b>no prescribed formula</b> for computing the profiteered amount, which led to extensive litigation; the Delhi High Court broadly upheld the constitutional validity of Section 171 while leaving room to challenge individual computations. The CBIC has provided that <b>no new anti-profiteering applications</b> will be accepted from <b>1 April 2025</b>, effectively sunsetting the regime for fresh cases. ✓ No new anti-profiteering applications accepted from 1 April 2025; pending cases still being adjudicated by CCI. Verified June 2026. the current status of pending cases.</p>
+
+  <h2 id="s3">What businesses should retain</h2>
+<p>For periods when rate cuts occurred, keep working papers showing how the benefit was passed on (price/MRP changes, credit notes), as legacy cases may still be examined. Going forward, the compliance burden for fresh complaints has eased, but pricing transparency around rate changes remains good practice.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What does Section 171 require?</summary><p>That the benefit of any GST rate reduction or additional input tax credit be passed on to the recipient through a commensurate reduction in price.</p></details>
+    <details><summary>Who handles anti-profiteering complaints now?</summary><p>The function moved from the NAA to the Competition Commission of India, with the GST Appellate Tribunal designated to hear such matters; new applications are not accepted from 1 April 2025.</p></details>
+    <details><summary>Was there a formula for profiteering?</summary><p>No statutory formula was prescribed, which led to significant litigation over the computation methodology in individual cases.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Section 171: pass on rate cuts and extra ITC via lower prices.</li><li>Enforced by DGAP/NAA, then the CCI, with GSTAT going forward.</li><li>No prescribed formula &mdash; computation was litigation-prone.</li><li>No new applications accepted from 1 April 2025.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 171, CGST Act; Rule 126-137; sunset notification</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-rate-chart-2026.html">GST rate chart 2026</a>
+    <a href="section-73-vs-74-gst-difference.html">Section 73 vs 74 under GST</a>
+    <a href="mixed-supply-vs-composite-supply-gst.html">Composite vs mixed supply</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forE

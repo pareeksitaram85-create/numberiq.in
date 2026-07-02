@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Audit Applicability FY 2026-27 (Section 44AB) | NumberIQ</title>
+<meta name="description" content="Tax audit under Section 44AB - the Rs.1 crore business limit (Rs.10 crore if cash <=5%), the Rs.50 lakh professional limit, presumptive cases, and the audit report due date.">
+<link rel="canonical" href="https://numberiq.in/insights/tax-audit-applicability-fy2026-27.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Tax Audit Applicability FY 2026-27 (Section 44AB) | NumberIQ">
+<meta property="og:description" content="Tax audit under Section 44AB - the Rs.1 crore business limit (Rs.10 crore if cash <=5%), the Rs.50 lakh professional limit, presumptive cases, and the audit report due date.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/tax-audit-applicability-fy2026-27.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tax Audit Applicability FY 2026-27 (Section 44AB) | NumberIQ">
+<meta name="twitter:description" content="Tax audit under Section 44AB - the Rs.1 crore business limit (Rs.10 crore if cash <=5%), the Rs.50 lakh professional limit, presumptive cases, and the audit report due date.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Tax audit applicability FY 2026-27 (Section 44AB)", "description": "Tax audit under Section 44AB - the Rs.1 crore business limit (Rs.10 crore if cash <=5%), the Rs.50 lakh professional limit, presumptive cases, and the audit report due date.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/tax-audit-applicability-fy2026-27.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the tax audit limit for business?","acceptedAnswer":{"@type":"Answer","text":"Rs.1 crore turnover, raised to Rs.10 crore where both cash receipts and cash payments are within 5% of their totals."}},{"@type":"Question","name":"What is the tax audit limit for professionals?","acceptedAnswer":{"@type":"Answer","text":"Rs.50 lakh of gross receipts in the financial year."}},{"@type":"Question","name":"What is the penalty for not getting a tax audit done?","acceptedAnswer":{"@type":"Answer","text":"Under Section 271B, 0.5% of turnover or gross receipts, up to a maximum of Rs.1,50,000, unless there is reasonable cause."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag dt">Direct Tax</span>
+  <h1>Tax audit applicability FY 2026-27 (Section 44AB)</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>6 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>A tax audit under Section 44AB is required if business turnover exceeds Rs.1 crore (Rs.10 crore where cash receipts and payments are each up to 5%), or if professional receipts exceed Rs.50 lakh.</b> It also applies in certain presumptive-tax cases. The audit report (Form 3CA/3CB and 3CD) is due by 30 September of the assessment year.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The thresholds</a> &middot; <a href="#s1">The 5% cash test in practice</a> &middot; <a href="#s2">Forms and due date</a> &middot; <a href="#s3">Consequences of non-audit</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The thresholds</h2>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Audit threshold</th></tr></thead><tbody><tr><td>Business (general)</td><td>Turnover &gt; Rs.1 crore</td></tr><tr><td>Business with cash receipts &amp; payments &le; 5%</td><td>Turnover &gt; Rs.10 crore</td></tr><tr><td>Profession</td><td>Gross receipts &gt; Rs.50 lakh</td></tr><tr><td>Presumptive 44AD opted out / income below limit</td><td>Audit if total income exceeds basic exemption</td></tr><tr><td>Presumptive 44ADA below 50%</td><td>Audit if income claimed below presumptive and above exemption</td></tr></tbody></table></div><p>The Rs.10 crore relief requires that <b>both</b> aggregate cash receipts and aggregate cash payments do not exceed 5% of the respective totals.</p>
+
+  <h2 id="s1">The 5% cash test in practice</h2>
+<p>The digital-economy relief (Rs.10 crore limit) is widely available but easy to breach: even a small proportion of cash collections or cash expenses above 5% pulls the limit back to Rs.1 crore. Track the cash ratio through the year, and note that certain banking-channel receipts/payments are treated as non-cash.</p>
+
+  <h2 id="s2">Forms and due date</h2>
+<p>The audit is reported in <b>Form 3CA</b> (where accounts are audited under another law) or <b>Form 3CB</b> (otherwise), together with the <b>Form 3CD</b> statement of particulars. The report must be filed by <b>30 September</b> of the assessment year, and the <a href="itr-filing-due-dates-fy2026-27.html">return</a> by 31 October. See <a href="form-3ca-3cb-3cd-difference.html">3CA vs 3CB vs 3CD</a>.</p>
+
+  <h2 id="s3">Consequences of non-audit</h2>
+<p>Failure to get accounts audited attracts penalty under <b>Section 271B</b> &mdash; 0.5% of turnover/gross receipts, up to Rs.1,50,000 &mdash; unless reasonable cause is shown. Late filing of the audit report also defers the return and can attract <a href="../interest-234abc-calculator.html">234A interest</a>.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>What is the tax audit limit for business?</summary><p>Rs.1 crore turnover, raised to Rs.10 crore where both cash receipts and cash payments are within 5% of their totals.</p></details>
+    <details><summary>What is the tax audit limit for professionals?</summary><p>Rs.50 lakh of gross receipts in the financial year.</p></details>
+    <details><summary>What is the penalty for not getting a tax audit done?</summary><p>Under Section 271B, 0.5% of turnover or gross receipts, up to a maximum of Rs.1,50,000, unless there is reasonable cause.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Business: Rs.1 crore, or Rs.10 crore if cash <= 5% both sides.</li><li>Profession: Rs.50 lakh of gross receipts.</li><li>Report in Form 3CA/3CB + 3CD by 30 September.</li><li>Non-audit penalty: 0.5% of turnover, up to Rs.1.5 lakh (Section 271B).</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../income-tax-calculator-fy2026-27.html">Income Tax Calculator</a> &middot; <a href="../interest-234abc-calculator.html">234A/B/C Interest Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.incometax.gov.in/" target="_blank" rel="noopener">Income Tax Department</a> &mdash; Sections 44AB, 271B; Forms 3CA/3CB/3CD</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="form-3ca-3cb-3cd-difference.html">Form 3CA vs 3CB vs 3CD</a>
+    <a href="section-44ad-44ada-presumptive-taxation.html">Presumptive taxation 44AD/44ADA</a>
+    <a href="itr-filing-due-dates-fy2026-27.html">ITR filing due dates FY 2026-27</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.tog

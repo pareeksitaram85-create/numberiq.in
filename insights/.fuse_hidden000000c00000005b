@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCM Under GST: Notification 13/2017 Services | NumberIQ</title>
+<meta name="description" content="Reverse charge under GST: the services notified under Notification 13/2017-CT(R) - GTA, advocate, director, sponsorship and more - where the recipient pays the tax.">
+<link rel="canonical" href="https://numberiq.in/insights/rcm-gst-notification-13-2017.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="RCM Under GST: Notification 13/2017 Services | NumberIQ">
+<meta property="og:description" content="Reverse charge under GST: the services notified under Notification 13/2017-CT(R) - GTA, advocate, director, sponsorship and more - where the recipient pays the tax.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/rcm-gst-notification-13-2017.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RCM Under GST: Notification 13/2017 Services | NumberIQ">
+<meta name="twitter:description" content="Reverse charge under GST: the services notified under Notification 13/2017-CT(R) - GTA, advocate, director, sponsorship and more - where the recipient pays the tax.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Reverse charge (RCM) under Notification 13/2017", "description": "Reverse charge under GST: the services notified under Notification 13/2017-CT(R) - GTA, advocate, director, sponsorship and more - where the recipient pays the tax.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/rcm-gst-notification-13-2017.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can RCM liability be paid using input tax credit?","acceptedAnswer":{"@type":"Answer","text":"No. Reverse-charge GST must be paid in cash through the electronic cash ledger. The credit of that tax can then be claimed separately if the supply is eligible."}},{"@type":"Question","name":"Is GST on a director's salary payable under RCM?","acceptedAnswer":{"@type":"Answer","text":"No. Remuneration to a director in an employer-employee capacity (salary) is outside GST. Only services by a director in a non-employee capacity attract RCM in the company's hands."}},{"@type":"Question","name":"Do I need to issue an invoice for RCM purchases?","acceptedAnswer":{"@type":"Answer","text":"For RCM supplies received from an unregistered supplier, the recipient must issue a self-invoice under Section 31(3)(f) and a payment voucher."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>Reverse charge (RCM) under Notification 13/2017</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>7 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>Reverse Charge Mechanism (RCM) is the GST provision under which the recipient, not the supplier, pays the tax.</b> Notification 13/2017-Central Tax (Rate) lists the services covered &mdash; including goods transport agency, advocate services, director services and sponsorship &mdash; for which the recipient must self-assess and pay GST in cash.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">How reverse charge works</a> &middot; <a href="#s1">Key notified services under 13/2017</a> &middot; <a href="#s2">Worked example: GTA</a> &middot; <a href="#s3">ITC and common pitfalls</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">How reverse charge works</h2>
+<p>Under Section 9(3) of the CGST Act, the Government notifies categories of supply on which the <b>recipient</b> is liable to pay GST. The supplier does not charge GST on the invoice; the recipient pays it directly to the Government in cash (RCM liability cannot be set off using ITC), reports it in GSTR-3B Table 3.1(d), and then claims it back as ITC in the same or a later period if otherwise eligible.</p><div class="callout law"><b>Section 9(3), CGST Act + Notification 13/2017-CT(R).</b> Plus Section 9(4) for specified inward supplies from unregistered persons in notified cases.</div>
+
+  <h2 id="s1">Key notified services under 13/2017</h2>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>Supplier</th><th>Recipient who pays RCM</th></tr></thead><tbody><tr><td>Goods Transport Agency (road)</td><td>GTA (not opting forward charge)</td><td>Specified business recipients</td></tr><tr><td>Legal services</td><td>Advocate / firm of advocates</td><td>Business entity</td></tr><tr><td>Services by a director</td><td>Director (in personal capacity)</td><td>The company / body corporate</td></tr><tr><td>Sponsorship</td><td>Any person</td><td>Body corporate / partnership firm</td></tr><tr><td>Services by government</td><td>Central/State Government</td><td>Business entity (with exceptions)</td></tr><tr><td>Import of services</td><td>Person outside India</td><td>Recipient in India</td></tr></tbody></table></div><p>This is an indicative extract; the notification has been amended several times. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current entry and any conditions for your specific service.</p>
+
+  <h2 id="s2">Worked example: GTA</h2>
+<p>A manufacturer pays a goods transport agency Rs.1,00,000 for freight; the GTA has not opted for forward charge. The manufacturer pays GST at 5% under RCM = <b>Rs.5,000</b> in cash, reports it in GSTR-3B 3.1(d), and claims Rs.5,000 as ITC (freight for business is not blocked). Net cash impact is timing only, but the compliance step is mandatory and missing it attracts interest.</p>
+
+  <h2 id="s3">ITC and common pitfalls</h2>
+<ul><li>RCM tax must be paid in <b>cash</b> &mdash; it cannot be discharged using ITC.</li><li>ITC of RCM paid is available only if the inward supply is used for business and is not blocked under <a href="section-17-5-blocked-credits-gst.html">Section 17(5)</a>.</li><li>Director's remuneration that is <b>salary</b> (employer-employee) is not subject to RCM; only non-salary director services are. See <a href="gst-directors-remuneration-rcm.html">director's remuneration RCM</a>.</li><li>Self-invoice under Section 31(3)(f) is required for RCM supplies from unregistered suppliers.</li></ul>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Can RCM liability be paid using input tax credit?</summary><p>No. Reverse-charge GST must be paid in cash through the electronic cash ledger. The credit of that tax can then be claimed separately if the supply is eligible.</p></details>
+    <details><summary>Is GST on a director's salary payable under RCM?</summary><p>No. Remuneration to a director in an employer-employee capacity (salary) is outside GST. Only services by a director in a non-employee capacity attract RCM in the company's hands.</p></details>
+    <details><summary>Do I need to issue an invoice for RCM purchases?</summary><p>For RCM supplies received from an unregistered supplier, the recipient must issue a self-invoice under Section 31(3)(f) and a payment voucher.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Under RCM the recipient pays GST, in cash, not the supplier.</li><li>Notification 13/2017-CT(R) lists covered services: GTA, advocate, director, sponsorship, etc.</li><li>RCM tax is paid in cash; ITC of it is claimed separately if eligible.</li><li>Self-invoicing is required for RCM from unregistered suppliers.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../HSN_SAC_Finder.html">HSN / SAC Finder</a> &middot; <a href="../gst-interest-calculator.html">GST Interest Calculator</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 9(3)/9(4), CGST Act; Notification 13/2017-Central Tax (Rate)</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gst-directors-remuneration-rcm.html">GST on director's remuneration under RCM</a>
+    <a href="gst-import-of-services-rcm.html">Import of services and RCM</a>
+    <a href="gta-gst-rcm-forward-charge.html">GTA under GST: RCM vs forward charge</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click

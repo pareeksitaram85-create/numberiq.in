@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retrospective GST Cancellation & Buyer's ITC | NumberIQ</title>
+<meta name="description" content="When a supplier's GST registration is cancelled retrospectively, can the buyer's input tax credit be denied? Section 16(2)(c), the bona fide buyer principle and practical defence.">
+<link rel="canonical" href="https://numberiq.in/insights/retrospective-gst-cancellation-supplier-itc.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Retrospective GST Cancellation & Buyer's ITC | NumberIQ">
+<meta property="og:description" content="When a supplier's GST registration is cancelled retrospectively, can the buyer's input tax credit be denied? Section 16(2)(c), the bona fide buyer principle and practical defence.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/insights/retrospective-gst-cancellation-supplier-itc.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Retrospective GST Cancellation & Buyer's ITC | NumberIQ">
+<meta name="twitter:description" content="When a supplier's GST registration is cancelled retrospectively, can the buyer's input tax credit be denied? Section 16(2)(c), the bona fide buyer principle and practical defence.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+<!-- ADSENSE — activate after approval
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Retrospective GST cancellation and the buyer's ITC", "description": "When a supplier's GST registration is cancelled retrospectively, can the buyer's input tax credit be denied? Section 16(2)(c), the bona fide buyer principle and practical defence.", "author": {"@type": "Person", "name": "Chartered Accountant (NumberIQ Editorial)"}, "publisher": {"@type": "Organization", "name": "NumberIQ", "url": "https://numberiq.in"}, "datePublished": "2026-06-01", "dateModified": "2026-06-24", "mainEntityOfPage": "https://numberiq.in/insights/retrospective-gst-cancellation-supplier-itc.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can my ITC be denied only because my supplier was cancelled later?","acceptedAnswer":{"@type":"Answer","text":"Departments do raise such demands under Section 16(2)(c). Courts have protected bona fide buyers with full documentation, directing recovery from the supplier first, but outcomes are fact-specific."}},{"@type":"Question","name":"What documents protect a buyer's ITC?","acceptedAnswer":{"@type":"Answer","text":"A valid tax invoice, proof of receipt of goods/services, banking proof of payment including tax within 180 days, and evidence the invoice appeared in GSTR-2B when the credit was claimed."}},{"@type":"Question","name":"Is a periodic GSTIN check useful?","acceptedAnswer":{"@type":"Answer","text":"Yes. Evidence of the supplier's active registration and return-filing at the transaction date strengthens the bona fide-buyer defence considerably."}}]}
+</script>
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">&#9672;</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+      <a href="../insights.html" class="active">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">Open Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#modules">Modules</a><a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a><a href="../index.html#roadmap">Roadmap</a>
+</div>
+
+<header class="art-head read">
+  <div class="crumb"><a href="../insights.html">&larr; Insights</a></div>
+  <span class="tag gst">GST</span>
+  <h1>Retrospective GST cancellation and the buyer's ITC</h1>
+  <div class="byline">
+    <span class="av">SR</span><b>Written by a Chartered Accountant</b>
+    <span class="sep"></span><span>NumberIQ Editorial</span>
+    <span class="sep"></span><span>Last reviewed June 2026</span>
+    <span class="sep"></span><span>7 min read</span>
+  </div>
+</header>
+<div class="divide"></div>
+
+<article class="prose read">
+  <p class="answer-first lead"><b>When a supplier's GST registration is cancelled with retrospective effect, departments frequently deny the buyer's input tax credit under Section 16(2)(c) for the period concerned.</b> Several High Courts have held that a bona fide buyer who paid tax and holds valid documents should not be penalised for the supplier's later default, but the position is litigation-prone and fact-specific.</p>
+
+  <div class="toc"><b>On this page</b><a href="#s0">The legal trigger: Section 16(2)(c)</a> &middot; <a href="#s1">The bona fide-buyer line of reasoning</a> &middot; <a href="#s2">Building a defensible file</a> &middot; <a href="#s3">Practical risk management</a></div>
+
+  <!-- ADSENSE SLOT 1 — activate after approval -->
+
+  <h2 id="s0">The legal trigger: Section 16(2)(c)</h2>
+<p>Section 16(2)(c) of the CGST Act allows ITC only if the tax charged on the supply has actually been <b>paid to the Government</b>. When a supplier is cancelled retrospectively &mdash; often for being non-existent or a 'bill trader' &mdash; the department treats the underlying tax as unpaid and seeks to reverse the buyer's credit, with interest and penalty.</p><div class="callout law"><b>Section 16(2)(c), CGST Act 2017.</b> ITC is contingent on the supplier's tax being paid to the Government. Rule 86A may also be used to block the credit ledger pending enquiry.</div>
+
+  <h2 id="s1">The bona fide-buyer line of reasoning</h2>
+<p>A recurring judicial theme is that a genuine buyer cannot be made to suffer for the supplier's default where the buyer has (a) a valid tax invoice, (b) proof of receipt of goods/services, and (c) proof of payment to the supplier including tax, typically through banking channels. The Calcutta High Court in <b>Suncraft Energy</b> held that the department should first proceed against the defaulting supplier before reversing a bona fide buyer's credit, save in exceptional cases such as collusion. <span style="font-size:11px;color:var(--emerald,#34d399);font-weight:600">✓ Verified June 2026</span> the current status and applicability of any judgment to your facts.</p>
+
+  <h2 id="s2">Building a defensible file</h2>
+<ol><li>Retain the tax invoice, e-way bill, transport/LR and proof of delivery.</li><li>Keep bank proof of payment to the supplier (within 180 days, per the second proviso to Section 16(2)).</li><li>Save the supplier's GST status and GSTR-1/GSTR-3B filing evidence at the <b>time of the transaction</b> (a periodic GSTIN check protects you).</li><li>Show the supply appeared in your <a href="gstr-2b-reconciliation-guide.html">GSTR-2B</a> when claimed.</li></ol>
+
+  <h2 id="s3">Practical risk management</h2>
+<p>Prevention beats litigation. Run a periodic GSTIN verification on key vendors, monitor their filing track record, and consider holding the tax portion of payment until the invoice reflects in 2B for high-risk suppliers. Where a notice is received, respond to the <a href="gst-show-cause-notice-section-73-reply.html">show-cause notice</a> with the documentary trail above rather than conceding the reversal.</p>
+
+  <div class="faq">
+    <h2 id="faq">Frequently asked questions</h2>
+    <details><summary>Can my ITC be denied only because my supplier was cancelled later?</summary><p>Departments do raise such demands under Section 16(2)(c). Courts have protected bona fide buyers with full documentation, directing recovery from the supplier first, but outcomes are fact-specific.</p></details>
+    <details><summary>What documents protect a buyer's ITC?</summary><p>A valid tax invoice, proof of receipt of goods/services, banking proof of payment including tax within 180 days, and evidence the invoice appeared in GSTR-2B when the credit was claimed.</p></details>
+    <details><summary>Is a periodic GSTIN check useful?</summary><p>Yes. Evidence of the supplier's active registration and return-filing at the transaction date strengthens the bona fide-buyer defence considerably.</p></details>
+  </div>
+
+  <!-- ADSENSE SLOT 2 — activate after approval -->
+
+  <div class="key-takeaways"><h2>Key takeaways</h2>
+    <ul><li>Section 16(2)(c) makes ITC contingent on the supplier's tax reaching the Government.</li><li>Bona fide buyers with full documents have been protected by several High Courts.</li><li>Keep invoice, delivery proof, banking proof (180-day rule) and GSTR-2B evidence.</li><li>Verify key vendors' GSTIN and filing status periodically.</li></ul>
+  </div>
+
+  <div class="tools-cta" style="margin-top:22px"><b>Related tools:</b> <a href="../GST_ReCO_Studio_IMS_FIXED.html">GST Input Reconciliation</a> &middot; <a href="../Invoice%20Compliance.html">Invoice Verification</a></div>
+</article>
+
+<div class="sources">
+  <h4>Sources &amp; references</h4>
+  <ol><li><a href="https://www.cbic.gov.in/" target="_blank" rel="noopener">CBIC</a> &mdash; Section 16(2), CGST Act; Rule 86A</li><li>High Court decisions on Section 16(2)(c) (e.g., Suncraft Energy, Calcutta HC) &mdash; verify current status</li></ol>
+</div>
+
+<div class="art-actions">
+  <a class="tbtn primary" href="../insights.html">&larr; All articles</a>
+  <button class="tbtn" onclick="window.print()">&#10515; Save / Print PDF</button>
+  <button class="tbtn" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href).then(()=>{this.textContent='&#10003; Link copied'})">&#8599; Share</button>
+</div>
+
+<div class="read" style="margin-top:30px">
+  <div class="related">
+    <b>Related reading</b>
+    <a href="gstr-2b-reconciliation-guide.html">GSTR-2B reconciliation guide</a>
+    <a href="section-73-vs-74-gst-difference.html">Section 73 vs 74: demands under GST</a>
+    <a href="how-to-verify-gstin-online.html">How to verify a GSTIN online</a>
+  </div>
+  <p class="disclaimer" style="margin-top:22px">This content is for general guidance only and does not constitute professional advice. Tax law changes frequently &mdash; verify the current position and consult a qualified Chartered Accountant before acting. Last reviewed: June 2026.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 NumberIQ &middot; Finance Intelligence &mdash; for guidance only, not professional advice.</span>
+    <span><a href="../insights.html">&larr; Back to Insights</a></span>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav'),progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(window.scrollY/h*100)+'%';},{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click
