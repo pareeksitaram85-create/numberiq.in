@@ -7,7 +7,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 let prismaInstance: PrismaClient;
 
 // We ensure database connection only when DATABASE_URL is set (in builds it might be empty)
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL || "postgresql://dummy:dummy@127.0.0.1:5432/dummy";
 
 if (process.env.NODE_ENV === 'production') {
   const pool = new Pool({ connectionString });
