@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Menu, X, ArrowRight, User, Shield } from "lucide-react";
+import { Sun, Moon, Menu, X, ArrowRight, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export function Navbar() {
@@ -13,54 +13,79 @@ export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setMounted(true);
+    
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      
+      // Determine if page is scrolled
+      setScrolled(currentScrollY > 20);
+
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const links = [
-    { name: "Tools", href: "/tools" },
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/#services" },
+    { name: "Tax", href: "/#tax" },
+    { name: "Audit", href: "/#audit" },
+    { name: "Startup", href: "/#startup" },
     { name: "Insights", href: "/insights" },
-    { name: "Glossary", href: "/glossary" },
-    { name: "Marketplace", href: "/marketplace" },
-    { name: "Boardroom", href: "/module" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" }
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 transform ${
+        visible ? "translate-y-0" : "-translate-y-full"
+      } ${
         scrolled
-          ? "bg-[#05060a]/80 backdrop-blur-md border-[#ffffff]/5 shadow-lg"
-          : "bg-transparent border-transparent"
+          ? "bg-black/45 backdrop-blur-md border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="font-display text-xl font-bold tracking-tight bg-gradient-to-r from-white via-[#aab2c5] to-[#4f7cff] bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
+          <span className="font-display text-xl font-bold tracking-tight bg-gradient-to-r from-white via-[#aab2c5] to-[#3b82f6] bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
             NumberIQ
           </span>
-          <span className="text-[10px] uppercase font-semibold tracking-widest text-[#4f7cff] bg-[#4f7cff]/10 px-1.5 py-0.5 rounded border border-[#4f7cff]/20">
-            beta
+          <span className="text-[9px] uppercase font-bold tracking-widest text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded border border-[#10b981]/25">
+            HQ
           </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/5 px-2 py-1.5 rounded-full backdrop-blur-sm">
           {links.map((link) => {
-            const isActive = pathname.startsWith(link.href);
+            const isHome = link.href === "/";
+            const isActive = isHome ? pathname === "/" : pathname.startsWith(link.href.split("#")[0]) && link.href !== "/";
+            
             return (
               <Link
-                key={link.href}
+                key={link.name}
                 href={link.href}
-                className="relative px-4 py-1.5 text-sm font-medium transition-colors hover:text-white rounded-full text-[#aab2c5]"
+                className={`relative px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors hover:text-white rounded-full ${
+                  isActive ? "text-white" : "text-[#737c92]"
+                }`}
               >
                 {isActive && (
                   <motion.span
@@ -76,53 +101,53 @@ export function Navbar() {
         </nav>
 
         {/* CTAs & Theme Toggle */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 text-[#aab2c5] hover:text-white transition-all cursor-pointer"
+              className="p-2.5 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 text-[#737c92] hover:text-white transition-all cursor-pointer"
               aria-label="Toggle Theme"
             >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
             </button>
           )}
 
           {session ? (
             <Link
               href="/dashboard"
-              className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all cursor-pointer"
+              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all cursor-pointer"
             >
-              <User size={14} className="text-[#4f7cff]" />
+              <User size={14} className="text-[#3b82f6]" />
               Dashboard
             </Link>
           ) : (
             <Link
               href="/tools"
-              className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full bg-[#4f7cff] hover:bg-[#3d66dd] text-white transition-all shadow-[0_0_15px_rgba(79,124,255,0.25)] hover:shadow-[0_0_20px_rgba(79,124,255,0.4)] cursor-pointer"
+              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white hover:opacity-90 transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] cursor-pointer"
             >
-              Open Workspace
+              Open Terminal
               <ArrowRight size={14} />
             </Link>
           )}
         </div>
 
         {/* Mobile menu trigger */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex lg:hidden items-center gap-3">
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-1.5 rounded-full border border-white/5 bg-white/5 text-[#aab2c5] cursor-pointer"
+              className="p-2 rounded-full border border-white/5 bg-white/5 text-[#737c92] cursor-pointer"
               aria-label="Toggle Theme"
             >
-              {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+              {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
             </button>
           )}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-1.5 rounded-full border border-white/5 bg-white/5 text-[#aab2c5] hover:text-white cursor-pointer"
+            className="p-2 rounded-full border border-white/5 bg-white/5 text-[#737c92] hover:text-white cursor-pointer"
             aria-label="Toggle Menu"
           >
-            {isOpen ? <X size={18} /> : <Menu size={18} />}
+            {isOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
       </div>
@@ -134,14 +159,14 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-16 left-0 right-0 border-b border-[#ffffff]/5 bg-[#05060a]/95 backdrop-blur-lg flex flex-col p-6 gap-4 z-40 md:hidden"
+            className="absolute top-20 left-0 right-0 border-b border-white/5 bg-[#050505]/95 backdrop-blur-lg flex flex-col p-6 gap-4 z-40 lg:hidden shadow-2xl"
           >
             {links.map((link) => (
               <Link
-                key={link.href}
+                key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-sm font-medium text-[#aab2c5] hover:text-white transition-colors"
+                className="text-sm font-semibold uppercase tracking-wider text-[#737c92] hover:text-white transition-colors"
               >
                 {link.name}
               </Link>
@@ -151,18 +176,18 @@ export function Navbar() {
               <Link
                 href="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-1.5 text-xs font-semibold py-2.5 rounded-lg border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-colors"
+                className="flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider py-3 rounded-lg border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-colors"
               >
-                <User size={14} className="text-[#4f7cff]" />
+                <User size={14} className="text-[#3b82f6]" />
                 Dashboard
               </Link>
             ) : (
               <Link
                 href="/tools"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-1.5 text-xs font-semibold py-2.5 rounded-lg bg-[#4f7cff] text-white hover:bg-[#3d66dd] transition-colors"
+                className="flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider py-3 rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white transition-colors"
               >
-                Open Workspace
+                Open Terminal
                 <ArrowRight size={14} />
               </Link>
             )}

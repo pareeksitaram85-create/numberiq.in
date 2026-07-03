@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Gains Tax Calculator India FY 2026-27 — Property, Equity & MF | NumberIQ</title>
+<meta name="description" content="Free capital gains tax calculator for India FY 2026-27. Compute LTCG/STCG on property (with CII indexation), equity shares and mutual funds (Section 112A/111A). Examines Section 54, 54EC exemption applicability. No signup required.">
+<link rel="canonical" href="https://numberiq.in/tools/capital-gains-tax-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NumberIQ">
+<meta property="og:title" content="Capital Gains Tax Calculator India FY 2026-27 | NumberIQ">
+<meta property="og:description" content="LTCG and STCG calculator for property, equity and mutual funds. Includes CII indexation, Section 112A/111A rates and Section 54/54EC exemption notes.">
+<meta property="og:image" content="../og-cover.png">
+<meta property="og:url" content="https://numberiq.in/tools/capital-gains-tax-calculator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Capital Gains Tax Calculator India FY 2026-27 | NumberIQ">
+<meta name="twitter:description" content="Compute LTCG/STCG for property, equity shares and mutual funds with correct FY 2026-27 rates and CII indexation.">
+<meta name="twitter:image" content="../og-cover.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="../favicon-light.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="shortcut icon" href="../favicon.ico">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/numberiq.css">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Capital Gains Tax Calculator India FY 2026-27",
+  "description":"LTCG and STCG calculator for property, equity and mutual funds. Includes CII indexation, Section 112A/111A rates, Section 50C and Section 54/54EC exemption notes.",
+  "url":"https://numberiq.in/tools/capital-gains-tax-calculator.html",
+  "applicationCategory":"FinanceApplication",
+  "operatingSystem":"Any",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+  "isPartOf":{"@type":"WebSite","name":"NumberIQ","url":"https://numberiq.in"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"What is the LTCG tax rate on property sale in India FY 2026-27?",
+      "acceptedAnswer":{"@type":"Answer","text":"Long-term capital gains (LTCG) on immovable property are taxed at 12.5% without indexation benefit under Section 112 as amended by Finance (No. 2) Act, 2024 (w.e.f. 23 July 2024). Alternatively, for property acquired before 23 July 2024, taxpayers can opt for 20% with indexation if it results in a lower tax liability."}
+    },
+    {
+      "@type":"Question",
+      "name":"What is the holding period for LTCG on property?",
+      "acceptedAnswer":{"@type":"Answer","text":"Immovable property (land and building) is long-term if held for more than 24 months (2 years) from date of acquisition [Section 2(42A)]."}
+    },
+    {
+      "@type":"Question",
+      "name":"What is the LTCG tax rate on equity shares and mutual funds?",
+      "acceptedAnswer":{"@type":"Answer","text":"LTCG on listed equity shares and equity-oriented mutual funds exceeding ₹1.25 lakh per year is taxed at 12.5% under Section 112A (no indexation). This threshold was increased from ₹1 lakh to ₹1.25 lakh by Finance (No. 2) Act, 2024 w.e.f. 23 July 2024."}
+    },
+    {
+      "@type":"Question",
+      "name":"What is the STCG tax rate on equity shares in FY 2026-27?",
+      "acceptedAnswer":{"@type":"Answer","text":"Short-term capital gains on listed equity shares and equity-oriented MFs (where STT is paid) are taxed at 20% under Section 111A. This rate was increased from 15% to 20% by Finance (No. 2) Act, 2024 w.e.f. 23 July 2024."}
+    },
+    {
+      "@type":"Question",
+      "name":"What is Section 54 exemption for capital gains?",
+      "acceptedAnswer":{"@type":"Answer","text":"Section 54 exempts LTCG on residential house property if the proceeds are reinvested in purchasing/constructing another residential house in India within the prescribed time — purchase within 1 year before or 2 years after sale; construction within 3 years. Maximum exemption capped at ₹10 crore (w.e.f. AY 2024-25)."}
+    },
+    {
+      "@type":"Question",
+      "name":"What is Section 54EC exemption?",
+      "acceptedAnswer":{"@type":"Answer","text":"Section 54EC exempts LTCG on immovable property (land/building) if the gain is invested in specified bonds — NHAI or REC bonds — within 6 months of sale. Maximum investment and exemption is capped at ₹50 lakhs. Lock-in period is 5 years."}
+    }
+  ]
+}
+</script>
+
+<style>
+.tool-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px}
+.tool-tab{padding:10px 22px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:transparent;color:#7b84a3;font-size:.85rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
+.tool-tab.active{background:rgba(79,124,255,.12);border-color:#4f7cff;color:#aabeff}
+
+.panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:26px 24px}
+.panel h3{font-size:.78rem;font-weight:600;color:#9aa3be;margin:0 0 18px;letter-spacing:.04em;text-transform:uppercase}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.two-col{grid-template-columns:1fr}}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:.75rem;font-weight:500;color:#9aa3be;letter-spacing:.03em}
+.field input,.field select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;color:#e0e4f4;font-size:.95rem;font-family:inherit;width:100%;box-sizing:border-box;transition:border-color .2s}
+.field input:focus,.field select:focus{outline:none;border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.12)}
+.field select option{background:#0e1021;color:#e0e4f4}
+
+.res-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+.big-num{font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums}
+.lbl-sm{font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#7b84a3;margin-bottom:4px}
+
+.res-table{width:100%;border-collapse:collapse;margin-top:12px}
+.res-table th{font-size:.71rem;font-weight:600;color:#7b84a3;text-align:left;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.04em}
+.res-table td{padding:9px 10px;font-size:.87rem;border-bottom:1px solid rgba(255,255,255,.04);color:#c7cde0}
+.res-table tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+
+.tag-ltcg{color:#34d399}
+.tag-stcg{color:#f4b740}
+.tag-tax{color:#f87171}
+
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:600}
+.pill-ltcg{background:rgba(52,211,153,.12);color:#34d399}
+.pill-stcg{background:rgba(244,183,64,.12);color:#f4b740}
+.pill-tax{background:rgba(248,113,113,.12);color:#f87171}
+.pill-exempt{background:rgba(52,211,153,.1);color:#34d399}
+
+.section-ref{display:flex;align-items:flex-start;gap:10px;background:rgba(79,124,255,.06);border:1px solid rgba(79,124,255,.12);border-radius:10px;padding:12px 16px;margin-bottom:22px;font-size:.8rem;color:#9aa3be;line-height:1.6}
+.section-ref strong{color:#aabeff}
+
+.alert-box{border-radius:10px;padding:12px 16px;font-size:.8rem;line-height:1.65;margin-top:12px}
+.alert-info{background:rgba(79,124,255,.06);border:1px solid rgba(79,124,255,.15);color:#9ab5ff}
+.alert-warn{background:rgba(244,183,64,.06);border:1px solid rgba(244,183,64,.15);color:#c7a63a}
+.alert-green{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);color:#34d399}
+
+.btn-outline{padding:9px 18px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:transparent;color:#9aa3be;font-size:.83rem;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-outline:hover{border-color:rgba(255,255,255,.25);color:#e0e4f4}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+.cii-select{margin-top:4px}
+</style>
+</head>
+<body>
+<div class="bg-canvas"><div class="orb b1"></div><div class="orb b2"></div><div class="orb b3"></div></div>
+<div class="grid-overlay"></div>
+
+<!-- NAVBAR -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo"><span class="mark">◈</span><span>NumberIQ<small>Finance Intelligence</small></span></a>
+    <nav class="nav-links">
+      <a href="index.html#modules">Modules</a>
+      <a href="../tools.html">Tools</a>
+      <a href="../insights.html">Insights</a>
+      <a href="../glossary.html">Glossary</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="../tools.html" class="btn btn-primary">All Tools
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html">Home</a>
+  <a href="../tools.html">Tools</a>
+  <a href="../insights.html">Insights</a>
+  <a href="../glossary.html">Glossary</a>
+</div>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <span class="eyebrow"><span class="dot"></span>Income Tax · Sections 111A, 112, 112A</span>
+  <h1>Capital Gains Tax <span class="grad-text">Calculator</span></h1>
+  <p>Compute LTCG and STCG on property, equity shares and mutual funds for FY 2026-27 (AY 2027-28). Includes CII indexation, Section 112A threshold and Section 54/54EC exemption notes.</p>
+</section>
+
+<section class="wrap" style="padding-top:0">
+
+  <div class="section-ref">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b96ff" stroke-width="2" style="margin-top:1px;flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span>Sections <strong>111A, 112, 112A</strong> Income-tax Act · Rates updated per Finance (No. 2) Act, 2024 w.e.f. <strong>23 July 2024</strong> · CII notified by CBDT vide Notification No. <strong>44/2025</strong></span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tool-tabs">
+    <button class="tool-tab active" id="tabProp" onclick="switchTab('prop')">🏠 Property</button>
+    <button class="tool-tab" id="tabEq" onclick="switchTab('eq')">📈 Equity / Shares</button>
+    <button class="tool-tab" id="tabMF" onclick="switchTab('mf')">💼 Mutual Funds</button>
+  </div>
+
+  <!-- ====== PROPERTY TAB ====== -->
+  <div id="tabPropDiv">
+    <div class="two-col">
+      <!-- Inputs -->
+      <div class="panel">
+        <h3>Property Details</h3>
+
+        <div class="field">
+          <label>Sale Consideration (₹)</label>
+          <input type="number" id="pSale" placeholder="e.g. 5000000" min="0" oninput="calcProp()">
+        </div>
+        <div class="field">
+          <label>Cost of Acquisition (₹) — original purchase price</label>
+          <input type="number" id="pCost" placeholder="e.g. 2000000" min="0" oninput="calcProp()">
+        </div>
+        <div class="field">
+          <label>Cost of Improvement (₹) — if any</label>
+          <input type="number" id="pImprove" placeholder="0" min="0" oninput="calcProp()">
+        </div>
+        <div class="field">
+          <label>Transfer Expenses (brokerage, legal, etc.) (₹)</label>
+          <input type="number" id="pExpenses" placeholder="0" min="0" oninput="calcProp()">
+        </div>
+        <div class="field">
+          <label>Date of Purchase (year)</label>
+          <select id="pBuyYear" onchange="calcProp()" class="cii-select">
+            <option value="">— Select year —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Date of Sale (year)</label>
+          <select id="pSellYear" onchange="calcProp()" class="cii-select">
+            <option value="">— Select year —</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Holding period (months)</label>
+          <input type="number" id="pHold" placeholder="e.g. 36" min="0" oninput="calcProp()">
+        </div>
+        <div class="field">
+          <label>Stamp Duty Value (Section 50C) — if different from sale consideration (₹)</label>
+          <input type="number" id="pSDV" placeholder="Leave blank if same" min="0" oninput="calcProp()">
+        </div>
+
+        <div class="btns">
+          <button class="btn-outline" onclick="loadPropExample()">📋 Example</button>
+          <button class="btn-outline" onclick="resetProp()">↺ Reset</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="propResult">
+        <div class="res-box" style="text-align:center;padding:40px 20px">
+          <p style="color:#5a6380;font-size:.88rem">Enter property details on the left to compute capital gains.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 50C note -->
+    <div class="alert-box alert-warn" style="margin-top:20px">
+      <strong>Section 50C — Stamp Duty Value (SDV) rule:</strong> If the sale consideration is lower than the SDV (circle rate / guidance value), the SDV is deemed to be the sale consideration for computing capital gains, unless the difference is ≤10% of the actual consideration. If the taxpayer disputes the SDV, a reference can be made to the Valuation Officer under Section 50C(2).
+    </div>
+    <div class="alert-box alert-info" style="margin-top:12px">
+      <strong>Finance (No. 2) Act, 2024 — option for pre-23 July 2024 property:</strong> For transfers on or after 23 July 2024 of property acquired before that date, taxpayers can compare (a) 12.5% without indexation vs (b) 20% with CII indexation, and choose whichever is lower. This calculator computes both and highlights the better option.
+    </div>
+  </div>
+
+  <!-- ====== EQUITY TAB ====== -->
+  <div id="tabEqDiv" style="display:none">
+    <div class="two-col">
+      <div class="panel">
+        <h3>Equity / Listed Share Details</h3>
+        <div class="field">
+          <label>Sale Price per share (₹)</label>
+          <input type="number" id="eSaleP" placeholder="e.g. 500" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>Number of Shares</label>
+          <input type="number" id="eQty" placeholder="e.g. 100" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>Purchase Price per share (₹)</label>
+          <input type="number" id="eBuyP" placeholder="e.g. 200" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>Brokerage / Transaction charges (₹)</label>
+          <input type="number" id="eBrok" placeholder="0" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>Holding period (months)</label>
+          <input type="number" id="eHold" placeholder="e.g. 15" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>STT paid on sale?</label>
+          <select id="eSTT" onchange="calcEq()">
+            <option value="yes">Yes — listed equity on exchange</option>
+            <option value="no">No — unlisted / off-market</option>
+          </select>
+        </div>
+        <div class="field" id="grandfatherDiv">
+          <label>FMV as on 31 Jan 2018 per share (₹) — for shares acquired before 31 Jan 2018</label>
+          <input type="number" id="eFMV" placeholder="Leave blank if acquired after 31 Jan 2018" min="0" oninput="calcEq()">
+        </div>
+        <div class="field">
+          <label>Other capital gains this year on equity/equity MF (for ₹1.25L threshold) (₹)</label>
+          <input type="number" id="eOther" placeholder="0" min="0" oninput="calcEq()">
+        </div>
+        <div class="btns">
+          <button class="btn-outline" onclick="loadEqExample()">📋 Example</button>
+          <button class="btn-outline" onclick="resetEq()">↺ Reset</button>
+        </div>
+      </div>
+      <div id="eqResult">
+        <div class="res-box" style="text-align:center;padding:40px 20px">
+          <p style="color:#5a6380;font-size:.88rem">Enter share details on the left to compute capital gains tax.</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert-box alert-info" style="margin-top:20px">
+      <strong>Grandfathering (Section 112A proviso):</strong> For listed equity shares/units acquired before 31 January 2018, the cost of acquisition is deemed to be the higher of: (a) actual cost, or (b) lower of FMV as on 31 Jan 2018 and actual sale consideration. Enter the FMV per share in the field above if applicable.
+    </div>
+  </div>
+
+  <!-- ====== MF TAB ====== -->
+  <div id="tabMFDiv" style="display:none">
+    <div class="two-col">
+      <div class="panel">
+        <h3>Mutual Fund Details</h3>
+        <div class="field">
+          <label>Fund Type</label>
+          <select id="mfType" onchange="calcMF()">
+            <option value="equity">Equity-oriented MF (equity exposure &gt; 65%)</option>
+            <option value="debt">Debt / Non-equity MF (equity ≤ 65%)</option>
+            <option value="hybrid">Hybrid — Specified Fund (equity 35–65%) — STCG rate</option>
+            <option value="gold">Gold ETF / Fund of Funds</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Sale Value (₹)</label>
+          <input type="number" id="mfSale" placeholder="e.g. 500000" min="0" oninput="calcMF()">
+        </div>
+        <div class="field">
+          <label>Cost of Acquisition / NAV at purchase (₹)</label>
+          <input type="number" id="mfCost" placeholder="e.g. 300000" min="0" oninput="calcMF()">
+        </div>
+        <div class="field">
+          <label>Holding period (months)</label>
+          <input type="number" id="mfHold" placeholder="e.g. 18" min="0" oninput="calcMF()">
+        </div>
+        <div class="field">
+          <label>Other equity/MF gains this year (for ₹1.25L threshold) (₹)</label>
+          <input type="number" id="mfOther" placeholder="0" min="0" oninput="calcMF()">
+        </div>
+        <div class="btns">
+          <button class="btn-outline" onclick="loadMFExample()">📋 Example</button>
+          <button class="btn-outline" onclick="resetMF()">↺ Reset</button>
+        </div>
+      </div>
+      <div id="mfResult">
+        <div class="res-box" style="text-align:center;padding:40px 20px">
+          <p style="color:#5a6380;font-size:.88rem">Enter MF details on the left to compute capital gains tax.</p>
+        </div>
+      </div>
+    </div>
+    <div class="alert-box alert-warn" style="margin-top:20px">
+      <strong>Debt MF — Finance Act 2023 amendment (w.e.f. 1 April 2023):</strong> Gains on debt MF units purchased on or after 1 April 2023 are taxable as short-term capital gains at slab rates, regardless of holding period. Indexation benefit is not available on such units. Units purchased before 1 April 2023 retain grandfathered LTCG treatment at 20% with indexation if held &gt;36 months.
+    </div>
+  </div>
+
+  <!-- QUICK RATES TABLE -->
+  <div class="panel" style="margin-top:28px">
+    <h3>Capital Gains Tax Rates — FY 2026-27 (AY 2027-28)</h3>
+    <div style="overflow-x:auto">
+    <table class="res-table">
+      <thead>
+        <tr>
+          <th>Asset Class</th>
+          <th>Holding for LTCG</th>
+          <th>STCG Rate</th>
+          <th>LTCG Rate</th>
+          <th>Section</th>
+          <th>Indexation?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Immovable Property (land/building)</td><td>&gt; 24 months</td><td>Slab rates</td><td>12.5% (or 20% w/ index if pre-23 Jul 24)</td><td>112</td><td>Option for pre-23 Jul 2024</td></tr>
+        <tr><td>Listed Equity Shares (STT paid)</td><td>&gt; 12 months</td><td>20% [Sec 111A]</td><td>12.5% above ₹1.25L [Sec 112A]</td><td>111A / 112A</td><td>No</td></tr>
+        <tr><td>Equity-Oriented MF (STT paid)</td><td>&gt; 12 months</td><td>20% [Sec 111A]</td><td>12.5% above ₹1.25L [Sec 112A]</td><td>111A / 112A</td><td>No</td></tr>
+        <tr><td>Unlisted Equity Shares</td><td>&gt; 24 months</td><td>Slab rates</td><td>12.5% [Sec 112]</td><td>112</td><td>No</td></tr>
+        <tr><td>Debt MF (units purchased ≥ 1 Apr 2023)</td><td>N/A</td><td>Slab rates</td><td>Slab rates</td><td>—</td><td>No</td></tr>
+        <tr><td>Debt MF (units purchased &lt; 1 Apr 2023, held &gt;36 months)</td><td>&gt; 36 months</td><td>Slab rates</td><td>20% [Sec 112]</td><td>112</td><td>Yes (grandfathered)</td></tr>
+        <tr><td>Gold ETF / Sovereign Gold Bond (SGB)</td><td>&gt; 12 months (SGB: 8 yrs exempt)</td><td>Slab rates</td><td>12.5%</td><td>112</td><td>No</td></tr>
+        <tr><td>Bonds / Debentures (listed)</td><td>&gt; 12 months</td><td>Slab rates</td><td>12.5%</td><td>112</td><td>No</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="font-size:.75rem;color:#5a6380;margin-top:10px">Rates as per Finance (No. 2) Act, 2024. Surcharge and cess (4% Health & Education Cess) apply on top of base rate. Surcharge capped at 15% on LTCG under Sec 112A/111A.</div>
+  </div>
+
+  <!-- EXEMPTION QUICK GUIDE -->
+  <div class="panel" style="margin-top:22px">
+    <h3>Exemption Sections — Quick Reference</h3>
+    <table class="res-table">
+      <thead><tr><th>Section</th><th>Asset</th><th>Reinvestment Required</th><th>Cap</th><th>Time Limit</th></tr></thead>
+      <tbody>
+        <tr><td><strong>54</strong></td><td>Residential house property → residential house</td><td>Purchase new house (1 before / 2 years after) or construct within 3 years</td><td>₹10 crore (w.e.f. AY 2024-25)</td><td>6 months before return due date for CGAS deposit</td></tr>
+        <tr><td><strong>54EC</strong></td><td>Any immovable property → NHAI / REC bonds</td><td>Specified bonds (5-yr lock-in)</td><td>₹50 lakh</td><td>Within 6 months of transfer</td></tr>
+        <tr><td><strong>54F</strong></td><td>Any asset (other than house) → residential house</td><td>Net consideration reinvested in residential house</td><td>₹10 crore (w.e.f. AY 2024-25)</td><td>1 yr before / 2 yrs after (purchase); 3 yrs (construction)</td></tr>
+        <tr><td><strong>54B</strong></td><td>Agricultural land → agricultural land</td><td>New agricultural land within 2 years</td><td>Full gain</td><td>2 years from transfer</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="margin-top:60px">
+  <div class="wrap" style="text-align:center;padding:6px 0 4px;font-size:.82rem"><span style="color:var(--ink-dim,#8a93a6)"><a href="../about.html">About</a> &middot; <a href="../contact.html">Contact</a> &middot; <a href="../disclaimer.html">Disclaimer</a> &middot; <a href="../privacy-policy.html">Privacy</a> &middot; <a href="../index.html">Home</a></span></div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 NumberIQ · Capital gains calculator is for guidance only. Consult your CA for actual tax liability. FY 2026-27 rates. Reviewed June 2026.</span>
+    <span><a href="../tools.html">← All Tools</a></span>
+  </div>
+</footer>
+
+<script>
+/* ===========================================================
+   Capital Gains Tax Calculator — FY 2026-27 (AY 2027-28)
+   Sections 111A, 112, 112A Income-tax Act 1961
+   Finance (No. 2) Act 2024 rates w.e.f. 23 Jul 2024
+   CII per CBDT Notification No. 44/2025
+   =========================================================== */
+
+/* CII table — FY 2001-02 base = 100 */
+const CII = {
+  '2001-02':100,'2002-03':105,'2003-04':109,'2004-05':113,'2005-06':117,'2006-07':122,
+  '2007-08':129,'2008-09':137,'2009-10':148,'2010-11':167,'2011-12':184,'2012-13':200,
+  '2013-14':220,'2014-15':240,'2015-16':254,'2016-17':264,'2017-18':272,'2018-19':280,
+  '2019-20':289,'2020-21':301,'2021-22':317,'2022-23':331,'2023-24':348,'2024-25':363,
+  '2025-26':380,'2026-27':396
+};
+
+function fmt(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+function fmtR(n){ return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+/* Build CII year dropdowns */
+function buildCIIDropdowns(){
+  const years=Object.keys(CII).reverse();
+  ['pBuyYear','pSellYear'].forEach(id=>{
+    const sel=document.getElementById(id);
+    sel.innerHTML='<option value="">— Select year —</option>'+
+      years.map(y=>`<option value="${y}">${y}</option>`).join('');
+  });
+}
+buildCIIDropdowns();
+
+/* ---- NAV tabs ---- */
+function switchTab(t){
+  ['Prop','Eq','MF'].forEach(n=>{
+    document.getElementById('tab'+n+'Div').style.display=t===n.toLowerCase()?'block':'none';
+    document.getElementById('tab'+n).classList.toggle('active',t===n.toLowerCase());
+  });
+}
+// Map tab ids for switchTab
+document.getElementById('tabProp').id='tabprop';
+document.getElementById('tabEq').id='tabeq';
+document.getElementById('tabMF').id='tabmf';
+function switchTab(t){
+  document.getElementById('tabPropDiv').style.display=t==='prop'?'block':'none';
+  document.getElementById('tabEqDiv').style.display=t==='eq'?'block':'none';
+  document.getElementById('tabMFDiv').style.display=t==='mf'?'block':'none';
+  document.getElementById('tabprop').classList.toggle('active',t==='prop');
+  document.getElementById('tabeq').classList.toggle('active',t==='eq');
+  document.getElementById('tabmf').classList.toggle('active',t==='mf');
+}
+
+function v(id){ return parseFloat(document.getElementById(id)?.value)||0; }
+function sv(id){ return document.getElementById(id)?.value||''; }
+
+/* ===================== PROPERTY ===================== */
+function calcProp(){
+  const sale=v('pSale'), cost=v('pCost'), imp=v('pImprove'), exp=v('pExpenses');
+  const holdMonths=v('pHold'), sdv=v('pSDV');
+  const buyFY=sv('pBuyYear'), sellFY=sv('pSellYear');
+
+  if(sale===0&&cost===0){ document.getElementById('propResult').innerHTML=blankResult(); return; }
+
+  const effSale = sdv>0 && sdv>(sale*1.1) ? sdv : sale; // Sec 50C: use SDV if > 110% of consideration
+  const isLT = holdMonths>24;
+  const gain_NoIdx = effSale - cost - imp - exp;
+
+  /* With indexation */
+  let ciiB = buyFY&&CII[buyFY] ? CII[buyFY] : null;
+  let ciiS = sellFY&&CII[sellFY] ? CII[sellFY] : null;
+  let indexedCost=null, gain_Idx=null;
+  if(isLT && ciiB && ciiS){
+    indexedCost = cost * (ciiS/ciiB);
+    const indexedImp = imp>0 ? (imp * (ciiS/ciiB)) : 0;
+    gain_Idx = effSale - indexedCost - indexedImp - exp;
+  }
+
+  /* Tax computations */
+  const tax_noIdx = isLT ? Math.max(0,gain_NoIdx)*0.125 : Math.max(0,gain_NoIdx); // STCG at slab
+  const tax_idx   = (isLT&&gain_Idx!==null) ? Math.max(0,gain_Idx)*0.20 : null;
+  const cess = 0.04;
+
+  const taxNoIdxFinal = tax_noIdx>0 ? tax_noIdx*(1+cess) : 0;
+  const taxIdxFinal   = (tax_idx!==null&&tax_idx>0) ? tax_idx*(1+cess) : null;
+
+  /* Better option */
+  let betterOption = 'no-index';
+  if(taxIdxFinal!==null && taxIdxFinal<taxNoIdxFinal) betterOption='index';
+
+  let html='';
+
+  if(!isLT){
+    html+=`<div class="res-box">
+      <div class="lbl-sm">Capital Gains Type</div>
+      <div style="margin-bottom:8px"><span class="pill pill-stcg">Short-Term</span> (held ${holdMonths} months — LTCG threshold: &gt;24 months)</div>
+      <div class="lbl-sm" style="margin-top:16px">Short-Term Capital Gain</div>
+      <div class="big-num tag-stcg">${fmt(Math.max(0,gain_NoIdx))}</div>
+      ${gain_NoIdx<0?`<div class="pill" style="margin-top:6px;background:rgba(52,211,153,.1);color:#34d399">Short-Term Capital Loss: ${fmt(Math.abs(gain_NoIdx))}</div>`:''}
+      <div class="alert-box alert-warn" style="margin-top:16px">
+        STCG on property is taxable at your <strong>applicable income-tax slab rate</strong> (not a flat rate). Add this to your other income for total tax computation.
+      </div>
+      <table class="res-table" style="margin-top:14px">
+        <tbody>
+          <tr><td>Sale Consideration${sdv>effSale?` (Sec 50C: SDV used)`:''}</td><td class="num">${fmt(effSale)}</td></tr>
+          <tr><td>Less: Cost of Acquisition</td><td class="num">(${fmt(cost)})</td></tr>
+          <tr><td>Less: Cost of Improvement</td><td class="num">(${fmt(imp)})</td></tr>
+          <tr><td>Less: Transfer Expenses</td><td class="num">(${fmt(exp)})</td></tr>
+          <tr style="font-weight:600;border-top:1px solid rgba(255,255,255,.1)"><td>Short-Term Capital Gain/(Loss)</td><td class="num">${fmt(gain_NoIdx)}</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+  } else {
+    html+=`<div class="res-box">
+      <div class="lbl-sm">Capital Gains Type</div>
+      <div style="margin-bottom:12px"><span class="pill pill-ltcg">Long-Term</span> (held ${holdMonths} months)</div>`;
+
+    /* No-index option */
+    html+=`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;margin-bottom:10px">
+      <div style="font-size:.75rem;font-weight:600;color:#9aa3be;margin-bottom:8px">OPTION A — 12.5% without indexation</div>
+      <table class="res-table">
+        <tbody>
+          <tr><td>Sale Consideration${sdv>effSale?` (Sec 50C)`:''}</td><td class="num">${fmt(effSale)}</td></tr>
+          <tr><td>Less: Cost + Improvement + Expenses</td><td class="num">(${fmt(cost+imp+exp)})</td></tr>
+          <tr><td>LTCG</td><td class="num tag-ltcg">${fmt(Math.max(0,gain_NoIdx))}</td></tr>
+          <tr><td>Tax @ 12.5%</td><td class="num">${fmt(Math.max(0,gain_NoIdx)*0.125)}</td></tr>
+          <tr><td>Add: 4% Health & Education Cess</td><td class="num">${fmt(Math.max(0,gain_NoIdx)*0.125*0.04)}</td></tr>
+          <tr style="font-weight:600"><td>Total Tax (Option A)</td><td class="num tag-tax">${fmt(taxNoIdxFinal)}</td></tr>
+        </tbody>
+      </table>
+      ${betterOption==='no-index'?`<div class="alert-box alert-green" style="margin-top:10px">✓ This option results in lower tax</div>`:''}
+    </div>`;
+
+    /* Index option */
+    if(gain_Idx!==null){
+      html+=`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="font-size:.75rem;font-weight:600;color:#9aa3be;margin-bottom:8px">OPTION B — 20% with CII indexation (only if property acquired before 23 Jul 2024)</div>
+        <table class="res-table">
+          <tbody>
+            <tr><td>Sale Consideration</td><td class="num">${fmt(effSale)}</td></tr>
+            <tr><td>CII (buy FY ${buyFY})</td><td class="num">${ciiB}</td></tr>
+            <tr><td>CII (sale FY ${sellFY})</td><td class="num">${ciiS}</td></tr>
+            <tr><td>Indexed Cost</td><td class="num">${fmt(indexedCost)}</td></tr>
+            <tr><td>Less: Indexed Cost + Expenses</td><td class="num">(${fmt(indexedCost+(imp>0?imp*(ciiS/ciiB):0)+exp)})</td></tr>
+            <tr><td>LTCG (after indexation)</td><td class="num tag-ltcg">${fmt(Math.max(0,gain_Idx))}</td></tr>
+            <tr><td>Tax @ 20%</td><td class="num">${fmt(Math.max(0,gain_Idx)*0.20)}</td></tr>
+            <tr><td>Add: 4% H&E Cess</td><td class="num">${fmt(Math.max(0,gain_Idx)*0.20*0.04)}</td></tr>
+            <tr style="font-weight:600"><td>Total Tax (Option B)</td><td class="num tag-tax">${fmt(taxIdxFinal)}</td></tr>
+          </tbody>
+        </table>
+        ${betterOption==='index'?`<div class="alert-box alert-green" style="margin-top:10px">✓ This option results in lower tax</div>`:''}
+      </div>`;
+    } else {
+      html+=`<div class="alert-box alert-info">Select both purchase and sale FY years above to see Option B (20% with indexation).</div>`;
+    }
+
+    html+=`</div>`;
+
+    /* Exemption notes */
+    html+=`<div class="alert-box alert-info" style="margin-top:14px">
+      <strong>Possible exemptions to explore:</strong>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.8">
+        <li><strong>Section 54</strong> — if property is a residential house, reinvest gain in new residential property (cap ₹10 cr)</li>
+        <li><strong>Section 54EC</strong> — invest gain in NHAI/REC bonds within 6 months (cap ₹50L)</li>
+        <li><strong>Section 54F</strong> — if property is not a house, invest <em>net consideration</em> in new residential house</li>
+      </ul>
+      Get your CA to confirm eligibility based on full facts.
+    </div>`;
+  }
+
+  document.getElementById('propResult').innerHTML=html;
+}
+
+function blankResult(){ return `<div class="res-box" style="text-align:center;padding:40px 20px"><p style="color:#5a6380;font-size:.88rem">Enter property details to compute capital gains.</p></div>`; }
+
+function loadPropExample(){
+  document.getElementById('pSale').value=8500000;
+  document.getElementById('pCost').value=2500000;
+  document.getElementById('pImprove').value=300000;
+  document.getElementById('pExpenses').value=170000;
+  document.getElementById('pHold').value=36;
+  document.getElementById('pBuyYear').value='2021-22';
+  document.getElementById('pSellYear').value='2025-26';
+  calcProp();
+}
+function resetProp(){
+  ['pSale','pCost','pImprove','pExpenses','pHold','pSDV'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('pBuyYear').value='';
+  document.getElementById('pSellYear').value='';
+  document.getElementById('propResult').innerHTML=blankResult();
+}
+
+/* ===================== EQUITY ===================== */
+function calcEq(){
+  const saleP=v('eSaleP'), qty=v('eQty'), buyP=v('eBuyP'), brok=v('eBrok');
+  const holdM=v('eHold'), fmv31=v('eFMV'), stt=sv('eSTT'), other=v('eOther');
+  if(saleP===0&&qty===0&&buyP===0){ document.getElementById('eqResult').innerHTML=blankResult(); return; }
+
+  const totalSale=saleP*qty-brok;
+  const rawCost=buyP*qty;
+
+  /* Grandfathering */
+  let effectiveCost=rawCost;
+  if(fmv31>0 && stt==='yes'){
+    const fmvTotal=fmv31*qty;
+    effectiveCost=Math.max(rawCost, Math.min(fmvTotal, totalSale));
+  }
+
+  const gain=totalSale-effectiveCost;
+  const isLT=holdM>12 && stt==='yes';
+  const isSTT=stt==='yes';
+
+  let taxRate, tag, label;
+  if(!isSTT){
+    // Unlisted: STCG at slab, LTCG at 12.5% (>24 months for unlisted)
+    const isLTUnlisted=holdM>24;
+    if(isLTUnlisted){ taxRate=0.125; tag='pill-ltcg'; label='Long-Term (Unlisted) — Sec 112'; }
+    else { taxRate=null; tag='pill-stcg'; label='Short-Term (Unlisted) — Slab rates'; }
+  } else {
+    if(isLT){ taxRate=0.125; tag='pill-ltcg'; label='Long-Term — Sec 112A'; }
+    else { taxRate=0.20; tag='pill-stcg'; label='Short-Term — Sec 111A'; }
+  }
+
+  // Section 112A threshold: ₹1,25,000
+  let taxableGain=Math.max(0,gain), taxBase=taxableGain;
+  let thresholdNote='';
+  if(isLT && isSTT && gain>0){
+    const totalEquityGain=gain+other;
+    if(totalEquityGain<=125000){
+      taxBase=0;
+      thresholdNote=`<div class="alert-box alert-green" style="margin-top:10px">✓ Total LTCG (this + other: ${fmt(totalEquityGain)}) is within the ₹1,25,000 exemption threshold. No tax under Sec 112A.</div>`;
+    } else {
+      taxBase=Math.max(0,gain+other-125000)-other;
+      if(taxBase<0) taxBase=0;
+      thresholdNote=`<div class="alert-box alert-info" style="margin-top:10px">Section 112A: ₹1,25,000 exemption applied. Taxable gain computed net of threshold.</div>`;
+    }
+  }
+
+  const baseTax=taxRate!==null ? taxBase*taxRate : null;
+  const cess=baseTax!==null ? baseTax*0.04 : null;
+  const totalTax=baseTax!==null ? baseTax+cess : null;
+
+  let html=`<div class="res-box">
+    <div class="lbl-sm">Type</div>
+    <div style="margin-bottom:12px"><span class="pill ${tag}">${label}</span></div>
+    <table class="res-table">
+      <tbody>
+        <tr><td>Total Sale Value (net of brokerage)</td><td class="num">${fmt(totalSale)}</td></tr>
+        <tr><td>Effective Cost${fmv31>0?' (grandfathered)':''}</td><td class="num">(${fmt(effectiveCost)})</td></tr>
+        <tr style="font-weight:600"><td>Capital Gain/(Loss)</td><td class="num ${gain>=0?'tag-ltcg':'tag-tax'}">${fmt(gain)}</td></tr>
+        ${taxBase!==null&&taxBase!==taxableGain?`<tr><td>Taxable Gain (after ₹1.25L threshold)</td><td class="num">${fmt(taxBase)}</td></tr>`:''}
+        ${baseTax!==null?`<tr><td>Tax @ ${(taxRate*100).toFixed(1)}%</td><td class="num">${fmt(baseTax)}</td></tr>`:''}
+        ${cess!==null?`<tr><td>Add: 4% H&E Cess</td><td class="num">${fmt(cess)}</td></tr>`:''}
+        ${totalTax!==null?`<tr style="font-weight:600"><td>Total Tax</td><td class="num tag-tax">${fmt(totalTax)}</td></tr>`:''}
+      </tbody>
+    </table>
+    ${thresholdNote}
+    ${taxRate===null?`<div class="alert-box alert-warn" style="margin-top:10px">STCG on unlisted/non-STT shares is taxable at your income-tax slab rate.</div>`:''}
+  </div>`;
+
+  document.getElementById('eqResult').innerHTML=html;
+}
+
+function loadEqExample(){
+  ['eSaleP','eQty','eBuyP','eBrok','eHold','eFMV','eOther'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('eSaleP').value=750;document.getElementById('eQty').value=500;
+  document.getElementById('eBuyP').value=300;document.getElementById('eBrok').value=1000;
+  document.getElementById('eHold').value=18;document.getElementById('eSTT').value='yes';
+  calcEq();
+}
+function resetEq(){
+  ['eSaleP','eQty','eBuyP','eBrok','eHold','eFMV','eOther'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('eqResult').innerHTML=blankResult();
+}
+
+/* ===================== MUTUAL FUNDS ===================== */
+function calcMF(){
+  const type=sv('mfType'), sale=v('mfSale'), cost=v('mfCost'), hold=v('mfHold'), other=v('mfOther');
+  if(sale===0&&cost===0){ document.getElementById('mfResult').innerHTML=blankResult(); return; }
+
+  const gain=sale-cost;
+  let taxRate, label, tag, note='';
+
+  if(type==='equity'){
+    const isLT=hold>12;
+    if(isLT){
+      taxRate=0.125; tag='pill-ltcg'; label='LTCG — Sec 112A';
+      // Threshold
+      const total=gain+other;
+      if(total<=125000) note=`<div class="alert-box alert-green" style="margin-top:10px">✓ Within ₹1,25,000 LTCG threshold. Nil tax u/s 112A.</div>`;
+    } else {
+      taxRate=0.20; tag='pill-stcg'; label='STCG — Sec 111A';
+    }
+  } else if(type==='debt'){
+    taxRate=null; tag='pill-stcg'; label='Slab Rate (Finance Act 2023)';
+    note=`<div class="alert-box alert-warn" style="margin-top:10px">Debt MF units purchased on or after 1 Apr 2023: gains taxable at slab rate regardless of holding period. No LTCG/indexation benefit.</div>`;
+  } else if(type==='hybrid'){
+    taxRate=null; tag='pill-stcg'; label='Slab Rate (equity 35–65%)';
+    note=`<div class="alert-box alert-info" style="margin-top:10px">Hybrid funds with equity exposure between 35–65% are classified as "specified funds" — gains taxed at slab rates from FY 2023-24.</div>`;
+  } else { // gold
+    const isLT=hold>12;
+    if(isLT){ taxRate=0.125; tag='pill-ltcg'; label='LTCG — 12.5%'; }
+    else { taxRate=null; tag='pill-stcg'; label='STCG — Slab Rate'; }
+  }
+
+  const baseTax=taxRate!==null ? Math.max(0,gain)*taxRate : null;
+  const totalTax=baseTax!==null ? baseTax*1.04 : null;
+
+  const html=`<div class="res-box">
+    <div class="lbl-sm">Type</div>
+    <div style="margin-bottom:12px"><span class="pill ${tag}">${label}</span></div>
+    <table class="res-table">
+      <tbody>
+        <tr><td>Sale Value</td><td class="num">${fmt(sale)}</td></tr>
+        <tr><td>Cost of Acquisition</td><td class="num">(${fmt(cost)})</td></tr>
+        <tr style="font-weight:600"><td>Capital Gain/(Loss)</td><td class="num ${gain>=0?'tag-ltcg':'tag-tax'}">${fmt(gain)}</td></tr>
+        ${baseTax!==null?`<tr><td>Tax @ ${(taxRate*100).toFixed(1)}%</td><td class="num">${fmt(baseTax)}</td></tr>`:''}
+        ${totalTax!==null?`<tr><td>Add: 4% H&E Cess</td><td class="num">${fmt(baseTax*0.04)}</td></tr>`:''}
+        ${totalTax!==null?`<tr style="font-weight:600"><td>Total Tax</td><td class="num tag-tax">${fmt(totalTax)}</td></tr>`:''}
+      </tbody>
+    </table>
+    ${taxRate===null&&!note?`<div class="alert-box alert-warn" style="margin-top:10px">Tax at slab rates — add this gain to your total income and compute at your slab rate.</div>`:''}
+    ${note}
+  </div>`;
+
+  document.getElementById('mfResult').innerHTML=html;
+}
+function loadMFExample(){
+  document.getElementById('mfType').value='equity';
+  document.getElementById('mfSale').value=500000;document.getElementById('mfCost').value=300000;
+  document.getElementById('mfHold').value=18;document.getElementById('mfOther').value=0;
+  calcMF();
+}
+function resetMF(){
+  ['mfSale','mfCost','mfHold','mfOther'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mfResult').innerHTML=blankResult();
+}
+
+/* ---- Nav ---- */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30),{passive:true});
+const ham=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('show'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('show')));
+</script>
+</body>
+</html>
