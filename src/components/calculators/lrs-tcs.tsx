@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Info, Calculator, FileDown, RefreshCw } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Info, RefreshCw } from "lucide-react";
 
 export function LrsTcsCalculator() {
   const [remittanceType, setRemittanceType] = useState("others"); // education-loan, education-own, medical, others
@@ -17,28 +17,30 @@ export function LrsTcsCalculator() {
     let tcs = 0;
     let note = "";
 
+    const cleanAmount = Number(amount) || 0;
+
     if (isTourPackage) {
       // Overseas tour packages: 5% up to 7L, 20% above 7L (no exemption threshold)
-      if (amount <= threshold) {
+      if (cleanAmount <= threshold) {
         tcsRate = 5;
-        tcs = amount * 0.05;
-        note = "TCS rate of 5% applies on overseas tour packages up to ₹7,000,000.";
+        tcs = cleanAmount * 0.05;
+        note = "TCS rate of 5% applies on overseas tour packages up to ₹7,00,000.";
       } else {
         const baseTcs = threshold * 0.05;
-        const excessTcs = (amount - threshold) * 0.20;
+        const excessTcs = (cleanAmount - threshold) * 0.20;
         tcs = baseTcs + excessTcs;
-        tcsRate = (tcs / amount) * 100;
+        tcsRate = cleanAmount > 0 ? (tcs / cleanAmount) * 100 : 0;
         note = "TCS u/s 206C(1G) applies: 5% on the first ₹7 Lakhs, and 20% on the remaining amount.";
       }
-      applicableAmount = amount;
+      applicableAmount = cleanAmount;
     } else {
       // Other remittances (LRS)
-      if (amount <= threshold) {
+      if (cleanAmount <= threshold) {
         tcs = 0;
         tcsRate = 0;
         note = "Remittances under LRS up to ₹7 Lakhs are exempt from TCS (except tour packages).";
       } else {
-        applicableAmount = amount - threshold;
+        applicableAmount = cleanAmount - threshold;
         if (remittanceType === "education-loan") {
           tcsRate = 0.5;
           tcs = applicableAmount * 0.005;
@@ -57,13 +59,18 @@ export function LrsTcsCalculator() {
 
     setTcsAmount(tcs);
     setBreakdown({
-      amount,
+      amount: cleanAmount,
       threshold: isTourPackage ? 0 : threshold,
       applicableAmount,
       rate: tcsRate.toFixed(2),
       note
     });
   };
+
+  // Run calculation dynamically whenever inputs change
+  useEffect(() => {
+    calculateTcs();
+  }, [amount, remittanceType, isTourPackage]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -121,11 +128,15 @@ export function LrsTcsCalculator() {
 
         {/* Actions */}
         <button
-          onClick={calculateTcs}
-          className="w-full py-2.5 rounded-xl bg-[#4f7cff] hover:bg-[#3d66dd] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-[0_0_15px_rgba(79,124,255,0.2)]"
+          onClick={() => {
+            setAmount(1000000);
+            setIsTourPackage(false);
+            setRemittanceType("others");
+          }}
+          className="w-full py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
         >
-          <Calculator size={14} />
-          Calculate TCS
+          <RefreshCw size={14} />
+          Reset Parameters
         </button>
       </div>
 
