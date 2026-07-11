@@ -67,13 +67,29 @@ export default async function InsightArticlePage({ params }: PageProps) {
 
   const categoryLabel = post.category.toUpperCase();
   const allPosts = await getPosts();
-  let relatedPosts = allPosts.filter((p: any) => p.category === post.category && p.slug !== post.slug);
-  if (relatedPosts.length < 3) {
-    const fallback = allPosts.filter((p: any) => p.slug !== post.slug && !relatedPosts.some((r: any) => r.slug === p.slug));
-    relatedPosts = [...relatedPosts, ...fallback].slice(0, 3);
-  } else {
-    relatedPosts = relatedPosts.slice(0, 3);
-  }
+  // Relevance-scored selection with a per-article deterministic tiebreak. Plain
+  // "first 3 in category" made every page link to the same newest posts, so a
+  // handful of articles collected all internal links while the rest got none —
+  // scoring by title-keyword overlap (category as a boost) and rotating ties by
+  // a slug hash spreads link equity across the whole catalog, and stays stable
+  // per page across builds.
+  const STOP = new Set(["the", "and", "for", "how", "what", "guide", "complete", "under", "with", "your", "india", "indian", "fy2026", "2026"]);
+  const tokens = (s: string) => new Set(
+    String(s || "").toLowerCase().replace(/[^a-z0-9\s-]/g, " ").split(/[\s-]+/).filter(w => w.length > 2 && !STOP.has(w))
+  );
+  const baseTokens = tokens(post.title + " " + post.slug);
+  const slugHash = [...post.slug].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 0);
+  const relatedPosts = allPosts
+    .filter((p: any) => p.slug !== post.slug)
+    .map((p: any, i: number) => {
+      let score = 0;
+      tokens(p.title + " " + p.slug).forEach(t => { if (baseTokens.has(t)) score += 2; });
+      if (p.category === post.category) score += 1;
+      return { p, score, tie: (i + slugHash) % (allPosts.length || 1) };
+    })
+    .sort((a: any, b: any) => b.score - a.score || a.tie - b.tie)
+    .slice(0, 3)
+    .map((x: any) => x.p);
 
   const schemaGraph: any[] = [
     {

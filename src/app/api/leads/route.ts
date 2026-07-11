@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { 
   createErrorResponse, 
   checkRateLimit, 
@@ -97,6 +99,18 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   const requestId = generateRequestId();
   try {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user || (session.user as any).role !== "ADMIN") {
+      console.warn(`[API: leads] [Request ID: ${requestId}] Unauthorized leads retrieval attempt`);
+      return createErrorResponse(
+        "UNAUTHORIZED",
+        "Unauthorized access. Admin privileges required.",
+        401,
+        undefined,
+        requestId
+      );
+    }
+
     ensureLeadsFile();
     const data = fs.readFileSync(leadsFilePath, "utf8");
     const leads = JSON.parse(data);
