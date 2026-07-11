@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { getPostBySlug } from "@/lib/content";
+import { getPostBySlug, getPosts } from "@/lib/content";
 import Link from "next/link";
 import { ChevronRight, Calendar, User, Clock, Share2 } from "lucide-react";
 import { PrintButton } from "@/components/print-button";
@@ -66,6 +66,14 @@ export default async function InsightArticlePage({ params }: PageProps) {
   }
 
   const categoryLabel = post.category.toUpperCase();
+  const allPosts = await getPosts();
+  let relatedPosts = allPosts.filter((p: any) => p.category === post.category && p.slug !== post.slug);
+  if (relatedPosts.length < 3) {
+    const fallback = allPosts.filter((p: any) => p.slug !== post.slug && !relatedPosts.some((r: any) => r.slug === p.slug));
+    relatedPosts = [...relatedPosts, ...fallback].slice(0, 3);
+  } else {
+    relatedPosts = relatedPosts.slice(0, 3);
+  }
 
   const schemaGraph: any[] = [
     {
@@ -213,6 +221,32 @@ export default async function InsightArticlePage({ params }: PageProps) {
                   <h4 className="text-xs font-bold text-white mb-2">{item.name}</h4>
                   <p className="text-xs text-[#737c92] leading-relaxed">{item.acceptedAnswer?.text}</p>
                 </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Related Topics Section */}
+        {relatedPosts.length > 0 && (
+          <section className="mt-12 border-t border-white/5 pt-12">
+            <h2 className="font-display text-lg font-bold text-white mb-6">Related Topics</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {relatedPosts.map((related: any) => (
+                <Link
+                  key={related.slug}
+                  href={`/insights/${related.slug}`}
+                  className="group flex flex-col p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
+                >
+                  <span className="text-[9px] font-bold text-[#4f7cff] uppercase tracking-wider mb-2">
+                    {related.category}
+                  </span>
+                  <h3 className="text-xs font-bold text-white group-hover:text-[#4f7cff] transition-colors line-clamp-2 leading-snug">
+                    {related.title}
+                  </h3>
+                  <p className="text-[10px] text-[#737c92] line-clamp-2 mt-2 leading-relaxed">
+                    {related.excerpt}
+                  </p>
+                </Link>
               ))}
             </div>
           </section>

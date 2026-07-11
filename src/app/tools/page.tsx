@@ -61,21 +61,21 @@ const toolsList = [
     featured: false
   },
   {
-    slug: "GST_ReCO_Studio_IMS_FIXED",
+    slug: "gst-reco-studio-ims-fixed",
     name: "GST Input Reconciliation Studio",
     desc: "Match purchase registers with auto-drafted GSTR-2B statement to identify missing ITCs.",
     category: "gst",
     featured: true
   },
   {
-    slug: "Invoice-Compliance",
+    slug: "invoice-compliance",
     name: "GST Invoice Compliance Checker",
     desc: "Verify invoice data fields against standard CGST compliance parameters.",
     category: "gst",
     featured: false
   },
   {
-    slug: "HSN_SAC_Finder",
+    slug: "hsn-sac-finder",
     name: "HSN/SAC Finder & Rate Chart",
     desc: "Search standard HSN/SAC codes and corresponding tax rates for goods & services.",
     category: "gst",

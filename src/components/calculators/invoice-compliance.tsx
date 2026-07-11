@@ -188,6 +188,21 @@ export function InvoiceCompliance() {
     sourceBreakdown: {} as Record<string, number>
   });
   const [confidenceScores, setConfidenceScores] = useState<Record<string, number>>({});
+  const [processedFiles, setProcessedFiles] = useState<any[]>([]);
+
+  const exportOcrTelemetry = () => {
+    if (processedFiles.length === 0) return;
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+      metrics: ocrMetrics,
+      files: processedFiles
+    }, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `ocr_telemetry_${stamp()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+  };
 
   // Heuristics cache for lazy worker loading
   const [tessLoading, setTessLoading] = useState(false);
@@ -299,34 +314,44 @@ export function InvoiceCompliance() {
 
   // Track OCR Metrics
   const updateOcrMetrics = (fileName: string, source: string, confidence: number, isUae: boolean = false) => {
-    setConfidenceScores(prev => ({
-      ...prev,
-      [fileName]: confidence
-    }));
+    // Record file extraction detail
+    const fileEntry = { 
+      name: fileName, 
+      source, 
+      confidence, 
+      isUae, 
+      time: new Date().toLocaleTimeString() 
+    };
+    setProcessedFiles(prev => [fileEntry, ...prev]);
 
-    setOcrMetrics(prev => {
-      const updated = { ...prev };
-      updated.totalProcessed += 1;
-
-      if (source === "offline" || source === "offline-low") {
-        updated.offlineSuccess += 1;
-      } else if (source === "ocr" || source === "ocr-low") {
-        updated.ocrSuccess += 1;
-      } else if (source === "AI") {
-        updated.aiSuccess += 1;
-      } else {
-        updated.failedCount += 1;
-      }
-
-      updated.sourceBreakdown[source] = (updated.sourceBreakdown[source] || 0) + 1;
-
-      // Calculate average confidence
-      const allScores = Object.values(confidenceScores);
-      updated.avgConfidence = allScores.length > 0
+    setConfidenceScores(prev => {
+      const next = { ...prev, [fileName]: confidence };
+      const allScores = Object.values(next);
+      const avg = allScores.length > 0
         ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length)
         : 0;
 
-      return updated;
+      setOcrMetrics(prevMetrics => {
+        const updated = { ...prevMetrics };
+        updated.totalProcessed += 1;
+
+        if (source === "offline" || source === "offline-low") {
+          updated.offlineSuccess += 1;
+        } else if (source === "ocr" || source === "ocr-low") {
+          updated.ocrSuccess += 1;
+        } else if (source === "AI") {
+          updated.aiSuccess += 1;
+        } else {
+          updated.failedCount += 1;
+        }
+
+        updated.sourceBreakdown[source] = (updated.sourceBreakdown[source] || 0) + 1;
+        updated.avgConfidence = avg;
+
+        return updated;
+      });
+
+      return next;
     });
   };
 
@@ -2239,7 +2264,8 @@ export function InvoiceCompliance() {
           { id: "india-grn", label: "🇮🇳 India GRN Match" },
           { id: "uae-inv", label: "🇦🇪 UAE Invoices" },
           { id: "uae-grn", label: "🇦🇪 UAE GRN Match" },
-          { id: "pay-reco", label: "💰 Payment Reco" }
+          { id: "pay-reco", label: "💰 Payment Reco" },
+          { id: "ocr-telemetry", label: "📊 OCR & AI Metrics" }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -3271,6 +3297,163 @@ export function InvoiceCompliance() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* OCR & AI Telemetry View */}
+      {activeTab === "ocr-telemetry" && (
+        <div className="flex flex-col gap-6">
+          <div className="border border-white/5 bg-white/5 p-6 rounded-2xl flex flex-col gap-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-sm font-bold text-white mb-0.5">OCR & AI Extraction Telemetry</h2>
+                <p className="text-[10px] text-[#737c92]">Real-time confidence metrics, document classification, and pipeline extraction source breakdown.</p>
+              </div>
+              {processedFiles.length > 0 && (
+                <button
+                  onClick={exportOcrTelemetry}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#4f7cff]/10 border border-[#4f7cff]/20 hover:bg-[#4f7cff]/20 text-[#4f7cff] rounded-xl text-[10px] font-semibold cursor-pointer transition-colors"
+                >
+                  <Download size={12} /> Export Telemetry JSON
+                </button>
+              )}
+            </div>
+
+            {/* Metrics cards grid */}
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">Total Processed</span>
+                <span className="text-xl font-bold text-white font-mono">{ocrMetrics.totalProcessed}</span>
+              </div>
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">Offline Heuristics</span>
+                <span className="text-xl font-bold text-[#34d399] font-mono">
+                  {ocrMetrics.offlineSuccess} <span className="text-[10px] text-[#737c92] font-normal">({ocrMetrics.totalProcessed > 0 ? Math.round((ocrMetrics.offlineSuccess / ocrMetrics.totalProcessed) * 100) : 0}%)</span>
+                </span>
+              </div>
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">OCR Engine</span>
+                <span className="text-xl font-bold text-[#a78bfa] font-mono">
+                  {ocrMetrics.ocrSuccess} <span className="text-[10px] text-[#737c92] font-normal">({ocrMetrics.totalProcessed > 0 ? Math.round((ocrMetrics.ocrSuccess / ocrMetrics.totalProcessed) * 100) : 0}%)</span>
+                </span>
+              </div>
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">AI Claude</span>
+                <span className="text-xl font-bold text-[#f59e0b] font-mono">
+                  {ocrMetrics.aiSuccess} <span className="text-[10px] text-[#737c92] font-normal">({ocrMetrics.totalProcessed > 0 ? Math.round((ocrMetrics.aiSuccess / ocrMetrics.totalProcessed) * 100) : 0}%)</span>
+                </span>
+              </div>
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">Failed Extraction</span>
+                <span className="text-xl font-bold text-[#ef4444] font-mono">{ocrMetrics.failedCount}</span>
+              </div>
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <span className="text-[9px] text-[#737c92] uppercase font-bold tracking-wider">Avg Confidence</span>
+                <span className={`text-xl font-bold font-mono ${
+                  ocrMetrics.avgConfidence >= 80 ? "text-[#34d399]" :
+                  ocrMetrics.avgConfidence >= 60 ? "text-yellow-400" : "text-[#ef4444]"
+                }`}>{ocrMetrics.avgConfidence}%</span>
+              </div>
+            </div>
+
+            {/* Source breakdown visualizer */}
+            {ocrMetrics.totalProcessed > 0 && (
+              <div className="bg-[#0c1220] border border-white/5 rounded-xl p-6 flex flex-col gap-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider">Extraction Source Distribution</h3>
+                <div className="flex flex-col gap-3">
+                  <div>
+                    <div className="flex justify-between text-xs text-[#aab2c5] mb-1">
+                      <span>Offline (Structured PDFs via Heuristic Regex)</span>
+                      <span className="font-mono">{Math.round((ocrMetrics.offlineSuccess / ocrMetrics.totalProcessed) * 100)}%</span>
+                    </div>
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#34d399] transition-all" style={{ width: `${(ocrMetrics.offlineSuccess / ocrMetrics.totalProcessed) * 100}%` }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs text-[#aab2c5] mb-1">
+                      <span>OCR Engine (Scanned Files via Computer Vision)</span>
+                      <span className="font-mono">{Math.round((ocrMetrics.ocrSuccess / ocrMetrics.totalProcessed) * 100)}%</span>
+                    </div>
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#a78bfa] transition-all" style={{ width: `${(ocrMetrics.ocrSuccess / ocrMetrics.totalProcessed) * 100}%` }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs text-[#aab2c5] mb-1">
+                      <span>AI Engine (Advanced Extraction via Anthropic Claude)</span>
+                      <span className="font-mono">{Math.round((ocrMetrics.aiSuccess / ocrMetrics.totalProcessed) * 100)}%</span>
+                    </div>
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#f59e0b] transition-all" style={{ width: `${(ocrMetrics.aiSuccess / ocrMetrics.totalProcessed) * 100}%` }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Processed Files Table */}
+            <div className="flex flex-col gap-4">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Processed Files Extraction Logs</h3>
+              {processedFiles.length > 0 ? (
+                <div className="overflow-x-auto text-xs border border-white/5 rounded-xl bg-[#0c1220]/50">
+                  <table className="w-full border-collapse text-left">
+                    <thead>
+                      <tr className="border-b border-white/5 text-[#737c92] font-semibold bg-white/5">
+                        <th className="px-4 py-3">File Name</th>
+                        <th className="px-4 py-3">Time</th>
+                        <th className="px-4 py-3">Extraction Method</th>
+                        <th className="px-4 py-3">Region</th>
+                        <th className="px-4 py-3 text-right">Confidence Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {processedFiles.map((file, idx) => (
+                        <tr key={idx} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                          <td className="px-4 py-3 font-mono text-white max-w-md truncate" title={file.name}>{file.name}</td>
+                          <td className="px-4 py-3 text-[#737c92]">{file.time}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              file.source === "offline" || file.source === "offline-low" ? "bg-green-400/10 text-green-400" :
+                              file.source === "ocr" || file.source === "ocr-low" ? "bg-purple-400/10 text-purple-400" :
+                              file.source === "AI" ? "bg-yellow-400/10 text-yellow-400" : "bg-red-400/10 text-red-400"
+                            }`}>
+                              {file.source === "offline" || file.source === "offline-low" ? "Offline (Heuristics)" :
+                               file.source === "ocr" || file.source === "ocr-low" ? "OCR Engine" :
+                               file.source === "AI" ? "AI Engine (Claude)" : "Failed"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-[#aab2c5]">
+                              {file.isUae ? "🇦🇪 UAE" : "🇮🇳 India"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <div className="inline-flex items-center gap-2">
+                              <span className={`font-mono font-bold ${
+                                file.confidence >= 80 ? "text-[#34d399]" :
+                                file.confidence >= 60 ? "text-yellow-400" : "text-[#ef4444]"
+                              }`}>{file.confidence}%</span>
+                              <div className="w-16 h-1 bg-white/5 rounded-full overflow-hidden hidden sm:block">
+                                <div className={`h-full ${
+                                  file.confidence >= 80 ? "bg-[#34d399]" :
+                                  file.confidence >= 60 ? "bg-yellow-400" : "bg-[#ef4444]"
+                                }`} style={{ width: `${file.confidence}%` }} />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-16 border border-dashed border-white/10 rounded-xl text-xs text-[#737c92]">
+                  No files have been processed in this session. Go to the dashboard or upload tools to analyze invoices.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
