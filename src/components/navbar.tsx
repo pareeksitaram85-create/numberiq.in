@@ -20,7 +20,9 @@ export function Navbar() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    setMounted(true);
+    requestAnimationFrame(() => {
+      setMounted(true);
+    });
     
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -45,7 +47,9 @@ export function Navbar() {
   // Sync hash state and track scrolling for home/services highlighting
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setHash(window.location.hash);
+      requestAnimationFrame(() => {
+        setHash(window.location.hash);
+      });
       const handleHashChange = () => {
         setHash(window.location.hash);
       };
@@ -74,7 +78,9 @@ export function Navbar() {
 
         elements.forEach(el => observer?.observe(el));
       } else {
-        setHash("");
+        requestAnimationFrame(() => {
+          setHash("");
+        });
       }
 
       return () => {

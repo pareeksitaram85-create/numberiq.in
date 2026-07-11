@@ -1,76 +1,67 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Info, RefreshCw } from "lucide-react";
 
 export function LrsTcsCalculator() {
   const [remittanceType, setRemittanceType] = useState("others"); // education-loan, education-own, medical, others
   const [isTourPackage, setIsTourPackage] = useState(false);
   const [amount, setAmount] = useState<number>(1000000); // Default 10 Lakhs
-  const [tcsAmount, setTcsAmount] = useState<number | null>(null);
-  const [breakdown, setBreakdown] = useState<any>(null);
 
-  const calculateTcs = () => {
-    const threshold = 700000; // 7 Lakhs threshold
-    let tcsRate = 0;
-    let applicableAmount = 0;
-    let tcs = 0;
-    let note = "";
+  const threshold = 700000; // 7 Lakhs threshold
+  let tcsRate = 0;
+  let applicableAmount = 0;
+  let tcs = 0;
+  let note = "";
 
-    const cleanAmount = Number(amount) || 0;
+  const cleanAmount = Number(amount) || 0;
 
-    if (isTourPackage) {
-      // Overseas tour packages: 5% up to 7L, 20% above 7L (no exemption threshold)
-      if (cleanAmount <= threshold) {
-        tcsRate = 5;
-        tcs = cleanAmount * 0.05;
-        note = "TCS rate of 5% applies on overseas tour packages up to ₹7,00,000.";
-      } else {
-        const baseTcs = threshold * 0.05;
-        const excessTcs = (cleanAmount - threshold) * 0.20;
-        tcs = baseTcs + excessTcs;
-        tcsRate = cleanAmount > 0 ? (tcs / cleanAmount) * 100 : 0;
-        note = "TCS u/s 206C(1G) applies: 5% on the first ₹7 Lakhs, and 20% on the remaining amount.";
-      }
-      applicableAmount = cleanAmount;
+  if (isTourPackage) {
+    // Overseas tour packages: 5% up to 7L, 20% above 7L (no exemption threshold)
+    if (cleanAmount <= threshold) {
+      tcsRate = 5;
+      tcs = cleanAmount * 0.05;
+      note = "TCS rate of 5% applies on overseas tour packages up to ₹7,00,000.";
     } else {
-      // Other remittances (LRS)
-      if (cleanAmount <= threshold) {
-        tcs = 0;
-        tcsRate = 0;
-        note = "Remittances under LRS up to ₹7 Lakhs are exempt from TCS (except tour packages).";
+      const baseTcs = threshold * 0.05;
+      const excessTcs = (cleanAmount - threshold) * 0.20;
+      tcs = baseTcs + excessTcs;
+      tcsRate = cleanAmount > 0 ? (tcs / cleanAmount) * 100 : 0;
+      note = "TCS u/s 206C(1G) applies: 5% on the first ₹7 Lakhs, and 20% on the remaining amount.";
+    }
+    applicableAmount = cleanAmount;
+  } else {
+    // Other remittances (LRS)
+    if (cleanAmount <= threshold) {
+      tcs = 0;
+      tcsRate = 0;
+      note = "Remittances under LRS up to ₹7 Lakhs are exempt from TCS (except tour packages).";
+    } else {
+      applicableAmount = cleanAmount - threshold;
+      if (remittanceType === "education-loan") {
+        tcsRate = 0.5;
+        tcs = applicableAmount * 0.005;
+        note = "Concessional rate of 0.5% applies on education remittances funded by financial loans exceeding ₹7 Lakhs.";
+      } else if (remittanceType === "education-own" || remittanceType === "medical") {
+        tcsRate = 5;
+        tcs = applicableAmount * 0.05;
+        note = "TCS of 5% applies on education/medical remittances exceeding ₹7 Lakhs.";
       } else {
-        applicableAmount = cleanAmount - threshold;
-        if (remittanceType === "education-loan") {
-          tcsRate = 0.5;
-          tcs = applicableAmount * 0.005;
-          note = "Concessional rate of 0.5% applies on education remittances funded by financial loans exceeding ₹7 Lakhs.";
-        } else if (remittanceType === "education-own" || remittanceType === "medical") {
-          tcsRate = 5;
-          tcs = applicableAmount * 0.05;
-          note = "TCS of 5% applies on education/medical remittances exceeding ₹7 Lakhs.";
-        } else {
-          tcsRate = 20;
-          tcs = applicableAmount * 0.20;
-          note = "TCS of 20% applies on general LRS remittances (others) exceeding ₹7 Lakhs.";
-        }
+        tcsRate = 20;
+        tcs = applicableAmount * 0.20;
+        note = "TCS of 20% applies on general LRS remittances (others) exceeding ₹7 Lakhs.";
       }
     }
+  }
 
-    setTcsAmount(tcs);
-    setBreakdown({
-      amount: cleanAmount,
-      threshold: isTourPackage ? 0 : threshold,
-      applicableAmount,
-      rate: tcsRate.toFixed(2),
-      note
-    });
+  const tcsAmount = tcs;
+  const breakdown = {
+    amount: cleanAmount,
+    threshold: isTourPackage ? 0 : threshold,
+    applicableAmount,
+    rate: tcsRate.toFixed(2),
+    note
   };
-
-  // Run calculation dynamically whenever inputs change
-  useEffect(() => {
-    calculateTcs();
-  }, [amount, remittanceType, isTourPackage]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

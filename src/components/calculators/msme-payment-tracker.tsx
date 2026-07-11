@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calculator, Plus, Trash2, Shield, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+import { Plus, Trash2, Shield } from "lucide-react";
 
 interface Invoice {
   id: string;
@@ -69,7 +69,6 @@ export function MSMEPaymentTracker() {
       }
     } else {
       // If unpaid and past due, check if year-end has passed (March 31)
-      const currentYear = new Date().getFullYear();
       const yearEnd = new Date(invD.getFullYear() + (invD.getMonth() >= 3 ? 1 : 0), 2, 31); // March 31
       if (new Date() > yearEnd && dueD <= yearEnd) {
         status = "Disallowed";

@@ -555,7 +555,7 @@ export function SectionMapper() {
           })
         ) : (
           <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
-            <p className="text-sm text-[#737c92]">No section mappings found for "{search}".</p>
+            <p className="text-sm text-[#737c92]">No section mappings found for &ldquo;{search}&rdquo;.</p>
           </div>
         )}
       </div>

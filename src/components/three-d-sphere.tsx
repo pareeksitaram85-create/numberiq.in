@@ -295,7 +295,7 @@ export function ThreeDSphere() {
         }
 
         // 4D Morph interpolation
-        let base3D = {
+        const base3D = {
           x: x1 + (x2 - x1) * easeProgress,
           y: y1 + (y2 - y1) * easeProgress,
           z: z1 + (z2 - z1) * easeProgress,
