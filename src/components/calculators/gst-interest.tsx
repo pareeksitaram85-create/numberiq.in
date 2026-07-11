@@ -196,8 +196,9 @@ Calculated on: ${new Date().toLocaleDateString()}`;
 
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-[#aab2c5]">Net Tax Liability Paid in Cash (₹)</label>
+                <label htmlFor="taxAmount" className="text-xs font-semibold text-[#aab2c5]">Net Tax Liability Paid in Cash (₹)</label>
                 <input
+                  id="taxAmount"
                   type="number"
                   value={taxAmount}
                   onChange={(e) => setTaxAmount(e.target.value)}
@@ -207,8 +208,9 @@ Calculated on: ${new Date().toLocaleDateString()}`;
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-[#aab2c5]">Interest Rate (% p.a.)</label>
+                <label htmlFor="rate" className="text-xs font-semibold text-[#aab2c5]">Interest Rate (% p.a.)</label>
                 <select
+                  id="rate"
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
                   className="bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#4f7cff] focus:outline-none rounded-xl px-4 py-2.5 text-sm text-white cursor-pointer transition-colors"
@@ -220,8 +222,9 @@ Calculated on: ${new Date().toLocaleDateString()}`;
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#aab2c5]">Due Date</label>
+                  <label htmlFor="dueDate" className="text-xs font-semibold text-[#aab2c5]">Due Date</label>
                   <input
+                    id="dueDate"
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
@@ -229,8 +232,9 @@ Calculated on: ${new Date().toLocaleDateString()}`;
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#aab2c5]">Payment Date</label>
+                  <label htmlFor="paymentDate" className="text-xs font-semibold text-[#aab2c5]">Payment Date</label>
                   <input
+                    id="paymentDate"
                     type="date"
                     value={paymentDate}
                     onChange={(e) => setPaymentDate(e.target.value)}

@@ -37,10 +37,11 @@ export function HsnSacFinder() {
 
         {/* Input */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-semibold text-[#aab2c5]">Search Code or Description</label>
+          <label htmlFor="search-query" className="text-[10px] font-semibold text-[#aab2c5]">Search Code or Description</label>
           <div className="relative">
             <Search className="absolute left-3 top-3 text-[#737c92]" size={14} />
             <input
+              id="search-query"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}

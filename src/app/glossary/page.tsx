@@ -4,6 +4,34 @@ import { getTerms } from "@/lib/content";
 import Link from "next/link";
 import { ArrowRight, Search, BookOpen } from "lucide-react";
 
+export const metadata = {
+  title: "Tax & Finance Glossary | NumberIQ",
+  description: "Browse essential tax terminology, legal definitions, and explanations under GST rules and Indian Income Tax Acts.",
+  alternates: {
+    canonical: "https://numberiq.in/glossary",
+  },
+  openGraph: {
+    title: "Tax & Finance Glossary | NumberIQ",
+    description: "Browse essential tax terminology, legal definitions, and explanations under GST rules and Indian Income Tax Acts.",
+    type: "website",
+    url: "https://numberiq.in/glossary",
+    images: [
+      {
+        url: "/og-cover.png",
+        width: 1200,
+        height: 630,
+        alt: "NumberIQ Glossary",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tax & Finance Glossary | NumberIQ",
+    description: "Browse essential tax terminology, legal definitions, and explanations under GST rules and Indian Income Tax Acts.",
+    images: ["/og-cover.png"],
+  },
+};
+
 export default async function GlossaryIndex() {
   const terms = await getTerms();
 

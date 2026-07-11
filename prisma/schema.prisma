@@ -92,7 +92,7 @@ model Post {
   published   Boolean  @default(false)
   category    String // e.g., "gst", "tds"
   readingTime String
-  authorName  String   @default("NumberIQ Editorial")
+  authorName  String   @default("CA Sitaram Pareek")
   faq         Json? // Schema FAQ list
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

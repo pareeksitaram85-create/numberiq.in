@@ -3,6 +3,14 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
+export const metadata = {
+  title: "Disclaimer — NumberIQ | Financial Tool Policy & Terms",
+  description: "View the legal disclaimer and usage policy for NumberIQ calculators and tools. All calculations are for informational purposes only.",
+  alternates: {
+    canonical: "https://numberiq.in/disclaimer",
+  },
+};
+
 export default function DisclaimerPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">

@@ -3,6 +3,14 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
+export const metadata = {
+  title: "Privacy Policy — NumberIQ | Data Protection & Cookies",
+  description: "Read the Privacy Policy for NumberIQ. Learn how we collect, use, and protect your information when utilizing our financial calculators and compliance tools.",
+  alternates: {
+    canonical: "https://numberiq.in/privacy-policy",
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">

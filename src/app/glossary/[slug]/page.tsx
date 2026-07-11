@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -9,6 +10,48 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const term = await getTermBySlug(slug);
+
+  if (!term) {
+    return {
+      title: "Term Not Found | NumberIQ",
+    };
+  }
+
+  const cleanTitle = term.term.length > 30 ? `${term.term.slice(0, 30)}...` : term.term;
+  const description = term.definition.length > 155 
+    ? `${term.definition.slice(0, 152)}...` 
+    : term.definition;
+
+  return {
+    title: `${cleanTitle} — Meaning for CAs & Tax Practitioners | NumberIQ`,
+    description: description,
+    alternates: {
+      canonical: `https://numberiq.in/glossary/${slug}`,
+    },
+    openGraph: {
+      title: `${cleanTitle} — Meaning for CAs & Tax Practitioners | NumberIQ`,
+      description: description,
+      type: "website",
+      url: `https://numberiq.in/glossary/${slug}`,
+      images: [
+        {
+          url: "/og-cover.png",
+          alt: term.term,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${cleanTitle} — Meaning for CAs & Tax Practitioners | NumberIQ`,
+      description: description,
+      images: ["/og-cover.png"],
+    },
+  };
 }
 
 export default async function GlossaryTermPage({ params }: PageProps) {
@@ -23,6 +66,45 @@ export default async function GlossaryTermPage({ params }: PageProps) {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "DefinedTerm",
+                "@id": `https://numberiq.in/glossary/${slug}#term`,
+                "name": term.term,
+                "description": term.definition,
+                "inDefinedTermSet": {
+                  "@type": "DefinedTermSet",
+                  "name": "NumberIQ Tax & Accounting Glossary",
+                  "url": "https://numberiq.in/glossary"
+                }
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": `https://numberiq.in/glossary/${slug}#breadcrumb`,
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Glossary",
+                    "item": "https://numberiq.in/glossary"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": term.term,
+                    "item": `https://numberiq.in/glossary/${slug}`
+                  }
+                ]
+              }
+            ]
+          })
+        }}
+      />
       <div className="absolute top-0 left-0 w-[40%] h-[40%] rounded-full bg-[#4f7cff]/5 blur-[120px] pointer-events-none" />
 
       <Navbar />

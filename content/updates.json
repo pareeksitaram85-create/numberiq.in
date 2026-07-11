@@ -1,0 +1,35 @@
+[
+  {
+    "weekOf": "2026-06-27",
+    "items": [
+      {
+        "date": "2026-07-01",
+        "source": "RBI",
+        "title": "Filing of Annual Return on Foreign Liabilities and Assets (FLA) for FY 2025-26",
+        "summary": "The Reserve Bank of India has opened the portal for filing the annual return on Foreign Liabilities and Assets (FLA) for the financial year ended March 2026. All Indian entities that have received Foreign Direct Investment (FDI) or made Overseas Direct Investment (ODI) must file the return by July 15, 2026, using the FLAIR portal.",
+        "link": "https://www.rbi.org.in/Scripts/BS_ViewNotifications.aspx"
+      },
+      {
+        "date": "2026-06-29",
+        "source": "GSTN",
+        "title": "GSTAT Appeal Filing Deadline Extended to 31 July 2026",
+        "summary": "The GST Network has updated the portal and extended the due date for filing appeals against GST orders before the newly constituted GST Appellate Tribunal (GSTAT) to 31 July 2026, providing relief to taxpayers preparing appeal documentation.",
+        "link": "https://taxinformation.cbic.gov.in/"
+      },
+      {
+        "date": "2026-06-25",
+        "source": "CBDT",
+        "title": "Notification No. 71/2026: University of Hyderabad Approved for Scientific Research Deductions",
+        "summary": "CBDT has notified the approval of the University of Hyderabad under Section 45(4)(b) of the Income-tax Act, 2025 (corresponding to Section 35(1)(ii) of the 1961 Act) for scientific research deductions for the tax years 2026-27 through 2030-31. Contributions are subject to reporting on Form No. 15.",
+        "link": "https://www.incometaxindia.gov.in/"
+      },
+      {
+        "date": "2026-06-25",
+        "source": "CBIC",
+        "title": "Circular No. 255/01/2026-GST: Jurisdictional Competence on Taxpayer Jurisdiction Migration",
+        "summary": "CBIC has issued clarification regarding the jurisdictional competence of tax officers when a taxpayer migrates from one GST state/jurisdiction to another due to relocation of their Principal Place of Business, ensuring pending assessments and show-cause notices are transferred seamlessly.",
+        "link": "https://taxinformation.cbic.gov.in/"
+      }
+    ]
+  }
+]

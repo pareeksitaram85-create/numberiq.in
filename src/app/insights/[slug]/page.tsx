@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -5,11 +6,55 @@ import { getPostBySlug } from "@/lib/content";
 import Link from "next/link";
 import { ChevronRight, Calendar, User, Clock, Share2 } from "lucide-react";
 import { PrintButton } from "@/components/print-button";
+import { AdLeaderboard, AdInArticle } from "@/components/adsense";
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Article Not Found | NumberIQ",
+    };
+  }
+
+  // Ensure title is under 60 chars (title + " | NumberIQ" is cleanTitle.length + 11 chars)
+  const cleanTitle = post.title.length > 45 ? `${post.title.slice(0, 45)}...` : post.title;
+  const description = post.excerpt
+    ? (post.excerpt.length > 155 ? `${post.excerpt.slice(0, 152)}...` : post.excerpt)
+    : `Read ${post.title} on NumberIQ, your finance and tax workspace.`;
+
+  return {
+    title: `${cleanTitle} | NumberIQ`,
+    description: description,
+    alternates: {
+      canonical: `https://numberiq.in/insights/${slug}`,
+    },
+    openGraph: {
+      title: `${cleanTitle} | NumberIQ`,
+      description: description,
+      type: "article",
+      url: `https://numberiq.in/insights/${slug}`,
+      images: [
+        {
+          url: "/og-cover.png",
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${cleanTitle} | NumberIQ`,
+      description: description,
+      images: ["/og-cover.png"],
+    },
+  };
 }
 
 export default async function InsightArticlePage({ params }: PageProps) {
@@ -22,11 +67,86 @@ export default async function InsightArticlePage({ params }: PageProps) {
 
   const categoryLabel = post.category.toUpperCase();
 
+  const schemaGraph: any[] = [
+    {
+      "@type": "Article",
+      "@id": `https://numberiq.in/insights/${slug}#article`,
+      "headline": post.title,
+      "description": post.excerpt,
+      "datePublished": post.createdAt,
+      "dateModified": post.updatedAt || post.createdAt,
+      "author": {
+        "@type": "Person",
+        "name": "CA Sitaram Pareek",
+        "honorificPrefix": "CA",
+        "jobTitle": "Chartered Accountant",
+        "description": "Chartered Accountant (ICAI) with a Diploma in International Taxation (DIIT-ICAI), specialising in GST, direct tax, transfer pricing and cross-border taxation for businesses operating across India, the UAE and Singapore.",
+        "url": "https://numberiq.in/about",
+        "knowsAbout": ["GST", "Income Tax", "Transfer Pricing", "DTAA", "FEMA", "International Taxation"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "NumberIQ"
+        }
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "NumberIQ",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://numberiq.in/favicon.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://numberiq.in/insights/${slug}`
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `https://numberiq.in/insights/${slug}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Insights",
+          "item": "https://numberiq.in/insights"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": post.title,
+          "item": `https://numberiq.in/insights/${slug}`
+        }
+      ]
+    }
+  ];
+
+  if (post.faq && Array.isArray(post.faq) && post.faq.length > 0) {
+    schemaGraph.push({
+      "@type": "FAQPage",
+      "@id": `https://numberiq.in/insights/${slug}#faq`,
+      "mainEntity": post.faq.map((item: any) => ({
+        "@type": "Question",
+        "name": item.name || item.question || "",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.acceptedAnswer?.text || item.answer || ""
+        }
+      }))
+    });
+  }
+
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">
-      <div className="absolute top-0 left-0 w-[40%] h-[40%] rounded-full bg-[#4f7cff]/5 blur-[120px] pointer-events-none" />
-
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": schemaGraph
+          })
+        }}
+      />
 
       <main className="flex-1 pt-24 pb-20 px-6 max-w-4xl mx-auto w-full relative z-10">
         {/* Breadcrumbs */}
@@ -38,13 +158,15 @@ export default async function InsightArticlePage({ params }: PageProps) {
           <span className="text-white truncate max-w-xs">{post.title}</span>
         </div>
 
+        {/* Leaderboard Ad — high visibility above article header */}
+        <AdLeaderboard slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD || "3974343520"} className="mb-6" />
+
         {/* Article Header */}
         <header className="mb-8">
-          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider mb-4 ${
-            post.category === "gst"
+          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider mb-4 ${post.category === "gst"
               ? "bg-[#4f7cff]/10 text-[#4f7cff] border-[#4f7cff]/20"
               : "bg-[#9a6bff]/10 text-[#9a6bff] border-[#9a6bff]/20"
-          }`}>
+            }`}>
             {post.category}
           </span>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-white mb-6 leading-tight">
@@ -72,11 +194,14 @@ export default async function InsightArticlePage({ params }: PageProps) {
 
         {/* Prose Body */}
         <article className="prose prose-invert max-w-none text-[#aab2c5] text-sm leading-relaxed flex flex-col gap-6">
-          <div 
-            dangerouslySetInnerHTML={{ __html: post.content }} 
+          <div
+            dangerouslySetInnerHTML={{ __html: post.content }}
             className="dynamic-content-body flex flex-col gap-6"
           />
         </article>
+
+        {/* In-Article Ad — after prose body, high attention zone */}
+        <AdInArticle slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_INARTICLE || "3974343520"} />
 
         {/* FAQ Schema Accordion */}
         {post.faq && Array.isArray(post.faq) && (
@@ -92,6 +217,27 @@ export default async function InsightArticlePage({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        {/* Author Bio — E-E-A-T */}
+        <section className="mt-12 border border-white/10 bg-white/5 rounded-2xl p-6 flex flex-col sm:flex-row gap-5 items-start">
+          <div className="w-14 h-14 shrink-0 rounded-full bg-gradient-to-br from-[#4f7cff] to-[#9a6bff] flex items-center justify-center font-display font-bold text-white text-lg">
+            SP
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-[#737c92] font-bold mb-1">Written &amp; reviewed by</p>
+            <h3 className="text-sm font-bold text-white mb-2">CA Sitaram Pareek</h3>
+            <p className="text-xs text-[#aab2c5] leading-relaxed mb-3">
+              Chartered Accountant (ICAI) and holder of the Diploma in International Taxation (DIIT-ICAI).
+              Works in-house with a multinational group operating across India, the UAE and Singapore, handling
+              GST compliance, direct tax, transfer pricing, DTAA advisory and FEMA matters. Every article on
+              NumberIQ is written against the bare Act, current CBDT/CBIC notifications and official portals
+              (incometax.gov.in, gst.gov.in, cbic.gov.in).
+            </p>
+            <Link href="/about" className="text-xs font-semibold text-[#4f7cff] hover:text-white transition-colors">
+              About NumberIQ &rarr;
+            </Link>
+          </div>
+        </section>
 
         {/* Call to Actions */}
         <div className="mt-12 pt-6 border-t border-white/5 flex items-center justify-between gap-4">

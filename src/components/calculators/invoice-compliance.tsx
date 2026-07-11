@@ -89,11 +89,31 @@ const HEADERS = [
 ];
 
 const UAE_HEADERS = [
-  "File_Name", "Invoice_Type", "Invoice_Number", "Invoice_Date", "Supplier_Name", 
-  "Supplier_TRN", "Recipient_Name", "Recipient_TRN", "Currency", "Taxable_Amount", 
-  "VAT_Rate", "VAT_Amount", "Total_Amount", "Supply_Classification", "RCM_Applicable", 
+  "File_Name", "Invoice_Type", "Invoice_Number", "Invoice_Date", "Supplier_Name",
+  "Supplier_TRN", "Recipient_Name", "Recipient_TRN", "Currency", "Taxable_Amount",
+  "VAT_Rate", "VAT_Amount", "Total_Amount", "Supply_Classification", "RCM_Applicable",
   "VAT_Math_Pass", "Compliance_Status"
 ];
+
+const GRN_HEADERS = [
+  "Invoice_No", "GRN_Inv_No", "Reg_Inv_No", "Vendor", "Vendor_GSTIN", "GRN_No",
+  "GRN_Qty", "GRN_Taxable", "GRN_VAT", "GRN_Value", "Inv_Value", "Diff", "Match_Status"
+];
+
+const UAE_GRN_HEADERS = [
+  "Invoice_No", "GRN_Inv_No", "Reg_Inv_No", "Vendor", "Vendor_TRN", "GRN_No", "GRN_Lines",
+  "GRN_Qty", "GRN_Taxable_INR", "GRN_VAT_INR", "GRN_Total_INR", "Invoice_AED", "Invoice_INR",
+  "Diff_INR", "Status"
+];
+
+const PAY_HEADERS = ["Invoice_Number", "Supplier_Name", "Invoice_Date", "Total_Amount", "Bank_Ref", "Bank_Date", "Reco_Status"];
+const UNMATCHED_BANK_HEADERS = ["Txn_Date", "Description", "Debit", "Ref"];
+
+const NUMERIC_COLS = new Set([
+  "Taxable_Amount", "CGST_Amount", "SGST_Amount", "IGST_Amount", "Total_Amount", "VAT_Amount",
+  "GRN_Qty", "GRN_Taxable", "GRN_VAT", "GRN_Value", "Inv_Value", "Diff", "GRN_Lines",
+  "GRN_Taxable_INR", "GRN_VAT_INR", "GRN_Total_INR", "Invoice_AED", "Invoice_INR", "Diff_INR", "Debit"
+]);
 
 export function InvoiceCompliance() {
   const [activeTab, setActiveTab] = useState("dash"); // dash, india-inv, india-grn, uae-inv, uae-grn, pay-reco
@@ -156,6 +176,18 @@ export function InvoiceCompliance() {
   const [payUseParty, setPayUseParty] = useState(true);
   const [payResults, setPayResults] = useState<any[]>([]);
   const [unmatchedBank, setUnmatchedBank] = useState<any[]>([]);
+
+  // OCR Tracking & Metrics (100% tracking)
+  const [ocrMetrics, setOcrMetrics] = useState({
+    totalProcessed: 0,
+    offlineSuccess: 0,
+    ocrSuccess: 0,
+    aiSuccess: 0,
+    failedCount: 0,
+    avgConfidence: 0,
+    sourceBreakdown: {} as Record<string, number>
+  });
+  const [confidenceScores, setConfidenceScores] = useState<Record<string, number>>({});
 
   // Heuristics cache for lazy worker loading
   const [tessLoading, setTessLoading] = useState(false);
@@ -248,6 +280,56 @@ export function InvoiceCompliance() {
   };
   const isMissing = (v: any) => v == null || v === "" || /^missing$/i.test(String(v).trim());
 
+  // Confidence Score Calculator (0-100)
+  const calculateConfidence = (row: any, isUae: boolean = false) => {
+    let score = 0;
+    let weights = 0;
+    const fields = isUae ? ["Supplier_TRN", "Invoice_Number", "Invoice_Date", "Taxable_Amount", "VAT_Amount", "Total_Amount"] : ["Supplier_GSTIN", "Invoice_Number", "Invoice_Date", "Taxable_Amount", "CGST_Amount", "SGST_Amount", "IGST_Amount", "Total_Amount"];
+
+    fields.forEach(field => {
+      const val = row[field];
+      if (!isMissing(val)) {
+        score += 100 / fields.length;
+      }
+      weights += 100 / fields.length;
+    });
+
+    return Math.round(Math.max(0, Math.min(100, score)));
+  };
+
+  // Track OCR Metrics
+  const updateOcrMetrics = (fileName: string, source: string, confidence: number, isUae: boolean = false) => {
+    setConfidenceScores(prev => ({
+      ...prev,
+      [fileName]: confidence
+    }));
+
+    setOcrMetrics(prev => {
+      const updated = { ...prev };
+      updated.totalProcessed += 1;
+
+      if (source === "offline" || source === "offline-low") {
+        updated.offlineSuccess += 1;
+      } else if (source === "ocr" || source === "ocr-low") {
+        updated.ocrSuccess += 1;
+      } else if (source === "AI") {
+        updated.aiSuccess += 1;
+      } else {
+        updated.failedCount += 1;
+      }
+
+      updated.sourceBreakdown[source] = (updated.sourceBreakdown[source] || 0) + 1;
+
+      // Calculate average confidence
+      const allScores = Object.values(confidenceScores);
+      updated.avgConfidence = allScores.length > 0
+        ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length)
+        : 0;
+
+      return updated;
+    });
+  };
+
   // GSTIN checksum validation
   const validateGSTIN = (g: string) => {
     if (isMissing(g)) return { valid: false, reason: "missing" };
@@ -326,6 +408,24 @@ export function InvoiceCompliance() {
     if (recRequired && !rT.valid) miss.push(rT.reason === "missing" ? "Recipient_TRN" : "Recipient_TRN(format)");
     if (mc.pass === false) miss.push("VAT_Math");
     return miss.length === 0 ? "Compliant" : `Non-Compliant (Missing: ${miss.join(", ")})`;
+  };
+
+  // Decide whether an offline/OCR extraction is trustworthy enough to skip the AI tier.
+  // __quality only checks field *presence* — a regex misparse can grab the wrong number/line
+  // and still produce a non-empty value, scoring "high quality" while being wrong. This also
+  // checks *correctness* signals (GSTIN/TRN checksum, tax math cross-check) so a plausible-but-
+  // wrong heuristic read still escalates to the AI tier instead of silently passing through.
+  const isTrustworthyExtract = (raw: any, isUae: boolean) => {
+    if (!raw) return false;
+    if (raw.__quality !== undefined && raw.__quality < 5) return false;
+    if (isUae) {
+      if (!validateTRN(raw.Supplier_TRN).valid) return false;
+      if (uaeMathCheck(raw).pass === false) return false;
+    } else {
+      if (!validateGSTIN(raw.Supplier_GSTIN).valid) return false;
+      if (mathCheck(raw).pass === false) return false;
+    }
+    return true;
   };
 
   // Get keys from local storage helper
@@ -641,13 +741,30 @@ export function InvoiceCompliance() {
       }
       return null;
     };
+    // Grand total specifically: take the LARGEST amount among all matching lines rather than
+    // the first. Invoices often print "Total" more than once (a line-item subtotal, a table
+    // footer, "Total (in words)") before the real grand total — picking the first match was
+    // grabbing subtotals and silently under-reading the invoice total.
+    const amtWithMax = (keys: RegExp, excl?: RegExp) => {
+      let best: number | null = null, bestStr: string | null = null;
+      for (const ln of lines) {
+        if (excl && excl.test(ln)) continue;
+        if (keys.test(ln)) {
+          const v = lastMoney(ln);
+          if (v == null) continue;
+          const n = parseFloat(v);
+          if (!isNaN(n) && (best === null || n > best)) { best = n; bestStr = v; }
+        }
+      }
+      return bestStr;
+    };
 
     r.CGST_Amount = amtWith(/\bCGST\b/i, /cess/i) || "0";
     r.SGST_Amount = amtWith(/\b(SGST|UTGST)\b/i, /cess/i) || "0";
     r.IGST_Amount = amtWith(/\bIGST\b/i, /cess/i) || "0";
     r.Taxable_Amount = amtWith(/taxable\s*(value|amount)|sub\s*total|amount\s*before\s*tax|net\s*(amount|total|value)/i) || "Missing";
-    let tot = amtWith(/grand\s*total|total\s*amount|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|total\s*value/i, /sub\s*total|taxable/i);
-    if (!tot) tot = amtWith(/^total\b/i, /sub\s*total|taxable/i);
+    let tot = amtWithMax(/grand\s*total|total\s*amount|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|total\s*value/i, /sub\s*total|taxable/i);
+    if (!tot) tot = amtWithMax(/^total\b/i, /sub\s*total|taxable/i);
     r.Total_Amount = tot || "Missing";
 
     let hsn = "Missing";
@@ -696,24 +813,54 @@ export function InvoiceCompliance() {
     const MONEY = "(?:[0-9]{1,3}(?:,[0-9]{3})+(?:\\.[0-9]{1,2})?|[0-9]+\\.[0-9]{1,2}|[0-9]{1,9})";
     const isTaxInvoice = /tax\s*invoice/i.test(T);
 
-    const trnRe = /\b\d(?:\s*-?\s*\d){14}\b/g;
+    // Improved UAE TRN detection (15-digit number, more patterns)
+    const trnRe = /\b\d[\d\s\-]{13,}\d\b/g;
     const found: any[] = [];
     let m;
-    while ((m = trnRe.exec(T))) found.push({ t: m[0].replace(/[\s-]/g, ""), i: m.index });
+    while ((m = trnRe.exec(T))) {
+      const cleaned = m[0].replace(/[\s\-]/g, "");
+      if (cleaned.length === 15 && /^\d{15}$/.test(cleaned)) {
+        found.push({ t: cleaned, i: m.index });
+      }
+    }
     const uniq = [...new Map(found.map(o => [o.t, o])).values()];
     const ownTrns = ownTrnInput.split(/[,\s]+/).map(x => x.replace(/\D/g, "")).filter(x => x.length === 15);
-    
+
+    // TRN with label detection
+    const supTrnRe = /supplier.*?trn\s*[:\-]?\s*(\d[\d\s\-]{13,}\d)/i;
+    const recTrnRe = /(?:recipient|bill\s*to|customer).*?trn\s*[:\-]?\s*(\d[\d\s\-]{13,}\d)/i;
+
     let supT = "", recT = "";
-    const ownHit = uniq.find(o => ownTrns.includes(o.t));
-    if (ownHit) {
-      recT = ownHit.t;
-      const o = uniq.find(x => x.t !== recT);
-      if (o) supT = o.t;
+    const supMatch = supTrnRe.exec(T);
+    const recMatch = recTrnRe.exec(T);
+
+    if (supMatch) {
+      const cleaned = supMatch[1].replace(/[\s\-]/g, "");
+      if (cleaned.length === 15) supT = cleaned;
     }
-    if (!supT) {
-      const o = uniq.find(x => x.t !== recT);
-      if (o) supT = o.t;
+    if (recMatch) {
+      const cleaned = recMatch[1].replace(/[\s\-]/g, "");
+      if (cleaned.length === 15) recT = cleaned;
     }
+
+    // Fallback to own TRN matching
+    if (!recT) {
+      const ownHit = uniq.find(o => ownTrns.includes(o.t));
+      if (ownHit) {
+        recT = ownHit.t;
+        const o = uniq.find(x => x.t !== recT);
+        if (o) supT = o.t;
+      }
+    }
+
+    // Fallback: pick first two distinct TRNs
+    if (!supT && uniq.length > 0) {
+      supT = uniq[0].t;
+      if (!recT && uniq.length > 1) {
+        recT = uniq[1].t;
+      }
+    }
+
     r.Supplier_TRN = supT || "Missing";
     r.Recipient_TRN = recT || "Missing";
 
@@ -767,12 +914,36 @@ export function InvoiceCompliance() {
       }
       return null;
     };
+    // Grand total: take the LARGEST candidate rather than the first — invoices often print
+    // "Total" more than once before the real grand total (see India parser for the same fix).
+    const amtWithMax = (keys: RegExp, excl?: RegExp) => {
+      let best: number | null = null, bestStr: string | null = null;
+      for (const ln of lines) {
+        if (excl && excl.test(ln)) continue;
+        if (keys.test(ln)) {
+          const v = lastMoney(ln);
+          if (v == null) continue;
+          const n = parseFloat(v);
+          if (!isNaN(n) && (best === null || n > best)) { best = n; bestStr = v; }
+        }
+      }
+      return bestStr;
+    };
 
-    r.Taxable_Amount = amtWith(/sub\s*total|taxable\s*(value|amount|amt)|total\s*without\s*vat|net\s*total|amount\s*before\s*vat/i) || "Missing";
-    r.VAT_Amount = amtWith(/\bvat\b|v\.a\.t/i, /sub\s*total|total\s*without|taxable/i);
-    if (r.VAT_Amount === null) r.VAT_Amount = (/\bvat\b/i.test(T)) ? "0" : "Missing";
-    let tot = amtWith(/total\s*amount\s*\(?\s*incl|total\s*with\s*vat|grand\s*total|invoice\s*total|balance\s*due|amount\s*due|total\s*payable|amount\s*payable|net\s*payable|amount\s*chargeable|^total\b/i, /sub\s*total|without\s*vat|before\s*vat|taxable|received|balance\s*b\/f/i);
-    if (!tot) tot = amtWith(/\bbalance\b|\btotal\b/i, /sub\s*total|without\s*vat|taxable/i);
+    // Improved UAE amount extraction with fallback logic
+    r.Taxable_Amount = amtWith(/sub\s*total|taxable\s*(value|amount|amt)|total\s*without\s*vat|net\s*total|amount\s*before\s*vat|subtotal/i) || "Missing";
+
+    // Better VAT detection with percentage matching
+    let vat = amtWith(/vat\s*amount|vat\s*charged|\bvat\b(?!\s*rate|\s*%)|v\.a\.t/i, /sub\s*total|total\s*without|taxable/i);
+    if (!vat) {
+      // Try to extract VAT from "VAT @ 5%" format
+      const vatPctMatch = flat.match(/vat\s*[@\(]?\s*(\d{1,2}(?:\.\d+)?)\s*%?\s*[:\-]?\s*([0-9]{1,9}(?:\.[0-9]{2})?)/i);
+      if (vatPctMatch) vat = vatPctMatch[2].replace(/,/g, "");
+    }
+    r.VAT_Amount = vat || ((/\bvat\b/i.test(T)) ? "0" : "Missing");
+
+    let tot = amtWithMax(/total\s*amount\s*\(?\s*incl|total\s*with\s*vat|grand\s*total|invoice\s*total|balance\s*due|amount\s*due|total\s*payable|amount\s*payable|net\s*payable|amount\s*chargeable|final\s*total/i, /sub\s*total|without\s*vat|before\s*vat|taxable|received|balance\s*b\/f/i);
+    if (!tot) tot = amtWithMax(/^total\b/i, /sub\s*total|without|before|taxable/i);
     r.Total_Amount = tot || "Missing";
 
     // Amount derivation
@@ -786,17 +957,37 @@ export function InvoiceCompliance() {
       r.Total_Amount = round2(tx + v).toFixed(2);
     }
 
+    // Improved supply classification and VAT rate detection
     let cls = "Standard (5%)", rate = "5%";
-    const rm = flat.match(/vat\s*[@(]?\s*(\d{1,2}(?:\.\d+)?)\s*%/i);
-    if (/zero[\s\-]*rated/i.test(T)) {
+
+    // Enhanced VAT rate detection from text
+    let rateMatch = flat.match(/vat\s*[@(]?\s*(\d{1,2}(?:\.\d+)?)\s*%/i);
+    if (!rateMatch) {
+      rateMatch = flat.match(/\bvat\b.*?(\d{1,2}(?:\.\d+)?)\s*%/i);
+    }
+
+    // Classification logic with better patterns
+    if (/zero[\s\-]*rated|zero\s*rate/i.test(T)) {
       cls = "Zero-rated (0%)";
       rate = "0%";
-    } else if (/\bexempt\b/i.test(T)) {
+    } else if (/\bexempt\b|exempted|not\s*liable|not\s*subject/i.test(T)) {
       cls = "Exempt";
       rate = "—";
-    } else if (rm) {
-      rate = rm[1] + "%";
+    } else if (/reverse\s*charge|rcm/i.test(T)) {
+      cls = "Reverse Charge (RCM)";
+      rate = "5%"; // or from text
+    } else if (rateMatch) {
+      const extractedRate = parseFloat(rateMatch[1]);
+      rate = rateMatch[1] + "%";
+      if (extractedRate === 0) {
+        cls = "Zero-rated (0%)";
+      } else if (extractedRate === 5) {
+        cls = "Standard (5%)";
+      } else {
+        cls = `Non-Standard (${extractedRate}%)`;
+      }
     }
+
     r.VAT_Rate = rate;
     r.Supply_Classification = cls;
     r.RCM_Applicable = (/reverse\s*charge/i.test(T) || /recipient\s+(?:to|shall|must)\s+account/i.test(T)) ? "Yes" : "No";
@@ -997,6 +1188,7 @@ export function InvoiceCompliance() {
     r._sg = sg;
     r._bg = bg;
     r._mc = mc;
+    r._confidence = calculateConfidence(r, false); // India confidence score 0-100
     return r;
   };
 
@@ -1012,6 +1204,7 @@ export function InvoiceCompliance() {
     r._sT = sT;
     r._rT = rT;
     r._mc = mc;
+    r._confidence = calculateConfidence(r, true); // UAE confidence score 0-100
     return r;
   };
 
@@ -1042,8 +1235,10 @@ export function InvoiceCompliance() {
           let src = "";
           let lastErr: any = null;
 
-          // Tier 1 & 2: Offline Extraction (skipped if AI-First is set)
-          if (aiModeSetting !== "ai-first") {
+          // Tier 1 & 2: Offline Extraction. Skipped only when AI-First is chosen AND a key is
+          // actually ready to use — otherwise "AI-first with no key" used to silently fail every
+          // file, since the offline tiers were skipped but the AI tier also refused to run.
+          if (aiModeSetting !== "ai-first" || !(key && keyUnlocked)) {
             try {
               const off = await runOfflineExtract(q.file);
               if (off) {
@@ -1052,7 +1247,7 @@ export function InvoiceCompliance() {
               }
             } catch (e) {}
 
-            if (!raw || (raw.__quality !== undefined && raw.__quality < 4)) {
+            if (!isTrustworthyExtract(raw, false)) {
               try {
                 const oc = await runOcrExtract(q.file);
                 if (oc && (!raw || (oc.__quality || 0) > (raw.__quality || 0))) {
@@ -1065,12 +1260,12 @@ export function InvoiceCompliance() {
             }
           }
 
-          // Tier 3: Anthropic AI Fallback
-          const needApi = aiModeSetting === "ai-first" || 
-                          (aiModeSetting === "fallback" && (!raw || (raw.__quality !== undefined && raw.__quality < 5))) && 
-                          key && keyUnlocked;
+          // Tier 3: Anthropic AI Fallback — always used in AI-first mode, or whenever the
+          // offline/OCR read isn't trustworthy (missing fields, bad GSTIN checksum, or the
+          // tax math doesn't add up). Requires a valid unlocked key either way.
+          const needApi = (aiModeSetting === "ai-first" || !isTrustworthyExtract(raw, false)) && key && keyUnlocked;
 
-          if (needApi && key && keyUnlocked) {
+          if (needApi) {
             try {
               const ar = await callAnthropicAPI(q.file, false);
               if (ar) {
@@ -1083,17 +1278,21 @@ export function InvoiceCompliance() {
           }
 
           if (!raw) {
-            throw lastErr || new Error("File unreadable by local OCR engine");
+            throw lastErr || new Error("File unreadable — add and unlock an Anthropic key in Settings for scanned/handwritten invoices.");
           }
 
           q.row = finalizeRow(raw, q.file.name);
           q.row._src = src;
           q.status = "done";
+
+          // Track OCR metrics for 100% tracking
+          updateOcrMetrics(q.file.name, src, q.row._confidence || 0, false);
         } catch (e: any) {
           q.status = "err";
           q.row = finalizeRow({ File_Name: q.file.name }, q.file.name);
           q.row.Compliance_Status = `Extraction error: ${e.message || "unknown"}`;
           q.row._src = "error";
+          updateOcrMetrics(q.file.name, "error", 0, false);
         }
         done++;
         setInvProgress({
@@ -1141,8 +1340,10 @@ export function InvoiceCompliance() {
           let src = "";
           let lastErr: any = null;
 
-          // Tier 1 & 2: Offline UAE Extraction (skipped if AI-First is set)
-          if (aiModeSetting !== "ai-first") {
+          // Tier 1 & 2: Offline UAE Extraction. Skipped only when AI-First is chosen AND a key
+          // is actually ready to use — otherwise "AI-first with no key" used to silently fail
+          // every file, since the offline tiers were skipped but the AI tier also refused to run.
+          if (aiModeSetting !== "ai-first" || !(key && keyUnlocked)) {
             try {
               const off = await runOfflineExtractUae(q.file);
               if (off) {
@@ -1151,7 +1352,7 @@ export function InvoiceCompliance() {
               }
             } catch (e) {}
 
-            if (!raw || (raw.__quality !== undefined && raw.__quality < 4)) {
+            if (!isTrustworthyExtract(raw, true)) {
               try {
                 const oc = await runOcrExtractUae(q.file);
                 if (oc && (!raw || (oc.__quality || 0) > (raw.__quality || 0))) {
@@ -1164,12 +1365,12 @@ export function InvoiceCompliance() {
             }
           }
 
-          // Tier 3: Anthropic UAE AI Fallback
-          const needApi = aiModeSetting === "ai-first" || 
-                          (aiModeSetting === "fallback" && (!raw || (raw.__quality !== undefined && raw.__quality < 5))) && 
-                          key && keyUnlocked;
+          // Tier 3: Anthropic UAE AI Fallback — always used in AI-first mode, or whenever the
+          // offline/OCR read isn't trustworthy (missing fields, bad TRN, or VAT math doesn't
+          // add up). Requires a valid unlocked key either way.
+          const needApi = (aiModeSetting === "ai-first" || !isTrustworthyExtract(raw, true)) && key && keyUnlocked;
 
-          if (needApi && key && keyUnlocked) {
+          if (needApi) {
             try {
               const ar = await callAnthropicAPI(q.file, true);
               if (ar) {
@@ -1181,16 +1382,20 @@ export function InvoiceCompliance() {
             }
           }
 
-          if (!raw) throw lastErr || new Error("File unreadable by local OCR engine");
+          if (!raw) throw lastErr || new Error("File unreadable — add and unlock an Anthropic key in Settings for scanned/handwritten invoices.");
 
           q.row = finalizeUaeRow(raw, q.file.name);
           q.row._src = src;
           q.status = "done";
+
+          // Track OCR metrics for 100% tracking
+          updateOcrMetrics(q.file.name, src, q.row._confidence || 0, true);
         } catch (e: any) {
           q.status = "err";
           q.row = finalizeUaeRow({ File_Name: q.file.name }, q.file.name);
           q.row.Compliance_Status = `Extraction error: ${e.message || "unknown"}`;
           q.row._src = "error";
+          updateOcrMetrics(q.file.name, "error", 0, true);
         }
         done++;
         setUaeProgress({
@@ -1782,6 +1987,35 @@ export function InvoiceCompliance() {
     setTimeout(() => URL.revokeObjectURL(a.href), 1500);
   };
 
+  // Real .xlsx download (SheetJS, already loaded for CSV/GRN register reads).
+  // Accepts multiple sheets so a single click can produce a workbook with Invoices + GRN + Payment tabs.
+  const triggerExcelDownload = (filename: string, sheets: { name: string; headers: string[]; rows: any[] }[]) => {
+    const XLSX = (window as any).XLSX;
+    if (!XLSX) {
+      alert("Excel engine still loading — please wait a moment and try again.");
+      return;
+    }
+    const wb = XLSX.utils.book_new();
+    sheets.forEach(({ name, headers, rows }) => {
+      const aoa = [
+        headers,
+        ...rows.map(r => headers.map(h => {
+          const v = r[h];
+          if (v == null || v === "") return "";
+          if (NUMERIC_COLS.has(h)) {
+            const n = Number(v);
+            return isNaN(n) ? String(v) : n;
+          }
+          return String(v);
+        }))
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      ws["!cols"] = headers.map(h => ({ wch: Math.min(40, Math.max(10, h.length + 2)) }));
+      XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31));
+    });
+    XLSX.writeFile(wb, filename);
+  };
+
   // Key configurations management
   const handleSaveKey = () => {
     const key = anthropicKey.trim();
@@ -1900,9 +2134,10 @@ export function InvoiceCompliance() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row flex-wrap gap-4 w-full lg:w-auto">
           {/* Anthropic Key */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-bold text-[#aab2c5]">Anthropic Key (sk-ant-)</label>
+            <label htmlFor="anthropicKey" className="text-[9px] font-bold text-[#aab2c5]">Anthropic Key (sk-ant-)</label>
             <div className="flex gap-1.5">
               <input
+                id="anthropicKey"
                 type="password"
                 placeholder="sk-ant-..."
                 value={anthropicKey}
@@ -1923,9 +2158,10 @@ export function InvoiceCompliance() {
 
           {/* Unlock Pass */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-bold text-[#aab2c5]">Lock Password</label>
+            <label htmlFor="lockPassword" className="text-[9px] font-bold text-[#aab2c5]">Lock Password</label>
             <div className="flex gap-1.5">
               <input
+                id="lockPassword"
                 type="password"
                 placeholder="Enter password..."
                 value={keyPassword}
@@ -1946,9 +2182,10 @@ export function InvoiceCompliance() {
 
           {/* Buyer GSTIN */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-bold text-[#aab2c5]">Buyer GSTIN</label>
+            <label htmlFor="buyerGstin" className="text-[9px] font-bold text-[#aab2c5]">Buyer GSTIN</label>
             <div className="flex gap-1.5">
               <input
+                id="buyerGstin"
                 type="text"
                 value={ownGstinInput}
                 onChange={(e) => setOwnGstinInput(e.target.value)}
@@ -1960,9 +2197,10 @@ export function InvoiceCompliance() {
 
           {/* Recipient TRN */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-bold text-[#aab2c5]">Recipient TRN (UAE)</label>
+            <label htmlFor="recipientTrn" className="text-[9px] font-bold text-[#aab2c5]">Recipient TRN (UAE)</label>
             <div className="flex gap-1.5">
               <input
+                id="recipientTrn"
                 type="text"
                 value={ownTrnInput}
                 onChange={(e) => setOwnTrnInput(e.target.value)}
@@ -1974,8 +2212,9 @@ export function InvoiceCompliance() {
 
           {/* AI Extraction Mode */}
           <div className="flex flex-col gap-1">
-            <label className="text-[9px] font-bold text-[#aab2c5]">AI Extraction Mode</label>
+            <label htmlFor="aiMode" className="text-[9px] font-bold text-[#aab2c5]">AI Extraction Mode</label>
             <select
+              id="aiMode"
               value={aiModeSetting}
               onChange={(e) => {
                 const val = e.target.value as any;
@@ -2240,12 +2479,20 @@ export function InvoiceCompliance() {
                   <div className="border border-white/5 bg-white/5 p-6 rounded-2xl flex flex-col gap-6">
                     <div className="flex justify-between items-center border-b border-white/5 pb-4">
                       <h3 className="text-xs font-bold text-white uppercase tracking-wider">Reconciled Invoice Register ({invoices.length} rows)</h3>
-                      <button 
-                        onClick={() => triggerCSVDownload(`india_invoices_${stamp()}.csv`, HEADERS, invoices)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
-                      >
-                        <Download size={13} /> Export to CSV
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => triggerExcelDownload(`india_invoices_${stamp()}.xlsx`, [{ name: "Invoices", headers: HEADERS, rows: invoices }])}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1d7d4f]/20 hover:bg-[#1d7d4f]/30 border border-[#1d7d4f]/40 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
+                        >
+                          <FileSpreadsheet size={13} /> Export to Excel
+                        </button>
+                        <button
+                          onClick={() => triggerCSVDownload(`india_invoices_${stamp()}.csv`, HEADERS, invoices)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
+                        >
+                          <Download size={13} /> Export to CSV
+                        </button>
+                      </div>
                     </div>
 
                     <div className="overflow-x-auto text-xs border border-white/5 rounded-xl">
@@ -2371,8 +2618,9 @@ export function InvoiceCompliance() {
               )}
 
               <div className="flex items-center gap-2 bg-white/5 border border-white/5 px-3 py-2 rounded-xl">
-                <label className="text-[10px] text-[#737c92] font-semibold uppercase">Value Tolerance</label>
+                <label htmlFor="india-grn-tol" className="text-[10px] text-[#737c92] font-semibold uppercase">Value Tolerance</label>
                 <input 
+                  id="india-grn-tol"
                   type="number" 
                   value={grnValTol} 
                   onChange={(e) => setGrnValTol(Number(e.target.value))}
@@ -2412,6 +2660,12 @@ export function InvoiceCompliance() {
                     <span className="px-2.5 py-1 bg-yellow-500/10 text-yellow-400 rounded-lg text-[10px] font-bold border border-yellow-500/10">
                       Unmatched: {grnResults.filter(r => r.Match_Status !== "Matched" && r.Match_Status !== "Amount mismatch").length}
                     </span>
+                    <button
+                      onClick={() => triggerExcelDownload(`india_grn_reco_${stamp()}.xlsx`, [{ name: "GRN Reconciliation", headers: GRN_HEADERS, rows: grnResults }])}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1d7d4f]/20 hover:bg-[#1d7d4f]/30 border border-[#1d7d4f]/40 rounded-xl text-[10px] font-semibold text-white cursor-pointer transition-colors"
+                    >
+                      <FileSpreadsheet size={12} /> Export to Excel
+                    </button>
                   </div>
 
                   <div className="relative w-full md:max-w-xs">
@@ -2608,12 +2862,20 @@ export function InvoiceCompliance() {
                   <div className="border border-white/5 bg-white/5 p-6 rounded-2xl flex flex-col gap-6">
                     <div className="flex justify-between items-center border-b border-white/5 pb-4">
                       <h3 className="text-xs font-bold text-white uppercase tracking-wider">UAE VAT Invoice Register ({uaeInvoices.length} rows)</h3>
-                      <button 
-                        onClick={() => triggerCSVDownload(`uae_invoices_${stamp()}.csv`, UAE_HEADERS, uaeInvoices)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
-                      >
-                        <Download size={13} /> Export to CSV
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => triggerExcelDownload(`uae_invoices_${stamp()}.xlsx`, [{ name: "UAE Invoices", headers: UAE_HEADERS, rows: uaeInvoices }])}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1d7d4f]/20 hover:bg-[#1d7d4f]/30 border border-[#1d7d4f]/40 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
+                        >
+                          <FileSpreadsheet size={13} /> Export to Excel
+                        </button>
+                        <button
+                          onClick={() => triggerCSVDownload(`uae_invoices_${stamp()}.csv`, UAE_HEADERS, uaeInvoices)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white cursor-pointer transition-colors"
+                        >
+                          <Download size={13} /> Export to CSV
+                        </button>
+                      </div>
                     </div>
 
                     <div className="overflow-x-auto text-xs border border-white/5 rounded-xl">
@@ -2738,8 +3000,9 @@ export function InvoiceCompliance() {
               )}
 
               <div className="flex items-center gap-2 bg-white/5 border border-white/5 px-3 py-2 rounded-xl">
-                <label className="text-[10px] text-[#737c92] font-semibold uppercase">Value Tolerance</label>
+                <label htmlFor="uae-grn-tol" className="text-[10px] text-[#737c92] font-semibold uppercase">Value Tolerance</label>
                 <input 
+                  id="uae-grn-tol"
                   type="number" 
                   value={ugrnTol} 
                   onChange={(e) => setUgrnTol(Number(e.target.value))}
@@ -2783,6 +3046,12 @@ export function InvoiceCompliance() {
                     <span className="px-2.5 py-1 bg-yellow-500/10 text-yellow-400 rounded-lg text-[10px] font-bold border border-yellow-500/10">
                       Unmatched: {ugrnResults.filter(r => r.Status !== "Matched" && r.Status !== "Amount mismatch").length}
                     </span>
+                    <button
+                      onClick={() => triggerExcelDownload(`uae_grn_reco_${stamp()}.xlsx`, [{ name: "UAE GRN Reconciliation", headers: UAE_GRN_HEADERS, rows: ugrnResults }])}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1d7d4f]/20 hover:bg-[#1d7d4f]/30 border border-[#1d7d4f]/40 rounded-xl text-[10px] font-semibold text-white cursor-pointer transition-colors"
+                    >
+                      <FileSpreadsheet size={12} /> Export to Excel
+                    </button>
                   </div>
 
                   <div className="relative w-full md:max-w-xs">
@@ -2874,8 +3143,9 @@ export function InvoiceCompliance() {
               )}
 
               <div className="flex items-center gap-2 bg-white/5 border border-white/5 px-3 py-2 rounded-xl">
-                <label className="text-[10px] text-[#737c92] font-semibold uppercase">Amount Tolerance</label>
+                <label htmlFor="pay-tol" className="text-[10px] text-[#737c92] font-semibold uppercase">Amount Tolerance</label>
                 <input 
+                  id="pay-tol"
                   type="number" 
                   value={payTol} 
                   onChange={(e) => setPayTol(Number(e.target.value))}
@@ -2885,8 +3155,9 @@ export function InvoiceCompliance() {
               </div>
 
               <div className="flex items-center gap-2 bg-white/5 border border-white/5 px-3 py-2 rounded-xl">
-                <label className="text-[10px] text-[#737c92] font-semibold uppercase">Date Window</label>
+                <label htmlFor="pay-days" className="text-[10px] text-[#737c92] font-semibold uppercase">Date Window</label>
                 <input 
+                  id="pay-days"
                   type="number" 
                   value={payDays} 
                   onChange={(e) => setPayDays(Number(e.target.value))}
@@ -2896,8 +3167,9 @@ export function InvoiceCompliance() {
               </div>
 
               <div className="flex items-center gap-2 bg-white/5 border border-white/5 px-3 py-2 rounded-xl">
-                <label className="text-[10px] text-[#737c92] font-semibold uppercase flex items-center gap-1.5 cursor-pointer">
+                <label htmlFor="pay-use-party" className="text-[10px] text-[#737c92] font-semibold uppercase flex items-center gap-1.5 cursor-pointer">
                   <input 
+                    id="pay-use-party"
                     type="checkbox" 
                     checked={payUseParty} 
                     onChange={(e) => setPayUseParty(e.target.checked)}
@@ -2920,7 +3192,18 @@ export function InvoiceCompliance() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 {/* Matched Panel */}
                 <div className="lg:col-span-7 flex flex-col gap-4">
-                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">Invoice Matching Status</h3>
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">Invoice Matching Status</h3>
+                    <button
+                      onClick={() => triggerExcelDownload(`payment_reco_${stamp()}.xlsx`, [
+                        { name: "Payment Reconciliation", headers: PAY_HEADERS, rows: payResults },
+                        { name: "Unmatched Bank Txns", headers: UNMATCHED_BANK_HEADERS, rows: unmatchedBank }
+                      ])}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1d7d4f]/20 hover:bg-[#1d7d4f]/30 border border-[#1d7d4f]/40 rounded-xl text-[10px] font-semibold text-white cursor-pointer transition-colors"
+                    >
+                      <FileSpreadsheet size={12} /> Export to Excel
+                    </button>
+                  </div>
                   <div className="overflow-x-auto text-xs border border-white/5 rounded-xl">
                     <table className="w-full border-collapse text-left">
                       <thead>

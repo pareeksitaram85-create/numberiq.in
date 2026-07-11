@@ -3,6 +3,14 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
+export const metadata = {
+  title: "About Us — NumberIQ | Built by a CA, for CAs",
+  description: "Learn more about NumberIQ — the finance intelligence workspace built by a Chartered Accountant for CAs, corporate finance teams, and practitioners.",
+  alternates: {
+    canonical: "https://numberiq.in/about",
+  },
+};
+
 export default function AboutPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">
@@ -32,7 +40,7 @@ export default function AboutPage() {
         {/* Content */}
         <article className="space-y-6">
           <p className="text-base md:text-lg text-white leading-relaxed font-medium">
-            NumberIQ is a finance-intelligence workspace built by a practising Chartered Accountant for CAs, finance teams and growing businesses operating across India, the UAE and Singapore.
+            NumberIQ is a finance-intelligence workspace built by a Chartered Accountant for CAs, finance teams and growing businesses operating across India, the UAE and Singapore.
           </p>
 
           <h2 className="text-xl md:text-2xl font-bold text-white mt-10 mb-4">

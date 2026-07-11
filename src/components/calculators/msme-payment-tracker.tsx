@@ -154,8 +154,9 @@ export function MSMEPaymentTracker() {
           <h3 className="text-sm font-bold text-white">Add Invoice</h3>
           
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-semibold text-[#aab2c5]">Vendor Name</label>
+            <label htmlFor="vendor" className="text-[10px] font-semibold text-[#aab2c5]">Vendor Name</label>
             <input
+              id="vendor"
               type="text"
               value={vendor}
               onChange={(e) => setVendor(e.target.value)}
@@ -166,8 +167,9 @@ export function MSMEPaymentTracker() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] font-semibold text-[#aab2c5]">Invoice Amount (₹)</label>
+            <label htmlFor="amount" className="text-[10px] font-semibold text-[#aab2c5]">Invoice Amount (₹)</label>
             <input
+              id="amount"
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -179,8 +181,9 @@ export function MSMEPaymentTracker() {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#aab2c5]">Invoice Date</label>
+              <label htmlFor="invoiceDate" className="text-[10px] font-semibold text-[#aab2c5]">Invoice Date</label>
               <input
+                id="invoiceDate"
                 type="date"
                 value={invoiceDate}
                 onChange={(e) => setInvoiceDate(e.target.value)}
@@ -189,8 +192,9 @@ export function MSMEPaymentTracker() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#aab2c5]">Payment Date</label>
+              <label htmlFor="paymentDate" className="text-[10px] font-semibold text-[#aab2c5]">Payment Date</label>
               <input
+                id="paymentDate"
                 type="date"
                 value={paymentDate}
                 onChange={(e) => setPaymentDate(e.target.value)}
@@ -201,8 +205,9 @@ export function MSMEPaymentTracker() {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#aab2c5]">Written Agreement?</label>
+              <label htmlFor="agreement" className="text-[10px] font-semibold text-[#aab2c5]">Written Agreement?</label>
               <select
+                id="agreement"
                 value={agreement}
                 onChange={(e) => setAgreement(e.target.value as "yes" | "no")}
                 className="bg-white/5 border border-white/10 focus:border-[#4f7cff] focus:outline-none rounded-xl px-3 py-1.5 text-xs text-white cursor-pointer"
@@ -213,8 +218,9 @@ export function MSMEPaymentTracker() {
             </div>
             {agreement === "yes" && (
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-semibold text-[#aab2c5]">Agreed Period (days)</label>
+                <label htmlFor="agreedDays" className="text-[10px] font-semibold text-[#aab2c5]">Agreed Period (days)</label>
                 <input
+                  id="agreedDays"
                   type="number"
                   value={agreedDays}
                   onChange={(e) => setAgreedDays(e.target.value)}

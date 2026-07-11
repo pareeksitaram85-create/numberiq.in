@@ -76,8 +76,9 @@ export function LrsTcsCalculator() {
 
         {/* Amount */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] font-semibold text-[#aab2c5]">Remittance Amount (INR)</label>
+          <label htmlFor="remittance-amount" className="text-[10px] font-semibold text-[#aab2c5]">Remittance Amount (INR)</label>
           <input
+            id="remittance-amount"
             type="number"
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
@@ -87,11 +88,12 @@ export function LrsTcsCalculator() {
 
         {/* Tour Package Toggle */}
         <div className="flex items-center justify-between border border-white/5 bg-[#080a12]/50 p-4 rounded-xl">
-          <div>
+          <label htmlFor="tour-package" className="cursor-pointer">
             <span className="text-xs font-semibold text-white">Overseas Tour Package</span>
             <p className="text-[9px] text-[#737c92] mt-0.5">Purchasing flight + hotel package tour</p>
-          </div>
+          </label>
           <input
+            id="tour-package"
             type="checkbox"
             checked={isTourPackage}
             onChange={(e) => setIsTourPackage(e.target.checked)}
@@ -102,8 +104,9 @@ export function LrsTcsCalculator() {
         {/* Remittance Type */}
         {!isTourPackage && (
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-semibold text-[#aab2c5]">Purpose of Remittance</label>
+            <label htmlFor="remittance-purpose" className="text-[10px] font-semibold text-[#aab2c5]">Purpose of Remittance</label>
             <select
+              id="remittance-purpose"
               value={remittanceType}
               onChange={(e) => setRemittanceType(e.target.value)}
               className="bg-white/5 border border-white/10 focus:border-[#4f7cff] focus:outline-none rounded-xl px-4 py-2.5 text-xs text-white cursor-pointer"

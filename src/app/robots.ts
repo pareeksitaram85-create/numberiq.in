@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/", "/dashboard/"],
+      disallow: ["/api/", "/admin/", "/dashboard/", "/auth/"],
     },
     sitemap: "https://numberiq.in/sitemap.xml",
   };

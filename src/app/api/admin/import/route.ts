@@ -2,20 +2,35 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma as db } from "@/lib/prisma";
+import { createErrorResponse, generateRequestId } from "@/lib/api-handler";
 
 export async function POST(request: Request) {
+  const requestId = generateRequestId();
   try {
     // Authenticate the user
     const session = await getServerSession(authOptions);
     if (!session || !session.user || (session.user as any).role !== "ADMIN") {
-      return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+      console.warn(`[API: admin/import] [Request ID: ${requestId}] Unauthorized access attempt`);
+      return createErrorResponse(
+        "UNAUTHORIZED",
+        "Unauthorized access. Admin privileges required.",
+        401,
+        undefined,
+        requestId
+      );
     }
 
     const body = await request.json();
     const { type, records } = body;
 
     if (!type || !records || !Array.isArray(records)) {
-      return NextResponse.json({ error: "Invalid payload parameters" }, { status: 400 });
+      return createErrorResponse(
+        "INVALID_PAYLOAD",
+        "Invalid payload parameters. 'type' and 'records' are required.",
+        400,
+        undefined,
+        requestId
+      );
     }
 
     let importedCount = 0;
@@ -59,8 +74,18 @@ export async function POST(request: Request) {
       importedCount = result.count;
     }
 
-    return NextResponse.json({ success: true, count: importedCount });
+    return NextResponse.json(
+      { success: true, count: importedCount },
+      { headers: { "X-Request-Id": requestId } }
+    );
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Failed to batch import records" }, { status: 500 });
+    console.error(`[API: admin/import] [Request ID: ${requestId}] Error during batch import:`, error);
+    return createErrorResponse(
+      "IMPORT_FAILED",
+      error.message || "Failed to batch import records.",
+      500,
+      undefined,
+      requestId
+    );
   }
 }

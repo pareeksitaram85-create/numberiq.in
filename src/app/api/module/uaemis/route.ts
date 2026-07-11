@@ -1,21 +1,11 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+// CA Boardroom / UAE MIS.
+// Access control is handled by the module's own IGP login (Supabase)
+// inside uaemis.html — no site-level (admin) login required.
 export async function GET() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return new NextResponse("Unauthorized. Please log in to access this internal module.", {
-      status: 401,
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  }
-
   try {
     const filePath = path.join(process.cwd(), "src", "private-modules", "uaemis.html");
     if (!fs.existsSync(filePath)) {

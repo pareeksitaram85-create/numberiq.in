@@ -4,6 +4,34 @@ import { getPosts } from "@/lib/content";
 import Link from "next/link";
 import { BookOpen, Search, ArrowRight, Calendar } from "lucide-react";
 
+export const metadata = {
+  title: "Finance & Tax Insights | NumberIQ",
+  description: "Read Chartered Accountant-reviewed guides and deep-dives covering compliance, tax updates, and strategic tax planning under Indian laws.",
+  alternates: {
+    canonical: "https://numberiq.in/insights",
+  },
+  openGraph: {
+    title: "Finance & Tax Insights | NumberIQ",
+    description: "Read Chartered Accountant-reviewed guides and deep-dives covering compliance, tax updates, and strategic tax planning under Indian laws.",
+    type: "website",
+    url: "https://numberiq.in/insights",
+    images: [
+      {
+        url: "/og-cover.png",
+        width: 1200,
+        height: 630,
+        alt: "NumberIQ Insights",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Finance & Tax Insights | NumberIQ",
+    description: "Read Chartered Accountant-reviewed guides and deep-dives covering compliance, tax updates, and strategic tax planning under Indian laws.",
+    images: ["/og-cover.png"],
+  },
+};
+
 export default async function InsightsIndex() {
   const posts = await getPosts();
 

@@ -3,6 +3,14 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { ChevronRight, Mail } from "lucide-react";
 
+export const metadata = {
+  title: "Contact Us — NumberIQ | Support & Feedback",
+  description: "Get in touch with NumberIQ. Share your feedback, request new calculators, report issues, or inquire about collaboration opportunities.",
+  alternates: {
+    canonical: "https://numberiq.in/contact",
+  },
+};
+
 export default function ContactPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">
@@ -32,7 +40,7 @@ export default function ContactPage() {
         {/* Content */}
         <article className="space-y-6">
           <p className="text-base md:text-lg text-white leading-relaxed font-medium">
-            We'd love to hear from you — feedback on a tool, a correction, a feature request, or a partnership enquiry.
+            Feel free to write in — feedback on a tool, a correction, a feature request, or a collaboration enquiry.
           </p>
 
           <h2 className="text-xl md:text-2xl font-bold text-white mt-10 mb-4 flex items-center gap-2.5">
@@ -65,7 +73,7 @@ export default function ContactPage() {
             Please note
           </h2>
           <p className="text-sm md:text-base text-[#737c92] leading-relaxed">
-            NumberIQ provides general reference information and tools. We are not able to offer individual tax or legal opinions by email. For advice on your specific situation, please consult a qualified Chartered Accountant.
+            NumberIQ provides general reference information and tools. It is maintained by an individual CA and cannot offer personalised tax or legal opinions by email. For advice on your specific situation, please consult a qualified Chartered Accountant.
           </p>
 
           {/* Disclaimer Alert */}

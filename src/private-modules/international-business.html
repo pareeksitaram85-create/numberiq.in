@@ -1,0 +1,1434 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>International Business Boardroom — Created by Sitaram Pareek</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <!-- SheetJS Library for Excel Parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --paper: #05080f;
+      --paper-2: #0c1220;
+      --card: rgba(17, 26, 43, 0.62);
+      --ink: #e5e9f0;
+      --ink-soft: #94a3b8;
+      --line: rgba(255, 255, 255, 0.07);
+      --line-strong: rgba(255, 255, 255, 0.15);
+      --accent: #3b82f6;
+      --accent-d: #60a5fa;
+      --blue-deep: #1d4ed8;
+      --gold: #c9a24a;
+      --gold-soft: #dab86a;
+      --pos: #10b981;
+      --neg: #ef4444;
+      --neutral: #7c8aa0;
+      --sidebar: #04070d;
+      --sidebar-2: #0b1322;
+      --sidebar-ink: #cfd8e6;
+      --sidebar-mut: #6b7894;
+      --actual: rgba(59, 130, 246, 0.10);
+      --actual-line: rgba(59, 130, 246, 0.55);
+      --glass-hi: rgba(255, 255, 255, 0.06);
+      --shadow: 0 10px 36px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      scrollbar-color: #26344d #0a0f1a;
+    }
+
+    body {
+      color: var(--ink);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background:
+        radial-gradient(1100px 560px at 82% -12%, rgba(29, 78, 216, 0.16) 0%, transparent 60%),
+        radial-gradient(900px 600px at -10% 110%, rgba(201, 162, 74, 0.07) 0%, transparent 55%),
+        radial-gradient(700px 500px at 50% 50%, rgba(13, 25, 48, 0.5) 0%, transparent 70%),
+        linear-gradient(160deg, #070b14 0%, #05080f 45%, #060a16 100%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0f1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #26344d;
+      border-radius: 6px;
+      border: 2px solid #0a0f1a;
+    }
+
+    ::selection {
+      background: rgba(59, 130, 246, 0.35);
+    }
+
+    .num {
+      font-family: "IBM Plex Mono", monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .serif {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600;
+      letter-spacing: -.01em;
+    }
+
+    /* Layout shell */
+    .app {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, var(--sidebar), #05080f);
+      color: var(--sidebar-ink);
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-right: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 15px;
+    }
+
+    .brand .mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      display: grid;
+      place-items: center;
+      font-family: "Fraunces";
+      font-weight: 700;
+      color: #fff;
+      font-size: 19px;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .brand b {
+      font-family: "Fraunces";
+      font-size: 16px;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .brand span {
+      font-size: 9.5px;
+      color: var(--sidebar-mut);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-label {
+      font-size: 9.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sidebar-mut);
+      margin: 15px 8px 4px;
+      font-weight: 700;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--sidebar-ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .15s;
+      border: 1px solid transparent;
+    }
+
+    .nav a .ic {
+      width: 18px;
+      text-align: center;
+      opacity: .8;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+    }
+
+    .nav a.active {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.02));
+      color: #fff;
+      border-color: rgba(59, 130, 246, 0.25);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .sidebar .foot {
+      margin-top: auto;
+      font-size: 10.5px;
+      color: var(--sidebar-mut);
+      padding: 15px 8px 0;
+      border-top: 1px solid var(--line);
+      line-height: 1.5;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 8, 15, 0.82);
+      backdrop-filter: blur(12px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 30px;
+    }
+
+    .topbar .row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .pagetitle h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pagetitle p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .filters {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .fl {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .fl label {
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .fl select {
+      appearance: none;
+      font-family: "IBM Plex Sans";
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--paper-2);
+      border: 1px solid var(--line-strong);
+      border-radius: 7px;
+      padding: 6px 28px 6px 11px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8'><path d='M2 4l4 4 4-4z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      min-width: 125px;
+      transition: .15s;
+    }
+
+    .fl select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn {
+      font-family: "IBM Plex Sans";
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 7px;
+      padding: 6px 14px;
+      cursor: pointer;
+      border: 1px solid var(--line-strong);
+      background: var(--paper-2);
+      color: var(--ink);
+      transition: .12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn.p {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn.p:hover {
+      background: var(--accent-d);
+      color: #fff;
+    }
+
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--line-strong);
+      border-radius: 7px;
+      overflow: hidden;
+      background: var(--paper-2);
+    }
+
+    .seg button {
+      border: 0;
+      background: transparent;
+      padding: 6px 14px;
+      font-family: "IBM Plex Sans";
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: .12s;
+    }
+
+    .seg button.on {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .seg button:not(.on):hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Content panels */
+    .content {
+      padding: 24px 30px 60px;
+      max-width: 1350px;
+      width: 100%;
+    }
+
+    .page {
+      display: none;
+      animation: fade .35s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .sec-title {
+      font-size: 12.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-d);
+      font-weight: 700;
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--line-strong), transparent);
+    }
+
+    /* Glassmorphism panels */
+    .panel,
+    .kpi,
+    .tablewrap,
+    .minicard,
+    .ins-card {
+      background: linear-gradient(165deg, rgba(23, 33, 54, 0.72) 0%, rgba(12, 19, 33, 0.58) 100%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      border-radius: 14px;
+    }
+
+    .panel {
+      padding: 18px 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .panel .cap {
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+    }
+
+    /* KPI Grid */
+    .kpigrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .kpi {
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s ease, border-color .3s;
+    }
+
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--accent), var(--gold) 60%, transparent 85%);
+    }
+
+    .kpi:hover {
+      transform: translateY(-3px);
+      border-color: rgba(96, 165, 250, 0.35);
+    }
+
+    .kpi .k {
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .kpi .v {
+      font-family: "IBM Plex Mono";
+      font-size: 23px;
+      font-weight: 600;
+      margin: 8px 0 2px;
+      color: #fff;
+    }
+
+    .kpi .sub {
+      font-size: 11px;
+      color: var(--ink-soft);
+      font-family: "IBM Plex Mono";
+    }
+
+    /* Grid systems */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .chartbox {
+      position: relative;
+      height: 250px;
+    }
+
+    /* Financial Tables */
+    .tablewrap {
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    table.fin {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    table.fin th,
+    table.fin td {
+      padding: 8px 12px;
+      text-align: right;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    table.fin th:first-child,
+    table.fin td:first-child {
+      text-align: left;
+    }
+
+    table.fin thead th {
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--line-strong);
+      background: rgba(12, 19, 33, 0.8);
+      position: sticky;
+      top: 0;
+    }
+
+    table.fin td.num,
+    table.fin th.num {
+      font-family: "IBM Plex Mono";
+    }
+
+    table.fin tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    tr.total td {
+      font-weight: 700;
+      border-top: 1.5px solid var(--line-strong);
+      border-bottom: 1.5px solid var(--line-strong);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    /* Transfer pricing & checklists */
+    .compliance-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .comp-card {
+      background: rgba(17, 26, 43, 0.4);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .comp-card h4 {
+      color: var(--gold-soft);
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .comp-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .comp-card li {
+      font-size: 12px;
+      margin-bottom: 8px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .comp-card b {
+      color: #fff;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: "IBM Plex Mono";
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      border: 1px solid;
+    }
+
+    .status-badge.ok {
+      color: var(--pos);
+      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .status-badge.warn {
+      color: var(--gold);
+      border-color: rgba(201, 162, 74, 0.3);
+      background: rgba(201, 162, 74, 0.08);
+    }
+
+    /* Flash message notifier */
+    #flash-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: none;
+      z-index: 100;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media(max-width: 1024px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        height: auto;
+        position: relative;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .kpigrid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-2,
+      .compliance-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- ===================== LOGIN GATE (Supabase Auth · shared across NumberIQ modules) ===================== -->
+<style>
+  body.lg-locked > :not(#loginGate):not(script):not(style):not(datalist) { display: none !important; }
+  #loginGate { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(1000px 600px at 18% -10%, rgba(79,124,255,.2), transparent 60%), radial-gradient(900px 600px at 92% 0%, rgba(154,107,255,.18), transparent 55%), #05060a; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #loginGate .lg-card { width: min(400px, 92vw); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 24px; padding: 38px 34px 26px; background: linear-gradient(180deg, rgba(20,24,40,.92), rgba(10,12,20,.97)); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 30px 80px -20px rgba(0,0,0,.7); }
+  #loginGate .lg-card::before { content: ""; position: absolute; inset: 0; border-radius: 24px; padding: 1px; background: linear-gradient(120deg, rgba(79,124,255,.55), transparent 45%, transparent 55%, rgba(154,107,255,.5)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  #loginGate .lg-mark { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #4f7cff; background: rgba(79,124,255,.12); border: 1px solid rgba(79,124,255,.3); }
+  #loginGate h2 { margin: 0 0 4px; text-align: center; color: #fff; font-size: 20px; letter-spacing: .02em; }
+  #loginGate .lg-sub { text-align: center; color: #8b93a7; font-size: 12.5px; margin-bottom: 20px; }
+  #loginGate label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8b93a7; margin: 12px 0 5px; }
+  #loginGate input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; padding: 10px 12px; color: #fff; font-size: 14px; outline: none; }
+  #loginGate input:focus { border-color: #4f7cff; }
+  #loginGate button { width: 100%; margin-top: 16px; padding: 11px; border: none; border-radius: 10px; background: linear-gradient(120deg, #4f7cff, #6b5bff); color: #fff; font-size: 13.5px; font-weight: 700; letter-spacing: .03em; cursor: pointer; }
+  #loginGate button:hover { filter: brightness(1.1); }
+  #loginGate button:disabled { opacity: .6; cursor: default; }
+  #loginGate .lg-err { display: none; margin-top: 10px; font-size: 12px; color: #ff8b8b; text-align: center; }
+  #loginGate .lg-foot { margin-top: 22px; text-align: center; font-size: 10.5px; color: #5b6274; letter-spacing: .04em; }
+  #lgLogout { position: fixed; right: 14px; bottom: 14px; z-index: 9999; font-size: 11px; color: #8b93a7; background: rgba(10,12,20,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #lgLogout:hover { color: #fff; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (function () {
+    var SUPABASE_URL = "https://qlvsowlzztsdthqqrhgi.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_yrpTeyds6we661S78IdDgg_qv943431";
+    // sessionStorage = session cleared when browser/tab closes -> password required every fresh visit
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storage: window.sessionStorage, persistSession: true, autoRefreshToken: true } });
+    window.sbClient = sb;
+    window.moduleLogout = function () { sb.auth.signOut().then(function () { location.reload(); }); };
+
+    document.body.className += " lg-locked";
+    var gate = document.createElement("div"); gate.id = "loginGate";
+    gate.innerHTML = '<div class="lg-card">' +
+      '<div class="lg-mark">◈</div>' +
+      '<h2>NumberIQ</h2>' +
+      '<div class="lg-sub" id="lgSub">Checking session…</div>' +
+      '<div id="lgForm" style="display:none">' +
+      '<label>Email</label>' +
+      '<input id="lgId" type="email" autocomplete="username" placeholder="you@company.com">' +
+      '<label>Password</label>' +
+      '<input id="lgPin" type="password" autocomplete="current-password" placeholder="••••••••">' +
+      '<button id="lgBtn">Sign In</button>' +
+      '<div class="lg-err" id="lgErr">Invalid email or password. Please try again.</div>' +
+      '<div style="text-align:center;margin-top:10px"><a href="#" id="lgForgot" style="color:#4f7cff;font-size:12px;text-decoration:none">Forgot password?</a></div>' +
+      '<div id="lgMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div id="lgReset" style="display:none">' +
+      '<label>New Password</label>' +
+      '<input id="lgNew" type="password" autocomplete="new-password" placeholder="Enter new password (min 6 chars)">' +
+      '<button id="lgSetBtn">Set New Password</button>' +
+      '<div class="lg-err" id="lgResetErr"></div>' +
+      '<div id="lgResetMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div class="lg-foot">NumberIQ Boardroom &middot; Access restricted</div></div>';
+    document.body.appendChild(gate);
+
+    function addLogout(email) {
+      var b = document.createElement("button"); b.id = "lgLogout";
+      b.textContent = email + " · Logout";
+      b.onclick = window.moduleLogout;
+      document.body.appendChild(b);
+    }
+    function unlock(email) {
+      document.body.classList.remove("lg-locked");
+      if (gate.parentNode) gate.remove();
+      addLogout(email);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 100);
+    }
+    function showForm() {
+      document.getElementById("lgSub").textContent = "Sign in to open this module";
+      document.getElementById("lgForm").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgId"); if (el) el.focus(); }, 100);
+    }
+    function attempt() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var pass = (document.getElementById("lgPin").value || "").trim();
+      var btn = document.getElementById("lgBtn");
+      if (!email || !pass) return;
+      btn.disabled = true; btn.textContent = "Signing in…";
+      sb.auth.signInWithPassword({ email: email, password: pass }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Sign In";
+        if (res.error) {
+          var er = document.getElementById("lgErr");
+          er.style.display = "block";
+          er.textContent = (res.error.message === "Invalid login credentials") ? "Invalid email or password. Please try again." : res.error.message;
+          document.getElementById("lgPin").value = "";
+        } else {
+          unlock(res.data.user.email);
+        }
+      });
+    }
+    // Password recovery: detect the token in the URL BEFORE supabase-js strips it
+    var isRecovery = /type=recovery/.test(location.hash) || /[?&]code=/.test(location.search);
+    function showReset() {
+      document.getElementById("lgSub").textContent = "Set a new password for your account";
+      document.getElementById("lgForm").style.display = "none";
+      document.getElementById("lgReset").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgNew"); if (el) el.focus(); }, 100);
+    }
+    function sendReset() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var er = document.getElementById("lgErr"), ok = document.getElementById("lgMsg");
+      er.style.display = "none"; ok.style.display = "none";
+      if (!email) { er.style.display = "block"; er.textContent = "Enter your email above first, then click Forgot password."; return; }
+      sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname }).then(function (res) {
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else { ok.style.display = "block"; ok.textContent = "Reset link sent to " + email + ". Check your inbox (and spam folder)."; }
+      });
+    }
+    function setNewPass() {
+      var v = (document.getElementById("lgNew").value || "").trim();
+      var er = document.getElementById("lgResetErr"), ok = document.getElementById("lgResetMsg");
+      var btn = document.getElementById("lgSetBtn");
+      er.style.display = "none"; ok.style.display = "none";
+      if (v.length < 6) { er.style.display = "block"; er.textContent = "Password must be at least 6 characters."; return; }
+      btn.disabled = true; btn.textContent = "Saving…";
+      sb.auth.updateUser({ password: v }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Set New Password";
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else {
+          ok.style.display = "block"; ok.textContent = "Password updated. Signing you in…";
+          setTimeout(function () { history.replaceState(null, "", location.pathname); location.reload(); }, 1200);
+        }
+      });
+    }
+    gate.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "lgBtn") attempt();
+      else if (e.target && e.target.id === "lgForgot") { e.preventDefault(); sendReset(); }
+      else if (e.target && e.target.id === "lgSetBtn") setNewPass();
+    });
+    gate.addEventListener("keydown", function (e) { if (e.key === "Enter") { if (document.getElementById("lgReset").style.display === "block") { setNewPass(); } else { attempt(); } } });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") { isRecovery = true; showReset(); } });
+    sb.auth.getSession().then(function (res) {
+      if (isRecovery) { showReset(); }
+      else if (res.data && res.data.session) { unlock(res.data.session.user.email); }
+      else { showForm(); }
+    });
+  })();
+</script>
+<!-- ===================== /LOGIN GATE ===================== -->
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark">IQ</div>
+        <div>
+          <b>NumberIQ</b>
+          <span>Boardroom</span>
+        </div>
+      </div>
+      <span class="nav-label">Global MIS</span>
+      <nav class="nav">
+        <a onclick="showPage('summary')" id="tab-summary" class="active">
+          <span class="ic">📊</span> Executive Summary
+        </a>
+        <a onclick="showPage('cogs')" id="tab-cogs">
+          <span class="ic">📈</span> COGS & Margins
+        </a>
+        <a onclick="showPage('compliance')" id="tab-compliance">
+          <span class="ic">🛡️</span> TP Compliance
+        </a>
+        <a href="/dashboard"
+          style="margin-top: 15px; border-top: 1px dashed var(--line); border-radius: 0; padding-top: 15px;">
+          <span class="ic">🏛️</span> Back to HQ Dashboard
+        </a>
+      </nav>
+      <div class="foot">
+        Session: FY 2026-27<br />
+        Updated: Current Month<br />
+        Security: Restricted
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="topbar">
+        <div class="row1">
+          <div class="pagetitle">
+            <h1 id="header-title">Consolidated Entity Summary</h1>
+            <p id="header-subtitle">Executive tracker for cross-border operations and international vendor metrics</p>
+          </div>
+
+          <!-- Interactive controls -->
+          <div class="filters">
+            <!-- Month Selector -->
+            <div class="fl">
+              <label>Reporting Month</label>
+              <select id="month-select" onchange="setMonth(this.value)">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6" selected>July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+              </select>
+            </div>
+
+            <!-- Currency Selector -->
+            <div class="fl">
+              <label>Currency Mode</label>
+              <div class="seg">
+                <button onclick="setCurrency('INR')" id="cur-inr" class="on">₹ INR</button>
+                <button onclick="setCurrency('ACT')" id="cur-act">Actual</button>
+              </div>
+            </div>
+
+            <!-- Upload excel -->
+            <div class="fl">
+              <label>Data upload (xlsx)</label>
+              <button class="btn p" onclick="triggerUpload()">📁 Upload Excel</button>
+              <input type="file" id="excel-file-input" style="display:none" accept=".xlsx,.xls"
+                onchange="handleExcelUpload(event)" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- ==================== EXECUTIVE SUMMARY PAGE ==================== -->
+        <section id="page-summary" class="page active">
+          <div class="kpigrid">
+            <div class="kpi">
+              <span class="k">Consolidated Sales</span>
+              <div class="v num" id="kpi-sales">₹3,435,242</div>
+              <span class="sub" id="sub-sales">Total overseas revenue</span>
+            </div>
+            <div class="kpi">
+              <span class="k">Consolidated COGS</span>
+              <div class="v num" id="kpi-cogs">₹1,522,891</div>
+              <span class="sub" id="sub-cogs">Entity purchase costs</span>
+            </div>
+            <div class="kpi">
+              <span class="k">Gross Margin</span>
+              <div class="v num" id="kpi-margin" style="color: var(--pos);">₹1,912,351</div>
+              <span class="sub" id="sub-margin">Operating gross profit</span>
+            </div>
+            <div class="kpi">
+              <span class="k">Consolidated Margin %</span>
+              <div class="v num" id="kpi-margin-pct" style="color: var(--gold-soft);">55.67%</div>
+              <span class="sub">Overseas efficiency ratio</span>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <!-- Table -->
+            <div class="tablewrap">
+              <table class="fin">
+                <thead>
+                  <tr>
+                    <th>International Vendor</th>
+                    <th class="num">Sales</th>
+                    <th class="num">COGS</th>
+                    <th class="num">Margin</th>
+                    <th class="num">COGS %</th>
+                    <th class="num">Margin %</th>
+                  </tr>
+                </thead>
+                <tbody id="vendor-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="panel">
+              <h3>Margin Contribution Share</h3>
+              <p class="cap">Breakdown of gross margin by offshore entities</p>
+              <div class="chartbox">
+                <canvas id="marginPieChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== COGS & MARGINS PAGE ==================== -->
+        <section id="page-cogs" class="page">
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Sales vs Purchase Cost Comparison</h3>
+              <p class="cap">Revenue generation plotted against COGS across active corporate subsidiaries</p>
+              <div class="chartbox" style="height: 300px;">
+                <canvas id="revenueBarChart"></canvas>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>Subsidiary Pricing Efficiency</h3>
+              <p class="cap">Relative margin contribution compared to operational purchase ratios</p>
+              <div class="chartbox" style="height: 300px;">
+                <canvas id="efficiencyBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== TP COMPLIANCE PAGE ==================== -->
+        <section id="page-compliance" class="page">
+          <div class="compliance-grid">
+            <div class="comp-card">
+              <h4>🛡️ Transfer Pricing (TP) & BEPS Compliance Status</h4>
+              <ul>
+                <li><b>Rule 10B Compliance:</b> Standard arm's length transaction pricing verified for all active
+                  entities. <span class="status-badge ok">COMPLIANT</span></li>
+                <li><b>Associated Enterprises (AE) Status:</b> 3 entities (Floristgate, Credible Core LLC, and Cartly
+                  Canada) flagged as AEs under Section 92A. Form 3CEB requirements applicable.</li>
+                <li><b>BEPS Country-by-Country (CbC) Reporting:</b> Overseas consolidated revenue checks confirm
+                  platform is currently under the €750m notification limit.</li>
+                <li><b>POEM (Place of Effective Management) Risk:</b> UAE and Canada entity board decisions verified as
+                  executed outside India to protect tax residency status. <span class="status-badge ok">LOW RISK</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="comp-card">
+              <h4>💡 Recommended Actions for FY 2026-27</h4>
+              <ul>
+                <li><b>DTAA Treaties:</b> Maximize DTAA benefits between India and the UK for Floristgate transactions
+                  (10% lower withholding tax bracket option).</li>
+                <li><b>LRS TCS:</b> Track Outward remittances under LRS to ensure TCS declarations (up to 20%) are
+                  correctly reconciled with corresponding GSTR-2B logs. <span class="status-badge warn">REVIEW
+                    NEEDED</span></li>
+                <li><b>Documentation:</b> Maintain local files and master files for associated transactions exceeding ₹1
+                  crore annually.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Flash Message -->
+  <div id="flash-msg"></div>
+
+  <script>
+    // Baseline data mapped to July (Index 6) as default
+    const BASELINE_DATA = [
+      { name: 'Cartly Canada', currency: 'CAD', rate: 60.5, sales: 143099, cogs: 69003, margin: 74096, cogsPct: 48.22, marginPct: 51.78 },
+      { name: 'Credible Core LLC', currency: 'USD', rate: 83.2, sales: 1426751, cogs: 563659, margin: 863092, cogsPct: 39.51, marginPct: 60.49 },
+      { name: 'FlowersDeliveryForuk', currency: 'GBP', rate: 105.1, sales: 0, cogs: 0, margin: 0, cogsPct: 0.0, marginPct: 0.0 },
+      { name: 'KavyaEnterprise', currency: 'USD', rate: 83.2, sales: 62472, cogs: 32025, margin: 30447, cogsPct: 51.26, marginPct: 48.74 },
+      { name: 'Serve It', currency: 'USD', rate: 83.2, sales: 0, cogs: 0, margin: 0, cogsPct: 0.0, marginPct: 0.0 },
+      { name: 'DS Corporation', currency: 'USD', rate: 83.2, sales: 0, cogs: 0, margin: 0, cogsPct: 0.0, marginPct: 0.0 },
+      { name: 'FarEastFlora', currency: 'SGD', rate: 61.2, sales: 0, cogs: 0, margin: 0, cogsPct: 0.0, marginPct: 0.0 },
+      { name: 'Ghalley Holdings', currency: 'BTN', rate: 1.0, sales: 0, cogs: 0, margin: 0, cogsPct: 0.0, marginPct: 0.0 },
+      { name: 'Floristgate', currency: 'GBP', rate: 105.1, sales: 1594490, cogs: 755149, margin: 839341, cogsPct: 47.36, marginPct: 52.64 },
+      { name: 'Reliable Flora', currency: 'AED', rate: 22.6, sales: 208430, cogs: 103055, margin: 105375, cogsPct: 49.44, marginPct: 50.56 }
+    ];
+
+    const DEFAULT_VENDORS = [
+      { name: 'Cartly Canada', currency: 'CAD', rate: 60.5 },
+      { name: 'Credible Core LLC', currency: 'USD', rate: 83.2 },
+      { name: 'FlowersDeliveryForuk', currency: 'GBP', rate: 105.1 },
+      { name: 'KavyaEnterprise', currency: 'USD', rate: 83.2 },
+      { name: 'Serve It', currency: 'USD', rate: 83.2 },
+      { name: 'DS Corporation', currency: 'USD', rate: 83.2 },
+      { name: 'FarEastFlora', currency: 'SGD', rate: 61.2 },
+      { name: 'Ghalley Holdings', currency: 'BTN', rate: 1.0 },
+      { name: 'Floristgate', currency: 'GBP', rate: 105.1 },
+      { name: 'Reliable Flora', currency: 'AED', rate: 22.6 }
+    ];
+
+    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // Application state
+    let state = {
+      month: 6, // default July
+      currency: 'INR',
+      data: {} // monthly data packages mapping index (e.g. "6") -> Array of items
+    };
+
+    let charts = {};
+
+    // Toast alert helper
+    function flash(msg) {
+      const el = document.getElementById('flash-msg');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 4000);
+    }
+
+    // Load and save functions (localStorage)
+    function loadState() {
+      try {
+        const raw = localStorage.getItem('numberiq_int_biz_pack');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.month = parsed.month !== undefined ? parsed.month : 6;
+          state.currency = parsed.currency !== undefined ? parsed.currency : 'INR';
+          state.data = parsed.data || {};
+        }
+      } catch (e) {
+        console.error("Local storage read failed:", e);
+      }
+
+      // Seed July if empty
+      if (!state.data["6"]) {
+        state.data["6"] = JSON.parse(JSON.stringify(BASELINE_DATA));
+      }
+
+      // Update select dropdown value
+      document.getElementById('month-select').value = state.month;
+      // Update currency switcher UI
+      setCurrency(state.currency);
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('numberiq_int_biz_pack', JSON.stringify(state));
+      } catch (e) {
+        console.error("Local storage save failed:", e);
+      }
+    }
+
+    // Get data array for the active month
+    function getActiveMonthData() {
+      return state.data[state.month.toString()] || [];
+    }
+
+    // Helper to format values
+    function fmt(val, currency = 'INR', actCurrCode = 'INR') {
+      if (val === 0 || isNaN(val)) return '-';
+      const cSymbol = currency === 'INR' ? '₹' : '';
+      const suffix = currency === 'ACT' ? ` ${actCurrCode}` : '';
+      return cSymbol + Math.round(val).toLocaleString('en-IN') + suffix;
+    }
+
+    // Compute dynamic totals
+    function getTotals(curr) {
+      let sales = 0, cogs = 0, margin = 0;
+      const currentData = getActiveMonthData();
+
+      if (currentData.length === 0) {
+        return { sales: 0, cogs: 0, margin: 0, cogsPct: 0, marginPct: 0 };
+      }
+
+      currentData.forEach(row => {
+        const factor = curr === 'INR' ? 1 : (1 / row.rate);
+        sales += (row.sales || 0) * factor;
+        cogs += (row.cogs || 0) * factor;
+        margin += (row.margin || 0) * factor;
+      });
+      return { sales, cogs, margin, cogsPct: sales > 0 ? (cogs / sales) * 100 : 0, marginPct: sales > 0 ? (margin / sales) * 100 : 0 };
+    }
+
+    // Render dynamic tables
+    function renderTable() {
+      const tbody = document.getElementById('vendor-table-body');
+      tbody.innerHTML = '';
+
+      const currentData = getActiveMonthData();
+      if (currentData.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px; color:var(--ink-soft);">No data uploaded for this month. Click "Upload Excel" to upload data.</td></tr>`;
+        return;
+      }
+
+      currentData.forEach(row => {
+        const factor = state.currency === 'INR' ? 1 : (1 / row.rate);
+        const rowSales = (row.sales || 0) * factor;
+        const rowCogs = (row.cogs || 0) * factor;
+        const rowMargin = (row.margin || 0) * factor;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+      <td>
+        <strong>${row.name}</strong>
+        <div style="font-size:10px; color:var(--ink-soft); margin-top:2px;">
+          Curr: ${row.currency} · Ex-Rate: ₹${row.rate}
+        </div>
+      </td>
+      <td class="num">${fmt(rowSales, state.currency, row.currency)}</td>
+      <td class="num">${fmt(rowCogs, state.currency, row.currency)}</td>
+      <td class="num" style="color: ${rowMargin > 0 ? 'var(--pos)' : 'var(--ink)'}">${fmt(rowMargin, state.currency, row.currency)}</td>
+      <td class="num pctcell">${row.cogsPct > 0 ? row.cogsPct.toFixed(1) + '%' : '-'}</td>
+      <td class="num pctcell" style="font-weight: 600; color: var(--gold-soft);">${row.marginPct > 0 ? row.marginPct.toFixed(1) + '%' : '-'}</td>
+    `;
+        tbody.appendChild(tr);
+      });
+
+      // Total Row
+      const totals = getTotals(state.currency);
+      const totalTr = document.createElement('tr');
+      totalTr.className = 'total';
+      totalTr.innerHTML = `
+    <td>CONSOLIDATED TOTAL</td>
+    <td class="num">${fmt(totals.sales, state.currency)}</td>
+    <td class="num">${fmt(totals.cogs, state.currency)}</td>
+    <td class="num" style="color: var(--pos);">${fmt(totals.margin, state.currency)}</td>
+    <td class="num pctcell">${totals.cogsPct.toFixed(1)}%</td>
+    <td class="num pctcell" style="color: var(--gold-soft); font-weight:700;">${totals.marginPct.toFixed(1)}%</td>
+  `;
+      tbody.appendChild(totalTr);
+    }
+
+    // Toggle active navigation pages
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+
+      document.getElementById(`page-${pageId}`).classList.add('active');
+      document.getElementById(`tab-${pageId}`).classList.add('active');
+
+      const headers = {
+        summary: ['Consolidated Entity Summary', 'Executive tracker for cross-border operations and international vendor metrics'],
+        cogs: ['Purchase & Profit Efficiency', 'Comparing sales vs cost of goods sold across global subsidiaries'],
+        compliance: ['Transfer Pricing Audits', 'Key compliance checklists for international legal associated enterprises']
+      };
+
+      document.getElementById('header-title').innerText = headers[pageId][0];
+      document.getElementById('header-subtitle').innerText = headers[pageId][1];
+
+      // Re-draw or update charts for active tab
+      if (pageId === 'summary') {
+        initSummaryCharts();
+      } else if (pageId === 'cogs') {
+        initCogsCharts();
+      }
+    }
+
+    // Month Selector handler
+    function setMonth(mVal) {
+      state.month = parseInt(mVal);
+      saveState();
+
+      // Trigger update
+      updateDashboardValues();
+      flash(`Dashboard switched to ${MONTHS[state.month]} reporting data.`);
+    }
+
+    function updateDashboardValues() {
+      const totals = getTotals(state.currency);
+      document.getElementById('kpi-sales').innerText = fmt(totals.sales, state.currency);
+      document.getElementById('kpi-cogs').innerText = fmt(totals.cogs, state.currency);
+      document.getElementById('kpi-margin').innerText = fmt(totals.margin, state.currency);
+      document.getElementById('kpi-margin-pct').innerText = totals.marginPct.toFixed(2) + '%';
+
+      renderTable();
+      initSummaryCharts();
+      initCogsCharts();
+    }
+
+    // Handle currency switcher
+    function setCurrency(curr) {
+      state.currency = curr;
+      saveState();
+
+      document.getElementById('cur-inr').className = curr === 'INR' ? 'on' : '';
+      document.getElementById('cur-act').className = curr === 'ACT' ? 'on' : '';
+
+      updateDashboardValues();
+    }
+
+    // File upload triggers
+    function triggerUpload() {
+      document.getElementById('excel-file-input').click();
+    }
+
+    // Parse Excel file upload
+    function handleExcelUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          // Parse Sheet to 2D Array
+          const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+          const importedData = [];
+
+          rows.forEach(row => {
+            if (row.length < 2) return;
+            const name = row[1]; // Column B (Vendor Name)
+            if (!name) return;
+
+            // Clean up title text and aggregate headers
+            const lowerName = name.toString().trim().toLowerCase();
+            if (
+              lowerName.includes("international vendor") ||
+              lowerName.includes("power bi") ||
+              lowerName.includes("vendor") ||
+              lowerName.includes("total") ||
+              lowerName === ""
+            ) {
+              return;
+            }
+
+            const sales = parseFloat(row[2]) || 0; // Column C
+            const cogs = parseFloat(row[3]) || 0;  // Column D
+            const margin = parseFloat(row[4]) || 0; // Column E
+
+            // Resolve default currencies and exchange rates
+            const def = DEFAULT_VENDORS.find(v => v.name.toLowerCase() === lowerName);
+            const currency = def ? def.currency : "USD";
+            const rate = def ? def.rate : 83.2;
+
+            const cogsPct = sales > 0 ? (cogs / sales) * 100 : 0;
+            const marginPct = sales > 0 ? (margin / sales) * 100 : 0;
+
+            importedData.push({
+              name: name.toString().trim(),
+              currency: currency,
+              rate: rate,
+              sales: sales,
+              cogs: cogs,
+              margin: margin,
+              cogsPct: cogsPct,
+              marginPct: marginPct
+            });
+          });
+
+          if (importedData.length === 0) {
+            flash("Could not parse any valid vendor rows. Please make sure data matches the standard format.");
+            return;
+          }
+
+          // Save imported data to active month state
+          state.data[state.month.toString()] = importedData;
+          saveState();
+          updateDashboardValues();
+
+          flash(`Successfully imported and saved ${importedData.length} vendor records for ${MONTHS[state.month]}!`);
+        } catch (err) {
+          console.error(err);
+          flash("Error reading Excel file. Check format.");
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+      event.target.value = ""; // reset input
+    }
+
+    // Initialize Charts
+    function initSummaryCharts() {
+      if (charts.pie) charts.pie.destroy();
+
+      const currentData = getActiveMonthData();
+      const activeRows = currentData.filter(r => (r.margin || 0) > 0);
+
+      if (activeRows.length === 0) {
+        return;
+      }
+
+      const labels = activeRows.map(r => r.name);
+      const data = activeRows.map(r => {
+        const factor = state.currency === 'INR' ? 1 : (1 / r.rate);
+        return r.margin * factor;
+      });
+
+      const ctx = document.getElementById('marginPieChart').getContext('2d');
+      charts.pie = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#a855f7', '#6366f1', '#ec4899'],
+            borderWidth: 1,
+            borderColor: 'rgba(255,255,255,0.08)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { color: '#94a3b8', font: { family: 'IBM Plex Sans', size: 10 } }
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize COGS charts
+    function initCogsCharts() {
+      if (charts.revBar) charts.revBar.destroy();
+      if (charts.effBar) charts.effBar.destroy();
+
+      const currentData = getActiveMonthData();
+      const activeRows = currentData.filter(r => (r.sales || 0) > 0);
+
+      if (activeRows.length === 0) {
+        return;
+      }
+
+      const labels = activeRows.map(r => r.name);
+
+      const salesData = activeRows.map(r => {
+        const factor = state.currency === 'INR' ? 1 : (1 / r.rate);
+        return r.sales * factor;
+      });
+
+      const cogsData = activeRows.map(r => {
+        const factor = state.currency === 'INR' ? 1 : (1 / r.rate);
+        return r.cogs * factor;
+      });
+
+      const marginPctData = activeRows.map(r => r.marginPct);
+
+      const ctx1 = document.getElementById('revenueBarChart').getContext('2d');
+      charts.revBar = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Sales', data: salesData, backgroundColor: '#3b82f6' },
+            { label: 'COGS', data: cogsData, backgroundColor: 'rgba(255,255,255,0.25)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+          },
+          plugins: {
+            legend: { labels: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      const ctx2 = document.getElementById('efficiencyBarChart').getContext('2d');
+      charts.effBar = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Margin %', data: marginPctData, backgroundColor: '#dab86a' }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // Initial boot
+    window.onload = function () {
+      loadState();
+      updateDashboardValues();
+    };
+  </script>
+</body>
+
+</html>

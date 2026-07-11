@@ -1,0 +1,36 @@
+name: Weekly Tax Radar Reminder
+
+on:
+  schedule:
+    - cron: '30 3 * * 6' # 03:30 UTC (09:00 IST) every Saturday
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  create-reminder:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create Curation Reminder Issue
+        run: |
+          TITLE="Update Tax Radar — week of $(date +'%Y-%m-%d')"
+          BODY=$(cat <<EOF
+          This is your weekly reminder to populate the \`content/updates.json\` file with tax and regulatory updates from the past 7 days.
+
+          ### Direct Curation Links:
+          - **Direct Tax:** [incometaxindia.gov.in](https://incometaxindia.gov.in)
+          - **Indirect Tax (GST/Customs):** [taxinformation.cbic.gov.in](https://taxinformation.cbic.gov.in)
+          - **Central Bank:** [rbi.org.in](https://rbi.org.in)
+          - **Corporate Affairs:** [pib.gov.in](https://pib.gov.in)
+
+          ### Steps to Execute:
+          1. Edit \`content/updates.json\` in the codebase.
+          2. Add new updates under the current Saturday's week date.
+          3. Commit and push to the remote branch to redeploy.
+          4. Close this issue once updates are verified live.
+          EOF
+          )
+          
+          gh issue create --title "$TITLE" --body "$BODY" --label "curation,radar"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

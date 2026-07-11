@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice to Tally Converter — Module | NumberIQ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #05060a; color: #e6e9f0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 24px; font-size: 14px; }
+  .wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+  h1 { font-size: 20px; } h1 span { color: #4f7cff; }
+  .sub { color: #737c92; font-size: 12px; }
+  .card { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); border-radius: 14px; padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .grid .span2 { grid-column: span 2; }
+  label { display: block; font-size: 9px; font-weight: 700; color: #aab2c5; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+  input, select { width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 7px 9px; color: #fff; font-size: 12px; outline: none; }
+  input:focus, select:focus { border-color: #4f7cff; }
+  .intake { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .drop { border: 1.5px dashed rgba(255,255,255,.18); border-radius: 14px; padding: 18px; text-align: center; cursor: pointer; transition: border-color .15s; background: rgba(255,255,255,.03); }
+  .drop:hover { border-color: rgba(79,124,255,.6); }
+  .drop b { display: block; font-size: 12.5px; margin-bottom: 3px; }
+  .drop small { color: #737c92; font-size: 10.5px; }
+  button { cursor: pointer; border: none; border-radius: 10px; padding: 8px 14px; font-size: 11.5px; font-weight: 600; color: #fff; }
+  .btn-blue { background: #4f7cff; } .btn-blue:hover { background: #3d66dd; }
+  .btn-ghost { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  .btn-green { background: rgba(29,125,79,.25); border: 1px solid rgba(29,125,79,.5); }
+  .btn-red { background: rgba(220,60,60,.15); border: 1px solid rgba(220,60,60,.3); color: #ff8b8b; }
+  table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  th { text-align: left; color: #737c92; font-size: 10px; text-transform: uppercase; padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+  td { padding: 3px 3px; border-bottom: 1px solid rgba(255,255,255,.05); }
+  td input { background: transparent; border: 1px solid transparent; padding: 5px 6px; border-radius: 6px; font-size: 11.5px; }
+  td input:hover { border-color: rgba(255,255,255,.12); }
+  td input:focus { border-color: #4f7cff; background: rgba(255,255,255,.05); }
+  .r { text-align: right; }
+  .tag-ok { color: #4ade80; font-size: 10px; } .tag-warn { color: #facc15; font-size: 10px; }
+  .queue-item { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10px; margin: 2px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05); color: #aab2c5; }
+  .q-done { color: #4ade80; border-color: rgba(74,222,128,.25); } .q-err { color: #f87171; border-color: rgba(248,113,113,.25); } .q-proc { color: #4f7cff; border-color: rgba(79,124,255,.35); }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .help { font-size: 11px; color: #737c92; line-height: 1.7; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.06); border-radius: 10px; padding: 12px; }
+  .help b { color: #aab2c5; }
+  .hidden { display: none; }
+  .tblwrap { overflow-x: auto; border: 1px solid rgba(255,255,255,.06); border-radius: 10px; }
+  #status { font-size: 11px; color: #4f7cff; }
+</style>
+</head>
+<body>
+<!-- ===================== LOGIN GATE (Supabase Auth · shared across NumberIQ modules) ===================== -->
+<style>
+  body.lg-locked > :not(#loginGate):not(script):not(style):not(datalist) { display: none !important; }
+  #loginGate { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(1000px 600px at 18% -10%, rgba(79,124,255,.2), transparent 60%), radial-gradient(900px 600px at 92% 0%, rgba(154,107,255,.18), transparent 55%), #05060a; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #loginGate .lg-card { width: min(400px, 92vw); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 24px; padding: 38px 34px 26px; background: linear-gradient(180deg, rgba(20,24,40,.92), rgba(10,12,20,.97)); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 30px 80px -20px rgba(0,0,0,.7); }
+  #loginGate .lg-card::before { content: ""; position: absolute; inset: 0; border-radius: 24px; padding: 1px; background: linear-gradient(120deg, rgba(79,124,255,.55), transparent 45%, transparent 55%, rgba(154,107,255,.5)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  #loginGate .lg-mark { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #4f7cff; background: rgba(79,124,255,.12); border: 1px solid rgba(79,124,255,.3); }
+  #loginGate h2 { margin: 0 0 4px; text-align: center; color: #fff; font-size: 20px; letter-spacing: .02em; }
+  #loginGate .lg-sub { text-align: center; color: #8b93a7; font-size: 12.5px; margin-bottom: 20px; }
+  #loginGate label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8b93a7; margin: 12px 0 5px; }
+  #loginGate input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; padding: 10px 12px; color: #fff; font-size: 14px; outline: none; }
+  #loginGate input:focus { border-color: #4f7cff; }
+  #loginGate button { width: 100%; margin-top: 16px; padding: 11px; border: none; border-radius: 10px; background: linear-gradient(120deg, #4f7cff, #6b5bff); color: #fff; font-size: 13.5px; font-weight: 700; letter-spacing: .03em; cursor: pointer; }
+  #loginGate button:hover { filter: brightness(1.1); }
+  #loginGate button:disabled { opacity: .6; cursor: default; }
+  #loginGate .lg-err { display: none; margin-top: 10px; font-size: 12px; color: #ff8b8b; text-align: center; }
+  #loginGate .lg-foot { margin-top: 22px; text-align: center; font-size: 10.5px; color: #5b6274; letter-spacing: .04em; }
+  #lgLogout { position: fixed; right: 14px; bottom: 14px; z-index: 9999; font-size: 11px; color: #8b93a7; background: rgba(10,12,20,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #lgLogout:hover { color: #fff; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (function () {
+    var SUPABASE_URL = "https://qlvsowlzztsdthqqrhgi.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_yrpTeyds6we661S78IdDgg_qv943431";
+    // sessionStorage = session cleared when browser/tab closes -> password required every fresh visit
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storage: window.sessionStorage, persistSession: true, autoRefreshToken: true } });
+    window.sbClient = sb;
+    window.moduleLogout = function () { sb.auth.signOut().then(function () { location.reload(); }); };
+
+    document.body.className += " lg-locked";
+    var gate = document.createElement("div"); gate.id = "loginGate";
+    gate.innerHTML = '<div class="lg-card">' +
+      '<div class="lg-mark">◈</div>' +
+      '<h2>NumberIQ</h2>' +
+      '<div class="lg-sub" id="lgSub">Checking session…</div>' +
+      '<div id="lgForm" style="display:none">' +
+      '<label>Email</label>' +
+      '<input id="lgId" type="email" autocomplete="username" placeholder="you@company.com">' +
+      '<label>Password</label>' +
+      '<input id="lgPin" type="password" autocomplete="current-password" placeholder="••••••••">' +
+      '<button id="lgBtn">Sign In</button>' +
+      '<div class="lg-err" id="lgErr">Invalid email or password. Please try again.</div>' +
+      '<div style="text-align:center;margin-top:10px"><a href="#" id="lgForgot" style="color:#4f7cff;font-size:12px;text-decoration:none">Forgot password?</a></div>' +
+      '<div id="lgMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div id="lgReset" style="display:none">' +
+      '<label>New Password</label>' +
+      '<input id="lgNew" type="password" autocomplete="new-password" placeholder="Enter new password (min 6 chars)">' +
+      '<button id="lgSetBtn">Set New Password</button>' +
+      '<div class="lg-err" id="lgResetErr"></div>' +
+      '<div id="lgResetMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div class="lg-foot">NumberIQ Boardroom &middot; Access restricted</div></div>';
+    document.body.appendChild(gate);
+
+    function addLogout(email) {
+      var b = document.createElement("button"); b.id = "lgLogout";
+      b.textContent = email + " · Logout";
+      b.onclick = window.moduleLogout;
+      document.body.appendChild(b);
+    }
+    function unlock(email) {
+      document.body.classList.remove("lg-locked");
+      if (gate.parentNode) gate.remove();
+      addLogout(email);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 100);
+    }
+    function showForm() {
+      document.getElementById("lgSub").textContent = "Sign in to open this module";
+      document.getElementById("lgForm").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgId"); if (el) el.focus(); }, 100);
+    }
+    function attempt() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var pass = (document.getElementById("lgPin").value || "").trim();
+      var btn = document.getElementById("lgBtn");
+      if (!email || !pass) return;
+      btn.disabled = true; btn.textContent = "Signing in…";
+      sb.auth.signInWithPassword({ email: email, password: pass }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Sign In";
+        if (res.error) {
+          var er = document.getElementById("lgErr");
+          er.style.display = "block";
+          er.textContent = (res.error.message === "Invalid login credentials") ? "Invalid email or password. Please try again." : res.error.message;
+          document.getElementById("lgPin").value = "";
+        } else {
+          unlock(res.data.user.email);
+        }
+      });
+    }
+    // Password recovery: detect the token in the URL BEFORE supabase-js strips it
+    var isRecovery = /type=recovery/.test(location.hash) || /[?&]code=/.test(location.search);
+    function showReset() {
+      document.getElementById("lgSub").textContent = "Set a new password for your account";
+      document.getElementById("lgForm").style.display = "none";
+      document.getElementById("lgReset").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgNew"); if (el) el.focus(); }, 100);
+    }
+    function sendReset() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var er = document.getElementById("lgErr"), ok = document.getElementById("lgMsg");
+      er.style.display = "none"; ok.style.display = "none";
+      if (!email) { er.style.display = "block"; er.textContent = "Enter your email above first, then click Forgot password."; return; }
+      sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname }).then(function (res) {
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else { ok.style.display = "block"; ok.textContent = "Reset link sent to " + email + ". Check your inbox (and spam folder)."; }
+      });
+    }
+    function setNewPass() {
+      var v = (document.getElementById("lgNew").value || "").trim();
+      var er = document.getElementById("lgResetErr"), ok = document.getElementById("lgResetMsg");
+      var btn = document.getElementById("lgSetBtn");
+      er.style.display = "none"; ok.style.display = "none";
+      if (v.length < 6) { er.style.display = "block"; er.textContent = "Password must be at least 6 characters."; return; }
+      btn.disabled = true; btn.textContent = "Saving…";
+      sb.auth.updateUser({ password: v }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Set New Password";
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else {
+          ok.style.display = "block"; ok.textContent = "Password updated. Signing you in…";
+          setTimeout(function () { history.replaceState(null, "", location.pathname); location.reload(); }, 1200);
+        }
+      });
+    }
+    gate.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "lgBtn") attempt();
+      else if (e.target && e.target.id === "lgForgot") { e.preventDefault(); sendReset(); }
+      else if (e.target && e.target.id === "lgSetBtn") setNewPass();
+    });
+    gate.addEventListener("keydown", function (e) { if (e.key === "Enter") { if (document.getElementById("lgReset").style.display === "block") { setNewPass(); } else { attempt(); } } });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") { isRecovery = true; showReset(); } });
+    sb.auth.getSession().then(function (res) {
+      if (isRecovery) { showReset(); }
+      else if (res.data && res.data.session) { unlock(res.data.session.user.email); }
+      else { showForm(); }
+    });
+  })();
+</script>
+<!-- ===================== /LOGIN GATE ===================== -->
+
+<div class="wrap">
+  <div>
+    <h1>Invoice → Tally Converter <span>· NumberIQ Module</span></h1>
+    <div class="sub">Upload invoices → review → download Tally-importable XML. Everything runs in your browser; invoices never leave this computer (except optional AI extraction).</div>
+  </div>
+
+  <div class="card">
+    <div class="toolbar" style="margin-bottom:10px"><b style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">⚙ Company &amp; Ledger Mapping</b></div>
+    <div class="grid">
+      <div class="span2"><label>Tally Company Name (optional — blank = currently open company)</label><input id="sCompany" placeholder="e.g. ABC Traders Pvt Ltd"></div>
+      <div><label>Voucher Type</label><select id="sVchType"><option value="Purchase">Purchase (supplier invoices)</option><option value="Sales">Sales (your invoices)</option></select></div>
+      <div><label>Your GSTIN (excluded from supplier detection)</label><input id="sOwnGstin" placeholder="27XXXXX0000X1Z5"></div>
+      <div><label id="lblExpLedger">Purchase Ledger</label><input id="sExpLedger" value="Purchase A/c"></div>
+      <div><label>CGST Ledger</label><input id="sCgst" value="Input CGST"></div>
+      <div><label>SGST Ledger</label><input id="sSgst" value="Input SGST"></div>
+      <div><label>IGST Ledger</label><input id="sIgst" value="Input IGST"></div>
+      <div><label>Round-off Ledger</label><input id="sRound" value="Round Off"></div>
+      <div class="span2"><label>Anthropic AI Key (only needed for scanned/image invoices)</label>
+        <div style="display:flex;gap:6px"><input id="sKey" type="password" placeholder="sk-ant-…"><button class="btn-ghost" onclick="saveKey()">Save</button><button class="btn-ghost" onclick="clearKey()">Clear</button></div>
+      </div>
+      <div class="span2"><label>Tally Ledger List (export from Tally: Chart of Accounts → Ledgers → Alt+E → Excel/CSV)</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="btn-ghost" onclick="document.getElementById('fLedgers').click()">📥 Upload Ledger List</button>
+          <input type="file" id="fLedgers" class="hidden" accept=".csv,.xlsx,.xls,.txt">
+          <span id="ledgerCount" style="font-size:11px;color:#737c92">not loaded — party names will suggest nothing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <datalist id="dlLedgers"></datalist>
+
+  <div class="intake">
+    <div class="drop" onclick="document.getElementById('fUp').click()">
+      <b>📄 Upload Invoices (PDF / Image)</b><small>Text PDFs read free; scans need the AI key</small>
+      <input type="file" id="fUp" class="hidden" multiple accept=".pdf,.png,.jpg,.jpeg,.webp">
+    </div>
+    <div class="drop" onclick="document.getElementById('fCsv').click()">
+      <b>📊 Import Register (CSV / Excel)</b><small>Columns: Invoice No, Date, Supplier, GSTIN, Taxable, CGST, SGST, IGST, Total</small>
+      <input type="file" id="fCsv" class="hidden" accept=".csv,.xlsx,.xls">
+    </div>
+    <div class="drop" onclick="addManualRow()"><b>＋ Add Manual Row</b><small>Type an invoice yourself</small></div>
+  </div>
+
+  <div class="card hidden" id="queueCard">
+    <div class="toolbar">
+      <span style="font-size:12px"><b id="qCount"></b> <span id="status"></span></span>
+      <span><button class="btn-red" onclick="clearQueue()">Clear</button> <button class="btn-blue" id="btnExtract" onclick="runExtraction()">▶ Extract Data</button></span>
+    </div>
+    <div id="queueList"></div>
+  </div>
+
+  <div class="card hidden" id="gridCard">
+    <div class="toolbar">
+      <b style="font-size:12px;text-transform:uppercase">Review &amp; Edit — <span id="rowCount"></span> voucher(s) <span style="color:#737c92;font-weight:400;text-transform:none">(click any cell to correct)</span></b>
+      <span style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-ghost" onclick="matchAllLedgers()" title="Match supplier names to your uploaded Tally ledger list">🔗 Match Ledgers</button>
+        <button class="btn-blue" onclick="exportVouchersXml()">⬇ Tally XML (Vouchers)</button>
+        <button class="btn-ghost" onclick="exportMastersXml()">📖 Ledger Masters XML</button>
+        <button class="btn-green" onclick="exportExcel()">⬇ Excel</button>
+      </span>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>Inv No</th><th>Date</th><th>Supplier</th><th>GSTIN</th><th class="r">Taxable</th><th class="r">CGST</th><th class="r">SGST</th><th class="r">IGST</th><th class="r">Total</th><th>Party Ledger</th><th>Src</th><th></th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="help" style="margin-top:12px">
+      <b>How to import in Tally Prime:</b> 1) If parties are new, first import the <i>Ledger Masters XML</i> (Gateway of Tally → Import → Masters). 2) Ensure the expense/GST/round-off ledgers named above exist in your company with the exact same spelling. 3) Import the <i>Vouchers XML</i> (Gateway of Tally → Import → Transactions). 4) Verify in Day Book. <b>Always take a company backup before importing.</b>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ---------------- state ----------------
+let rows = [];        // extracted/edited invoice rows
+let queue = [];       // {file, status}
+let nextId = 1;
+const FREE_LIMIT = 500;
+
+// ---------------- helpers ----------------
+const $ = id => document.getElementById(id);
+const num = v => { if (v == null || v === "") return NaN; const n = parseFloat(String(v).replace(/[,₹\s]/g, "")); return isNaN(n) ? NaN : n; };
+const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+const xmlEsc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" }[c] || c));
+const htmlEsc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] || c));
+
+function toTallyDate(raw) {
+  if (!raw) return null;
+  const s = String(raw).trim();
+  const MONTHS = { jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12 };
+  const pad = n => String(n).padStart(2, "0");
+  const build = (d, m, y) => { if (y < 100) y += y >= 70 ? 1900 : 2000; if (m < 1 || m > 12 || d < 1 || d > 31) return null; return `${y}${pad(m)}${pad(d)}`; };
+  let m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})$/);      // DD-MM-YYYY (Indian)
+  if (m) return build(+m[1], +m[2], +m[3]);
+  m = s.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})$/);            // ISO
+  if (m) return build(+m[3], +m[2], +m[1]);
+  m = s.match(/^(\d{1,2})[\s\-\/.]*([A-Za-z]{3,9})[\s\-\/.,]*(\d{2,4})$/); // 12-Jan-2026
+  if (m && MONTHS[m[2].slice(0,3).toLowerCase()]) return build(+m[1], MONTHS[m[2].slice(0,3).toLowerCase()], +m[3]);
+  m = s.match(/^([A-Za-z]{3,9})[\s\-.]*(\d{1,2})[\s,]*(\d{2,4})$/);    // Jan 12, 2026
+  if (m && MONTHS[m[1].slice(0,3).toLowerCase()]) return build(+m[2], MONTHS[m[1].slice(0,3).toLowerCase()], +m[3]);
+  return null;
+}
+
+function getSettings() {
+  const isP = $("sVchType").value === "Purchase";
+  return {
+    company: $("sCompany").value.trim(),
+    voucherType: $("sVchType").value,
+    expLedger: $("sExpLedger").value.trim() || (isP ? "Purchase A/c" : "Sales A/c"),
+    cgstLedger: $("sCgst").value.trim() || "Input CGST",
+    sgstLedger: $("sSgst").value.trim() || "Input SGST",
+    igstLedger: $("sIgst").value.trim() || "Input IGST",
+    roundOffLedger: $("sRound").value.trim() || "Round Off",
+    ownGstin: $("sOwnGstin").value.trim()
+  };
+}
+$("sVchType").addEventListener("change", () => {
+  const isP = $("sVchType").value === "Purchase";
+  $("lblExpLedger").textContent = isP ? "Purchase Ledger" : "Sales Ledger";
+  if ($("sExpLedger").value === "Purchase A/c" && !isP) $("sExpLedger").value = "Sales A/c";
+  if ($("sExpLedger").value === "Sales A/c" && isP) $("sExpLedger").value = "Purchase A/c";
+});
+
+// ---------------- API key ----------------
+// ---------------- persistence: settings + ledger list survive reopening the file ----------------
+const SETTING_IDS = ["sCompany","sVchType","sOwnGstin","sExpLedger","sCgst","sSgst","sIgst","sRound"];
+function persistSettings() {
+  try {
+    const o = {};
+    SETTING_IDS.forEach(id => { o[id] = $(id).value; });
+    localStorage.setItem("i2t_settings", JSON.stringify(o));
+  } catch(e){}
+}
+function restorePersisted() {
+  try {
+    const o = JSON.parse(localStorage.getItem("i2t_settings") || "{}");
+    SETTING_IDS.forEach(id => { if (o[id] != null && o[id] !== "") $(id).value = o[id]; });
+  } catch(e){}
+  try {
+    const l = JSON.parse(localStorage.getItem("i2t_ledgers") || "[]");
+    if (Array.isArray(l) && l.length) {
+      ledgerNames = l;
+      $("ledgerCount").textContent = l.length + " ledger names loaded ✓ (remembered from last time)";
+      $("ledgerCount").style.color = "#4ade80";
+      $("dlLedgers").innerHTML = l.map(n => `<option value="${htmlEsc(n)}">`).join("");
+    }
+  } catch(e){}
+}
+// script sits at the end of <body>, so the inputs already exist
+// (restorePersisted() itself is called at the very end of this script,
+//  after ledgerNames has been declared)
+SETTING_IDS.forEach(id => $(id).addEventListener("input", persistSettings));
+$("sVchType").addEventListener("change", persistSettings);
+
+function saveKey() { const k = $("sKey").value.trim(); if (!k) return; try { localStorage.setItem("anthropic_api_key", k); } catch(e){} $("sKey").value = ""; $("sKey").placeholder = "saved ✓ (" + k.slice(0,7) + "…)"; }
+function clearKey() { try { localStorage.removeItem("anthropic_api_key"); } catch(e){} $("sKey").placeholder = "sk-ant-…"; }
+function getKey() { try { return localStorage.getItem("anthropic_api_key") || ""; } catch(e){ return ""; } }
+(function initKey(){ const k = getKey(); if (k) $("sKey").placeholder = "saved ✓ (" + k.slice(0,7) + "…)"; })();
+
+// ---------------- pdf.js setup ----------------
+try {
+  if (window.pdfjsLib) {
+    const blob = new Blob(["importScripts('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');"], { type: "application/javascript" });
+    pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
+  }
+} catch(e) { if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; }
+
+async function extractPdfText(file) {
+  if (!window.pdfjsLib) throw new Error("PDF engine unavailable (check internet — CDN library needed once)");
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  let out = "";
+  const maxP = Math.min(pdf.numPages, 10);
+  for (let p = 1; p <= maxP; p++) {
+    const page = await pdf.getPage(p);
+    const tc = await page.getTextContent();
+    let lastY = null, line = "";
+    for (const item of tc.items) {
+      const y = item.transform ? item.transform[5] : 0;
+      if (lastY !== null && Math.abs(y - lastY) > 2) { out += line + "\n"; line = ""; }
+      line += (line ? " " : "") + (item.str || "");
+      lastY = y;
+    }
+    out += line + "\n";
+  }
+  return out;
+}
+
+// ---------------- heuristic parser ----------------
+function parseInvoiceHeuristic(text, fileName, ownGstin) {
+  const T = text.replace(/\r/g, "");
+  const lines = T.split("\n").map(x => x.trim()).filter(Boolean);
+  const flat = T.replace(/\s+/g, " ");
+  const U = T.toUpperCase();
+  const MONEY = "(?:[0-9]{1,3}(?:,[0-9]{2,3})+(?:\\.[0-9]{1,2})?|[0-9]+\\.[0-9]{2})";
+  const r = { File_Name: fileName };
+
+  const own = ownGstin.split(/[,\s]+/).map(x => x.trim().toUpperCase()).filter(Boolean);
+  const gstins = [...new Set([...U.matchAll(/\b\d{2}[A-Z]{5}\d{4}[A-Z][0-9A-Z]Z[0-9A-Z]\b/g)].map(m => m[0]))];
+  r.Supplier_GSTIN = gstins.find(g => !own.includes(g)) || "";
+
+  let inv = "";
+  const invG = /(?:tax\s*invoice|invoice|inv|bill)\s*(?:no|number|num|#)\s*[:#\-\.]?\s*([A-Za-z0-9][A-Za-z0-9\/\-]{1,28})/ig;
+  let g;
+  while ((g = invG.exec(flat))) { const c = g[1].replace(/[.,;:]+$/, ""); if (/\d/.test(c) && !/^date|^dated/i.test(c)) { inv = c; break; } }
+  r.Invoice_Number = inv;
+
+  let date = "";
+  const monRe = /\b(\d{1,2}[-\/. ](?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\/. ]\d{2,4})\b/i;
+  const numRe = /\b(\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4})\b/;
+  for (const ln of lines) {
+    if (/date|dated/i.test(ln) && !/due\s*date/i.test(ln)) { const mm = ln.match(numRe) || ln.match(monRe); if (mm) { date = mm[1]; break; } }
+  }
+  if (!date) { const mm = flat.match(numRe) || flat.match(monRe); if (mm) date = mm[1]; }
+  r.Invoice_Date = date;
+
+  const lastMoney = sx => { const a = [...sx.matchAll(new RegExp(MONEY, "g"))].map(x => x[0]); return a.length ? a[a.length - 1].replace(/,/g, "") : null; };
+  const amtWith = (keys, excl) => { for (const ln of lines) { if (excl && excl.test(ln)) continue; if (keys.test(ln)) { const v = lastMoney(ln); if (v) return v; } } return null; };
+  const amtWithMax = (keys, excl) => {
+    let best = null, bestStr = null;
+    for (const ln of lines) {
+      if (excl && excl.test(ln)) continue;
+      if (keys.test(ln)) { const v = lastMoney(ln); if (v == null) continue; const n = parseFloat(v); if (!isNaN(n) && (best === null || n > best)) { best = n; bestStr = v; } }
+    }
+    return bestStr;
+  };
+
+  r.CGST_Amount = amtWith(/\bCGST\b/i, /cess/i) || "0";
+  r.SGST_Amount = amtWith(/\b(SGST|UTGST)\b/i, /cess/i) || "0";
+  r.IGST_Amount = amtWith(/\bIGST\b/i, /cess/i) || "0";
+  r.Taxable_Amount = amtWith(/taxable\s*(value|amount)|sub\s*total|amount\s*before\s*tax|net\s*(amount|total|value)/i) || "";
+  let tot = amtWithMax(/grand\s*total|total\s*amount|invoice\s*total|amount\s*payable|net\s*payable|amount\s*chargeable|total\s*value/i, /sub\s*total|taxable/i);
+  if (!tot) tot = amtWithMax(/^total\b/i, /sub\s*total|taxable/i);
+  r.Total_Amount = tot || "";
+
+  let sup = "";
+  const skip = /^(tax\s*invoice|invoice|e-?invoice|original|duplicate|triplicate|gst\s*tax\s*invoice|irn\b|ack\s*no|ack\s*date|for\s*recipient|gstin)/i;
+  for (const ln of lines.slice(0, 8)) {
+    if (skip.test(ln)) continue;
+    if (ln.length < 4 || !/[A-Za-z]{3}/.test(ln)) continue;
+    const name = ln.split(/\b(?:Invoice\s*No|Dated|e-?Way\s*Bill|Delivery\s*Note|Mode\/Terms|Reference\s*No)\b/i)[0].trim().replace(/[\s,.:-]+$/, "");
+    if (name.length >= 4) { sup = name; break; }
+  }
+  r.Supplier_Name = sup;
+
+  let q = 0;
+  ["Invoice_Number","Invoice_Date","Supplier_GSTIN","Total_Amount","Supplier_Name"].forEach(k => { if (r[k]) q++; });
+  r.__quality = q;
+  return r;
+}
+
+// ---------------- AI extraction ----------------
+async function callAI(file) {
+  const key = getKey();
+  if (!key) throw new Error("Scanned/image invoice needs an Anthropic AI key (save it in settings above)");
+  const b64 = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => { const s = String(fr.result); res(s.slice(s.indexOf(",") + 1)); }; fr.onerror = rej; fr.readAsDataURL(file); });
+  const t = (file.type || "").toLowerCase();
+  const isPdf = t.includes("pdf") || /\.pdf$/i.test(file.name);
+  const block = isPdf
+    ? { type: "document", source: { type: "base64", media_type: "application/pdf", data: b64 } }
+    : { type: "image", source: { type: "base64", media_type: t.startsWith("image/") ? t : "image/png", data: b64 } };
+  const prompt = 'You are a precise OCR data-extraction engine for Indian GST invoices.\nRead the attached invoice and return ONLY a minified JSON object with EXACTLY these keys:\n"Invoice_Number","Invoice_Date","Supplier_Name","Supplier_GSTIN","Taxable_Amount","CGST_Amount","SGST_Amount","IGST_Amount","Total_Amount".\nRules: absent field => empty string "". Amounts: plain number string, no commas/symbols, two decimals. If a tax head does not apply use "0". Invoice_Date as DD-MM-YYYY. Use amounts exactly as printed.\nOutput the JSON now.';
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+    body: JSON.stringify({ model: "claude-sonnet-5", max_tokens: 800, messages: [{ role: "user", content: [block, { type: "text", text: prompt }] }] })
+  });
+  if (!resp.ok) { let d = ""; try { d = (await resp.json()).error?.message || ""; } catch(e){} throw new Error("AI error " + resp.status + (d ? ": " + d : "")); }
+  const data = await resp.json();
+  const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n");
+  const s = text.indexOf("{"), e = text.lastIndexOf("}");
+  if (s < 0 || e < 0) throw new Error("No JSON from AI");
+  return JSON.parse(text.slice(s, e + 1));
+}
+
+// ---------------- Tally ledger list & name matching ----------------
+let ledgerNames = []; // exact names as they exist in Tally
+
+// Normalize a party name for comparison: lowercase, drop punctuation and the
+// company-suffix noise that makes "ABC Traders Pvt. Ltd." ≠ "ABC Traders Private Limited".
+function normName(s) {
+  return String(s || "").toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\b(private|pvt|limited|ltd|llp|co|company|india|enterprises|enterprise|traders|trading|corporation|corp|inc)\b/g, " ")
+    .replace(/\s+/g, " ").trim();
+}
+
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+function similarity(a, b) {
+  const maxLen = Math.max(a.length, b.length);
+  if (!maxLen) return 0;
+  return 1 - levenshtein(a, b) / maxLen;
+}
+
+// Find the best existing Tally ledger for a supplier name.
+// Returns { name, kind: "exact" | "fuzzy" } or null.
+function findLedgerMatch(supplier) {
+  if (!ledgerNames.length || !supplier) return null;
+  const target = normName(supplier);
+  if (!target) return null;
+  // exact (case/punctuation-insensitive)
+  for (const l of ledgerNames) {
+    if (normName(l) === target) return { name: l, kind: "exact" };
+  }
+  // fuzzy: best similarity on normalized names, plus containment check
+  let best = null, bestScore = 0;
+  for (const l of ledgerNames) {
+    const n = normName(l);
+    if (!n) continue;
+    let score = similarity(target, n);
+    if (n.includes(target) || target.includes(n)) score = Math.max(score, 0.85);
+    if (score > bestScore) { bestScore = score; best = l; }
+  }
+  return bestScore >= 0.8 ? { name: best, kind: "fuzzy" } : null;
+}
+
+$("fLedgers").addEventListener("change", async e => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (!file || !window.XLSX) return;
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: "array" });
+  const names = new Set();
+  wb.SheetNames.forEach(sn => {
+    const aoa = XLSX.utils.sheet_to_json(wb.Sheets[sn], { header: 1, defval: "" });
+    // Prefer a column headed Name/Ledger/Particulars; else take every text cell.
+    let nameCol = -1;
+    for (const row of aoa.slice(0, 10)) {
+      row.forEach((c, i) => { if (nameCol < 0 && /^(ledger\s*)?name|particulars|ledgers?$/i.test(String(c).trim())) nameCol = i; });
+      if (nameCol >= 0) break;
+    }
+    aoa.forEach(row => {
+      const cells = nameCol >= 0 ? [row[nameCol]] : row;
+      cells.forEach(c => {
+        const v = String(c == null ? "" : c).trim();
+        // keep plausible ledger names: has letters, not a pure number/amount/date,
+        // and not the export's own column headings
+        if (v.length >= 3 && /[A-Za-z]{2}/.test(v) && !/^\d[\d,.\-\/\s]*$/.test(v) &&
+            !/^(ledger\s*)?name$|^particulars$|^ledgers?$|^list of (accounts|ledgers)$|^closing balance$|^opening balance$|^debit$|^credit$/i.test(v)) names.add(v);
+      });
+    });
+  });
+  ledgerNames = [...names];
+  try { localStorage.setItem("i2t_ledgers", JSON.stringify(ledgerNames)); } catch(err){}
+  $("ledgerCount").textContent = ledgerNames.length + " ledger names loaded ✓ — party fields now auto-suggest; click “Match Ledgers” to auto-fix names";
+  $("ledgerCount").style.color = "#4ade80";
+  const dl = $("dlLedgers");
+  dl.innerHTML = ledgerNames.map(n => `<option value="${htmlEsc(n)}">`).join("");
+  if (rows.length) matchAllLedgers();
+});
+
+// Apply best matches to every row's Party_Ledger.
+function matchAllLedgers() {
+  if (!ledgerNames.length) { alert("First upload your Tally ledger list (settings panel above).\n\nExport it from Tally: Chart of Accounts → Ledgers → Alt+E → Excel/CSV."); return; }
+  let exact = 0, fuzzy = 0, fresh = 0;
+  rows.forEach(r => {
+    const m = findLedgerMatch(r.Party_Ledger || r.Supplier_Name);
+    if (m) {
+      r.Party_Ledger = m.name;
+      r._ledger = m.kind;
+      m.kind === "exact" ? exact++ : fuzzy++;
+    } else {
+      r._ledger = "new";
+      fresh++;
+    }
+  });
+  renderRows();
+  alert("Ledger matching done:\n✓ " + exact + " exact match(es)\n≈ " + fuzzy + " close match(es) (name replaced with your Tally spelling — please glance over them)\n＋ " + fresh + " new supplier(s) — will be created via Ledger Masters XML");
+}
+
+// ---------------- rows ----------------
+function toRow(raw, fileName, src) {
+  return {
+    id: nextId++,
+    File_Name: fileName,
+    Invoice_Number: raw.Invoice_Number || "",
+    Invoice_Date: raw.Invoice_Date || "",
+    Supplier_Name: raw.Supplier_Name || "",
+    Supplier_GSTIN: (raw.Supplier_GSTIN || "").toUpperCase(),
+    Taxable_Amount: String(raw.Taxable_Amount ?? ""),
+    CGST_Amount: String(raw.CGST_Amount ?? "0"),
+    SGST_Amount: String(raw.SGST_Amount ?? "0"),
+    IGST_Amount: String(raw.IGST_Amount ?? "0"),
+    Total_Amount: String(raw.Total_Amount ?? ""),
+    Party_Ledger: raw.Supplier_Name || "",
+    _src: src
+  };
+}
+
+function rowWarn(r) {
+  const w = [];
+  if (r._src === "offline-low") w.push("rough read — verify all fields (save an AI key for accurate reading)");
+  if (!toTallyDate(r.Invoice_Date)) w.push("date?");
+  if (!num(r.Total_Amount)) w.push("total?");
+  const bal = Math.abs((num(r.Total_Amount) || 0) - ((num(r.Taxable_Amount) || 0) + (num(r.CGST_Amount) || 0) + (num(r.SGST_Amount) || 0) + (num(r.IGST_Amount) || 0)));
+  if (bal > 1) w.push("Δ" + bal.toFixed(2));
+  // same invoice number twice = the bill would post twice in Tally
+  const k = (r.Invoice_Number || "").trim().toLowerCase();
+  if (k && rows.filter(x => (x.Invoice_Number || "").trim().toLowerCase() === k).length > 1) w.push("DUPLICATE invoice number!");
+  return w.join(" ");
+}
+
+function renderRows() {
+  $("gridCard").classList.toggle("hidden", rows.length === 0);
+  $("rowCount").textContent = rows.length;
+  const tb = $("tbody");
+  tb.innerHTML = "";
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    // status cell created first so cell inputs can update it in place —
+    // re-rendering the whole table on blur would destroy the input the user
+    // just clicked into and swallow their keystrokes.
+    const tdS = document.createElement("td");
+    const paintStatus = () => {
+      const warn = rowWarn(r);
+      const ledgerTag = r._ledger === "exact" ? ` <span class="tag-ok" title="Party ledger exists in your Tally">·in Tally</span>`
+        : r._ledger === "fuzzy" ? ` <span class="tag-warn" title="Close match from your Tally ledger list — verify the name">·matched≈</span>`
+        : r._ledger === "new" ? ` <span class="tag-warn" title="Not in your Tally — will be created via Ledger Masters XML">·new</span>` : "";
+      tdS.innerHTML = (warn ? `<span class="tag-warn" title="${htmlEsc(warn)}">⚠ ${htmlEsc(r._src)}</span>` : `<span class="tag-ok">✓ ${htmlEsc(r._src)}</span>`) + ledgerTag;
+    };
+    const partyInputs = [];
+    const cell = (field, cls) => {
+      const td = document.createElement("td");
+      if (cls) td.style.width = cls;
+      const inp = document.createElement("input");
+      inp.value = r[field];
+      if (field === "Party_Ledger") inp.setAttribute("list", "dlLedgers");
+      if (["Taxable_Amount","CGST_Amount","SGST_Amount","IGST_Amount","Total_Amount"].includes(field)) inp.classList.add("r");
+      inp.addEventListener("input", () => {
+        if (field === "Supplier_Name" && (r.Party_Ledger === r.Supplier_Name || !r.Party_Ledger)) {
+          r.Party_Ledger = inp.value;
+          partyInputs.forEach(p => { p.value = inp.value; });
+        }
+        r[field] = field === "Supplier_GSTIN" ? inp.value.toUpperCase() : inp.value;
+        if (field === "Party_Ledger" || field === "Supplier_Name") {
+          const m = ledgerNames.length ? findLedgerMatch(r.Party_Ledger) : null;
+          r._ledger = !ledgerNames.length ? undefined : (m && normName(m.name) === normName(r.Party_Ledger) ? m.kind : "new");
+        }
+        paintStatus();
+      });
+      td.appendChild(inp);
+      if (field === "Party_Ledger") partyInputs.push(inp);
+      return td;
+    };
+    tr.appendChild(cell("Invoice_Number", "110px"));
+    tr.appendChild(cell("Invoice_Date", "95px"));
+    tr.appendChild(cell("Supplier_Name"));
+    tr.appendChild(cell("Supplier_GSTIN", "150px"));
+    tr.appendChild(cell("Taxable_Amount", "85px"));
+    tr.appendChild(cell("CGST_Amount", "70px"));
+    tr.appendChild(cell("SGST_Amount", "70px"));
+    tr.appendChild(cell("IGST_Amount", "70px"));
+    tr.appendChild(cell("Total_Amount", "85px"));
+    tr.appendChild(cell("Party_Ledger"));
+    paintStatus();
+    tr.appendChild(tdS);
+    const tdD = document.createElement("td");
+    const del = document.createElement("button");
+    del.className = "btn-red"; del.textContent = "✕"; del.style.padding = "2px 8px";
+    del.onclick = () => { rows = rows.filter(x => x.id !== r.id); renderRows(); };
+    tdD.appendChild(del);
+    tr.appendChild(tdD);
+    tb.appendChild(tr);
+  });
+}
+
+function addManualRow() { rows.push(toRow({ CGST_Amount: "0", SGST_Amount: "0", IGST_Amount: "0" }, "manual", "manual")); renderRows(); }
+
+// ---------------- queue & extraction ----------------
+$("fUp").addEventListener("change", e => {
+  const files = Array.from(e.target.files || []);
+  e.target.value = "";
+  files.forEach(f => queue.push({ file: f, status: "queued" }));
+  renderQueue();
+});
+
+function renderQueue() {
+  $("queueCard").classList.toggle("hidden", queue.length === 0);
+  $("qCount").textContent = queue.length + " file(s) queued";
+  $("queueList").innerHTML = queue.map(q =>
+    `<span class="queue-item q-${q.status === "done" ? "done" : q.status === "err" ? "err" : q.status === "proc" ? "proc" : ""}" title="${htmlEsc(q.error || "")}">${htmlEsc(q.file.name)}</span>`).join("");
+}
+function clearQueue() { queue = []; renderQueue(); }
+
+let running = false;
+
+// A heuristic parse is only trusted when its values are CORRECT, not merely present —
+// a regex can grab the wrong number and still fill every field. Failing any of these
+// checks escalates the file to the AI tier (when a key is available).
+function isTrustworthyParse(h) {
+  if (!h || (h.__quality || 0) < 4) return false;
+  if (!toTallyDate(h.Invoice_Date || "")) return false;
+  if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][0-9A-Z]Z[0-9A-Z]$/.test((h.Supplier_GSTIN || "").toUpperCase())) return false;
+  var tax = num(h.Taxable_Amount), total = num(h.Total_Amount);
+  if (isNaN(tax) || isNaN(total) || total <= 0) return false;
+  var sum = tax + (num(h.CGST_Amount) || 0) + (num(h.SGST_Amount) || 0) + (num(h.IGST_Amount) || 0);
+  return Math.abs(total - sum) <= Math.max(1, total * 0.001);
+}
+
+async function runExtraction() {
+  if (running) return;
+  const pending = queue.filter(q => q.status !== "done");
+  if (!pending.length) return;
+  if (rows.length + pending.length > FREE_LIMIT) { alert("This module processes up to " + FREE_LIMIT + " invoices per batch."); return; }
+  running = true;
+  $("btnExtract").disabled = true;
+  const s = getSettings();
+  let done = 0;
+  for (const q of pending) {
+    q.status = "proc"; renderQueue();
+    $("status").textContent = "extracting " + (done + 1) + "/" + pending.length + "…";
+    try {
+      const isPdf = (q.file.type || "").includes("pdf") || /\.pdf$/i.test(q.file.name);
+      let raw = null, src = "";
+      let offlineTry = null;
+      if (isPdf) {
+        try {
+          const text = await extractPdfText(q.file);
+          if (text.replace(/\s/g, "").length >= 80) {
+            offlineTry = parseInvoiceHeuristic(text, q.file.name, s.ownGstin);
+            // only trust the free offline read when its values pass correctness checks
+            if (isTrustworthyParse(offlineTry)) { raw = offlineTry; src = "offline"; }
+          }
+        } catch(e) {}
+      }
+      if (!raw && getKey()) { raw = await callAI(q.file); src = "AI"; }
+      if (!raw && offlineTry) { raw = offlineTry; src = "offline-low"; }
+      if (!raw) { raw = await callAI(q.file); src = "AI"; }
+      rows.push(toRow(raw, q.file.name, src));
+      q.status = "done";
+    } catch (e) {
+      q.status = "err"; q.error = e.message || "unreadable";
+    }
+    done++;
+    renderQueue(); renderRows();
+  }
+  $("status").textContent = "done ✓";
+  $("btnExtract").disabled = false;
+  running = false;
+}
+
+// ---------------- CSV / Excel import ----------------
+$("fCsv").addEventListener("change", async e => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (!file || !window.XLSX) return;
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: "array" });
+  const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
+  const pick = (o, ...names) => {
+    for (const n of names) {
+      const k = Object.keys(o).find(x => x.trim().toLowerCase().replace(/[\s_]/g, "") === n.toLowerCase().replace(/[\s_]/g, ""));
+      if (k && o[k] !== "") return o[k];
+    }
+    return "";
+  };
+  const imported = data.map(o => toRow({
+    Invoice_Number: pick(o, "Invoice_Number", "Invoice No", "InvNo", "Bill No"),
+    Invoice_Date: pick(o, "Invoice_Date", "Date", "Bill Date"),
+    Supplier_Name: pick(o, "Supplier_Name", "Supplier", "Vendor", "Party", "Party Name"),
+    Supplier_GSTIN: pick(o, "Supplier_GSTIN", "GSTIN", "Vendor GSTIN"),
+    Taxable_Amount: pick(o, "Taxable_Amount", "Taxable", "Taxable Value"),
+    CGST_Amount: pick(o, "CGST_Amount", "CGST") || "0",
+    SGST_Amount: pick(o, "SGST_Amount", "SGST") || "0",
+    IGST_Amount: pick(o, "IGST_Amount", "IGST") || "0",
+    Total_Amount: pick(o, "Total_Amount", "Total", "Invoice Value", "Grand Total")
+  }, pick(o, "File_Name", "File") || file.name, "csv")).filter(r => r.Invoice_Number || r.Total_Amount);
+  if (!imported.length) { alert("No usable rows found — check the column headers."); return; }
+  rows = rows.concat(imported);
+  renderRows();
+});
+
+// ---------------- Tally XML ----------------
+function buildVoucherXml(row, s) {
+  const isPurchase = s.voucherType === "Purchase";
+  const taxable = num(row.Taxable_Amount) || 0;
+  const cgst = num(row.CGST_Amount) || 0;
+  const sgst = num(row.SGST_Amount) || 0;
+  const igst = num(row.IGST_Amount) || 0;
+  let total = num(row.Total_Amount);
+  if (isNaN(total) || total === 0) total = round2(taxable + cgst + sgst + igst);
+  const diff = round2(total - (taxable + cgst + sgst + igst));
+  let warn = Math.abs(diff) > 10 ? ("Round-off " + Math.abs(diff).toFixed(2) + " is large — verify amounts") : "";
+
+  const date = toTallyDate(row.Invoice_Date);
+  if (!date) return { xml: "", warn: "Invalid/missing date — row skipped" };
+  const party = (row.Party_Ledger || row.Supplier_Name || "").trim();
+  if (!party) return { xml: "", warn: "Missing party ledger — row skipped" };
+  if (total <= 0) return { xml: "", warn: "Missing/zero total — row skipped" };
+
+  const vchNo = row.Invoice_Number || row.File_Name;
+  const entry = (ledger, amount, isDebit, billAlloc) => {
+    if (round2(Math.abs(amount)) === 0) return "";
+    const amt = (isDebit ? -Math.abs(amount) : Math.abs(amount)).toFixed(2);
+    return `
+    <ALLLEDGERENTRIES.LIST>
+     <LEDGERNAME>${xmlEsc(ledger)}</LEDGERNAME>
+     <ISDEEMEDPOSITIVE>${isDebit ? "Yes" : "No"}</ISDEEMEDPOSITIVE>
+     <AMOUNT>${amt}</AMOUNT>${billAlloc ? `
+     <BILLALLOCATIONS.LIST>
+      <NAME>${xmlEsc(vchNo)}</NAME>
+      <BILLTYPE>New Ref</BILLTYPE>
+      <AMOUNT>${amt}</AMOUNT>
+     </BILLALLOCATIONS.LIST>` : ""}
+    </ALLLEDGERENTRIES.LIST>`;
+  };
+
+  let lines = "";
+  if (isPurchase) {
+    lines += entry(party, total, false, true);
+    lines += entry(s.expLedger, taxable, true);
+    lines += entry(s.cgstLedger, cgst, true);
+    lines += entry(s.sgstLedger, sgst, true);
+    lines += entry(s.igstLedger, igst, true);
+    if (Math.abs(diff) >= 0.01) lines += entry(s.roundOffLedger, Math.abs(diff), diff > 0);
+  } else {
+    lines += entry(party, total, true, true);
+    lines += entry(s.expLedger, taxable, false);
+    lines += entry(s.cgstLedger, cgst, false);
+    lines += entry(s.sgstLedger, sgst, false);
+    lines += entry(s.igstLedger, igst, false);
+    if (Math.abs(diff) >= 0.01) lines += entry(s.roundOffLedger, Math.abs(diff), diff < 0);
+  }
+
+  const narration = (isPurchase ? "Purchase" : "Sales") + " against invoice " + vchNo + " dt " + row.Invoice_Date + (row.Supplier_Name ? " — " + row.Supplier_Name : "") + " (imported via NumberIQ)";
+  const xml = `
+  <TALLYMESSAGE xmlns:UDF="TallyUDF">
+   <VOUCHER VCHTYPE="${s.voucherType}" ACTION="Create">
+    <DATE>${date}</DATE>
+    <EFFECTIVEDATE>${date}</EFFECTIVEDATE>
+    <VOUCHERTYPENAME>${s.voucherType}</VOUCHERTYPENAME>
+    <VOUCHERNUMBER>${xmlEsc(vchNo)}</VOUCHERNUMBER>
+    <REFERENCE>${xmlEsc(vchNo)}</REFERENCE>
+    <REFERENCEDATE>${date}</REFERENCEDATE>
+    <PARTYLEDGERNAME>${xmlEsc(party)}</PARTYLEDGERNAME>
+    <PERSISTEDVIEW>Accounting Voucher View</PERSISTEDVIEW>
+    <NARRATION>${xmlEsc(narration)}</NARRATION>${lines}
+   </VOUCHER>
+  </TALLYMESSAGE>`;
+  return { xml, warn };
+}
+
+function buildEnvelope(inner, company, report) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+ <HEADER>
+  <TALLYREQUEST>Import Data</TALLYREQUEST>
+ </HEADER>
+ <BODY>
+  <IMPORTDATA>
+   <REQUESTDESC>
+    <REPORTNAME>${report}</REPORTNAME>${company ? `
+    <STATICVARIABLES>
+     <SVCURRENTCOMPANY>${xmlEsc(company)}</SVCURRENTCOMPANY>
+    </STATICVARIABLES>` : ""}
+   </REQUESTDESC>
+   <REQUESTDATA>${inner}
+   </REQUESTDATA>
+  </IMPORTDATA>
+ </BODY>
+</ENVELOPE>`;
+}
+
+function downloadText(filename, content, mime) {
+  const blob = new Blob([content], { type: mime });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+const stamp = () => new Date().toISOString().slice(0, 10);
+
+function exportVouchersXml() {
+  const s = getSettings();
+  let inner = "", notes = [];
+  rows.forEach(r => {
+    const { xml, warn } = buildVoucherXml(r, s);
+    if (!xml) notes.push((r.Invoice_Number || r.File_Name) + ": " + warn);
+    else { inner += xml; if (warn) notes.push(r.Invoice_Number + ": " + warn); }
+  });
+  if (!inner) { alert("No valid rows to export.\n" + notes.join("\n")); return; }
+  if (notes.length) alert("Exported with notes:\n" + notes.join("\n"));
+  downloadText("tally_vouchers_" + stamp() + ".xml", buildEnvelope(inner, s.company, "Vouchers"), "text/xml;charset=utf-8");
+}
+
+function exportMastersXml() {
+  const s = getSettings();
+  const isPurchase = s.voucherType === "Purchase";
+  const seen = new Set();
+  const existing = new Set(ledgerNames.map(normName));
+  let skipped = 0;
+  let inner = "";
+  rows.forEach(r => {
+    const party = (r.Party_Ledger || r.Supplier_Name || "").trim();
+    if (!party || seen.has(party.toLowerCase())) return;
+    // already in the user's Tally — creating it again would duplicate the ledger
+    if (existing.size && existing.has(normName(party))) { skipped++; return; }
+    seen.add(party.toLowerCase());
+    const gstin = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][0-9A-Z]Z[0-9A-Z]$/.test((r.Supplier_GSTIN || "").toUpperCase()) ? r.Supplier_GSTIN.toUpperCase() : "";
+    inner += `
+  <TALLYMESSAGE xmlns:UDF="TallyUDF">
+   <LEDGER NAME="${xmlEsc(party)}" ACTION="Create">
+    <NAME.LIST><NAME>${xmlEsc(party)}</NAME></NAME.LIST>
+    <PARENT>${isPurchase ? "Sundry Creditors" : "Sundry Debtors"}</PARENT>
+    <ISBILLWISEON>Yes</ISBILLWISEON>
+    <COUNTRYNAME>India</COUNTRYNAME>${gstin ? `
+    <PARTYGSTIN>${gstin}</PARTYGSTIN>
+    <GSTREGISTRATIONTYPE>Regular</GSTREGISTRATIONTYPE>` : ""}
+   </LEDGER>
+  </TALLYMESSAGE>`;
+  });
+  if (!seen.size) { alert(skipped ? "All " + skipped + " part(ies) already exist in your Tally — no masters needed. Import only the Vouchers XML." : "No party ledgers to create."); return; }
+  if (skipped) alert(skipped + " part(ies) already exist in your Tally and were skipped — only " + seen.size + " new ledger(s) will be created.");
+  downloadText("tally_ledger_masters_" + stamp() + ".xml", buildEnvelope(inner, s.company, "All Masters"), "text/xml;charset=utf-8");
+}
+
+function exportExcel() {
+  if (!window.XLSX) { alert("Excel engine still loading — try again."); return; }
+  const HEADERS = ["File_Name","Invoice_Number","Invoice_Date","Supplier_Name","Supplier_GSTIN","Taxable_Amount","CGST_Amount","SGST_Amount","IGST_Amount","Total_Amount","Party_Ledger"];
+  const NUMERIC = new Set(["Taxable_Amount","CGST_Amount","SGST_Amount","IGST_Amount","Total_Amount"]);
+  const aoa = [HEADERS].concat(rows.map(r => HEADERS.map(h => {
+    const v = r[h];
+    if (v == null || v === "") return "";
+    if (NUMERIC.has(h)) { const n = Number(v); return isNaN(n) ? String(v) : n; }
+    return String(v);
+  })));
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws["!cols"] = HEADERS.map(h => ({ wch: Math.min(40, Math.max(10, h.length + 2)) }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Invoice Register");
+  XLSX.writeFile(wb, "invoice_register_" + stamp() + ".xlsx");
+}
+
+// restore saved settings + ledger list now that everything is declared
+restorePersisted();
+</script>
+</body>
+</html>

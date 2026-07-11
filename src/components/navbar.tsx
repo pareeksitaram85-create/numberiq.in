@@ -16,6 +16,7 @@ export function Navbar() {
   const [visible, setVisible] = useState(true);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [hash, setHash] = useState("");
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -41,12 +42,55 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Sync hash state and track scrolling for home/services highlighting
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHash(window.location.hash);
+      const handleHashChange = () => {
+        setHash(window.location.hash);
+      };
+      window.addEventListener("hashchange", handleHashChange);
+
+      let observer: IntersectionObserver | null = null;
+      if (pathname === "/") {
+        const sections = ["home", "services"];
+        const elements = sections.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const id = entry.target.id;
+                if (id === "services") {
+                  setHash("#services");
+                } else if (id === "home") {
+                  setHash("");
+                }
+              }
+            });
+          },
+          { threshold: 0.2, rootMargin: "-80px 0px -50% 0px" }
+        );
+
+        elements.forEach(el => observer?.observe(el));
+      } else {
+        setHash("");
+      }
+
+      return () => {
+        window.removeEventListener("hashchange", handleHashChange);
+        if (observer) {
+          observer.disconnect();
+        }
+      };
+    }
+  }, [pathname]);
+
   const links = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
-    { name: "Tax", href: "/#tax" },
-    { name: "Audit", href: "/#audit" },
-    { name: "Startup", href: "/#startup" },
+    { name: "Tools", href: "/tools" },
+    { name: "Glossary", href: "/glossary" },
     { name: "Insights", href: "/insights" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" }
@@ -76,8 +120,14 @@ export function Navbar() {
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/5 px-2 py-1.5 rounded-full backdrop-blur-sm">
           {links.map((link) => {
-            const isHome = link.href === "/";
-            const isActive = isHome ? pathname === "/" : pathname.startsWith(link.href.split("#")[0]) && link.href !== "/";
+            let isActive = false;
+            if (link.href === "/") {
+              isActive = pathname === "/" && hash !== "#services";
+            } else if (link.href === "/#services") {
+              isActive = pathname === "/" && hash === "#services";
+            } else {
+              isActive = pathname.startsWith(link.href);
+            }
             
             return (
               <Link
@@ -146,6 +196,8 @@ export function Navbar() {
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 rounded-full border border-white/5 bg-white/5 text-[#737c92] hover:text-white cursor-pointer"
             aria-label="Toggle Menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation-drawer"
           >
             {isOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
@@ -156,21 +208,36 @@ export function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-navigation-drawer"
+            role="navigation"
+            aria-label="Mobile Navigation"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className="absolute top-20 left-0 right-0 border-b border-white/5 bg-[#050505]/95 backdrop-blur-lg flex flex-col p-6 gap-4 z-40 lg:hidden shadow-2xl"
           >
-            {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="text-sm font-semibold uppercase tracking-wider text-[#737c92] hover:text-white transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {links.map((link) => {
+              let isActive = false;
+              if (link.href === "/") {
+                isActive = pathname === "/" && hash !== "#services";
+              } else if (link.href === "/#services") {
+                isActive = pathname === "/" && hash === "#services";
+              } else {
+                isActive = pathname.startsWith(link.href);
+              }
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`text-sm font-semibold uppercase tracking-wider transition-colors ${
+                    isActive ? "text-white" : "text-[#737c92] hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
             <hr className="border-white/5" />
             {session ? (
               <Link
