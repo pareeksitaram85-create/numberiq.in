@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Calculator, Copy, Check, Printer, Shield, Upload, Download, FileSpreadsheet, AlertTriangle } from "lucide-react";
+import { Calculator, Copy, Check, Printer, Shield, Upload, Download, FileSpreadsheet, AlertTriangle, RefreshCw } from "lucide-react";
 
 export function GSTInterestCalculator() {
   const [activeTab, setActiveTab] = useState<"single" | "bulk">("single");
 
-  // Single Mode State
-  const [taxAmount, setTaxAmount] = useState("");
+  // Single Mode State (Pre-populated with default parameters for real-time demonstration)
+  const [taxAmount, setTaxAmount] = useState<number | "">(150000);
   const [rate, setRate] = useState("18"); // 18% standard rate
-  const [dueDate, setDueDate] = useState("");
-  const [paymentDate, setPaymentDate] = useState("");
-  const [result, setResult] = useState<any>(null);
-  const [error, setError] = useState("");
+  const [dueDate, setDueDate] = useState("2026-06-20");
+  const [paymentDate, setPaymentDate] = useState("2026-07-10");
   const [copied, setCopied] = useState(false);
 
   // Bulk Mode State
@@ -51,23 +49,18 @@ export function GSTInterestCalculator() {
     };
   };
 
-  const handleCalculateSingle = () => {
-    setError("");
-    setResult(null);
+  // Derive single calculation output reactively
+  let result = null;
+  let singleError = "";
 
-    const amt = parseFloat(taxAmount);
-    if (isNaN(amt) || amt <= 0) {
-      setError("Please enter a valid tax amount.");
-      return;
-    }
-    if (!dueDate || !paymentDate) {
-      setError("Please select both the due date and the payment date.");
-      return;
-    }
-
-    const interestRes = calculateInterestVal(taxAmount, dueDate, paymentDate, rate);
-    setResult(interestRes);
-  };
+  const amt = Number(taxAmount);
+  if (taxAmount !== "" && (isNaN(amt) || amt < 0)) {
+    singleError = "Please enter a valid tax amount.";
+  } else if (!dueDate || !paymentDate) {
+    singleError = "Please select both the due date and the payment date.";
+  } else if (taxAmount !== "") {
+    result = calculateInterestVal(String(taxAmount), dueDate, paymentDate, rate);
+  }
 
   // CSV Template Download
   const downloadTemplate = () => {
@@ -201,7 +194,7 @@ Calculated on: ${new Date().toLocaleDateString()}`;
                   id="taxAmount"
                   type="number"
                   value={taxAmount}
-                  onChange={(e) => setTaxAmount(e.target.value)}
+                  onChange={(e) => setTaxAmount(e.target.value === "" ? "" : Number(e.target.value))}
                   placeholder="e.g. 150000"
                   className="bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#4f7cff] focus:outline-none rounded-xl px-4 py-2 text-sm text-white transition-colors"
                 />
@@ -243,17 +236,23 @@ Calculated on: ${new Date().toLocaleDateString()}`;
                 </div>
               </div>
 
-              {error && (
+              {singleError && (
                 <p className="text-xs text-[#ff5d73] bg-[#ff5d73]/10 border border-[#ff5d73]/20 px-3 py-2 rounded-lg">
-                  {error}
+                  {singleError}
                 </p>
               )}
 
               <button
-                onClick={handleCalculateSingle}
-                className="w-full py-2.5 rounded-xl bg-[#4f7cff] hover:bg-[#3d66dd] text-white text-sm font-semibold transition-all shadow-[0_0_15px_rgba(79,124,255,0.2)] hover:shadow-[0_0_20px_rgba(79,124,255,0.35)] cursor-pointer"
+                onClick={() => {
+                  setTaxAmount(150000);
+                  setRate("18");
+                  setDueDate("2026-06-20");
+                  setPaymentDate("2026-07-10");
+                }}
+                className="w-full py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
-                Calculate Interest
+                <RefreshCw size={14} />
+                Reset Parameters
               </button>
             </div>
           </div>
