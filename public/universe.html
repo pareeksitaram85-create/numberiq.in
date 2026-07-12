@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<title>NumberIQ · Tax Intelligence Universe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="color-scheme" content="dark">
+<style>
+  /* ============ NUMBERIQ · TAX INTELLIGENCE UNIVERSE ============
+     A deliberately single-theme piece: an infinite dark-space
+     environment. Committed dark cosmos, both theme states identical. */
+  :root{
+    --bg:#04060f;
+    --ink:#e8eefc;
+    --ink-dim:#8b97b8;
+    --cyan:#22d3ee;
+    --emerald:#34d399;
+    --gold:#f5b942;
+    --violet:#a78bfa;
+    --sapphire:#3f8cff;
+    --glass:rgba(10,16,36,.58);
+    --glass-2:rgba(6,10,26,.42);
+    --edge:rgba(120,180,255,.16);
+    --edge-hot:rgba(94,234,212,.45);
+    --mono:ui-monospace,'Cascadia Mono','Segoe UI Mono',Consolas,monospace;
+    --sans:'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,sans-serif;
+    --ease-prem:cubic-bezier(.4,0,.2,1);
+    --ease-out:cubic-bezier(.05,.7,.1,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;background:var(--bg)}
+  body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+  #cv{position:fixed;inset:0;display:block;cursor:crosshair}
+  #cv.hovering{cursor:pointer}
+  #cv.dragging{cursor:grabbing}
+
+  /* ---------- floating instrument layer ---------- */
+  #ui{position:fixed;inset:0;pointer-events:none;z-index:5}
+  .glass{
+    background:linear-gradient(158deg,var(--glass),var(--glass-2));
+    border:1px solid var(--edge);
+    backdrop-filter:blur(16px) saturate(1.5);
+    -webkit-backdrop-filter:blur(16px) saturate(1.5);
+    box-shadow:0 18px 50px -18px rgba(0,0,0,.75), inset 0 1px 0 rgba(160,210,255,.09);
+    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+    position:relative;
+  }
+  .glass::before{ /* corner light */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(135deg,rgba(120,220,255,.5) 0,transparent 11px) top left/26px 26px no-repeat,
+      linear-gradient(315deg,rgba(120,220,255,.35) 0,transparent 11px) bottom right/26px 26px no-repeat;
+    opacity:.5;
+  }
+  .micro{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--ink-dim);text-transform:uppercase}
+
+  /* brand — top left */
+  #brand{position:absolute;top:18px;left:18px;padding:12px 18px 12px 14px;display:flex;gap:12px;align-items:center;pointer-events:auto;
+    animation:hudIn .9s var(--ease-out) .35s both, floaty 7s ease-in-out 2s infinite alternate}
+  .b-mark{width:34px;height:34px;border-radius:50%;position:relative;flex:none;
+    background:radial-gradient(circle at 38% 34%,#fff7e0 0%,#f5b942 32%,rgba(167,139,250,.28) 68%,transparent 72%);
+    box-shadow:0 0 18px rgba(245,185,66,.55),0 0 44px rgba(167,139,250,.3)}
+  .b-mark::before,.b-mark::after{content:"";position:absolute;inset:-5px;border-radius:50%;
+    border:1px solid transparent;border-top-color:rgba(94,234,212,.85);border-right-color:rgba(94,234,212,.18);
+    animation:spin 3.4s linear infinite}
+  .b-mark::after{inset:-10px;border-top-color:rgba(167,139,250,.6);border-right-color:transparent;animation-duration:7s;animation-direction:reverse}
+  .b-name{font-size:16px;font-weight:650;letter-spacing:.34em;line-height:1}
+  .b-name span{color:var(--cyan);text-shadow:0 0 14px rgba(34,211,238,.8)}
+  .b-sub{margin-top:5px;font-family:var(--mono);font-size:8.5px;letter-spacing:.34em;color:var(--ink-dim)}
+  #tick{position:absolute;top:86px;left:22px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--ink-dim);
+    text-shadow:0 0 8px rgba(34,211,238,.25);animation:hudIn 1s var(--ease-out) .6s both}
+  #tick b{color:#bfe9ff;font-weight:500}
+  #tick .live{color:var(--emerald);animation:blink 2.2s ease-in-out infinite}
+
+  /* layer legend — right */
+  #layers{position:absolute;right:18px;top:50%;transform:translateY(-50%);padding:14px 14px 10px;width:196px;pointer-events:auto;
+    animation:hudInR 1s var(--ease-out) .7s both, floaty 9s ease-in-out 3s infinite alternate}
+  #layers .lg-title{font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--ink-dim);margin-bottom:10px}
+  .lrow{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:3px;cursor:pointer;transition:background .25s var(--ease-prem)}
+  .lrow:hover{background:rgba(110,190,255,.08)}
+  .lrow.solo{background:rgba(110,190,255,.12);box-shadow:inset 0 0 0 1px rgba(110,190,255,.25)}
+  .ldot{width:7px;height:7px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}
+  .lname{font-size:10.5px;letter-spacing:.06em;color:#c9d6f2;flex:1;white-space:nowrap}
+  .lcount{font-family:var(--mono);font-size:9px;color:var(--ink-dim)}
+  .lbar{height:2px;border-radius:2px;margin:3px 0 1px 15px;background:linear-gradient(90deg,currentColor,transparent);opacity:.5;animation:barpulse 3s ease-in-out infinite}
+
+  /* command bar — bottom center */
+  #cmd{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(620px,calc(100vw - 32px));padding:10px 14px 12px;pointer-events:auto;
+    animation:hudInUp 1s var(--ease-out) .9s both}
+  #cmdstatus{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--cyan);opacity:.85;margin:0 2px 8px;min-height:12px;text-shadow:0 0 10px rgba(34,211,238,.5)}
+  #cmdstatus.busy{animation:blink 1s ease-in-out infinite}
+  .cmdrow{display:flex;align-items:center;gap:10px}
+  .prompt-dot{width:9px;height:9px;border-radius:50%;flex:none;background:radial-gradient(circle,#fff,var(--cyan) 60%,transparent 70%);
+    box-shadow:0 0 12px var(--cyan);animation:corepulse 2.4s ease-in-out infinite}
+  #q{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font-family:var(--sans);font-size:14px;letter-spacing:.02em;caret-color:var(--cyan);min-width:0}
+  #q::placeholder{color:#5c6a8f}
+  #go{pointer-events:auto;font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:#031018;background:linear-gradient(120deg,#5eead4,#22d3ee);
+    border:0;padding:8px 16px;cursor:pointer;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+    box-shadow:0 0 20px rgba(34,211,238,.35);transition:transform .18s var(--ease-out),box-shadow .3s}
+  #go:hover{box-shadow:0 0 34px rgba(34,211,238,.65)}
+  #go:active{transform:scale(.96)}
+  #go:disabled{opacity:.4;cursor:wait}
+  #chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:#9fd8ef;border:1px solid rgba(94,234,212,.22);padding:5px 10px;cursor:pointer;background:rgba(34,211,238,.05);
+    clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+    transition:all .25s var(--ease-prem)}
+  .chip:hover{color:#031018;background:rgba(94,234,212,.85);box-shadow:0 0 18px rgba(94,234,212,.5);text-shadow:none}
+
+  /* control cluster — bottom right */
+  #ctrl{position:absolute;right:18px;bottom:22px;display:flex;gap:8px;pointer-events:auto;animation:hudInUpR 1s var(--ease-out) 1.05s both}
+  .cbtn{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:#9db2dd;background:linear-gradient(158deg,var(--glass),var(--glass-2));
+    border:1px solid var(--edge);padding:8px 12px;cursor:pointer;backdrop-filter:blur(12px);
+    clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+    transition:all .25s var(--ease-prem)}
+  .cbtn:hover{color:#dff4ff;border-color:var(--edge-hot);box-shadow:0 0 16px rgba(94,234,212,.25)}
+  .cbtn b{color:var(--cyan);font-weight:500}
+
+  /* stamp — bottom left */
+  #stamp{position:absolute;left:20px;bottom:26px;font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;color:#4c5a7e;
+    animation:hudIn 1.2s var(--ease-out) 1.2s both}
+  #stamp em{font-style:normal;color:#6d7fa8}
+
+  /* ---------- node hologram panel ---------- */
+  .panel{position:absolute;width:262px;padding:14px 16px 12px;pointer-events:auto;z-index:8;
+    transition:opacity .35s var(--ease-prem)}
+  .panel.hidden{opacity:0;pointer-events:none}
+  .panel.showing{animation:holoIn .5s var(--ease-out) both}
+  .p-head{display:flex;align-items:flex-start;gap:10px}
+  .p-dot{width:10px;height:10px;border-radius:50%;flex:none;margin-top:3px;box-shadow:0 0 12px currentColor,0 0 30px currentColor;animation:corepulse 2.6s ease-in-out infinite}
+  .p-eyebrow{font-family:var(--mono);font-size:8px;letter-spacing:.3em;color:var(--ink-dim)}
+  .p-title{font-size:15.5px;font-weight:650;letter-spacing:.08em;margin-top:2px;text-shadow:0 0 18px rgba(140,200,255,.4)}
+  .p-close{margin-left:auto;background:none;border:0;color:#5f7096;font-size:13px;cursor:pointer;padding:2px 4px;transition:color .2s}
+  .p-close:hover{color:#fff}
+  .p-desc{font-size:11.5px;line-height:1.55;color:#aebbda;margin:10px 0 12px}
+  .p-stats{display:flex;gap:6px}
+  .stat{flex:1;padding:7px 8px;background:rgba(10,20,44,.5);border:1px solid rgba(110,170,255,.1);
+    clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+  .stat b{display:block;font-family:var(--mono);font-size:13px;font-weight:500;color:#dff0ff;font-variant-numeric:tabular-nums}
+  .stat span{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--ink-dim)}
+  .p-spark{display:block;width:100%;height:34px;margin:10px 0 2px}
+  .p-sparkcap{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:8px}
+  .p-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .p-chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;padding:4px 8px;cursor:pointer;border:1px solid rgba(140,190,255,.18);color:#a8c8f0;
+    clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);transition:all .22s var(--ease-prem)}
+  .p-chip:hover{background:rgba(140,190,255,.16);color:#eaf5ff}
+  .p-foot{font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:#49587c;border-top:1px solid rgba(110,170,255,.1);padding-top:8px}
+
+  /* ---------- AI result hologram ---------- */
+  #result{position:absolute;right:236px;top:76px;width:330px;max-height:calc(100vh - 220px);overflow-y:auto;padding:16px 18px 12px;pointer-events:auto;z-index:9;
+    scrollbar-width:thin;scrollbar-color:rgba(94,234,212,.3) transparent}
+  #result.hidden{display:none}
+  #result.showing{animation:holoIn .6s var(--ease-out) both}
+  .r-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.28em;color:var(--cyan)}
+  .r-eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:blink 1.6s infinite}
+  .r-q{font-size:14.5px;font-weight:600;letter-spacing:.03em;margin:8px 0 12px;color:#f2f7ff;text-wrap:balance}
+  .r-sec{font-family:var(--mono);font-size:8px;letter-spacing:.26em;color:var(--ink-dim);margin:12px 0 7px}
+  .trace{display:flex;flex-direction:column;gap:6px}
+  .titem{display:flex;gap:9px;align-items:baseline;font-size:10.5px;color:#9fb3d9;opacity:0;transform:translateX(-8px);transition:all .45s var(--ease-out)}
+  .titem.on{opacity:1;transform:none}
+  .titem::before{content:"▸";color:var(--emerald);font-size:9px;text-shadow:0 0 8px var(--emerald)}
+  .insight{font-size:11.5px;line-height:1.6;color:#c3d0ec;margin-bottom:9px;padding-left:11px;border-left:1px solid rgba(94,234,212,.3);
+    opacity:0;transform:translateY(8px);transition:all .5s var(--ease-out)}
+  .insight.on{opacity:1;transform:none}
+  .impact{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+  .imp{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;padding:4px 9px;border:1px solid;
+    clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+  .conf-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .conf-track{flex:1;height:3px;background:rgba(120,170,255,.12);border-radius:2px;overflow:hidden}
+  .conf-fill{height:100%;width:0;background:linear-gradient(90deg,var(--emerald),var(--cyan));box-shadow:0 0 10px var(--cyan);transition:width 1.4s var(--ease-prem) .3s}
+  .conf-val{font-family:var(--mono);font-size:10px;color:var(--emerald);font-variant-numeric:tabular-nums}
+
+  /* tooltip for minor nodes */
+  #tip{position:absolute;padding:6px 10px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:#dff0ff;z-index:10;pointer-events:none;
+    white-space:nowrap;transition:opacity .2s}
+  #tip.hidden{opacity:0}
+  #tip small{display:block;font-size:7.5px;letter-spacing:.2em;margin-top:2px}
+
+  /* help overlay */
+  #help{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(380px,90vw);padding:20px 24px;z-index:20;pointer-events:auto}
+  #help.hidden{display:none}
+  #help h3{font-size:13px;letter-spacing:.28em;font-weight:600;color:var(--cyan);margin-bottom:14px}
+  #help .hrow{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:#b7c5e4;padding:5px 0;border-bottom:1px solid rgba(110,170,255,.08)}
+  #help .hrow b{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.12em;color:#7fe3d0}
+  #help .p-foot{margin-top:12px;border:0;padding:0}
+
+  #veil{position:fixed;inset:0;background:#000;z-index:50;pointer-events:none;transition:opacity 1.6s ease .2s}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes corepulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+  @keyframes barpulse{0%,100%{opacity:.35}50%{opacity:.8}}
+  @keyframes floaty{from{margin-top:0}to{margin-top:7px}}
+  @keyframes hudIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+  @keyframes hudInR{from{opacity:0;transform:translateY(-50%) translateX(18px)}to{opacity:1;transform:translateY(-50%)}}
+  @keyframes hudInUp{from{opacity:0;transform:translateX(-50%) translateY(18px)}to{opacity:1;transform:translateX(-50%)}}
+  @keyframes hudInUpR{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes holoIn{0%{opacity:0;transform:scale(.92) translateY(10px);filter:blur(6px)}100%{opacity:1;transform:none;filter:blur(0)}}
+
+  button:focus-visible,input:focus-visible,.chip:focus-visible{outline:1px solid var(--cyan);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){
+    .b-mark::before,.b-mark::after,#brand,#layers{animation-duration:.01s;animation-iteration-count:1}
+  }
+  @media (max-width:760px){
+    #layers{display:none}
+    #result{right:12px;left:12px;width:auto;top:64px}
+    .panel{width:230px}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="cv"></canvas>
+
+<div id="ui">
+  <div id="brand" class="glass">
+    <div class="b-mark"></div>
+    <div>
+      <div class="b-name">NUMBER<span>IQ</span></div>
+      <div class="b-sub">TAX INTELLIGENCE UNIVERSE</div>
+    </div>
+  </div>
+  <div id="tick"><span class="live">◉</span> 7 LAYERS ACTIVE · <b id="nodesN">—</b> NODES · <b id="partN">—</b> PARTICLES · <b id="docsN">—</b> DOCS INDEXED · <b id="clock">—</b></div>
+
+  <div id="layers" class="glass"><div class="lg-title">◈ KNOWLEDGE LAYERS</div></div>
+
+  <div id="cmd" class="glass">
+    <div id="cmdstatus">◈ INTELLIGENCE IDLE — AWAITING QUERY</div>
+    <div class="cmdrow">
+      <span class="prompt-dot"></span>
+      <input id="q" placeholder="Ask the intelligence… e.g. Show GST impact on exports" autocomplete="off" spellcheck="false">
+      <button id="go">EXECUTE</button>
+    </div>
+    <div id="chips"></div>
+  </div>
+
+  <div id="ctrl">
+    <button class="cbtn" id="btnOrbit">ORBIT <b>ON</b></button>
+    <button class="cbtn" id="btnFx">FX <b>AUTO</b></button>
+    <button class="cbtn" id="btnReset">RESET VIEW</button>
+    <button class="cbtn" id="btnHelp">?</button>
+  </div>
+
+  <div id="stamp"><em>DESIGN PROTOTYPE v0.9</em> · SIMULATED INTELLIGENCE · ALL FIGURES ILLUSTRATIVE</div>
+
+  <div id="npanel" class="glass panel hidden">
+    <div class="p-head">
+      <span class="p-dot" id="npDot"></span>
+      <div>
+        <div class="p-eyebrow" id="npEyebrow">LAYER —</div>
+        <div class="p-title" id="npTitle">—</div>
+      </div>
+      <button class="p-close" id="npClose" aria-label="Close panel">✕</button>
+    </div>
+    <div class="p-desc" id="npDesc"></div>
+    <div class="p-stats">
+      <div class="stat"><b id="npS1">0</b><span>DOCS INDEXED</span></div>
+      <div class="stat"><b id="npS2">0</b><span>UPDATES / WK</span></div>
+      <div class="stat"><b id="npS3">0</b><span>LINKED TOPICS</span></div>
+    </div>
+    <canvas class="p-spark" id="npSpark" width="228" height="34"></canvas>
+    <div class="p-sparkcap">SIGNAL ACTIVITY · TRAILING 26 WEEKS</div>
+    <div class="p-chips" id="npChips"></div>
+    <div class="p-foot">SIMULATED PREVIEW · LIVE INDEX PENDING</div>
+  </div>
+
+  <div id="result" class="glass hidden">
+    <div class="r-eyebrow">SYNTHESIS · NIQ-CORE</div>
+    <div class="r-q" id="rQ"></div>
+    <div class="r-sec">REASONING TRACE</div>
+    <div class="trace" id="rTrace"></div>
+    <div class="r-sec">KEY INSIGHT</div>
+    <div id="rInsights"></div>
+    <div class="r-sec">IMPACT SURFACE</div>
+    <div class="impact" id="rImpact"></div>
+    <div class="conf-row">
+      <span class="micro">CONFIDENCE</span>
+      <div class="conf-track"><div class="conf-fill" id="rConfFill"></div></div>
+      <span class="conf-val" id="rConfVal">—</span>
+    </div>
+    <div class="p-foot">SIMULATED SYNTHESIS · TRACE VISUALISED ON GRAPH</div>
+  </div>
+
+  <div id="tip" class="glass hidden"></div>
+
+  <div id="help" class="glass hidden">
+    <h3>◈ NAVIGATION</h3>
+    <div class="hrow"><span>Rotate the universe</span><b>DRAG</b></div>
+    <div class="hrow"><span>Cinematic zoom</span><b>SCROLL / PINCH</b></div>
+    <div class="hrow"><span>Inspect a node</span><b>HOVER</b></div>
+    <div class="hrow"><span>Focus + hologram panel</span><b>CLICK NODE</b></div>
+    <div class="hrow"><span>Link intelligence paths</span><b>CLICK 2+ NODES</b></div>
+    <div class="hrow"><span>Isolate a layer</span><b>CLICK LAYER (RIGHT)</b></div>
+    <div class="hrow"><span>Release focus / clear</span><b>ESC · CLICK SPACE</b></div>
+    <div class="hrow"><span>Run a demonstration query</span><b>COMMAND BAR</b></div>
+    <div class="p-foot">CLICK ANYWHERE TO DISMISS</div>
+  </div>
+
+  <div id="veil"></div>
+</div>
+
+<script>
+'use strict';
+/* ================================================================
+   NUMBERIQ · TAX INTELLIGENCE UNIVERSE
+   Hand-rolled 3D projection on Canvas2D. No libraries, no assets.
+   ================================================================ */
+
+/* ---------------- utils ---------------- */
+const TAU = Math.PI * 2;
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const rnd = (a, b) => a + Math.random() * (b - a);
+const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+const easeOutElastic = t => t <= 0 ? 0 : t >= 1 ? 1 :
+  Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * (TAU / 3)) + 1;
+function hex2rgb(h) {
+  return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+}
+const rgba = (rgb, a) => `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
+function mixWhite(rgb, t) {
+  return [Math.round(lerp(rgb[0],255,t)), Math.round(lerp(rgb[1],255,t)), Math.round(lerp(rgb[2],255,t))];
+}
+const wrapAngle = a => { while (a > Math.PI) a -= TAU; while (a < -Math.PI) a += TAU; return a; };
+const fmtIN = n => Math.round(n).toLocaleString('en-IN');
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------------- knowledge data ---------------- */
+const RINGS = [
+  { name:'Core Statutes',  r: 74, speed: 0.150, tx: 0.52, tz: 0.20, col:'#f5b942' },
+  { name:'Indirect Tax',   r:112, speed:-0.115, tx:-0.66, tz: 0.44, col:'#3f8cff' },
+  { name:'Direct Tax',     r:150, speed: 0.095, tx: 1.02, tz:-0.30, col:'#34d399' },
+  { name:'International',  r:188, speed:-0.080, tx:-0.34, tz:-0.86, col:'#a78bfa' },
+  { name:'Jurisprudence',  r:224, speed: 0.066, tx: 0.86, tz: 0.76, col:'#dbe6f8' },
+  { name:'Compliance Ops', r:258, speed:-0.052, tx:-1.14, tz: 0.12, col:'#22d3ee' },
+  { name:'Intelligence',   r:294, speed: 0.042, tx: 0.26, tz:-0.56, col:'#f0abfc' },
+];
+RINGS.forEach(r => {
+  r.cx = Math.cos(r.tx); r.sx = Math.sin(r.tx);
+  r.cz = Math.cos(r.tz); r.sz = Math.sin(r.tz);
+  r.rgb = hex2rgb(r.col);
+});
+const MINOR_BASE = [18, 24, 28, 32, 36, 40, 44];
+
+const DOMAINS = [
+  { id:'statutes',   name:'Statutes & Acts',      ring:0, shape:'orb',     col:'#f5b942',
+    desc:'The primary corpus — Income-tax Act 1961, CGST Act 2017, Customs Act, FEMA 1999 and the Companies Act 2013, kept section-aligned with every amendment.',
+    topics:['Finance Act 2026 map','Sec 2 definitions','Amendment lineage','Schedule rates','Repealed provisions','Cross-Act concordance'] },
+  { id:'gst',        name:'GST',                  ring:1, shape:'plasma',  col:'#3f8cff',
+    desc:'The indirect-tax nerve centre — CGST/SGST/IGST mechanics, input tax credit, e-invoicing, returns and refunds, resolved to rule level.',
+    topics:['Rule 36(4) · ITC','GSTR-9 reconciliation','E-invoice IRN','Sec 16 eligibility','RCM u/s 9(3)','Refunds · Rule 89','E-way bill matrix','Zero-rating u/s 16 IGST'] },
+  { id:'customs',    name:'Customs & Trade',      ring:1, shape:'orb',     col:'#fb7185',
+    desc:'Tariff classification, valuation, FTP incentives, duty drawback and AEO — the cross-border corridor of the indirect layer.',
+    topics:['CTH classification','Valuation Rule 3','Duty drawback','FTP 2023 schemes','AEO tiering','IGCR conditions'] },
+  { id:'incometax',  name:'Income Tax',           ring:2, shape:'crystal', col:'#34d399',
+    desc:'Direct-tax intelligence — heads of income, TDS/TCS webs, assessments, appeals and both regime curves, computed live.',
+    topics:['New vs old regime','TDS · Sec 194 grid','Capital gains 112A','Sec 44AD presumptive','Faceless assessment','Sec 80 deductions'] },
+  { id:'company',    name:'Company Law',          ring:2, shape:'orb',     col:'#818cf8',
+    desc:'Companies Act 2013 — incorporation to strike-off, ROC filings, CSR thresholds, related-party webs and director duty maps.',
+    topics:['ROC calendar','CSR u/s 135','RPT u/s 188','DIN & KYC','Sec 185 loans','Strike-off track'] },
+  { id:'intl',       name:'International Tax',    ring:3, shape:'orb',     col:'#a78bfa',
+    desc:'The treaty lattice — 90+ DTAAs, MLI overlays, PoEM, BEPS pillars and withholding matrices across jurisdictions.',
+    topics:['DTAA Art. 12 royalty','MLI PPT test','PoEM triggers','Pillar Two GloBE','Form 15CA/CB','TRC sufficiency'] },
+  { id:'tp',         name:'Transfer Pricing',     ring:3, shape:'poly',    col:'#f5b942',
+    desc:'Arm’s-length intelligence — method selection, benchmarking sets, Form 3CEB, APAs and safe-harbour corridors.',
+    topics:['TNMM benchmarks','Form 3CEB','APA pipeline','Safe harbour rules','AMP adjustments','Master file · CbCR'] },
+  { id:'fema',       name:'FEMA',                 ring:3, shape:'orb',     col:'#2dd4bf',
+    desc:'Exchange-control routes — FDI entry, ODI limits, ECB windows, LRS ceilings and compounding intelligence.',
+    topics:['ODI automatic route','FDI sector caps','ECB all-in cost','LRS $250k ceiling','FC-GPR filing','Compounding matrix'] },
+  { id:'caselaw',    name:'Case Laws',            ring:4, shape:'doc',     col:'#e8eefc',
+    desc:'The precedent graph — Supreme Court to AAR, distilled into ratio networks with treatment signals (followed · distinguished · overruled).',
+    topics:['SC ratio network','ITAT trend lines','AAR rulings','HC circuit splits','CESTAT corpus','Doctrine tracker'] },
+  { id:'notif',      name:'Notifications',        ring:4, shape:'pulse',   col:'#fb923c',
+    desc:'Real-time CBDT & CBIC notification stream, delta-diffed against the sections they amend the moment they publish.',
+    topics:['CBIC rate deltas','CBDT extensions','Effective-date map','Supersession chain','Draft → final diff','Gazette watch'] },
+  { id:'circulars',  name:'Circulars',            ring:4, shape:'pulse',   col:'#fdba74',
+    desc:'Clarificatory circulars and instructions, linked to the ambiguities they resolve and the disputes they quietly settle.',
+    topics:['Clarification index','Instruction lineage','FAQ corpus','Withdrawn circulars','Board guidance','Conflict flags'] },
+  { id:'compliance', name:'Compliance',           ring:5, shape:'cube',    col:'#22d3ee',
+    desc:'The obligation engine — every due date, form and threshold for your entity graph, scored into a live compliance health index.',
+    topics:['Due-date horizon','Form dependency tree','Late-fee exposure','Health score 94.2','Entity obligations','Auto-reminders'] },
+  { id:'reports',    name:'Reports',              ring:5, shape:'doc',     col:'#86efac',
+    desc:'Self-assembling briefings — position papers, audit trails and board notes generated from the live knowledge state.',
+    topics:['Board-note builder','Audit trail export','Position papers','Litigation summary','Notice replies','Tax MIS pack'] },
+  { id:'calculators',name:'Calculators',          ring:5, shape:'crystal', col:'#fde047',
+    desc:'Scenario engines — regime comparisons, capital-gains stacks, GST cash-lock and interest simulators with elastic parameters.',
+    topics:['Regime comparator','234B/C interest','LTCG stacker','GST cash-lock sim','HRA optimiser','Depreciation lab'] },
+  { id:'insights',   name:'AI Insights',          ring:6, shape:'star',    col:'#f0abfc',
+    desc:'Predictive layer — anomaly flags, exposure forecasts and drift alerts synthesised across every other layer of the universe.',
+    topics:['Anomaly radar','Exposure forecast','Drift alerts','Peer benchmarking','Risk heat map','Opportunity scan'] },
+  { id:'analytics',  name:'Analytics',            ring:6, shape:'cube',    col:'#67e8f9',
+    desc:'The measurement fabric — filing telemetry, dispute velocity, refund ageing and effective-rate analytics across time.',
+    topics:['Refund ageing','Dispute velocity','ETR waterfall','Filing telemetry','Credit utilisation','Trend decomposition'] },
+  { id:'legal',      name:'Legal Intelligence',   ring:6, shape:'star',    col:'#c4b5fd',
+    desc:'Argument engineering — authority chains, counter-position maps and draft-ready grounds assembled from the precedent graph.',
+    topics:['Authority chains','Counter-position map','Grounds drafter','Limitation watch','Bench analytics','Argument strength'] },
+];
+DOMAINS.forEach((d, i) => { d.idx = i; d.rgb = hex2rgb(d.col); d.bright = mixWhite(d.rgb, .6); d.ex = 0; });
+const DOM_BY_ID = Object.fromEntries(DOMAINS.map(d => [d.id, d]));
+
+const CONNS_IDS = [
+  ['gst','customs'], ['gst','compliance'], ['gst','notif'], ['gst','circulars'], ['gst','statutes'],
+  ['incometax','caselaw'], ['incometax','calculators'], ['incometax','notif'], ['incometax','statutes'], ['incometax','intl'],
+  ['intl','tp'], ['intl','fema'], ['tp','caselaw'], ['company','fema'], ['company','compliance'], ['company','statutes'],
+  ['caselaw','legal'], ['notif','compliance'], ['circulars','notif'], ['insights','analytics'],
+  ['analytics','reports'], ['legal','insights'], ['compliance','reports'], ['calculators','analytics'],
+  ['customs','fema'], ['caselaw','insights'], ['gst','analytics'], ['tp','legal'],
+];
+
+const QUERIES = [
+  { chip:'GST impact on exports', q:'Show GST impact on exports', rel:['gst','customs','compliance','notif'], conf:94,
+    trace:['Intent parsed — indirect tax × cross-border supply','GST cluster traversed — zero-rating provisions isolated',
+           'Customs corridor linked — LUT & refund routes mapped','Compliance layer checked — 2 live notification deltas'],
+    insights:[
+      'Exports remain zero-rated supplies — output tax is nil while input-side credit stays fully available, so the real variable is refund velocity, not liability.',
+      'Two execution routes detected: supply under LUT without payment (refund of unutilised ITC) or payment of IGST with refund of tax paid. Route choice shifts simulated cash-lock by ≈34 days for a typical merchant exporter.',
+      'Three recent notifications touch refund mechanics for this profile. The highlighted corridor on the graph shows the affected provisions and their compliance dependencies.' ] },
+  { chip:'Old vs new regime · ₹24L', q:'Compare old vs new tax regime for ₹24L salary', rel:['incometax','calculators','insights'], conf:91,
+    trace:['Intent parsed — direct tax × individual scenario','Both slab curves loaded — FY 2026-27 parameters',
+           'Deduction sensitivity swept ₹0 → ₹6.0L','Break-even isolated · insight layer engaged'],
+    insights:[
+      'At ₹24L gross salary with zero deductions, the new regime’s flatter slab curve wins by a simulated ≈₹48,000 — the standard deduction is already priced into both paths.',
+      'The regimes cross when old-regime deductions (80C, 80D, home-loan interest, HRA) exceed ≈₹4.5L. Above that, the old regime recovers the advantage at roughly 31% of every additional rupee sheltered.',
+      'Recommended next step: run the regime comparator with your actual deduction stack — the calculator node is now charged with this scenario’s parameters.' ] },
+  { chip:'TP rulings — mgmt fees', q:'Recent transfer pricing rulings on management fees', rel:['tp','caselaw','intl'], conf:88,
+    trace:['Intent parsed — transfer pricing × jurisprudence','Precedent graph filtered — intra-group services',
+           'Benefit-test doctrine cluster expanded','Treaty overlay applied — Art. 9 correlation'],
+    insights:[
+      'The precedent stream on management-fee disallowances turns less on method choice and more on evidence: simulated trend shows 6 of 9 recent tribunal outcomes hinging on contemporaneous proof that services were actually received.',
+      'Benefit-test scrutiny clusters around cost-allocation keys and duplication with in-house functions — documentation created after the audit notice consistently fails.',
+      'The graph now links the ruling cluster to Form 3CEB disclosure line-items so exposure can be traced entity-by-entity.' ] },
+  { chip:'FEMA outbound route', q:'FEMA route for outbound investment', rel:['fema','intl','company'], conf:90,
+    trace:['Intent parsed — exchange control × outbound','ODI framework loaded — 2022 rules regime',
+           'Company-law surface joined — board & filing chain','Route ranked against commitment size'],
+    insights:[
+      'Under the automatic route, overseas direct investment is available up to 400% of net worth per the last audited balance sheet — the binding constraints are usually sectoral (financial services) rather than quantum.',
+      'The obligation chain is sequential: Form FC before remittance, UIN allotment, then an Annual Performance Report every year the investment lives. A missed APR quietly blocks every future outbound leg.',
+      'Simulated structure comparison: direct ODI vs step-down via an offshore holdco changes compounding exposure and repatriation flexibility — the graph shows both corridors.' ] },
+];
+
+const KEYWORDS = [
+  [/gst|igst|cgst|sgst|itc|invoice|e-?way|input credit/i,'gst'],
+  [/export|import|custom|duty|tariff|drawback|port/i,'customs'],
+  [/income|salary|tds|tcs|capital gain|regime|80c|deduction|assessment/i,'incometax'],
+  [/dtaa|treaty|foreign|nri|withholding|beps|pillar|royalt/i,'intl'],
+  [/transfer pricing|arm.?s length|alp|3ceb|benchmark|intra-?group/i,'tp'],
+  [/fema|odi|fdi|ecb|lrs|remit|forex|overseas/i,'fema'],
+  [/company|companies act|roc|csr|director|mca|board/i,'company'],
+  [/case|ruling|judgment|precedent|itat|tribunal|court/i,'caselaw'],
+  [/notification/i,'notif'], [/circular/i,'circulars'],
+  [/complian|due date|deadline|return|filing/i,'compliance'],
+  [/report|brief|summary/i,'reports'], [/calculat|comput|simulat/i,'calculators'],
+  [/analytic|trend|metric/i,'analytics'], [/insight|predict|forecast|risk/i,'insights'],
+  [/legal|argument|ground|appeal/i,'legal'], [/act|section|statute|law\b/i,'statutes'],
+];
+
+const THINK_LINES = [
+  '◈ PARSING INTENT …','◈ EMBEDDING QUERY INTO KNOWLEDGE SPACE …','◈ TRAVERSING DOMAIN CLUSTERS …',
+  '◈ SCORING 1,240 CANDIDATE PROVISIONS …','◈ WEAVING REASONING PATH …','◈ SYNTHESISING …'
+];
+
+/* ---------------- canvas & camera ---------------- */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d', { alpha: false });
+let W = innerWidth, H = innerHeight, DPR = 1;
+function resize() {
+  W = innerWidth; H = innerHeight;
+  DPR = clamp(devicePixelRatio || 1, 1, 1.75);
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  makeVignette();
+}
+addEventListener('resize', resize);
+
+const cam = {
+  yaw: -0.6, pitch: 0.34, dist: 640, fov: 880,
+  yawT: -0.6, pitchT: 0.34, distT: 640,
+  shake: 0, shakeT: 0, shx: 0, shy: 0,
+};
+let T = 0, lastMs = performance.now();
+let lastInteract = -10;
+let orbitOn = !REDUCED;
+let focusNode = null;
+let soloRing = -1, hoverRing = -1;
+
+function project(x, y, z) {
+  const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+  const x1 = x * cy - z * sy, z1 = x * sy + z * cy;
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  const y1 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+  const zc = z2 + cam.dist;
+  if (zc < 60) return null;
+  const s = cam.fov / zc;
+  return { x: W / 2 + x1 * s + cam.shx, y: H / 2 + y1 * s + cam.shy, s, z: zc };
+}
+const depthFade = p => clamp(1.55 - p.z / (cam.dist * 1.18), .22, 1);
+
+/* ---------------- sprites ---------------- */
+const spriteCache = {};
+function glowSprite(col, soft) {
+  const key = col + (soft ? 's' : 'h');
+  if (spriteCache[key]) return spriteCache[key];
+  const S = 96, c = document.createElement('canvas'); c.width = c.height = S;
+  const g = c.getContext('2d');
+  const rgb = hex2rgb(col), core = mixWhite(rgb, .85);
+  const gr = g.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
+  if (soft) {
+    gr.addColorStop(0, rgba(core, .7)); gr.addColorStop(.3, rgba(rgb, .35));
+    gr.addColorStop(.7, rgba(rgb, .08)); gr.addColorStop(1, rgba(rgb, 0));
+  } else {
+    gr.addColorStop(0, rgba([255,255,255], .95)); gr.addColorStop(.18, rgba(core, .8));
+    gr.addColorStop(.45, rgba(rgb, .28)); gr.addColorStop(1, rgba(rgb, 0));
+  }
+  g.fillStyle = gr; g.fillRect(0, 0, S, S);
+  spriteCache[key] = c; return c;
+}
+function raySprite(col) {
+  const key = 'ray' + col;
+  if (spriteCache[key]) return spriteCache[key];
+  const S = 480, c = document.createElement('canvas'); c.width = c.height = S;
+  const g = c.getContext('2d'); g.translate(S/2, S/2);
+  const rgb = hex2rgb(col);
+  for (let i = 0; i < 15; i++) {
+    const a = (i / 15) * TAU + rnd(-.08, .08), len = S * rnd(.3, .5), w = rnd(.008, .028);
+    const gr = g.createLinearGradient(0, 0, Math.cos(a) * len, Math.sin(a) * len);
+    gr.addColorStop(0, rgba(rgb, .30)); gr.addColorStop(1, rgba(rgb, 0));
+    g.fillStyle = gr; g.beginPath();
+    g.moveTo(0, 0);
+    g.arc(0, 0, len, a - w, a + w);
+    g.closePath(); g.fill();
+  }
+  spriteCache[key] = c; return c;
+}
+function streakSprite() {
+  if (spriteCache.streak) return spriteCache.streak;
+  const c = document.createElement('canvas'); c.width = 256; c.height = 24;
+  const g = c.getContext('2d');
+  const gr = g.createLinearGradient(0, 0, 256, 0);
+  gr.addColorStop(0, 'rgba(200,235,255,0)'); gr.addColorStop(.5, 'rgba(220,245,255,.8)'); gr.addColorStop(1, 'rgba(200,235,255,0)');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(128, 12, 126, 5, 0, 0, TAU); g.fill();
+  spriteCache.streak = c; return c;
+}
+let vignette = null;
+function makeVignette() {
+  vignette = document.createElement('canvas');
+  vignette.width = 320; vignette.height = 200;
+  const g = vignette.getContext('2d');
+  const gr = g.createRadialGradient(160, 100, 40, 160, 100, 190);
+  gr.addColorStop(0, 'rgba(2,4,12,0)'); gr.addColorStop(.72, 'rgba(2,4,12,.08)'); gr.addColorStop(1, 'rgba(1,2,8,.62)');
+  g.fillStyle = gr; g.fillRect(0, 0, 320, 200);
+}
+function nebulaSprite(seedCols) {
+  const S = 512, c = document.createElement('canvas'); c.width = c.height = S;
+  const g = c.getContext('2d');
+  for (let i = 0; i < 26; i++) {
+    const col = seedCols[i % seedCols.length];
+    const x = rnd(S*.12, S*.88), y = rnd(S*.12, S*.88), r = rnd(60, 190);
+    const gr = g.createRadialGradient(x, y, 0, x, y, r);
+    gr.addColorStop(0, rgba(col, rnd(.05, .12))); gr.addColorStop(1, rgba(col, 0));
+    g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill();
+  }
+  return c;
+}
+const nebulaA = nebulaSprite([[38,18,84],[16,32,92],[10,46,86],[52,14,74]]);
+const nebulaB = nebulaSprite([[10,60,80],[16,72,60],[34,22,96],[8,40,90]]);
+const noiseC = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d'), im = g.createImageData(128, 128);
+  for (let i = 0; i < im.data.length; i += 4) {
+    const v = 100 + Math.random() * 155 | 0;
+    im.data[i] = im.data[i+1] = im.data[i+2] = v; im.data[i+3] = 14;
+  }
+  g.putImageData(im, 0, 0); return c;
+})();
+let noisePat = null;
+
+const labelCache = {};
+function labelSprite(text, col) {
+  if (labelCache[text]) return labelCache[text];
+  const c = document.createElement('canvas'); const g = c.getContext('2d');
+  g.font = '600 11px "Segoe UI", system-ui, sans-serif';
+  const w = Math.ceil(g.measureText(text.toUpperCase()).width) + 26;
+  c.width = w * 2; c.height = 40; // 2x for crispness
+  const g2 = c.getContext('2d'); g2.scale(2, 2);
+  g2.font = '600 10px "Segoe UI", system-ui, sans-serif';
+  g2.textAlign = 'center'; g2.textBaseline = 'middle';
+  g2.shadowColor = col; g2.shadowBlur = 7;
+  g2.fillStyle = 'rgba(234,242,255,.96)';
+  const spaced = text.toUpperCase().split('').join(' ');
+  g2.fillText(spaced, w / 2, 10);
+  labelCache[text] = c; return c;
+}
+
+/* ---------------- backdrop: stars & dust ---------------- */
+const starLayers = [];
+[[150, .25, .7], [95, .5, 1.05], [50, .85, 1.5]].forEach(([n, par, sz]) => {
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push({
+    x: Math.random(), y: Math.random(), sz: sz * rnd(.6, 1.3),
+    tw: rnd(.4, 2.2), ph: rnd(0, TAU),
+    warm: Math.random() < .18,
+  });
+  starLayers.push({ par, arr });
+});
+const dust = [];
+for (let i = 0; i < 150; i++) dust.push({
+  x: Math.random(), y: Math.random(), vx: rnd(-.006, .006), vy: rnd(-.004, .004),
+  sz: rnd(.8, 2.4), a: rnd(.03, .1), par: rnd(.2, .9), hue: Math.random() < .5 ? '#7dd3fc' : '#c4b5fd',
+});
+let comet = null, nextComet = 6;
+
+/* ---------------- nodes ---------------- */
+const nodes = [], majors = [];
+DOMAINS.forEach(d => {
+  const onRing = DOMAINS.filter(x => x.ring === d.ring);
+  const k = onRing.indexOf(d);
+  const n = {
+    major: true, dom: d, ring: d.ring,
+    a0: (k / onRing.length) * TAU + d.ring * 1.7,
+    speedMul: 1, rOff: 0, yOff: 0, sz: 7,
+    bobPh: rnd(0, TAU), bobAmp: rnd(5, 9),
+    rotSpd: rnd(.5, 1.2) * (Math.random() < .5 ? 1 : -1),
+    satN: 2 + (Math.random() < .5 ? 1 : 0), satSpd: rnd(.9, 1.6),
+    ex: 0, hov: 0, sel: false, scl: 0,
+    sx: 0, sy: 0, ss: 0, vis: false, depth: 1,
+  };
+  d.node = n; nodes.push(n); majors.push(n);
+});
+RINGS.forEach((ring, ri) => {
+  const doms = DOMAINS.filter(d => d.ring === ri);
+  for (let i = 0; i < MINOR_BASE[ri]; i++) {
+    const d = doms[i % doms.length];
+    nodes.push({
+      major: false, dom: d, ring: ri,
+      a0: rnd(0, TAU), speedMul: rnd(.9, 1.12),
+      rOff: rnd(-17, 17), yOff: rnd(-13, 13), sz: rnd(1.1, 2.5),
+      bobPh: rnd(0, TAU), bobAmp: rnd(2, 5),
+      topic: d.topics[i % d.topics.length],
+      tier: Math.random(), ex: 0, hov: 0, scl: 0,
+      sx: 0, sy: 0, ss: 0, vis: false, depth: 1,
+    });
+  }
+});
+const CONNS = CONNS_IDS.map(([a, b], i) => ({
+  a: DOM_BY_ID[a].node, b: DOM_BY_ID[b].node, off: (i * .37) % 1, ph: rnd(0, TAU),
+}));
+
+function nodePos(n, out) {
+  const ring = RINGS[n.ring];
+  const spread = 1 + .22 * Math.sin(T * .12 + n.dom.idx * 1.9) + n.dom.ex * -.35 + (n.dom.focusSpread || 0);
+  const a = n.a0 + T * ring.speed * n.speedMul;
+  const r = ring.r + (n.major ? 0 : n.rOff * spread);
+  const bob = Math.sin(T * .55 + n.bobPh) * n.bobAmp;
+  const lx = Math.cos(a) * r, ly = (n.major ? 0 : n.yOff * spread) + bob, lz = Math.sin(a) * r;
+  // tilt: rotate about X then Z
+  const y1 = ly * ring.cx - lz * ring.sx, z1 = ly * ring.sx + lz * ring.cx;
+  out[0] = lx * ring.cz - y1 * ring.sz;
+  out[1] = lx * ring.sz + y1 * ring.cz;
+  out[2] = z1;
+}
+const _p = [0, 0, 0];
+
+/* ---------------- particle swarm ---------------- */
+const SWARM_MAX = 1600;
+const sw = {
+  n: SWARM_MAX,
+  x: new Float32Array(SWARM_MAX), y: new Float32Array(SWARM_MAX), z: new Float32Array(SWARM_MAX),
+  vx: new Float32Array(SWARM_MAX), vy: new Float32Array(SWARM_MAX), vz: new Float32Array(SWARM_MAX),
+  dom: new Uint8Array(SWARM_MAX), inner: new Uint8Array(SWARM_MAX),
+  tgt: null, tgtUntil: 0,
+};
+for (let i = 0; i < SWARM_MAX; i++) {
+  const inner = i < SWARM_MAX * .58;
+  const R = inner ? rnd(6, 92) : rnd(110, 316);
+  const th = rnd(0, TAU), ph = Math.acos(rnd(-1, 1));
+  sw.x[i] = R * Math.sin(ph) * Math.cos(th);
+  sw.y[i] = R * Math.cos(ph) * (inner ? 1 : rnd(.25, .6));
+  sw.z[i] = R * Math.sin(ph) * Math.sin(th);
+  sw.dom[i] = (Math.random() * DOMAINS.length) | 0;
+  sw.inner[i] = inner ? 1 : 0;
+}
+function swarmUpdate(dt, active) {
+  const t = T * .6, flow = REDUCED ? .35 : 1;
+  const surging = sw.tgt && T < sw.tgtUntil;
+  for (let i = 0; i < active; i++) {
+    const x = sw.x[i], y = sw.y[i], z = sw.z[i];
+    const inner = sw.inner[i];
+    const k = inner ? .045 : .02;
+    // pseudo-curl flow field
+    let ax = Math.sin(y * k + t) + Math.cos(z * k * 1.3 - t * .7);
+    let ay = Math.sin(z * k * 1.1 - t * .8) + Math.cos(x * k - t * .5);
+    let az = Math.sin(x * k * .9 + t * .6) + Math.cos(y * k * 1.2 + t);
+    const amp = (inner ? 14 : 5.5) * flow;
+    sw.vx[i] += ax * amp * dt; sw.vy[i] += ay * amp * dt; sw.vz[i] += az * amp * dt;
+    if (surging && inner && (i & 1) === 0) {
+      const tg = sw.tgt[i % sw.tgt.length];
+      sw.vx[i] += (tg[0] - x) * 3.2 * dt; sw.vy[i] += (tg[1] - y) * 3.2 * dt; sw.vz[i] += (tg[2] - z) * 3.2 * dt;
+    }
+    // containment
+    const r = Math.sqrt(x*x + y*y + z*z) || 1;
+    const maxR = inner ? 98 : 322;
+    if (r > maxR) { const p = (r - maxR) * .9 * dt / r; sw.vx[i] -= x*p*30; sw.vy[i] -= y*p*30; sw.vz[i] -= z*p*30; }
+    const damp = surging ? .955 : .975;
+    sw.vx[i] *= damp; sw.vy[i] *= damp; sw.vz[i] *= damp;
+    sw.x[i] += sw.vx[i] * dt; sw.y[i] += sw.vy[i] * dt; sw.z[i] += sw.vz[i] * dt;
+  }
+}
+
+/* ---------------- FX state ---------------- */
+const waves = [];   // {t0, speed, col, w}
+const ripples = []; // screen-space {x,y,r,vr,a,col}
+let lightning = null, nextLightning = 3;
+let reasonPath = null; // {list:[node...], t0, dur}
+const hitFlashes = []; // {node, t0} minor bursts
+
+/* ---------------- quality tiers ---------------- */
+const TIERS = [
+  { name:'LOW',   minor:.42, swarm:480,  dust:60,  grain:false, rays:true },
+  { name:'HIGH',  minor:.75, swarm:1050, dust:110, grain:true,  rays:true },
+  { name:'ULTRA', minor:1,   swarm:1600, dust:150, grain:true,  rays:true },
+];
+let tierIdx = 1, tierAuto = true;
+const frameTimes = []; let ftSum = 0;
+function tierTick(ms) {
+  frameTimes.push(ms); ftSum += ms;
+  if (frameTimes.length > 80) ftSum -= frameTimes.shift();
+  if (!tierAuto || frameTimes.length < 80) return;
+  const avg = ftSum / frameTimes.length;
+  if (avg > 27 && tierIdx > 0) { tierIdx--; frameTimes.length = 0; ftSum = 0; syncFxBtn(); }
+  else if (avg < 12.5 && tierIdx < 2) { tierIdx++; frameTimes.length = 0; ftSum = 0; syncFxBtn(); }
+}
+
+/* ---------------- input ---------------- */
+const mouse = { x: -999, y: -999, in: false };
+let hoverNode = null;
+const pointers = new Map();
+let dragInfo = null, pinchBase = 0;
+
+cv.addEventListener('pointerdown', e => {
+  cv.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size === 2) {
+    const [p1, p2] = [...pointers.values()];
+    pinchBase = Math.hypot(p1.x - p2.x, p1.y - p2.y) || 1;
+    dragInfo = null;
+  } else {
+    dragInfo = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, t: performance.now(), vx: 0, vy: 0, moved: false };
+  }
+  lastInteract = T;
+});
+cv.addEventListener('pointermove', e => {
+  mouse.x = e.clientX; mouse.y = e.clientY; mouse.in = true;
+  const rec = pointers.get(e.pointerId);
+  if (rec) { rec.x = e.clientX; rec.y = e.clientY; }
+  if (pointers.size === 2) {
+    const [p1, p2] = [...pointers.values()];
+    const d = Math.hypot(p1.x - p2.x, p1.y - p2.y) || 1;
+    cam.distT = clamp(cam.distT * (pinchBase / d), 240, 1150);
+    pinchBase = d; lastInteract = T;
+    return;
+  }
+  if (dragInfo) {
+    const dx = e.clientX - dragInfo.x, dy = e.clientY - dragInfo.y;
+    if (Math.abs(e.clientX - dragInfo.sx) + Math.abs(e.clientY - dragInfo.sy) > 5) dragInfo.moved = true;
+    if (dragInfo.moved) {
+      cam.yawT -= dx * .0042; cam.pitchT = clamp(cam.pitchT + dy * .0034, -1.25, 1.25);
+      dragInfo.vx = dx; focusNode = null;
+      cv.classList.add('dragging');
+    }
+    dragInfo.x = e.clientX; dragInfo.y = e.clientY;
+    lastInteract = T;
+  }
+});
+function endPointer(e) {
+  pointers.delete(e.pointerId);
+  cv.classList.remove('dragging');
+  if (dragInfo && !dragInfo.moved) handleTap(e.clientX, e.clientY);
+  else if (dragInfo) cam.yawT -= dragInfo.vx * .012; // inertia
+  dragInfo = null;
+  lastInteract = T;
+}
+cv.addEventListener('pointerup', endPointer);
+cv.addEventListener('pointercancel', e => { pointers.delete(e.pointerId); dragInfo = null; });
+cv.addEventListener('pointerleave', () => { mouse.in = false; });
+cv.addEventListener('wheel', e => {
+  e.preventDefault();
+  cam.distT = clamp(cam.distT * (1 + e.deltaY * .0011), 240, 1150);
+  lastInteract = T;
+}, { passive: false });
+
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.activeElement === qInput) { qInput.blur(); return; }
+    clearAll();
+  }
+  if (e.key === 'Enter' && document.activeElement === qInput) runQuery(qInput.value);
+});
+
+function pick() {
+  if (!mouse.in || dragInfo && dragInfo.moved) return null;
+  let best = null, bestD = 1e9;
+  for (const n of nodes) {
+    if (!n.vis) continue;
+    const rad = (n.major ? 26 : 14) + n.ss * 2;
+    const dx = n.sx - mouse.x, dy = n.sy - mouse.y, d = dx*dx + dy*dy;
+    if (d < rad * rad && d < bestD) { bestD = d; best = n; }
+  }
+  return best;
+}
+function handleTap(x, y) {
+  mouse.x = x; mouse.y = y; mouse.in = true;
+  const n = pick();
+  if (n) {
+    if (n.major) {
+      selectNode(n);
+    } else {
+      n.ex = 1; spawnRipple(n.sx, n.sy, n.dom.col);
+      openNodePanel(n.dom.node, n.topic);
+      focusNode = n.dom.node;
+    }
+  } else clearAll();
+}
+
+/* ---------------- selection & panels ---------------- */
+const selection = [];
+const qInput = document.getElementById('q');
+const goBtn = document.getElementById('go');
+const cmdStatus = document.getElementById('cmdstatus');
+const npanel = document.getElementById('npanel');
+const resultEl = document.getElementById('result');
+const tipEl = document.getElementById('tip');
+let panelNode = null;
+
+function selectNode(n) {
+  focusNode = n;
+  if (!selection.includes(n)) {
+    n.sel = true; selection.push(n);
+    if (selection.length > 3) { const old = selection.shift(); old.sel = false; }
+  }
+  spawnRipple(n.sx, n.sy, n.dom.col);
+  cam.distT = Math.min(cam.distT, 470);
+  openNodePanel(n);
+}
+function clearAll() {
+  selection.forEach(n => n.sel = false); selection.length = 0;
+  focusNode = null; panelNode = null;
+  npanel.classList.add('hidden'); npanel.classList.remove('showing');
+  hideResult();
+  if (query.phase === 'active') endQuery();
+  cam.distT = Math.max(cam.distT, 640);
+}
+document.getElementById('npClose').addEventListener('click', e => {
+  e.stopPropagation();
+  panelNode = null; npanel.classList.add('hidden'); npanel.classList.remove('showing');
+});
+
+const statAnims = [];
+function animStat(el, target, fmt) {
+  statAnims.push({ el, target, t0: T, fmt });
+}
+function openNodePanel(n, topicOverride) {
+  panelNode = n;
+  const d = n.dom;
+  npanel.classList.remove('hidden'); npanel.classList.remove('showing');
+  void npanel.offsetWidth; npanel.classList.add('showing');
+  document.getElementById('npDot').style.color = d.col;
+  document.getElementById('npEyebrow').textContent =
+    'LAYER 0' + (d.ring + 1) + ' · ' + RINGS[d.ring].name.toUpperCase() + (topicOverride ? ' · NODE' : '');
+  document.getElementById('npTitle').textContent = topicOverride || d.name;
+  document.getElementById('npTitle').style.color = '#f2f7ff';
+  document.getElementById('npDesc').textContent = d.desc;
+  const seed = d.idx * 7 + 13;
+  animStat(document.getElementById('npS1'), 9000 + seed * 4211 % 68000, fmtIN);
+  animStat(document.getElementById('npS2'), 8 + seed * 37 % 140, v => Math.round(v).toString());
+  animStat(document.getElementById('npS3'), 40 + seed * 53 % 700, fmtIN);
+  // sparkline
+  const sc = document.getElementById('npSpark'), g = sc.getContext('2d');
+  g.clearRect(0, 0, sc.width, sc.height);
+  let v = rnd(.3, .6);
+  const bars = 26, bw = sc.width / bars;
+  for (let i = 0; i < bars; i++) {
+    v = clamp(v + rnd(-.14, .16), .12, 1);
+    const h = v * (sc.height - 4);
+    const last = i === bars - 1;
+    g.fillStyle = last ? '#5eead4' : rgba(d.rgb, .18 + v * .4);
+    g.fillRect(i * bw + 1, sc.height - h, bw - 2, h);
+    if (last) { g.shadowColor = '#5eead4'; g.shadowBlur = 8; g.fillRect(i * bw + 1, sc.height - h, bw - 2, h); g.shadowBlur = 0; }
+  }
+  // related chips
+  const chipsEl = document.getElementById('npChips'); chipsEl.textContent = '';
+  const rel = CONNS.filter(c => c.a === n || c.b === n).map(c => c.a === n ? c.b : c.a).slice(0, 4);
+  rel.forEach(rn => {
+    const b = document.createElement('button'); b.className = 'p-chip';
+    b.textContent = '◇ ' + rn.dom.name;
+    b.style.borderColor = rgba(rn.dom.rgb, .4); b.style.color = rgba(mixWhite(rn.dom.rgb, .55), .95);
+    b.addEventListener('click', ev => { ev.stopPropagation(); selectNode(rn); });
+    chipsEl.appendChild(b);
+  });
+}
+function placePanel() {
+  if (!panelNode) return;
+  const n = panelNode;
+  if (!n.vis) return;
+  const pw = npanel.offsetWidth || 262, ph = npanel.offsetHeight || 300;
+  let px = n.sx + 34, py = n.sy - ph * .3;
+  if (px + pw > W - 14) px = n.sx - pw - 34;
+  px = clamp(px, 10, W - pw - 10); py = clamp(py, 60, H - ph - 90);
+  npanel.style.left = px + 'px'; npanel.style.top = py + 'px';
+}
+
+/* ---------------- query engine ---------------- */
+const query = { phase: 'idle', t0: 0, rel: [], text: '', preset: null, thinkIdx: 0 };
+let revealTimers = [];
+function clearTimers() { revealTimers.forEach(clearTimeout); revealTimers = []; }
+function later(fn, ms) { revealTimers.push(setTimeout(fn, ms)); }
+
+function matchDomains(text) {
+  const hits = [];
+  for (const [re, id] of KEYWORDS) if (re.test(text) && !hits.includes(id)) hits.push(id);
+  if (!hits.length) return ['insights', 'analytics', 'legal'];
+  return hits.slice(0, 4);
+}
+function runQuery(text) {
+  text = (text || '').trim();
+  if (!text || query.phase === 'think' || query.phase === 'spread') return;
+  clearTimers(); hideResult();
+  selection.forEach(n => n.sel = false); selection.length = 0;
+  const preset = QUERIES.find(p => p.q.toLowerCase() === text.toLowerCase());
+  query.phase = 'think'; query.t0 = T; query.text = text;
+  query.preset = preset || null;
+  query.rel = (preset ? preset.rel : matchDomains(text)).map(id => DOM_BY_ID[id]);
+  query.thinkIdx = 0;
+  qInput.value = text; qInput.blur(); goBtn.disabled = true;
+  cmdStatus.classList.add('busy');
+  cam.shakeT = REDUCED ? 0 : 1;
+  focusNode = query.rel[0].node;
+
+  const thinkDur = 1900, spreadDur = 2300;
+  later(() => { // SPREAD
+    query.phase = 'spread';
+    cam.shakeT = 0;
+    for (let i = 0; i < 3; i++)
+      later(() => waves.push({ t0: T, speed: 200, col: i === 1 ? '#5eead4' : '#7cc7ff', w: 2 - i * .4 }), i * 340);
+    // swarm surge toward relevant majors
+    sw.tgt = query.rel.map(d => { nodePos(d.node, _p); return [_p[0] + rnd(-22, 22), _p[1] + rnd(-16, 16), _p[2] + rnd(-22, 22)]; });
+    sw.tgtUntil = T + 2.5;
+    reasonPath = { list: [null, ...query.rel.map(d => d.node)], t0: T + .4, dur: 1.7 };
+    cam.distT = 540;
+  }, thinkDur);
+  later(() => { // REVEAL
+    query.phase = 'active';
+    showResult();
+    goBtn.disabled = false;
+    cmdStatus.classList.remove('busy');
+    const srcN = 800 + Math.round(Math.random() * 600);
+    cmdStatus.textContent = '◈ SYNTHESIS COMPLETE — ' + fmtIN(srcN) + ' SOURCES TRAVERSED · PATH PINNED TO GRAPH';
+  }, thinkDur + spreadDur);
+}
+function endQuery() {
+  query.phase = 'idle'; query.rel = [];
+  reasonPath = null; sw.tgt = null;
+  cmdStatus.classList.remove('busy');
+  cmdStatus.textContent = '◈ INTELLIGENCE IDLE — AWAITING QUERY';
+}
+function genericInsights(text, rel) {
+  const d = rel.map(r => r.name);
+  const n1 = 400 + Math.round(Math.random() * 900);
+  return {
+    conf: 82 + Math.round(Math.random() * 9),
+    trace: [
+      'Intent parsed — routed to ' + d.slice(0, 2).join(' × '),
+      d[0] + ' cluster traversed — ' + n1 + ' provisions scored',
+      (d[1] || 'Compliance') + ' surface joined for dependencies',
+      'Reasoning path pinned to the knowledge graph',
+    ],
+    insights: [
+      'The query maps most strongly onto the ' + d[0] + ' cluster — ' + n1 + ' indexed provisions were scored, with the strongest signals now glowing on the graph.',
+      'Cross-domain dependencies were detected in ' + (d[1] || 'Compliance') + (d[2] ? ' and ' + d[2] : '') + '; the illuminated corridor shows how a change in one layer propagates outward.',
+      'Refine the query with a section, notification or scenario amount and the universe will re-weave the path with tighter focus.',
+    ],
+  };
+}
+function showResult() {
+  const data = query.preset || genericInsights(query.text, query.rel);
+  resultEl.classList.remove('hidden'); resultEl.classList.remove('showing');
+  void resultEl.offsetWidth; resultEl.classList.add('showing');
+  document.getElementById('rQ').textContent = query.text;
+  const traceEl = document.getElementById('rTrace'); traceEl.textContent = '';
+  data.trace.forEach((t, i) => {
+    const div = document.createElement('div'); div.className = 'titem'; div.textContent = t;
+    traceEl.appendChild(div);
+    later(() => div.classList.add('on'), 150 + i * 240);
+  });
+  const insEl = document.getElementById('rInsights'); insEl.textContent = '';
+  data.insights.forEach((t, i) => {
+    const p = document.createElement('p'); p.className = 'insight'; p.textContent = t;
+    insEl.appendChild(p);
+    later(() => p.classList.add('on'), 900 + i * 450);
+  });
+  const impEl = document.getElementById('rImpact'); impEl.textContent = '';
+  query.rel.forEach(d => {
+    const s = document.createElement('span'); s.className = 'imp'; s.textContent = d.name.toUpperCase();
+    s.style.borderColor = rgba(d.rgb, .5); s.style.color = rgba(mixWhite(d.rgb, .5), .95);
+    s.style.textShadow = '0 0 8px ' + rgba(d.rgb, .6);
+    impEl.appendChild(s);
+  });
+  const conf = data.conf;
+  document.getElementById('rConfFill').style.width = '0%';
+  later(() => { document.getElementById('rConfFill').style.width = conf + '%'; }, 120);
+  animStat(document.getElementById('rConfVal'), conf, v => Math.round(v) + '%');
+}
+function hideResult() { resultEl.classList.add('hidden'); resultEl.classList.remove('showing'); }
+
+goBtn.addEventListener('click', () => runQuery(qInput.value));
+const chipsWrap = document.getElementById('chips');
+QUERIES.forEach(p => {
+  const b = document.createElement('button'); b.className = 'chip'; b.textContent = '◇ ' + p.chip;
+  b.addEventListener('click', () => runQuery(p.q));
+  chipsWrap.appendChild(b);
+});
+
+/* ---------------- HUD ---------------- */
+const layersEl = document.getElementById('layers');
+RINGS.forEach((r, i) => {
+  const row = document.createElement('div'); row.className = 'lrow'; row.style.color = r.col;
+  const majorsN = DOMAINS.filter(d => d.ring === i).length;
+  row.innerHTML = '<span class="ldot" style="background:' + r.col + '"></span>' +
+    '<span class="lname">' + (i + 1) + ' · ' + r.name + '</span>' +
+    '<span class="lcount">' + (majorsN + MINOR_BASE[i]) + '</span>';
+  const bar = document.createElement('div'); bar.className = 'lbar';
+  bar.style.width = (26 + Math.abs(r.speed) * 380) + 'px';
+  bar.style.animationDelay = (i * .3) + 's';
+  const wrap = document.createElement('div');
+  wrap.appendChild(row); wrap.appendChild(bar);
+  row.addEventListener('mouseenter', () => hoverRing = i);
+  row.addEventListener('mouseleave', () => hoverRing = -1);
+  row.addEventListener('click', () => {
+    soloRing = soloRing === i ? -1 : i;
+    layersEl.querySelectorAll('.lrow').forEach((el, k) => el.classList.toggle('solo', k === soloRing));
+  });
+  layersEl.appendChild(wrap);
+});
+const btnOrbit = document.getElementById('btnOrbit');
+btnOrbit.addEventListener('click', () => {
+  orbitOn = !orbitOn;
+  btnOrbit.innerHTML = 'ORBIT <b>' + (orbitOn ? 'ON' : 'OFF') + '</b>';
+});
+const btnFx = document.getElementById('btnFx');
+function syncFxBtn() {
+  btnFx.innerHTML = 'FX <b>' + (tierAuto ? 'AUTO·' + TIERS[tierIdx].name : TIERS[tierIdx].name) + '</b>';
+}
+btnFx.addEventListener('click', () => {
+  if (tierAuto) { tierAuto = false; tierIdx = 2; }
+  else if (tierIdx === 2) tierIdx = 1;
+  else if (tierIdx === 1) tierIdx = 0;
+  else { tierAuto = true; tierIdx = 1; }
+  frameTimes.length = 0; ftSum = 0;
+  syncFxBtn();
+});
+syncFxBtn();
+document.getElementById('btnReset').addEventListener('click', () => {
+  clearAll();
+  cam.yawT = -0.6; cam.pitchT = 0.34; cam.distT = 640; soloRing = -1;
+  layersEl.querySelectorAll('.lrow').forEach(el => el.classList.remove('solo'));
+});
+const helpEl = document.getElementById('help');
+document.getElementById('btnHelp').addEventListener('click', e => { e.stopPropagation(); helpEl.classList.toggle('hidden'); });
+helpEl.addEventListener('click', () => helpEl.classList.add('hidden'));
+
+document.getElementById('nodesN').textContent = nodes.length;
+let docsCount = 2841137;
+const docsEl = document.getElementById('docsN'), clockEl = document.getElementById('clock'), partEl = document.getElementById('partN');
+setInterval(() => {
+  docsCount += Math.round(rnd(1, 22));
+  docsEl.textContent = fmtIN(docsCount);
+  clockEl.textContent = new Date().toLocaleTimeString('en-IN', { hour12: false, timeZone: 'Asia/Kolkata' }) + ' IST';
+}, 1000);
+docsEl.textContent = fmtIN(docsCount);
+
+function spawnRipple(x, y, col) {
+  ripples.push({ x, y, r: 6, vr: 90, a: .55, col });
+}
+
+/* ---------------- drawing ---------------- */
+function drawBackdrop(dt, tier) {
+  ctx.fillStyle = '#04060f';
+  ctx.fillRect(0, 0, W, H);
+  const px = cam.yaw * 40, py = cam.pitch * 30;
+  // nebula (two hue plates cross-fading = slow aurora)
+  ctx.globalCompositeOperation = 'screen';
+  const nebA = .8 + .2 * Math.sin(T * .05);
+  const size = Math.max(W, H) * 1.45;
+  ctx.globalAlpha = .9 * nebA;
+  ctx.drawImage(nebulaA, W/2 - size/2 - px * .4 + Math.sin(T * .013) * 30, H/2 - size/2 - py * .4, size, size);
+  ctx.globalAlpha = .75 * (1.1 - nebA);
+  ctx.drawImage(nebulaB, W/2 - size/2 + px * .25 + Math.cos(T * .01) * 40, H/2 - size/2 + py * .3 - 40, size, size);
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'lighter';
+  // stars
+  for (const layer of starLayers) {
+    const ox = -cam.yaw * layer.par * 130, oy = -cam.pitch * layer.par * 90;
+    for (const s of layer.arr) {
+      const x = ((s.x * W * 1.6 + ox) % (W * 1.6) + W * 1.6) % (W * 1.6) - W * .3;
+      const y = ((s.y * H * 1.6 + oy) % (H * 1.6) + H * 1.6) % (H * 1.6) - H * .3;
+      if (x < -4 || x > W + 4 || y < -4 || y > H + 4) continue;
+      const a = (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(T * s.tw + s.ph))) * .8;
+      ctx.globalAlpha = a;
+      ctx.fillStyle = s.warm ? '#ffe8c4' : '#dbeafe';
+      ctx.fillRect(x, y, s.sz, s.sz);
+    }
+  }
+  ctx.globalAlpha = 1;
+  // dust motes
+  const dustN = TIERS[tier].dust;
+  for (let i = 0; i < dustN; i++) {
+    const m = dust[i];
+    m.x = (m.x + m.vx * dt + 1) % 1; m.y = (m.y + m.vy * dt + 1) % 1;
+    const x = m.x * W - cam.yaw * m.par * 60, y = m.y * H - cam.pitch * m.par * 40;
+    ctx.globalAlpha = m.a * (0.6 + 0.4 * Math.sin(T * 1.3 + i));
+    ctx.fillStyle = m.hue;
+    ctx.beginPath(); ctx.arc(((x % W) + W) % W, ((y % H) + H) % H, m.sz, 0, TAU); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  // comet
+  if (!comet && T > nextComet) {
+    const fromTop = Math.random() < .5;
+    comet = { x: rnd(-.1, 1.1) * W, y: fromTop ? -30 : rnd(0, H * .4), vx: rnd(-260, 260), vy: rnd(120, 240), life: 0 };
+    nextComet = T + rnd(8, 16);
+  }
+  if (comet) {
+    comet.life += dt; comet.x += comet.vx * dt; comet.y += comet.vy * dt;
+    const a = Math.sin(clamp(comet.life / 2.4, 0, 1) * Math.PI);
+    ctx.globalAlpha = a * .8;
+    ctx.save();
+    ctx.translate(comet.x, comet.y);
+    ctx.rotate(Math.atan2(comet.vy, comet.vx));
+    ctx.drawImage(streakSprite(), -90, -8, 110, 16);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+    if (comet.life > 2.6 || comet.y > H + 60) comet = null;
+  }
+}
+
+function strokeWorldCircle(r, ring, alphaMain, lw, col) {
+  const SEG = 74;
+  ctx.beginPath();
+  let started = false;
+  for (let i = 0; i <= SEG; i++) {
+    const a = (i / SEG) * TAU;
+    const lx = Math.cos(a) * r, lz = Math.sin(a) * r;
+    const y1 = -lz * ring.sx, z1 = lz * ring.cx;
+    const wx = lx * ring.cz - y1 * ring.sz, wy = lx * ring.sz + y1 * ring.cz;
+    const p = project(wx, wy, z1);
+    if (!p) { started = false; continue; }
+    if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+    else ctx.lineTo(p.x, p.y);
+  }
+  ctx.strokeStyle = col; ctx.globalAlpha = alphaMain; ctx.lineWidth = lw;
+  ctx.stroke(); ctx.globalAlpha = 1;
+}
+
+function ringDimFactor(i) {
+  let f = 1;
+  if (soloRing >= 0) f = i === soloRing ? 1.25 : .18;
+  if (hoverRing >= 0) f = i === hoverRing ? 1.45 : f * .45;
+  return f;
+}
+
+function drawRings(reveal) {
+  for (let i = 0; i < RINGS.length; i++) {
+    const ring = RINGS[i];
+    const rv = clamp((reveal - .35 - i * .13) / .8, 0, 1);
+    if (rv <= 0) continue;
+    const dim = ringDimFactor(i);
+    const e = easeOutCubic(rv);
+    strokeWorldCircle(ring.r * e, ring, .16 * dim * e, 1, ring.col);
+    strokeWorldCircle(ring.r * e, ring, .05 * dim * e, 3.4, ring.col);
+    // energy comets circulating the ring
+    if (rv > .9) {
+      for (let k = 0; k < 2; k++) {
+        const head = T * ring.speed * 4.2 + k * Math.PI + i;
+        for (let s = 0; s < 7; s++) {
+          const a = head - s * .045 * Math.sign(ring.speed || 1);
+          const lx = Math.cos(a) * ring.r, lz = Math.sin(a) * ring.r;
+          const y1 = -lz * ring.sx, z1 = lz * ring.cx;
+          const p = project(lx * ring.cz - y1 * ring.sz, lx * ring.sz + y1 * ring.cz, z1);
+          if (!p) continue;
+          const aa = (1 - s / 7) * .5 * dim * depthFade(p);
+          ctx.globalAlpha = aa;
+          ctx.drawImage(glowSprite(ring.col, false), p.x - 4, p.y - 4, 8, 8);
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+}
+
+function connActivity(c) {
+  return clamp(Math.max(c.a.ex + c.a.hov, c.b.ex + c.b.hov) + (c.a.sel && c.b.sel ? .8 : 0), 0, 1.4);
+}
+function drawConnections() {
+  for (const c of CONNS) {
+    if (!c.a.vis || !c.b.vis) continue;
+    const act = connActivity(c);
+    const dimA = ringDimFactor(c.a.ring), dimB = ringDimFactor(c.b.ring);
+    const dim = Math.min(dimA, dimB);
+    const baseA = (.05 + .3 * act) * dim;
+    if (baseA < .015) continue;
+    // world midpoint pushed outward for arc
+    nodePos(c.a, _p); const ax = _p[0], ay = _p[1], az = _p[2];
+    nodePos(c.b, _p); const bx = _p[0], by = _p[1], bz = _p[2];
+    let mx = (ax + bx) / 2, my = (ay + by) / 2, mz = (az + bz) / 2;
+    const ml = Math.sqrt(mx*mx + my*my + mz*mz) || 1;
+    const push = 1 + 90 / ml;
+    mx *= push; my *= push; mz *= push;
+    const SEG = 14;
+    ctx.beginPath(); let started = false;
+    const pts = [];
+    for (let i = 0; i <= SEG; i++) {
+      const t = i / SEG, u = 1 - t;
+      const x = u*u*ax + 2*u*t*mx + t*t*bx;
+      const y = u*u*ay + 2*u*t*my + t*t*by;
+      const z = u*u*az + 2*u*t*mz + t*t*bz;
+      const p = project(x, y, z);
+      pts.push(p);
+      if (!p) { started = false; continue; }
+      if (!started) { ctx.moveTo(p.x, p.y); started = true; } else ctx.lineTo(p.x, p.y);
+    }
+    ctx.strokeStyle = c.a.dom.col; ctx.globalAlpha = baseA; ctx.lineWidth = 1;
+    ctx.stroke();
+    // travelling pulses
+    const pulses = act > .5 ? 3 : 1;
+    for (let k = 0; k < pulses; k++) {
+      const u = (T * (.10 + act * .1) + c.off + k / pulses) % 1;
+      const idx = Math.round(u * SEG);
+      const p = pts[idx];
+      if (!p) continue;
+      const sz = (3 + act * 5) * clamp(p.s, .4, 1.6);
+      ctx.globalAlpha = (.25 + .55 * act) * dim;
+      ctx.drawImage(glowSprite(c.b.dom.col, false), p.x - sz, p.y - sz, sz * 2, sz * 2);
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+function drawSelectionPaths() {
+  if (selection.length < 2) return;
+  for (let i = 0; i < selection.length; i++) {
+    for (let j = i + 1; j < selection.length; j++) {
+      const a = selection[i], b = selection[j];
+      if (!a.vis || !b.vis) continue;
+      nodePos(a, _p); const ax = _p[0], ay = _p[1], az = _p[2];
+      nodePos(b, _p); const bx = _p[0], by = _p[1], bz = _p[2];
+      let mx = (ax+bx)/2, my = (ay+by)/2, mz = (az+bz)/2;
+      const ml = Math.sqrt(mx*mx+my*my+mz*mz) || 1; const push = 1 + 130/ml;
+      mx *= push; my *= push; mz *= push;
+      const SEG = 22; const pts = [];
+      ctx.beginPath(); let started = false;
+      for (let s = 0; s <= SEG; s++) {
+        const t = s/SEG, u = 1-t;
+        const p = project(u*u*ax + 2*u*t*mx + t*t*bx, u*u*ay + 2*u*t*my + t*t*by, u*u*az + 2*u*t*mz + t*t*bz);
+        pts.push(p);
+        if (!p) { started = false; continue; }
+        if (!started) { ctx.moveTo(p.x, p.y); started = true; } else ctx.lineTo(p.x, p.y);
+      }
+      ctx.lineWidth = 2.4; ctx.strokeStyle = 'rgba(190,240,255,.16)'; ctx.stroke();
+      ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(240,252,255,.5)'; ctx.stroke();
+      for (let k = 0; k < 3; k++) {
+        const u = (T * .22 + k / 3) % 1;
+        const p = pts[Math.round(u * SEG)];
+        if (!p) continue;
+        ctx.drawImage(glowSprite('#5eead4', false), p.x - 6, p.y - 6, 12, 12);
+      }
+    }
+  }
+}
+
+function drawReasonPath() {
+  if (!reasonPath) return;
+  const prog = clamp((T - reasonPath.t0) / reasonPath.dur, 0, 1);
+  if (prog <= 0) return;
+  const list = reasonPath.list;
+  const segs = list.length - 1;
+  const pe = easeInOut(prog) * segs;
+  for (let i = 0; i < segs; i++) {
+    const segP = clamp(pe - i, 0, 1);
+    if (segP <= 0) break;
+    let ax, ay, az, bx, by, bz;
+    if (list[i] === null) { ax = ay = az = 0; } else { nodePos(list[i], _p); ax = _p[0]; ay = _p[1]; az = _p[2]; }
+    nodePos(list[i + 1], _p); bx = _p[0]; by = _p[1]; bz = _p[2];
+    let mx = (ax+bx)/2, my = (ay+by)/2 - 40, mz = (az+bz)/2;
+    const SEG = 18; let prevP = null;
+    for (let s = 0; s <= Math.round(SEG * segP); s++) {
+      const t = s/SEG, u = 1-t;
+      const p = project(u*u*ax + 2*u*t*mx + t*t*bx, u*u*ay + 2*u*t*my + t*t*by, u*u*az + 2*u*t*mz + t*t*bz);
+      if (p && prevP) {
+        ctx.strokeStyle = 'rgba(255,244,214,.55)'; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(prevP.x, prevP.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+        ctx.strokeStyle = 'rgba(245,185,66,.16)'; ctx.lineWidth = 5;
+        ctx.beginPath(); ctx.moveTo(prevP.x, prevP.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+      }
+      if (s === Math.round(SEG * segP) && p && segP < 1) {
+        ctx.drawImage(glowSprite('#f5b942', false), p.x - 10, p.y - 10, 20, 20);
+      }
+      prevP = p;
+    }
+    if (segP >= 1) list[i + 1].ex = Math.max(list[i + 1].ex, .95);
+  }
+}
+
+function drawLightning(dt, tier) {
+  nextLightning -= dt * (query.phase === 'spread' ? 3.4 : 1);
+  if (nextLightning <= 0 && !lightning) {
+    const c = CONNS[(Math.random() * CONNS.length) | 0];
+    if (c.a.vis && c.b.vis) {
+      const pts = [];
+      const N = 7;
+      for (let i = 0; i <= N; i++) {
+        const t = i / N;
+        pts.push([lerp(c.a.sx, c.b.sx, t) + (i && i < N ? rnd(-16, 16) : 0),
+                  lerp(c.a.sy, c.b.sy, t) + (i && i < N ? rnd(-16, 16) : 0)]);
+      }
+      lightning = { pts, life: 0, col: c.a.dom.col };
+    }
+    nextLightning = rnd(1.8, 4.2);
+  }
+  if (lightning) {
+    lightning.life += dt;
+    const a = 1 - lightning.life / .22;
+    if (a <= 0) { lightning = null; }
+    else {
+      ctx.beginPath();
+      lightning.pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+      ctx.strokeStyle = rgba(hex2rgb(lightning.col), a * .5); ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = rgba([255, 255, 255], a * .8); ctx.lineWidth = 1; ctx.stroke();
+    }
+  }
+}
+
+function drawShape(n, x, y, r, colB) {
+  const rot = T * n.rotSpd;
+  ctx.strokeStyle = colB; ctx.lineWidth = 1.2;
+  ctx.save(); ctx.translate(x, y);
+  switch (n.dom.shape) {
+    case 'crystal': {
+      ctx.rotate(Math.sin(rot) * .3);
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 1.5); ctx.lineTo(r * .95, 0); ctx.lineTo(0, r * 1.5); ctx.lineTo(-r * .95, 0);
+      ctx.closePath(); ctx.stroke();
+      ctx.globalAlpha *= .6;
+      ctx.beginPath(); ctx.moveTo(0, -r * 1.5); ctx.lineTo(0, r * 1.5); ctx.moveTo(-r * .95, 0); ctx.lineTo(r * .95, 0); ctx.stroke();
+      break;
+    }
+    case 'plasma': {
+      ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, r * .55, rot * 2, rot * 2 + 2.2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, r * .8, -rot * 1.6, -rot * 1.6 + 1.6); ctx.stroke();
+      break;
+    }
+    case 'poly': {
+      ctx.rotate(rot);
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * TAU;
+        const px = Math.cos(a) * r * 1.18, py = Math.sin(a) * r * 1.18 * (0.7 + 0.3 * Math.sin(rot * 1.4));
+        i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.closePath(); ctx.stroke();
+      ctx.globalAlpha *= .55;
+      ctx.beginPath();
+      for (let i = 0; i < 3; i++) {
+        const a = (i / 6) * TAU;
+        ctx.moveTo(Math.cos(a) * r * 1.18, Math.sin(a) * r * 1.18 * (0.7 + 0.3 * Math.sin(rot * 1.4)));
+        ctx.lineTo(-Math.cos(a) * r * 1.18, -Math.sin(a) * r * 1.18 * (0.7 + 0.3 * Math.sin(rot * 1.4)));
+      }
+      ctx.stroke();
+      break;
+    }
+    case 'doc': {
+      ctx.rotate(Math.sin(rot * .8) * .16);
+      const w = r * 1.5, h = r * 1.9;
+      ctx.strokeRect(-w / 2, -h / 2, w, h);
+      ctx.globalAlpha *= .65;
+      for (let i = 0; i < 3; i++) {
+        const ly = -h / 2 + h * (.3 + i * .22);
+        ctx.beginPath(); ctx.moveTo(-w / 2 + 2.5, ly); ctx.lineTo(w / 2 - 2.5 - (i === 2 ? 4 : 0), ly); ctx.stroke();
+      }
+      break;
+    }
+    case 'pulse': {
+      ctx.beginPath(); ctx.arc(0, 0, r * .5, 0, TAU);
+      ctx.fillStyle = colB; ctx.fill();
+      const ph = (T * .8 + n.bobPh) % 1;
+      ctx.globalAlpha *= (1 - ph);
+      ctx.beginPath(); ctx.arc(0, 0, r * (0.6 + ph * 1.9), 0, TAU); ctx.stroke();
+      break;
+    }
+    case 'cube': {
+      const s = r * .82, c1 = Math.cos(rot), s1 = Math.sin(rot), c2 = Math.cos(rot * .7), s2 = Math.sin(rot * .7);
+      const v = [];
+      for (let i = 0; i < 8; i++) {
+        let vx = (i & 1 ? 1 : -1) * s, vy = (i & 2 ? 1 : -1) * s, vz = (i & 4 ? 1 : -1) * s;
+        let x1 = vx * c1 - vz * s1, z1 = vx * s1 + vz * c1;
+        let y1 = vy * c2 - z1 * s2;
+        v.push([x1, y1]);
+      }
+      ctx.beginPath();
+      [[0,1],[1,3],[3,2],[2,0],[4,5],[5,7],[7,6],[6,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a, b]) => {
+        ctx.moveTo(v[a][0], v[a][1]); ctx.lineTo(v[b][0], v[b][1]);
+      });
+      ctx.stroke();
+      break;
+    }
+    case 'star': {
+      ctx.rotate(rot * .5);
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 1.7); ctx.lineTo(0, r * 1.7); ctx.moveTo(-r * 1.7, 0); ctx.lineTo(r * 1.7, 0);
+      ctx.stroke();
+      ctx.globalAlpha *= .55;
+      ctx.rotate(Math.PI / 4);
+      ctx.beginPath();
+      ctx.moveTo(0, -r); ctx.lineTo(0, r); ctx.moveTo(-r, 0); ctx.lineTo(r, 0); ctx.stroke();
+      break;
+    }
+    default: { // orb
+      ctx.beginPath(); ctx.arc(0, 0, r * .85, 0, TAU); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, r * 1.5, rot, rot + 1.9); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+function drawNodes(reveal, tier) {
+  const minorCut = TIERS[tier].minor;
+  const gx = mouse.in ? mouse.x : -9999, gy = mouse.y;
+  for (const n of nodes) {
+    const rv = clamp((reveal - .5 - n.ring * .13) / .9, 0, 1);
+    if (rv <= 0) { n.vis = false; continue; }
+    if (!n.major && n.tier > minorCut) { n.vis = false; continue; }
+    nodePos(n, _p);
+    const p = project(_p[0], _p[1], _p[2]);
+    if (!p) { n.vis = false; continue; }
+    // gravitational cursor distortion
+    let sx = p.x, sy = p.y;
+    const gdx = sx - gx, gdy = sy - gy;
+    const gd2 = gdx * gdx + gdy * gdy;
+    if (gd2 < 32400) {
+      const gd = Math.sqrt(gd2) || 1;
+      const f = 15 * Math.exp(-gd / 95);
+      sx += (gdx / gd) * f; sy += (gdy / gd) * f;
+    }
+    const fade = depthFade(p) * ringDimFactor(n.ring);
+    const pop = n.major ? easeOutElastic(rv) : easeOutCubic(rv);
+    n.ex = Math.max(0, n.ex - (n.major && query.rel.includes(n.dom) && query.phase !== 'idle' ? 0 : 1.6) * .016);
+    const hovT = hoverNode === n ? 1 : 0;
+    n.hov += (hovT - n.hov) * .18;
+    const excite = clamp(n.ex + n.dom.ex * (n.major ? 1 : .45), 0, 1.2);
+    const pulse = 1 + .07 * Math.sin(T * 2.1 + n.bobPh);
+    const r = n.sz * p.s * pop * pulse * (1 + n.hov * .55 + excite * .3) * (n.major ? 1 : .9);
+    n.sx = sx; n.sy = sy; n.ss = r; n.vis = true; n.depth = fade;
+    if (r < .3) continue;
+    const soft = p.s < .95;
+    const glowA = (n.major ? .5 : .3) * fade * (0.55 + excite * .8 + n.hov * .5);
+    const gs = r * (n.major ? 7 : 5.5);
+    ctx.globalAlpha = clamp(glowA, 0, 1);
+    ctx.drawImage(glowSprite(n.dom.col, soft), sx - gs, sy - gs, gs * 2, gs * 2);
+    if (n.major || r > 1.4) {
+      ctx.globalAlpha = clamp(fade * (.75 + excite * .3), 0, 1);
+      drawShape(n, sx, sy, Math.max(r, 2.4), rgba(n.dom.bright, .95));
+    }
+    // satellites
+    if (n.major) {
+      ctx.globalAlpha = fade * .8;
+      for (let k = 0; k < n.satN; k++) {
+        const a = T * n.satSpd * (k % 2 ? 1 : -1.3) + k * (TAU / n.satN);
+        const sr = r * 2.5 + k * 2;
+        const sxx = sx + Math.cos(a) * sr, syy = sy + Math.sin(a) * sr * .55;
+        ctx.drawImage(glowSprite(n.dom.col, false), sxx - 2.5, syy - 2.5, 5, 5);
+      }
+      // selection brackets
+      if (n.sel) {
+        ctx.globalAlpha = fade * .9;
+        ctx.strokeStyle = 'rgba(240,250,255,.85)'; ctx.lineWidth = 1.4;
+        const br = r * 2.6 + 4;
+        for (let k = 0; k < 3; k++) {
+          const a0 = T * 1.2 + k * (TAU / 3);
+          ctx.beginPath(); ctx.arc(sx, sy, br, a0, a0 + 1.1); ctx.stroke();
+        }
+      }
+      // label
+      const lbl = labelSprite(n.dom.name, n.dom.col);
+      const la = fade * (.42 + n.hov * .55 + excite * .45) * pop;
+      ctx.globalAlpha = clamp(la, 0, 1);
+      const lw = lbl.width / 2, lh = 20;
+      ctx.drawImage(lbl, sx - lw / 2, sy + r * 2.4 + 6, lw, lh);
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+function drawSwarm(tier) {
+  const active = TIERS[tier].swarm;
+  const gx = mouse.in ? mouse.x : -9999, gy = mouse.y;
+  for (let i = 0; i < active; i++) {
+    const p = project(sw.x[i], sw.y[i], sw.z[i]);
+    if (!p) continue;
+    let x = p.x, y = p.y;
+    const dx = x - gx, dy = y - gy, d2 = dx * dx + dy * dy;
+    if (d2 < 14400) { const d = Math.sqrt(d2) || 1, f = 10 * Math.exp(-d / 60); x += dx / d * f; y += dy / d * f; }
+    const dom = DOMAINS[sw.dom[i]];
+    const sz = (sw.inner[i] ? 2.6 : 2) * clamp(p.s, .3, 1.7);
+    ctx.globalAlpha = (sw.inner[i] ? .34 : .22) * depthFade(p);
+    ctx.drawImage(glowSprite(dom.col, false), x - sz, y - sz, sz * 2, sz * 2);
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawCore(reveal, tier) {
+  const p0 = project(0, 0, 0);
+  if (!p0) return;
+  const think = query.phase === 'think' ? 1 : query.phase === 'spread' ? .6 : 0;
+  const rv = easeOutCubic(clamp(reveal / .5, 0, 1));
+  const base = 34 * p0.s * rv;
+  const R = base * (1 + .05 * Math.sin(T * (2.4 + think * 4)) + think * .1);
+  // halo
+  ctx.globalAlpha = .75 + think * .25;
+  const hg = R * 7.5;
+  ctx.drawImage(glowSprite('#f5b942', true), p0.x - hg, p0.y - hg, hg * 2, hg * 2);
+  const hg2 = R * 4;
+  ctx.drawImage(glowSprite('#a78bfa', true), p0.x - hg2, p0.y - hg2 * .9, hg2 * 2, hg2 * 2);
+  // god rays
+  if (TIERS[tier].rays) {
+    const rs = R * 6.4;
+    ctx.save();
+    ctx.translate(p0.x, p0.y);
+    ctx.globalAlpha = .5 + think * .5;
+    ctx.rotate(T * .03);
+    ctx.drawImage(raySprite('#f5d58a'), -rs, -rs, rs * 2, rs * 2);
+    ctx.rotate(-T * .053);
+    ctx.globalAlpha = .3 + think * .35;
+    ctx.drawImage(raySprite('#7cc7ff'), -rs * .8, -rs * .8, rs * 1.6, rs * 1.6);
+    ctx.restore();
+  }
+  // body
+  const bg = ctx.createRadialGradient(p0.x - R * .3, p0.y - R * .34, R * .08, p0.x, p0.y, R);
+  bg.addColorStop(0, 'rgba(255,252,240,.98)');
+  bg.addColorStop(.32, 'rgba(255,224,150,.92)');
+  bg.addColorStop(.66, 'rgba(245,169,66,.55)');
+  bg.addColorStop(1, 'rgba(140,80,200,.05)');
+  ctx.fillStyle = bg;
+  ctx.beginPath(); ctx.arc(p0.x, p0.y, R, 0, TAU); ctx.fill();
+  // inner plasma arcs
+  ctx.lineWidth = Math.max(1.2, R * .07);
+  for (let i = 0; i < 3; i++) {
+    const a0 = T * (0.7 + i * .3) * (i % 2 ? -1 : 1) + i * 2.1;
+    ctx.strokeStyle = `rgba(255,255,255,${.22 - i * .05})`;
+    ctx.beginPath(); ctx.arc(p0.x, p0.y, R * (.42 + i * .17), a0, a0 + 2.4); ctx.stroke();
+  }
+  // equator ring (world-space, gives 3D read)
+  strokeWorldCircle(48 * rv, { cx: 1, sx: 0, cz: 1, sz: 0 }, .3, 1, 'rgba(255,226,160,.9)');
+  // neural star flare
+  ctx.save();
+  ctx.translate(p0.x, p0.y); ctx.rotate(Math.sin(T * .4) * .2);
+  const fl = R * (2.6 + think * 1.2);
+  ctx.globalAlpha = .55 + .3 * Math.sin(T * 3.1) * (0.5 + think);
+  ctx.drawImage(streakSprite(), -fl, -R * .12, fl * 2, R * .24);
+  ctx.rotate(Math.PI / 2);
+  ctx.globalAlpha *= .55;
+  ctx.drawImage(streakSprite(), -fl * .6, -R * .1, fl * 1.2, R * .2);
+  ctx.restore();
+  // emitted pulse rings
+  const period = think ? .5 : 1.7;
+  const ph = (T % period) / period;
+  ctx.globalAlpha = (1 - ph) * (.3 + think * .4);
+  ctx.strokeStyle = '#ffe2a0'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(p0.x, p0.y, R * (1.1 + ph * 2.6), 0, TAU); ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function drawWaves() {
+  const p0 = project(0, 0, 0);
+  if (!p0) return;
+  for (let i = waves.length - 1; i >= 0; i--) {
+    const w = waves[i];
+    const age = T - w.t0;
+    const r = age * w.speed;
+    if (r > 420) { waves.splice(i, 1); continue; }
+    const a = clamp(1 - r / 420, 0, 1) * .5;
+    const sr = r * p0.s;
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = w.col; ctx.lineWidth = w.w + 1.5;
+    ctx.beginPath(); ctx.arc(p0.x, p0.y, sr, 0, TAU); ctx.stroke();
+    ctx.globalAlpha = a * .5; ctx.lineWidth = w.w * 4;
+    ctx.beginPath(); ctx.arc(p0.x, p0.y, sr, 0, TAU); ctx.stroke();
+    // activate nodes as the front passes
+    for (const n of nodes) {
+      if (!n.vis) continue;
+      nodePos(n, _p);
+      const nd = Math.sqrt(_p[0]*_p[0] + _p[1]*_p[1] + _p[2]*_p[2]);
+      if (Math.abs(nd - r) < 18) n.ex = Math.max(n.ex, .85);
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawRipples(dt) {
+  for (let i = ripples.length - 1; i >= 0; i--) {
+    const rp = ripples[i];
+    rp.r += rp.vr * dt; rp.a -= dt * .9;
+    if (rp.a <= 0) { ripples.splice(i, 1); continue; }
+    ctx.globalAlpha = rp.a;
+    ctx.strokeStyle = rp.col; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, TAU); ctx.stroke();
+    ctx.globalAlpha = rp.a * .5;
+    ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r * .65, 0, TAU); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawLeaderLines() {
+  ctx.globalCompositeOperation = 'source-over';
+  if (panelNode && panelNode.vis && !npanel.classList.contains('hidden')) {
+    const r = npanel.getBoundingClientRect();
+    const px = panelNode.sx < r.left ? r.left : r.right;
+    const py = r.top + 26;
+    ctx.strokeStyle = 'rgba(140,210,255,.4)'; ctx.lineWidth = 1;
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(panelNode.sx, panelNode.sy); ctx.lineTo(px, py); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(140,210,255,.7)';
+    ctx.beginPath(); ctx.arc(px, py, 2.2, 0, TAU); ctx.fill();
+  }
+  if (!resultEl.classList.contains('hidden') && query.rel.length) {
+    const n = query.rel[0].node;
+    if (n.vis) {
+      const r = resultEl.getBoundingClientRect();
+      ctx.strokeStyle = 'rgba(94,234,212,.35)'; ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(n.sx, n.sy); ctx.lineTo(r.left, r.top + 30); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+/* ---------------- HUD sync ---------------- */
+function syncDomainExcitement(dt) {
+  for (const d of DOMAINS) {
+    const isRel = query.rel.includes(d) && (query.phase === 'spread' || query.phase === 'active');
+    const focusBoost = focusNode === d.node ? 1 : 0;
+    const target = Math.max(isRel ? 1 : 0, focusBoost, d.node.sel ? .8 : 0, d.node.hov * .6);
+    d.ex += (target - d.ex) * clamp(dt * 3.2, 0, 1);
+    const fsT = focusNode === d.node || isRel ? .9 : 0;
+    d.focusSpread = (d.focusSpread || 0) + (fsT - (d.focusSpread || 0)) * clamp(dt * 2.4, 0, 1);
+  }
+}
+
+function updateCamera(dt) {
+  // auto orbit
+  if (orbitOn && !focusNode && T - lastInteract > 5 && !(dragInfo && dragInfo.moved)) {
+    cam.yawT += dt * .045;
+    cam.pitchT = lerp(cam.pitchT, .32 + Math.sin(T * .06) * .08, dt * .5);
+  }
+  // focus tracking
+  if (focusNode) {
+    nodePos(focusNode, _p);
+    const wantYaw = Math.atan2(_p[0], _p[2]) + Math.PI;
+    const rxz = Math.sqrt(_p[0]*_p[0] + _p[2]*_p[2]) || 1;
+    const wantPitch = -Math.atan2(_p[1], rxz) * .85;
+    cam.yawT += wrapAngle(wantYaw - cam.yawT) * clamp(dt * 1.6, 0, 1);
+    cam.pitchT = lerp(cam.pitchT, clamp(wantPitch, -1.1, 1.1), clamp(dt * 1.6, 0, 1));
+  }
+  cam.yaw += wrapAngle(cam.yawT - cam.yaw) * clamp(dt * 8, 0, 1);
+  cam.pitch += (cam.pitchT - cam.pitch) * clamp(dt * 8, 0, 1);
+  cam.dist += (cam.distT - cam.dist) * clamp(dt * 4.5, 0, 1);
+  // micro shake
+  cam.shake += (cam.shakeT - cam.shake) * clamp(dt * 5, 0, 1);
+  const s = cam.shake * 2.4;
+  cam.shx = (Math.sin(T * 31) + Math.sin(T * 17.3) * .6) * s;
+  cam.shy = (Math.cos(T * 27.7) + Math.sin(T * 41.1) * .5) * s * .8;
+}
+
+function updateThinkStatus() {
+  if (query.phase !== 'think' && query.phase !== 'spread') return;
+  const idx = Math.floor((T - query.t0) / .62) % THINK_LINES.length;
+  if (idx !== query.thinkIdx) {
+    query.thinkIdx = idx;
+    cmdStatus.textContent = THINK_LINES[idx];
+  }
+}
+
+function updateTooltipAndCursor() {
+  const n = hoverNode;
+  if (n && !n.major && n.vis) {
+    tipEl.classList.remove('hidden');
+    tipEl.innerHTML = '';
+    const t1 = document.createElement('span'); t1.textContent = n.topic;
+    const t2 = document.createElement('small'); t2.textContent = n.dom.name.toUpperCase() + ' · L0' + (n.ring + 1);
+    t2.style.color = n.dom.col;
+    tipEl.appendChild(t1); tipEl.appendChild(t2);
+    tipEl.style.left = clamp(n.sx + 16, 8, W - 170) + 'px';
+    tipEl.style.top = clamp(n.sy - 44, 8, H - 60) + 'px';
+  } else tipEl.classList.add('hidden');
+  cv.classList.toggle('hovering', !!n);
+}
+
+function runStatAnims() {
+  for (let i = statAnims.length - 1; i >= 0; i--) {
+    const a = statAnims[i];
+    const t = clamp((T - a.t0) / .8, 0, 1);
+    a.el.textContent = a.fmt(a.target * easeOutCubic(t));
+    if (t >= 1) statAnims.splice(i, 1);
+  }
+}
+
+/* ---------------- main loop ---------------- */
+let hoverRippleAt = 0;
+function frame(ms) {
+  const dtMs = clamp(ms - lastMs, 1, 50);
+  lastMs = ms;
+  const dt = dtMs / 1000;
+  T += dt;
+  tierTick(dtMs);
+  const tier = tierIdx;
+  const reveal = T / 1.9; // uncapped; per-element gates clamp themselves
+
+  updateCamera(dt);
+  syncDomainExcitement(dt);
+  swarmUpdate(dt, TIERS[tier].swarm);
+  updateThinkStatus();
+
+  hoverNode = pick();
+  if (hoverNode && T - hoverRippleAt > .5) {
+    spawnRipple(hoverNode.sx, hoverNode.sy, hoverNode.dom.col);
+    hoverRippleAt = T;
+  }
+
+  ctx.globalCompositeOperation = 'source-over';
+  drawBackdrop(dt, tier);
+
+  ctx.globalCompositeOperation = 'lighter';
+  drawRings(reveal);
+  drawConnections();
+  drawSwarm(tier);
+  drawCore(reveal, tier);
+  drawWaves();
+  drawNodes(reveal, tier);
+  drawSelectionPaths();
+  drawReasonPath();
+  drawLightning(dt, tier);
+  drawRipples(dt);
+
+  // post
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(vignette, 0, 0, W, H);
+  if (TIERS[tier].grain) {
+    if (!noisePat) noisePat = ctx.createPattern(noiseC, 'repeat');
+    ctx.globalAlpha = .5;
+    ctx.save();
+    ctx.translate((Math.random() * 64) | 0, (Math.random() * 64) | 0);
+    ctx.fillStyle = noisePat;
+    ctx.fillRect(-64, -64, W + 128, H + 128);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+  drawLeaderLines();
+  placePanel();
+  updateTooltipAndCursor();
+  runStatAnims();
+  partEl.textContent = TIERS[tier].swarm;
+
+  requestAnimationFrame(frame);
+}
+
+resize();
+requestAnimationFrame(t => { lastMs = t; requestAnimationFrame(frame); });
+requestAnimationFrame(() => {
+  const veil = document.getElementById('veil');
+  veil.style.opacity = '0';
+  setTimeout(() => veil.remove(), 2200);
+});
+</script>
+
+</body>
+</html>
