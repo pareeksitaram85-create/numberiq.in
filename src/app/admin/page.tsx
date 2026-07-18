@@ -7,8 +7,6 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { 
   Shield, 
-  FileText, 
-  BookOpen, 
   Users, 
   Upload, 
   Download, 
@@ -18,6 +16,17 @@ import {
   Server
 } from "lucide-react";
 
+interface Lead {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  query: string;
+  tool: string;
+  createdAt: string;
+}
+
 export default function AdminDashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -25,19 +34,19 @@ export default function AdminDashboardPage() {
   
   // Importer state
   const [importType, setImportType] = useState<"glossary" | "insights">("glossary");
-  const [importRows, setImportRows] = useState<any[]>([]);
+  const [importRows, setImportRows] = useState<Record<string, string>[]>([]);
   const [importError, setImportError] = useState("");
   const [importLoading, setImportLoading] = useState(false);
   const [importSuccess, setImportSuccess] = useState<number | null>(null);
 
   // Leads state
-  const [leads, setLeads] = useState<any[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin");
-    } else if (session && (session.user as any).role !== "ADMIN") {
+    } else if (session && session.user?.role !== "ADMIN") {
       router.push("/dashboard");
     }
   }, [status, session, router]);
@@ -51,7 +60,7 @@ export default function AdminDashboardPage() {
         const data = await res.json();
         setLeads(data);
       }
-    } catch (e) {
+    } catch {
       // Ignored
     } finally {
       setLeadsLoading(false);
@@ -60,7 +69,10 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     if (activeTab === "leads") {
-      fetchLeads();
+      const timer = setTimeout(() => {
+        fetchLeads();
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [activeTab]);
 
@@ -72,7 +84,7 @@ export default function AdminDashboardPage() {
     );
   }
 
-  if (!session || (session.user as any).role !== "ADMIN") return null;
+  if (!session || session.user?.role !== "ADMIN") return null;
 
   // CSV Template Downloads
   const downloadTemplate = (type: "glossary" | "insights") => {
@@ -111,14 +123,14 @@ export default function AdminDashboardPage() {
           return;
         }
 
-        const parsedRecords: any[] = [];
+        const parsedRecords: Record<string, string>[] = [];
         const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
 
         for (let i = 1; i < lines.length; i++) {
           const cols = lines[i].split(",");
           if (cols.length === 0) continue;
 
-          const record: any = {};
+          const record: Record<string, string> = {};
           headers.forEach((header, index) => {
             record[header] = cols[index]?.trim() || "";
           });
@@ -126,7 +138,7 @@ export default function AdminDashboardPage() {
         }
 
         setImportRows(parsedRecords);
-      } catch (err) {
+      } catch {
         setImportError("Failed to parse CSV file. Use standard headers.");
       }
     };
@@ -153,7 +165,7 @@ export default function AdminDashboardPage() {
       } else {
         setImportError(data.error || "Failed to complete bulk import.");
       }
-    } catch (err) {
+    } catch {
       setImportError("Connection failed. Check database logs.");
     } finally {
       setImportLoading(false);
@@ -247,7 +259,7 @@ export default function AdminDashboardPage() {
                     <select
                       value={importType}
                       onChange={(e) => {
-                        setImportType(e.target.value as any);
+                        setImportType(e.target.value as "glossary" | "insights");
                         setImportRows([]);
                         setImportSuccess(null);
                       }}
@@ -355,7 +367,7 @@ export default function AdminDashboardPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {leads.map((l: any, i) => (
+                        {leads.map((l, i) => (
                           <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                             <td className="px-4 py-3">
                               <span className="font-bold text-white block">{l.name}</span>

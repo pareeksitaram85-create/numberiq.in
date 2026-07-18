@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { PrismaClient } = require('@prisma/client');
 const { PrismaPg } = require('@prisma/adapter-pg');
 const { Pool } = require('pg');
@@ -19,6 +20,16 @@ async function main() {
   }
 
   const { posts, terms } = JSON.parse(fs.readFileSync(seedDataPath, 'utf8'));
+
+  const termCount = await prisma.term.count();
+  const postCount = await prisma.post.count();
+  const forceSeed = process.env.FORCE_SEED === "true";
+
+  if (termCount === terms.length && postCount === posts.length && !forceSeed) {
+    console.log(`Database already contains ${termCount} terms and ${postCount} posts. Skipping seeding to optimize build time. Set FORCE_SEED=true to overwrite.`);
+    return;
+  }
+
   console.log(`Seeding ${terms.length} glossary terms...`);
 
   for (const t of terms) {

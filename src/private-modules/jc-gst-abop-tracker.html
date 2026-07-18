@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JC - GST Registration &amp; ABOP Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0f1117;--sur:#1a1d27;--sur2:#22263a;--brd:#2e3250;--acc:#6366f1;--acc2:#8b5cf6;--grn:#10b981;--amb:#f59e0b;--red:#ef4444;--blu:#3b82f6;--cyn:#06b6d4;--txt:#e2e8f0;--txt2:#94a3b8;--txt3:#64748b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:14px}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--sur)}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+.hdr{background:linear-gradient(135deg,#1a1d27,#22263a);border-bottom:1px solid var(--brd);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap}
+.hdr-l{display:flex;align-items:center;gap:12px}
+.logo{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:800;font-size:15px;padding:7px 13px;border-radius:8px;letter-spacing:1px}
+.htitle{font-size:18px;font-weight:700}.hsub{font-size:11px;color:var(--txt2);margin-top:1px}
+.hdr-r{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;transition:all .2s}
+.btn-pri{background:var(--acc);color:#fff}.btn-pri:hover{background:var(--acc2);transform:translateY(-1px)}
+.btn-sec{background:var(--sur2);color:var(--txt);border:1px solid var(--brd)}.btn-sec:hover{border-color:var(--acc);color:var(--acc)}
+.btn-grn{background:var(--grn);color:#fff}.btn-grn:hover{opacity:.9}
+.btn-amb{background:var(--amb);color:#000}.btn-amb:hover{opacity:.9}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{opacity:.9}
+.btn-sm{padding:4px 9px;font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;padding:14px 24px;background:var(--sur);border-bottom:1px solid var(--brd)}
+.sc{background:var(--sur2);border:1px solid var(--brd);border-radius:10px;padding:11px 14px;text-align:center;transition:transform .2s}.sc:hover{transform:translateY(-2px)}
+.sn{font-size:26px;font-weight:800;line-height:1}.sl{font-size:9px;color:var(--txt2);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}.ss{font-size:9px;color:var(--txt3);margin-top:1px}
+.sc-acc .sn{color:var(--acc)}.sc-grn .sn{color:var(--grn)}.sc-amb .sn{color:var(--amb)}.sc-red .sn{color:var(--red)}.sc-cyn .sn{color:var(--cyn)}
+.tabs{display:flex;gap:2px;padding:10px 24px 0;background:var(--sur);border-bottom:1px solid var(--brd);overflow-x:auto}
+.tb{padding:9px 14px;background:none;border:none;border-bottom:3px solid transparent;color:var(--txt2);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;border-radius:6px 6px 0 0;white-space:nowrap}
+.tb:hover{color:var(--txt);background:var(--sur2)}.tb.active{color:var(--acc);border-bottom-color:var(--acc)}
+.main{padding:18px 24px}.tc{display:none}.tc.active{display:block}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec-dot{width:7px;height:7px;border-radius:50%;background:var(--acc)}.sec-title{font-size:14px;font-weight:700}.sec-sub{font-size:11px;color:var(--txt2);margin-left:auto}
+.frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.flabel{font-size:11px;color:var(--txt2);white-space:nowrap}
+select,input[type=text],input[type=date]{background:var(--sur2);border:1px solid var(--brd);color:var(--txt);padding:6px 10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+select:focus,input:focus{border-color:var(--acc)}select option{background:var(--sur2)}
+textarea{background:var(--sur2);border:1px solid var(--brd);color:var(--txt);padding:7px 10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:12px;outline:none;resize:vertical;min-height:60px;width:100%}textarea:focus{border-color:var(--acc)}
+.tbl-wrap{background:var(--sur);border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-top:4px}
+.tbl-top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--brd);gap:8px;flex-wrap:wrap}
+.tbl-ttl{font-weight:600;font-size:13px}.tbl-cnt{font-size:11px;color:var(--txt2)}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--sur2);padding:8px 11px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);border-bottom:1px solid var(--brd);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--acc)}
+tbody tr{border-bottom:1px solid var(--brd);transition:background .15s}tbody tr:hover{background:rgba(99,102,241,.04)}tbody tr:last-child{border-bottom:none}
+tbody tr.marked-remove{background:rgba(239,68,68,.08) !important}
+td{padding:8px 11px;font-size:12px;vertical-align:middle}
+.badge{display:inline-flex;align-items:center;padding:1px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.b-grn{background:rgba(16,185,129,.15);color:var(--grn);border:1px solid rgba(16,185,129,.3)}
+.b-amb{background:rgba(245,158,11,.15);color:var(--amb);border:1px solid rgba(245,158,11,.3)}
+.b-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.b-cyn{background:rgba(6,182,212,.15);color:var(--cyn);border:1px solid rgba(6,182,212,.3)}
+.b-gry{background:rgba(100,116,139,.15);color:var(--txt2);border:1px solid var(--brd)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.lcard{background:var(--sur);border:1px solid var(--brd);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;position:relative}
+.lcard:hover{border-color:var(--acc);transform:translateY(-2px)}
+.lcard.op{border-left:4px solid var(--grn)}.lcard.cl{border-left:4px solid var(--red)}.lcard.pr{border-left:4px solid var(--amb)}
+.lcard.remove-flag{border-left:4px solid var(--red);background:rgba(239,68,68,.06)}
+.rm-tick{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:4px;border:2px solid var(--red);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s}
+.rm-tick.checked{background:var(--red);color:#fff;border-color:var(--red)}
+.ct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;padding-right:24px}
+.ccode{font-size:16px;font-weight:800;color:var(--acc)}.cname{font-size:11px;color:var(--txt2);margin-top:1px}
+.cbody{font-size:11px;color:var(--txt2);line-height:1.9}
+.cfoot{margin-top:9px;padding-top:9px;border-top:1px solid var(--brd);display:flex;gap:5px;flex-wrap:wrap}
+.prg{height:4px;background:var(--brd);border-radius:2px;overflow:hidden;margin-top:7px}
+.prg-f{height:100%;border-radius:2px;transition:width .5s}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}.modal-ov.open{display:flex}
+.modal{background:var(--sur);border:1px solid var(--brd);border-radius:12px;width:min(700px,95vw);max-height:92vh;overflow-y:auto;padding:24px;animation:su .2s ease}
+@keyframes su{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.m-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.m-close{margin-left:auto;background:none;border:none;color:var(--txt2);font-size:18px;cursor:pointer;line-height:1}.m-close:hover{color:var(--red)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrp{display:flex;flex-direction:column;gap:4px}.fgrp.s2{grid-column:1/-1}
+label{font-size:11px;font-weight:500;color:var(--txt2)}
+.mfooter{display:flex;gap:7px;justify-content:flex-end;margin-top:16px;padding-top:13px;border-top:1px solid var(--brd)}
+.upzone{border:2px dashed var(--brd);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px}
+.upzone:hover,.upzone.dov{border-color:var(--acc);background:rgba(99,102,241,.05)}
+.up-ico{font-size:32px;margin-bottom:8px}.up-ttl{font-weight:600;margin-bottom:3px;font-size:14px}.up-sub{font-size:11px;color:var(--txt2)}
+.bif-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.bif-col{background:var(--sur);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.bif-ch{padding:10px 14px;font-weight:600;font-size:12px;display:flex;align-items:center;gap:7px}
+.bif-u{background:rgba(16,185,129,.08);border-bottom:1px solid rgba(16,185,129,.2);color:var(--grn)}
+.bif-p{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);color:var(--amb)}
+.bif-item{padding:8px 14px;border-bottom:1px solid var(--brd);font-size:11px;display:flex;align-items:center;gap:8px}
+.bif-item:last-child{border-bottom:none}
+.bif-loc{font-weight:600;color:var(--txt)}.bif-gstin{font-size:10px;color:var(--txt3);font-family:monospace}
+.ab{background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:5px 9px;font-size:11px;line-height:1.6;margin-top:3px}
+.ab-m{border-left:3px solid var(--grn)}.ab-mm{border-left:3px solid var(--red)}
+.cdf{background:var(--sur2);border-radius:7px;padding:9px 11px}
+.cdf-l{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3);margin-bottom:3px}
+.cdf-v{font-size:12px;font-weight:600;color:var(--txt)}.cdf-v.mono{font-family:monospace;font-size:12px;color:var(--cyn);letter-spacing:.5px}
+.cdf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.pdf-ext{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px}
+.pdf-ext-hdr{font-weight:600;color:var(--acc);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.empty{text-align:center;padding:44px 20px;color:var(--txt3)}.empty-ico{font-size:36px;margin-bottom:8px}.empty-ttl{font-size:14px;font-weight:600;color:var(--txt2);margin-bottom:4px}
+.ibtn{background:none;border:none;cursor:pointer;color:var(--txt2);font-size:13px;padding:3px 5px;border-radius:4px;transition:all .15s}.ibtn:hover{color:var(--acc);background:var(--sur2)}.ibtn.del:hover{color:var(--red)}
+.toast-c{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:6px}
+.toast{background:var(--sur);border:1px solid var(--brd);border-radius:8px;padding:10px 14px;font-size:12px;min-width:220px;animation:si .3s ease;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+@keyframes si{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.toast.success{border-left:3px solid var(--grn)}.toast.error{border-left:3px solid var(--red)}.toast.info{border-left:3px solid var(--blu)}
+.bulk-prog{background:var(--sur2);border:1px solid var(--brd);border-radius:10px;padding:14px;margin-bottom:14px;display:none}
+.bulk-prog.show{display:block}
+.bp-bar{height:8px;background:var(--brd);border-radius:4px;overflow:hidden;margin:8px 0}
+.bp-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--grn));border-radius:4px;transition:width .3s}
+.quick-toggle{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s}
+.qt-upd{color:var(--grn);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.1)}.qt-upd:hover{background:rgba(16,185,129,.2)}
+.qt-pnd{color:var(--amb);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.1)}.qt-pnd:hover{background:rgba(245,158,11,.2)}
+.rm-chk{width:15px;height:15px;cursor:pointer;accent-color:var(--red)}
+.remove-actions{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;gap:10px;flex-wrap:wrap}
+.remove-actions.show{display:flex}
+input[type=text].sm{padding:5px 9px;font-size:12px}
+@media(max-width:768px){.hdr{padding:10px 12px}.stats{padding:10px 12px}.main{padding:12px}.tabs{padding:6px 12px 0}.bif-grid{grid-template-columns:1fr}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- ===================== LOGIN GATE (Supabase Auth · shared across NumberIQ modules) ===================== -->
+<style>
+  body.lg-locked > :not(#loginGate):not(script):not(style):not(datalist) { display: none !important; }
+  #loginGate { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(1000px 600px at 18% -10%, rgba(79,124,255,.2), transparent 60%), radial-gradient(900px 600px at 92% 0%, rgba(154,107,255,.18), transparent 55%), #05060a; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #loginGate .lg-card { width: min(400px, 92vw); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 24px; padding: 38px 34px 26px; background: linear-gradient(180deg, rgba(20,24,40,.92), rgba(10,12,20,.97)); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 30px 80px -20px rgba(0,0,0,.7); }
+  #loginGate .lg-card::before { content: ""; position: absolute; inset: 0; border-radius: 24px; padding: 1px; background: linear-gradient(120deg, rgba(79,124,255,.55), transparent 45%, transparent 55%, rgba(154,107,255,.5)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  #loginGate .lg-mark { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #4f7cff; background: rgba(79,124,255,.12); border: 1px solid rgba(79,124,255,.3); }
+  #loginGate h2 { margin: 0 0 4px; text-align: center; color: #fff; font-size: 20px; letter-spacing: .02em; }
+  #loginGate .lg-sub { text-align: center; color: #8b93a7; font-size: 12.5px; margin-bottom: 20px; }
+  #loginGate label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8b93a7; margin: 12px 0 5px; }
+  #loginGate input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; padding: 10px 12px; color: #fff; font-size: 14px; outline: none; }
+  #loginGate input:focus { border-color: #4f7cff; }
+  #loginGate button { width: 100%; margin-top: 16px; padding: 11px; border: none; border-radius: 10px; background: linear-gradient(120deg, #4f7cff, #6b5bff); color: #fff; font-size: 13.5px; font-weight: 700; letter-spacing: .03em; cursor: pointer; }
+  #loginGate button:hover { filter: brightness(1.1); }
+  #loginGate button:disabled { opacity: .6; cursor: default; }
+  #loginGate .lg-err { display: none; margin-top: 10px; font-size: 12px; color: #ff8b8b; text-align: center; }
+  #loginGate .lg-foot { margin-top: 22px; text-align: center; font-size: 10.5px; color: #5b6274; letter-spacing: .04em; }
+  #lgLogout { position: fixed; right: 14px; bottom: 14px; z-index: 9999; font-size: 11px; color: #8b93a7; background: rgba(10,12,20,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #lgLogout:hover { color: #fff; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (function () {
+    var SUPABASE_URL = "https://qlvsowlzztsdthqqrhgi.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_yrpTeyds6we661S78IdDgg_qv943431";
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storage: window.sessionStorage, persistSession: true, autoRefreshToken: true } });
+    window.sbClient = sb;
+    window.moduleLogout = function () { sb.auth.signOut().then(function () { location.reload(); }); };
+
+    document.body.className += " lg-locked";
+    var gate = document.createElement("div"); gate.id = "loginGate";
+    gate.innerHTML = '<div class="lg-card">' +
+      '<div class="lg-mark">◈</div>' +
+      '<h2>NumberIQ</h2>' +
+      '<div class="lg-sub" id="lgSub">Checking session…</div>' +
+      '<div id="lgForm" style="display:none">' +
+      '<label>Email</label>' +
+      '<input id="lgId" type="email" autocomplete="username" placeholder="you@company.com">' +
+      '<label>Password</label>' +
+      '<input id="lgPin" type="password" autocomplete="current-password" placeholder="••••••••">' +
+      '<button id="lgBtn">Sign In</button>' +
+      '<div class="lg-err" id="lgErr">Invalid email or password. Please try again.</div>' +
+      '<div style="text-align:center;margin-top:10px"><a href="#" id="lgForgot" style="color:#4f7cff;font-size:12px;text-decoration:none">Forgot password?</a></div>' +
+      '<div id="lgMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div id="lgReset" style="display:none">' +
+      '<label>New Password</label>' +
+      '<input id="lgNew" type="password" autocomplete="new-password" placeholder="Enter new password (min 6 chars)">' +
+      '<button id="lgSetBtn">Set New Password</button>' +
+      '<div class="lg-err" id="lgResetErr"></div>' +
+      '<div id="lgResetMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div class="lg-foot">NumberIQ Boardroom &middot; Access restricted</div></div>';
+    document.body.appendChild(gate);
+
+    function addLogout(email) {
+      var b = document.createElement("button"); b.id = "lgLogout";
+      b.textContent = email + " · Logout";
+      b.onclick = window.moduleLogout;
+      document.body.appendChild(b);
+    }
+    function showAccessDenied(msg) {
+      document.getElementById("lgSub").textContent = "Access Restricted";
+      document.getElementById("lgForm").style.display = "block";
+      var er = document.getElementById("lgErr");
+      er.style.display = "block";
+      er.textContent = msg;
+      sb.auth.signOut();
+    }
+    function checkAccess(email) {
+      var lowerEmail = (email || "").toLowerCase();
+      if (lowerEmail === "sitaram.pareek@igp.com") {
+        unlock(email);
+        return;
+      }
+      sb.from("user_access")
+        .select("is_admin, allowed_modules")
+        .eq("email", lowerEmail)
+        .maybeSingle()
+        .then(function (res) {
+          if (res.error) {
+            console.error("Access query error:", res.error);
+            showAccessDenied("Error checking access permissions. Please contact administrator.");
+            return;
+          }
+          if (!res.data) {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+            return;
+          }
+          var data = res.data;
+          if (data.is_admin || (data.allowed_modules && data.allowed_modules.indexOf("jc-gst-abop-tracker") !== -1)) {
+            unlock(email);
+          } else {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+          }
+        })
+        .catch(function (err) {
+          console.error("Access check failed:", err);
+          showAccessDenied("Error checking access permissions. Please contact administrator.");
+        });
+    }
+    function unlock(email) {
+      document.body.classList.remove("lg-locked");
+      if (gate.parentNode) gate.remove();
+      addLogout(email);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 100);
+    }
+    function showForm() {
+      document.getElementById("lgSub").textContent = "Sign in to open this module";
+      document.getElementById("lgForm").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgId"); if (el) el.focus(); }, 100);
+    }
+    function attempt() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var pass = (document.getElementById("lgPin").value || "").trim();
+      var btn = document.getElementById("lgBtn");
+      if (!email || !pass) return;
+      btn.disabled = true; btn.textContent = "Signing in…";
+      sb.auth.signInWithPassword({ email: email, password: pass }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Sign In";
+        if (res.error) {
+          var er = document.getElementById("lgErr");
+          er.style.display = "block";
+          er.textContent = (res.error.message === "Invalid login credentials") ? "Invalid email or password. Please try again." : res.error.message;
+          document.getElementById("lgPin").value = "";
+        } else {
+          checkAccess(res.data.user.email);
+        }
+      });
+    }
+    var isRecovery = /type=recovery/.test(location.hash) || /[?&]code=/.test(location.search);
+    function showReset() {
+      document.getElementById("lgSub").textContent = "Set a new password for your account";
+      document.getElementById("lgForm").style.display = "none";
+      document.getElementById("lgReset").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgNew"); if (el) el.focus(); }, 100);
+    }
+    function sendReset() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var er = document.getElementById("lgErr"), ok = document.getElementById("lgMsg");
+      er.style.display = "none"; ok.style.display = "none";
+      if (!email) { er.style.display = "block"; er.textContent = "Enter your email above first, then click Forgot password."; return; }
+      sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname }).then(function (res) {
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else { ok.style.display = "block"; ok.textContent = "Reset link sent to " + email + ". Check your inbox (and spam folder)."; }
+      });
+    }
+    function setNewPass() {
+      var v = (document.getElementById("lgNew").value || "").trim();
+      var er = document.getElementById("lgResetErr"), ok = document.getElementById("lgResetMsg");
+      var btn = document.getElementById("lgSetBtn");
+      er.style.display = "none"; ok.style.display = "none";
+      if (v.length < 6) { er.style.display = "block"; er.textContent = "Password must be at least 6 characters."; return; }
+      btn.disabled = true; btn.textContent = "Saving…";
+      sb.auth.updateUser({ password: v }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Set New Password";
+        if (res.error) { er.style.display = "block"; er.textContent = res.error.message; }
+        else {
+          ok.style.display = "block"; ok.textContent = "Password updated. Signing you in…";
+          setTimeout(function () { history.replaceState(null, "", location.pathname); location.reload(); }, 1200);
+        }
+      });
+    }
+    gate.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "lgBtn") attempt();
+      else if (e.target && e.target.id === "lgForgot") { e.preventDefault(); sendReset(); }
+      else if (e.target && e.target.id === "lgSetBtn") setNewPass();
+    });
+    gate.addEventListener("keydown", function (e) { if (e.key === "Enter") { if (document.getElementById("lgReset").style.display === "block") { setNewPass(); } else { attempt(); } } });
+    sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") { isRecovery = true; showReset(); } });
+    sb.auth.getSession().then(function (res) {
+      if (isRecovery) { showReset(); }
+      else if (res.data && res.data.session) { checkAccess(res.data.session.user.email); }
+      else { showForm(); }
+    });
+  })();
+</script>
+<!-- ===================== /LOGIN GATE ===================== -->
+
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="logo">JC</div>
+    <div>
+      <div class="htitle">GST Registration &amp; ABOP Tracker</div>
+      <div class="hsub">All Branch/Office Premises &nbsp;&middot;&nbsp; Address Update Monitor &nbsp;&middot;&nbsp; GSTN Certificate Reader</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <button class="btn btn-sec btn-sm" onclick="exportToExcel()">&#128202; Export Excel</button>
+    <button class="btn btn-sec btn-sm" onclick="bulkImportAll()">&#128193; Bulk Import PDFs</button>
+    <button class="btn btn-amb btn-sm" onclick="deleteMarked()" id="del-marked-btn" style="display:none">&#128465; Remove Marked (<span id="marked-count">0</span>)</button>
+    <button class="btn btn-pri btn-sm" onclick="showAddModal()">+ Add Location</button>
+  </div>
+</div>
+
+<div class="stats" id="stats-bar"></div>
+
+<div class="tabs">
+  <button class="tb active" onclick="switchTab('abop',this)">&#127968; ABOP Dashboard</button>
+  <button class="tb" onclick="switchTab('gst',this)">&#128203; GST Registration</button>
+  <button class="tb" onclick="switchTab('bif',this)">&#9878;&#65039; Address Bifurcation</button>
+  <button class="tb" onclick="switchTab('certs',this)">&#128272; GSTN Certificates</button>
+</div>
+
+<div class="main">
+
+  <!-- ── TAB: ABOP ── -->
+  <div id="tab-abop" class="tc active">
+    <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-title">All Branch / Office Premises — Operational Status</div><span class="sec-sub" id="abop-ts"></span></div>
+    <div class="frow">
+      <span class="flabel">ABOP:</span>
+      <select id="f-abop-st" onchange="renderABOP()"><option value="all">All</option><option value="open">Open</option><option value="closed">Closed</option><option value="process">In Process</option></select>
+      <span class="flabel">GST:</span>
+      <select id="f-abop-gst" onchange="renderABOP()"><option value="all">All</option><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
+      <input type="text" id="s-abop" placeholder="Search location, GSTIN, city..." style="min-width:200px" oninput="renderABOP()"/>
+      <span style="font-size:11px;color:var(--txt3)">&#10004; Tick card corner to mark for removal</span>
+    </div>
+    <div class="card-grid" id="abop-cards"></div>
+  </div>
+
+  <!-- ── TAB: GST REG ── -->
+  <div id="tab-gst" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--grn)"></div><div class="sec-title">GST Registration Register</div></div>
+    <div class="frow">
+      <span class="flabel">Reg:</span>
+      <select id="f-reg" onchange="renderGST()"><option value="all">All</option><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
+      <span class="flabel">Address:</span>
+      <select id="f-addr" onchange="renderGST()"><option value="all">All</option><option value="updated">Updated</option><option value="pending">Pending</option><option value="na">N/A</option></select>
+      <span class="flabel">State:</span>
+      <select id="f-st" onchange="renderGST()"><option value="all">All States</option></select>
+      <input type="text" id="s-gst" placeholder="Search GSTIN, name, city..." style="min-width:200px" oninput="renderGST()"/>
+    </div>
+    <div class="remove-actions" id="rm-actions">
+      <span style="font-size:11px;color:var(--red);font-weight:600">&#10003; Marked for removal:</span>
+      <span id="rm-cnt" style="font-size:11px;color:var(--txt2)">0 locations</span>
+      <button class="btn btn-red btn-sm" onclick="deleteMarked()">&#128465; Remove Selected</button>
+      <button class="btn btn-sec btn-sm" onclick="clearMarked()">Clear Selection</button>
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-top">
+        <span class="tbl-ttl">Registration Records</span>
+        <span class="tbl-cnt" id="gst-cnt"></span>
+        <button class="btn btn-sec btn-sm" onclick="bulkImportAll()">&#128228; Import All Certificates</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th title="Check to mark for removal"><input type="checkbox" id="chk-all" onchange="toggleAll(this.checked)" style="width:13px;height:13px;cursor:pointer;accent-color:var(--red)"/></th>
+            <th onclick="srt('locCode')">Loc #</th>
+            <th onclick="srt('name')">Location</th>
+            <th onclick="srt('state')">State</th>
+            <th onclick="srt('gstin')">GSTIN</th>
+            <th onclick="srt('regStatus')">Reg Status</th>
+            <th onclick="srt('regDate')">Reg Date</th>
+            <th>Address on GST Portal <span style="color:var(--cyn)">(from certificate)</span></th>
+            <th>Actual Address <span style="color:var(--amb)">(pending — fill here)</span></th>
+            <th onclick="srt('addrUpdateStatus')">Addr Status</th>
+            <th onclick="srt('abopStatus')">ABOP</th>
+            <th>Actions</th>
+          </tr></thead>
+          <tbody id="gst-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB: BIFURCATION ── -->
+  <div id="tab-bif" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--amb)"></div><div class="sec-title">Address Bifurcation Report</div><span class="sec-sub">Updated vs Pending on GST Portal</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div class="sc sc-grn" style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2)">
+        <div class="sn" id="bfu">0</div><div class="sl">&#10003; Address Updated on GST Portal</div>
+        <div class="prg"><div class="prg-f" id="bprg" style="background:var(--grn);width:0%"></div></div>
+      </div>
+      <div class="sc sc-amb" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2)">
+        <div class="sn" id="bfp">0</div><div class="sl">&#9203; Address Update Pending</div>
+      </div>
+    </div>
+    <div class="bif-grid">
+      <div class="bif-col">
+        <div class="bif-ch bif-u">&#10003; Updated — Matches Portal (<span id="bfu2">0</span>)</div>
+        <div id="bfu-list"></div>
+      </div>
+      <div class="bif-col">
+        <div class="bif-ch bif-p">&#9203; Pending — Not Updated (<span id="bfp2">0</span>)</div>
+        <div id="bfp-list"></div>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-top"><span class="tbl-ttl">Detailed Address Comparison</span><button class="btn btn-sec btn-sm" onclick="exportToExcel()">Export Excel</button></div>
+      <div style="overflow-x:auto">
+        <table><thead><tr>
+          <th>Loc #</th><th>Location</th><th>State</th><th>GSTIN</th>
+          <th>GST Portal Address</th><th>Actual Address</th><th>Status</th><th>Days Pending</th><th>Quick Action</th>
+        </tr></thead>
+        <tbody id="bif-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB: CERTIFICATES ── -->
+  <div id="tab-certs" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--cyn)"></div><div class="sec-title">GSTN Certificate Reader</div><span class="sec-sub">Import PDFs — auto-extract GSTIN, address, dates — auto-match to locations</span></div>
+    <div class="upzone" onclick="document.getElementById('pdf-main').click()"
+         ondragover="event.preventDefault();this.classList.add('dov')"
+         ondragleave="this.classList.remove('dov')"
+         ondrop="doDrop(event,'cert-res')">
+      <div class="up-ico">&#128196;</div>
+      <div class="up-ttl">Drop ALL GSTN Certificate PDFs Here</div>
+      <div class="up-sub">Select all 34 PDFs at once &middot; Auto-matched to locations by GSTIN state code &middot; Addresses auto-filled</div>
+    </div>
+    <input type="file" id="pdf-main" accept=".pdf" multiple style="display:none" onchange="pdfUpload(event,'cert-res')"/>
+    <div class="bulk-prog" id="bulk-prog">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px">
+        <span id="bp-label">Processing...</span>
+        <span id="bp-frac" style="color:var(--txt2)">0 / 0</span>
+      </div>
+      <div class="bp-bar"><div class="bp-fill" id="bp-fill" style="width:0%"></div></div>
+      <div id="bp-log" style="font-size:10px;color:var(--txt3);max-height:80px;overflow-y:auto;margin-top:4px"></div>
+    </div>
+    <div id="cert-res"></div>
+    <div class="tbl-wrap">
+      <div class="tbl-top"><span class="tbl-ttl">Imported Certificate Data</span><span class="tbl-cnt" id="cert-cnt"></span></div>
+      <div style="overflow-x:auto">
+        <table><thead><tr>
+          <th>GSTIN</th><th>Legal Name</th><th>State</th><th>Constitution</th>
+          <th>Principal Place of Business (Portal Address)</th><th>Reg Date</th><th>Linked Location</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="cert-tbody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- MODAL: Add/Edit Location -->
+<div class="modal-ov" id="add-modal">
+  <div class="modal">
+    <div class="m-title"><span id="m-ico">&#127968;</span><span id="m-ttl">Add New Location</span><button class="m-close" onclick="closeModal('add-modal')">&#10005;</button></div>
+    <div class="fg">
+      <div class="fgrp"><label>Location Code *</label><input type="text" id="f-lc" placeholder="JC-03"/></div>
+      <div class="fgrp"><label>Location Name</label><input type="text" id="f-nm" placeholder="Mumbai Central"/></div>
+      <div class="fgrp"><label>State</label>
+        <select id="f-stt"><option value="">Select State</option>
+        <option>Maharashtra</option><option>Delhi</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option><option>West Bengal</option><option>Telangana</option><option>Andhra Pradesh</option><option>Punjab</option><option>Haryana</option><option>Madhya Pradesh</option><option>Bihar</option><option>Odisha</option><option>Kerala</option><option>Jharkhand</option><option>Assam</option><option>Himachal Pradesh</option><option>Uttarakhand</option><option>Goa</option><option>Chhattisgarh</option><option>Chandigarh</option><option>Puducherry</option><option>Jammu and Kashmir</option><option>Sikkim</option><option>Manipur</option><option>Mizoram</option><option>Nagaland</option><option>Meghalaya</option><option>Arunachal Pradesh</option><option>Tripura</option>
+        </select>
+      </div>
+      <div class="fgrp"><label>City</label><input type="text" id="f-cy" placeholder="Mumbai"/></div>
+      <div class="fgrp"><label>GSTIN (from certificate)</label><input type="text" id="f-gn" placeholder="27AAAAA0000A1Z5" maxlength="15" style="text-transform:uppercase"/></div>
+      <div class="fgrp"><label>Registration Status</label>
+        <select id="f-rs"><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
+      </div>
+      <div class="fgrp"><label>Registration Date</label><input type="date" id="f-rd"/></div>
+      <div class="fgrp"><label>ABOP / Operational Status</label>
+        <select id="f-as"><option value="open">Open / Operational</option><option value="process">In Process / Opening Soon</option><option value="closed">Closed</option></select>
+      </div>
+      <div class="fgrp s2"><label>&#128205; Address on GST Portal (auto-filled from certificate)</label><textarea id="f-pa" placeholder="Extracted from GSTN certificate..."></textarea></div>
+      <div class="fgrp s2"><label>&#128204; Actual / Current Address (fill this for pending locations)</label><textarea id="f-aa" placeholder="Enter actual current address — leave blank if same as portal address..."></textarea></div>
+      <div class="fgrp"><label>Address Update Status</label>
+        <select id="f-aus"><option value="updated">&#10003; Updated — Matches Portal</option><option value="pending">&#9203; Pending — Needs Update</option><option value="na">— N/A</option></select>
+      </div>
+      <div class="fgrp"><label>Pending Since</label><input type="date" id="f-ps"/></div>
+      <div class="fgrp s2"><label>Remarks</label><textarea id="f-rm" style="min-height:44px" placeholder="Notes, action pending..."></textarea></div>
+    </div>
+    <div class="mfooter">
+      <button class="btn btn-sec" onclick="closeModal('add-modal')">Cancel</button>
+      <button class="btn btn-pri" onclick="saveLoc()">&#128190; Save Location</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-c" id="tc"></div>
+<input type="file" id="pdf-bulk" accept=".pdf" multiple style="display:none" onchange="pdfUpload(event,'cert-res')"/>
+
+<script>
+// ── PDF.js worker ──────────────────────────────────────
+if(typeof pdfjsLib!=='undefined'){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ── DATA STORE ─────────────────────────────────────────
+const DK='jc_v5',CK='jc_certs_v5';
+function ld(){try{return JSON.parse(localStorage.getItem(DK))||[]}catch{return[]}}
+function save(d){localStorage.setItem(DK,JSON.stringify(d))}
+function lc(){try{return JSON.parse(localStorage.getItem(CK))||[]}catch{return[]}}
+function saveCerts(d){localStorage.setItem(CK,JSON.stringify(d))}
+
+// GST state codes
+const SC={
+  '01':'Jammu and Kashmir','02':'Himachal Pradesh','03':'Punjab','04':'Chandigarh',
+  '05':'Uttarakhand','06':'Haryana','07':'Delhi','08':'Rajasthan','09':'Uttar Pradesh',
+  '10':'Bihar','11':'Sikkim','12':'Arunachal Pradesh','13':'Nagaland','14':'Manipur',
+  '15':'Mizoram','16':'Tripura','17':'Meghalaya','18':'Assam','19':'West Bengal',
+  '20':'Jharkhand','21':'Odisha','22':'Chhattisgarh','23':'Madhya Pradesh','24':'Gujarat',
+  '26':'Dadra and NH','27':'Maharashtra','29':'Karnataka','30':'Goa','31':'Lakshadweep',
+  '32':'Kerala','33':'Tamil Nadu','34':'Puducherry','35':'Andaman and Nicobar',
+  '36':'Telangana','37':'Andhra Pradesh','38':'Ladakh'
+};
+function stateFromGSTIN(g){return g&&g.length>=2?SC[g.substring(0,2)]||'':''}
+
+// ── SEED DATA ──────────────────────────────────────────
+const SEED=[
+  {locCode:'JC-03',name:'Jaipur',state:'Rajasthan',city:'Jaipur',gstin:'',regStatus:'registered',regDate:'2025-04-30',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2025-05-01',remarks:'',markRemove:false},
+  {locCode:'JC-04',name:'Ahmedabad',state:'Gujarat',city:'Ahmedabad',gstin:'',regStatus:'registered',regDate:'2022-03-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-04-01',remarks:'',markRemove:false},
+  {locCode:'JC-05',name:'Chennai',state:'Tamil Nadu',city:'Chennai',gstin:'',regStatus:'registered',regDate:'2022-08-05',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-08-10',remarks:'',markRemove:false},
+  {locCode:'JC-06',name:'Pune',state:'Maharashtra',city:'Pune',gstin:'',regStatus:'registered',regDate:'2023-06-07',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2023-06-10',remarks:'',markRemove:false},
+  {locCode:'JC-07',name:'Lucknow',state:'Uttar Pradesh',city:'Lucknow',gstin:'',regStatus:'registered',regDate:'2026-01-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-08',name:'Hyderabad',state:'Telangana',city:'Hyderabad',gstin:'',regStatus:'registered',regDate:'2025-05-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-09',name:'Bhopal',state:'Madhya Pradesh',city:'Bhopal',gstin:'',regStatus:'registered',regDate:'2026-01-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-10',name:'Bengaluru',state:'Karnataka',city:'Bengaluru',gstin:'',regStatus:'registered',regDate:'2022-06-29',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-07-01',remarks:'',markRemove:false},
+  {locCode:'JC-19',name:'Kolkata',state:'West Bengal',city:'Kolkata',gstin:'',regStatus:'registered',regDate:'2025-11-26',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-20',name:'Patna',state:'Bihar',city:'Patna',gstin:'',regStatus:'registered',regDate:'2024-11-22',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-21',name:'Chandigarh',state:'Chandigarh',city:'Chandigarh',gstin:'',regStatus:'registered',regDate:'2025-11-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-23',name:'Nagpur',state:'Maharashtra',city:'Nagpur',gstin:'',regStatus:'registered',regDate:'2024-09-03',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-24',name:'Surat',state:'Gujarat',city:'Surat',gstin:'',regStatus:'registered',regDate:'2025-09-16',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-27',name:'Mumbai HO',state:'Maharashtra',city:'Mumbai',gstin:'',regStatus:'registered',regDate:'2025-12-03',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2025-12-10',remarks:'Head Office',markRemove:false},
+  {locCode:'JC-27 ISD',name:'Mumbai ISD',state:'Maharashtra',city:'Mumbai',gstin:'',regStatus:'registered',regDate:'2025-02-25',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'ISD Registration',markRemove:false},
+  {locCode:'JC-29',name:'Indore',state:'Madhya Pradesh',city:'Indore',gstin:'',regStatus:'registered',regDate:'2025-12-23',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-33',name:'Ahmedabad 2',state:'Gujarat',city:'Ahmedabad',gstin:'',regStatus:'registered',regDate:'2024-05-25',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-36',name:'Coimbatore',state:'Tamil Nadu',city:'Coimbatore',gstin:'',regStatus:'registered',regDate:'2024-11-20',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-37',name:'Vijayawada',state:'Andhra Pradesh',city:'Vijayawada',gstin:'',regStatus:'registered',regDate:'2024-11-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
+  {locCode:'JC-NEW-1',name:'New Location 1',state:'',city:'',gstin:'',regStatus:'in-process',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'In process',markRemove:false},
+  {locCode:'JC-NEW-2',name:'New Location 2',state:'',city:'',gstin:'',regStatus:'in-process',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'In process',markRemove:false},
+  {locCode:'JC-NEW-3',name:'New Location 3',state:'',city:'',gstin:'',regStatus:'not-applied',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'Opening soon',markRemove:false}
+];
+
+let DATA=ld(),CERTS=lc(),editId=null,sk='locCode',sdir=1;
+window._pc={};
+if(!DATA.length){DATA=SEED.map((s,i)=>({...s,id:'l'+Date.now()+'_'+i}));save(DATA);}
+
+// ── UTILS ──────────────────────────────────────────────
+function toast(msg,type='info'){
+  const tc=document.getElementById('tc');
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  t.innerHTML=('<span>'+(type==='success'?'&#10003;':type==='error'?'&#10007;':'&#8505;')+'</span><span>'+msg+'</span>');
+  tc.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function fmtD(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}catch{return d}}
+function dSince(d){if(!d)return null;return Math.floor((Date.now()-new Date(d).getTime())/86400000)}
+function bReg(s){const m={registered:'b-grn','in-process':'b-amb','not-applied':'b-gry'};const l={registered:'Registered','in-process':'In Process','not-applied':'Not Applied'};return'<span class="badge '+(m[s]||'b-gry')+'">'+(l[s]||s)+'</span>'}
+function bABOP(s){const m={open:'b-grn',closed:'b-red',process:'b-amb'};const l={open:'Open',closed:'Closed',process:'In Process'};return'<span class="badge '+(m[s]||'b-gry')+'">'+(l[s]||s)+'</span>'}
+function bAddr(s){if(s==='updated')return'<span class="badge b-grn">&#10003; Updated</span>';if(s==='pending')return'<span class="badge b-amb">&#9203; Pending</span>';return'<span class="badge b-gry">N/A</span>'}
+
+// ── MARKED REMOVE TRACKING ──────────────────────────────
+function markedCount(){return DATA.filter(d=>d.markRemove).length;}
+function updateMarkedUI(){
+  const cnt=markedCount();
+  const btn=document.getElementById('del-marked-btn');
+  const sp=document.getElementById('marked-count');
+  if(cnt>0){btn.style.display='';sp.textContent=cnt;}else{btn.style.display='none';}
+  const ra=document.getElementById('rm-actions');
+  const rc=document.getElementById('rm-cnt');
+  if(ra){if(cnt>0){ra.classList.add('show');rc.textContent=cnt+' location'+(cnt>1?'s':'');}else{ra.classList.remove('show');}}
+}
+function toggleMark(id,v){const d=DATA.find(x=>x.id===id);if(d){d.markRemove=v;save(DATA);updateMarkedUI();renderAll();}}
+function toggleAll(v){DATA.forEach(d=>d.markRemove=v);save(DATA);updateMarkedUI();renderAll();}
+function clearMarked(){DATA.forEach(d=>d.markRemove=false);save(DATA);updateMarkedUI();renderAll();}
+function deleteMarked(){
+  const m=DATA.filter(d=>d.markRemove);
+  if(!m.length){toast('Nothing marked','info');return;}
+  if(!confirm('Remove '+m.length+' marked location(s)? This cannot be undone.'))return;
+  DATA=DATA.filter(d=>!d.markRemove);
+  save(DATA);
+  updateMarkedUI();
+  renderAll();
+  toast(m.length+' location(s) removed','success');
+}
+
+// ── STATS ──────────────────────────────────────────────
+function renderStats(){
+  const t=DATA.length,op=DATA.filter(d=>d.abopStatus==='open').length,
+    cl=DATA.filter(d=>d.abopStatus==='closed').length,pr=DATA.filter(d=>d.abopStatus==='process').length,
+    rg=DATA.filter(d=>d.regStatus==='registered').length,ri=DATA.filter(d=>d.regStatus==='in-process').length,
+    au=DATA.filter(d=>d.addrUpdateStatus==='updated').length,ap=DATA.filter(d=>d.addrUpdateStatus==='pending').length;
+  document.getElementById('stats-bar').innerHTML=
+    '<div class="sc sc-acc"><div class="sn">'+t+'</div><div class="sl">Total Locations</div></div>'+
+    '<div class="sc sc-grn"><div class="sn">'+op+'</div><div class="sl">Open</div><div class="ss">'+(Math.round(op/t*100)||0)+'%</div></div>'+
+    '<div class="sc sc-amb"><div class="sn">'+pr+'</div><div class="sl">In Process</div></div>'+
+    '<div class="sc sc-red"><div class="sn">'+cl+'</div><div class="sl">Closed</div></div>'+
+    '<div class="sc sc-cyn"><div class="sn">'+rg+'</div><div class="sl">GST Registered</div><div class="ss">'+ri+' in process</div></div>'+
+    '<div class="sc sc-grn"><div class="sn">'+au+'</div><div class="sl">Addr Updated</div></div>'+
+    '<div class="sc sc-amb"><div class="sn">'+ap+'</div><div class="sl">Addr Pending</div></div>';
+}
+
+// ── TABS ───────────────────────────────────────────────
+function switchTab(name,el){
+  document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+  if(name==='abop')renderABOP();
+  if(name==='gst'){fillStateFilter();renderGST();}
+  if(name==='bif')renderBIF();
+  if(name==='certs')renderCerts();
+}
+
+// ── ABOP CARDS ─────────────────────────────────────────
+function renderABOP(){
+  const sf=document.getElementById('f-abop-st').value;
+  const gf=document.getElementById('f-abop-gst').value;
+  const q=(document.getElementById('s-abop').value||'').toLowerCase();
+  document.getElementById('abop-ts').textContent='Updated: '+new Date().toLocaleString('en-IN');
+  let items=DATA.filter(d=>{
+    if(sf!=='all'&&d.abopStatus!==sf)return false;
+    if(gf!=='all'&&d.regStatus!==gf)return false;
+    if(q&&!(d.locCode+' '+d.name+' '+d.city+' '+d.state+' '+(d.gstin||'')).toLowerCase().includes(q))return false;
+    return true;
+  });
+  const c=document.getElementById('abop-cards');
+  if(!items.length){c.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ico">&#128269;</div><div class="empty-ttl">No locations found</div></div>';return;}
+  c.innerHTML=items.map(d=>{
+    const sc=d.abopStatus==='open'?'op':d.abopStatus==='closed'?'cl':'pr';
+    const rmCls=d.markRemove?' remove-flag':'';
+    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
+    return '<div class="lcard '+sc+rmCls+'" onclick="editLoc(''+d.id+'')" id="card-'+d.id+'">'+
+      '<div class="rm-tick '+(d.markRemove?'checked':'')+'" onclick="event.stopPropagation();toggleMark(''+d.id+'','+(!d.markRemove)+')" title="Mark for removal">&#10005;</div>'+
+      '<div class="ct"><div><div class="ccode">'+d.locCode+'</div><div class="cname">'+(d.name||'Unnamed')+'</div></div>'+bABOP(d.abopStatus)+'</div>'+
+      '<div class="cbody">'+
+        (d.state?'&#128507; '+(d.city?d.city+', ':'')+d.state:'<i>State not set</i>')+
+        (d.gstin?'<br>GSTIN: <span style="font-family:monospace;color:var(--cyn);font-size:11px">'+d.gstin+'</span>':'<br><span style="color:var(--amb)">&#9888; GSTIN not set — import certificate</span>')+
+        (d.regDate?'<br>Reg: '+fmtD(d.regDate):'')+
+        (days!==null?'<br><span style="color:var(--amb)">&#9203; Addr pending '+days+' days</span>':'')+'</div>'+
+      '<div class="cfoot">'+bReg(d.regStatus)+bAddr(d.addrUpdateStatus)+
+        (d.principalAddr?'<span class="badge b-cyn">&#10003; Addr extracted</span>':'<span class="badge b-gry">No cert data</span>')+
+      '</div></div>';
+  }).join('');
+}
+
+// ── GST REGISTRATION TABLE ─────────────────────────────
+function fillStateFilter(){
+  const states=[...new Set(DATA.map(d=>d.state).filter(Boolean))].sort();
+  const sel=document.getElementById('f-st'),cur=sel.value;
+  sel.innerHTML='<option value="all">All States</option>'+states.map(s=>'<option'+(s===cur?' selected':'')+'>'+s+'</option>').join('');
+}
+function srt(key){if(sk===key)sdir*=-1;else{sk=key;sdir=1;}renderGST();}
+
+function renderGST(){
+  updateMarkedUI();
+  const rf=document.getElementById('f-reg').value,af=document.getElementById('f-addr').value,
+    stf=document.getElementById('f-st').value,q=(document.getElementById('s-gst').value||'').toLowerCase();
+  let items=DATA.filter(d=>{
+    if(rf!=='all'&&d.regStatus!==rf)return false;
+    if(af!=='all'&&d.addrUpdateStatus!==af)return false;
+    if(stf!=='all'&&d.state!==stf)return false;
+    if(q&&!(d.locCode+' '+d.name+' '+(d.gstin||'')+' '+d.city+' '+d.state).toLowerCase().includes(q))return false;
+    return true;
+  });
+  items.sort((a,b)=>{const va=(a[sk]||'').toString().toLowerCase(),vb=(b[sk]||'').toString().toLowerCase();return va<vb?-sdir:va>vb?sdir:0;});
+  document.getElementById('gst-cnt').textContent=items.length+' of '+DATA.length;
+  const tbody=document.getElementById('gst-tbody');
+  if(!items.length){tbody.innerHTML='<tr><td colspan="12"><div class="empty"><div class="empty-ico">&#128203;</div><div class="empty-ttl">No records match filters</div></div></td></tr>';return;}
+  tbody.innerHTML=items.map(d=>{
+    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
+    const pac=d.addrUpdateStatus==='updated'?'ab-m':d.addrUpdateStatus==='pending'?'ab-mm':'';
+    const rmRow=d.markRemove?' class="marked-remove"':'';
+    return '<tr'+rmRow+'>'+
+      '<td><input type="checkbox" class="rm-chk" '+(d.markRemove?'checked':'')+' onchange="toggleMark(''+d.id+'',this.checked)"/></td>'+
+      '<td><strong style="color:var(--acc)">'+d.locCode+'</strong></td>'+
+      '<td>'+(d.name||'—')+'</td>'+
+      '<td>'+(d.state||'—')+'</td>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(d.gstin||'<span style="color:var(--txt3)">—</span>')+'</td>'+
+      '<td>'+bReg(d.regStatus)+'</td>'+
+      '<td>'+fmtD(d.regDate)+'</td>'+
+      '<td><div class="ab '+pac+'" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.principalAddr||'')+'">'+(d.principalAddr||'<em style="color:var(--txt3)">Import certificate to auto-fill</em>')+'</div></td>'+
+      '<td><div style="display:flex;gap:4px;align-items:center">'+
+        '<input type="text" class="sm" value="'+(d.actualAddr||'')+'" style="width:170px" placeholder="Enter actual address..." onchange="updateActualAddr(''+d.id+'',this.value)" title="Enter actual current address"/>'+
+      '</div></td>'+
+      '<td>'+bAddr(d.addrUpdateStatus)+(days!==null?'<div style="font-size:10px;color:var(--amb);margin-top:2px">'+days+' days</div>':'')+'<br>'+
+        '<span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')" title="Mark address as updated">&#10003; Updated</span> '+
+        '<span class="quick-toggle qt-pnd" onclick="quickToggle(''+d.id+'','pending')" title="Mark address as pending">&#9203; Pending</span>'+
+      '</td>'+
+      '<td>'+bABOP(d.abopStatus)+'</td>'+
+      '<td><button class="ibtn" onclick="editLoc(''+d.id+'')" title="Edit">&#9998;</button> <button class="ibtn del" onclick="delLoc(''+d.id+'')" title="Delete">&#128465;</button></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function updateActualAddr(id,val){
+  const d=DATA.find(x=>x.id===id);if(!d)return;
+  d.actualAddr=val.trim();
+  save(DATA);
+  // auto-set status
+  if(d.actualAddr){d.addrUpdateStatus='pending';if(!d.pendingSince)d.pendingSince=new Date().toISOString().slice(0,10);save(DATA);}
+  renderStats();
+}
+
+function quickToggle(id,status){
+  const d=DATA.find(x=>x.id===id);if(!d)return;
+  d.addrUpdateStatus=status;
+  if(status==='pending'&&!d.pendingSince)d.pendingSince=new Date().toISOString().slice(0,10);
+  if(status==='updated'){d.pendingSince='';d.actualAddr=d.actualAddr||d.principalAddr;}
+  save(DATA);renderGST();renderStats();
+  toast(d.locCode+' marked as '+status,'success');
+}
+
+// ── BIFURCATION ────────────────────────────────────────
+function renderBIF(){
+  const reg=DATA.filter(d=>d.regStatus==='registered');
+  const upd=reg.filter(d=>d.addrUpdateStatus==='updated');
+  const pnd=reg.filter(d=>d.addrUpdateStatus==='pending');
+  const na=reg.filter(d=>d.addrUpdateStatus==='na');
+  const pct=reg.length?Math.round(upd.length/reg.length*100):0;
+  document.getElementById('bfu').textContent=upd.length;
+  document.getElementById('bfp').textContent=pnd.length;
+  document.getElementById('bprg').style.width=pct+'%';
+  document.getElementById('bfu2').textContent=upd.length;
+  document.getElementById('bfp2').textContent=pnd.length;
+  document.getElementById('bfu-list').innerHTML=upd.length
+    ?upd.map(d=>'<div class="bif-item"><div style="flex:1"><div class="bif-loc">'+d.locCode+' — '+(d.name||'—')+'</div><div class="bif-gstin">'+(d.gstin||'—')+' &middot; '+(d.state||'—')+'</div></div></div>').join('')
+    :'<div class="bif-item" style="color:var(--txt3)">No updated entries yet</div>';
+  document.getElementById('bfp-list').innerHTML=pnd.length
+    ?pnd.map(d=>{const days=dSince(d.pendingSince);return'<div class="bif-item"><div style="flex:1"><div class="bif-loc">'+d.locCode+' — '+(d.name||'—')+'</div><div class="bif-gstin">'+(d.gstin||'—')+' &middot; '+(d.state||'—')+'</div>'+(days!==null?'<div style="font-size:10px;color:var(--amb)">'+days+' days since '+fmtD(d.pendingSince)+'</div>':'')+'</div><span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')" style="white-space:nowrap">Mark Updated</span></div>';}).join('')
+    :'<div class="bif-item" style="color:var(--txt3)">No pending entries &#127881;</div>';
+  const all=[...upd,...pnd,...na];
+  document.getElementById('bif-tbody').innerHTML=all.map(d=>{
+    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
+    return '<tr>'+
+      '<td><strong style="color:var(--acc)">'+d.locCode+'</strong></td>'+
+      '<td>'+(d.name||'—')+'</td><td>'+(d.state||'—')+'</td>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(d.gstin||'—')+'</td>'+
+      '<td><div class="ab ab-m" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.principalAddr||'')+'">'+(d.principalAddr||'<em>Not imported</em>')+'</div></td>'+
+      '<td><div class="ab" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.actualAddr||'')+'">'+(d.actualAddr||'<em>Not entered</em>')+'</div></td>'+
+      '<td>'+bAddr(d.addrUpdateStatus)+'</td>'+
+      '<td>'+(days!==null?'<span style="color:var(--amb)">'+days+' days</span>':'—')+'</td>'+
+      '<td>'+(d.addrUpdateStatus!=='updated'?'<span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')">Mark Updated</span>':'<span style="color:var(--grn);font-size:11px">&#10003; Done</span>')+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+// ── PDF PARSING ────────────────────────────────────────
+async function parsePDF(file){
+  if(typeof pdfjsLib==='undefined'){return{error:'PDF.js not loaded — check internet',fileName:file.name,id:'e'+Date.now()};}
+  try{
+    const ab=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:ab}).promise;
+    let txt='';
+    for(let p=1;p<=Math.min(pdf.numPages,10);p++){
+      const pg=await pdf.getPage(p);
+      const tc=await pg.getTextContent();
+      // Sort by Y desc, X asc for reading order
+      const its=tc.items.sort((a,b)=>{
+        const yd=Math.round(b.transform[5])-Math.round(a.transform[5]);
+        return Math.abs(yd)>3?yd:a.transform[4]-b.transform[4];
+      });
+      txt+=its.map(i=>i.str).join(' ')+' \n';
+    }
+    return extractData(txt,file.name);
+  }catch(e){return{error:e.message,fileName:file.name,id:'e'+Date.now()};}
+}
+
+function extractData(text,fn){
+  const cl=t=>(t||'').replace(/\s+/g,' ').trim();
+  const d={fileName:fn,id:'c'+Date.now()+'_'+Math.random().toString(36).substr(2,5)};
+
+  // GSTIN — standard 15-char pattern
+  const gm=text.match(/\b([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z])\b/);
+  if(gm){d.gstin=gm[1];d.state=stateFromGSTIN(d.gstin);}
+
+  // Registration date from filename: e.g. _RC30072025
+  const rc=fn.match(/_RC(\d{2})(\d{2})(\d{4})/);
+  if(rc)d.regDate=rc[3]+'-'+rc[2]+'-'+rc[1];
+
+  // Loc code from filename: e.g. "JC - 27"
+  const lm=fn.match(/JC\s*-\s*(\w+)/i);
+  if(lm)d.fileLocCode='JC-'+lm[1].toUpperCase();
+
+  // Legal name
+  const nmPatterns=[
+    /Legal\s+Name\s+of\s+(?:the\s+)?Business\s*[:\-]\s*([A-Z][^\n\r,;]{4,80}?)(?=\s{2,}|\n)/i,
+    /Legal\s+Name\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i,
+    /Name\s+of\s+(?:the\s+)?Business\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i,
+    /Registered\s+Name\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i
+  ];
+  for(const p of nmPatterns){const m=text.match(p);if(m){d.legalName=cl(m[1]);break;}}
+
+  // Trade name
+  const tm=text.match(/Trade\s+Name\s*[:\-]\s*([^\n\r]{2,60})/i);
+  if(tm)d.tradeName=cl(tm[1]);
+
+  // Constitution
+  const cm=text.match(/Constitution\s+(?:of\s+Business)?\s*[:\-]\s*([^\n\r]{3,60})/i)||
+           text.match(/Nature\s+of\s+Business\s*[:\-]\s*([^\n\r]{3,50})/i);
+  if(cm)d.constitution=cl(cm[1]);
+
+  // Valid from / effective date
+  const vm=text.match(/(?:Effective\s+Date|Valid\s+From|Date\s+of\s+Liability)\s*[:\-]\s*(\d{1,2}[\/\-\.\s]\d{1,2}[\/\-\.\s]\d{2,4})/i);
+  if(vm){
+    const dp=vm[1].match(/(\d{1,2})[\/\-\.\s](\d{1,2})[\/\-\.\s](\d{2,4})/);
+    if(dp){const yr=dp[3].length===2?'20'+dp[3]:dp[3];d.validFrom=yr+'-'+dp[2].padStart(2,'0')+'-'+dp[1].padStart(2,'0');}
+  }
+
+  // Principal place of business — key extraction
+  const ppPatterns=[
+    /Principal\s+Place\s+of\s+Business\s*[:\-]\s*([^\n\r]{15,400})/i,
+    /Registered\s+Address\s*[:\-]\s*([^\n\r]{15,300})/i,
+    /Place\s+of\s+Business\s*[:\-]\s*([^\n\r]{15,300})/i
+  ];
+  for(const p of ppPatterns){const m=text.match(p);if(m){d.principalAddr=cl(m[1]);break;}}
+
+  // Additional places
+  const ap=text.match(/Additional\s+Place[s]?\s+of\s+Business\s*[:\-]\s*([^\n\r]{5,300})/i);
+  if(ap)d.additionalPlaces=cl(ap[1]);
+
+  return d;
+}
+
+// ── BULK IMPORT ────────────────────────────────────────
+function bulkImportAll(){
+  document.getElementById('pdf-bulk').click();
+}
+
+async function pdfUpload(event,cid){
+  const files=Array.from(event.target.files);
+  if(!files.length)return;
+  const c=document.getElementById(cid);
+  if(c)c.innerHTML='';
+  window._pc={};
+  const prog=document.getElementById('bulk-prog');
+  if(prog){prog.classList.add('show');}
+  let done=0,matched=0,failed=0;
+  const total=files.length;
+  const log=document.getElementById('bp-log');
+  for(const f of files){
+    document.getElementById('bp-label').textContent='Processing: '+f.name;
+    document.getElementById('bp-frac').textContent=done+' / '+total;
+    document.getElementById('bp-fill').style.width=Math.round(done/total*100)+'%';
+    const data=await parsePDF(f);
+    window._pc[data.id]=data;
+    if(data.error){
+      failed++;
+      if(log)log.innerHTML+='<div style="color:var(--red)">&#10007; '+f.name+' — ERROR</div>';
+    } else {
+      // Auto-match to location by GSTIN state code or location code from filename
+      let linked=null;
+      if(data.gstin){
+        // Try exact GSTIN match first
+        linked=DATA.find(d=>d.gstin&&d.gstin.toUpperCase()===data.gstin.toUpperCase());
+        // Try by filename loc code (e.g. JC-27)
+        if(!linked&&data.fileLocCode){
+          linked=DATA.find(d=>d.locCode.toUpperCase()===data.fileLocCode.toUpperCase())||
+                 DATA.find(d=>d.locCode.toUpperCase().includes(data.fileLocCode.replace('JC-','').trim().toUpperCase()));
+        }
+        // Try by state match (if only 1 location in that state without GSTIN)
+        if(!linked&&data.state){
+          const sameState=DATA.filter(d=>d.state===data.state&&!d.gstin);
+          if(sameState.length===1)linked=sameState[0];
+        }
+      }
+      if(linked){
+        data.linkedLocId=linked.id;
+        if(!linked.principalAddr&&data.principalAddr){linked.principalAddr=data.principalAddr;}
+        if(!linked.gstin&&data.gstin){linked.gstin=data.gstin;}
+        if(!linked.regDate&&data.regDate){linked.regDate=data.regDate;}
+        if(data.state&&!linked.state){linked.state=data.state;}
+        save(DATA);
+        matched++;
+        if(log)log.innerHTML+='<div style="color:var(--grn)">&#10003; '+f.name+' &#8594; '+linked.locCode+'</div>';
+      } else {
+        if(log)log.innerHTML+='<div style="color:var(--amb)">&#9670; '+f.name+' &#8594; No match ('+( data.gstin||'no GSTIN')+')</div>';
+      }
+      // Save cert
+      if(!CERTS.find(c=>c.gstin&&c.gstin===data.gstin)){
+        CERTS.push(data);
+        saveCerts(CERTS);
+      }
+    }
+    done++;
+    if(log)log.scrollTop=log.scrollHeight;
+  }
+  document.getElementById('bp-label').textContent='Done! '+matched+' matched, '+failed+' errors';
+  document.getElementById('bp-frac').textContent=total+' / '+total;
+  document.getElementById('bp-fill').style.width='100%';
+  event.target.value='';
+  renderAll();
+  renderCerts();
+  toast('Imported '+total+' PDFs: '+matched+' auto-matched, '+failed+' errors','success');
+}
+
+function doDrop(event,cid){
+  event.preventDefault();
+  event.currentTarget.classList.remove('dov');
+  const files=Array.from(event.dataTransfer.files).filter(f=>f.type==='application/pdf');
+  if(!files.length)return;
+  // fake event
+  const fakeEv={target:{files:files,value:''}};
+  pdfUpload(fakeEv,cid);
+}
+
+// ── CERT TABLE ─────────────────────────────────────────
+function renderCerts(){
+  const tbody=document.getElementById('cert-tbody');
+  document.getElementById('cert-cnt').textContent=CERTS.length+' certificates';
+  if(!CERTS.length){
+    tbody.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-ico">&#128196;</div><div class="empty-ttl">No certificates imported yet</div><div>Drop all 34 PDFs in the zone above</div></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML=CERTS.map(c=>{
+    const linked=c.linkedLocId?DATA.find(d=>d.id===c.linkedLocId):null;
+    return '<tr>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(c.gstin||'—')+'</td>'+
+      '<td>'+(c.legalName||'—')+'</td>'+
+      '<td>'+(c.state||stateFromGSTIN(c.gstin)||'—')+'</td>'+
+      '<td>'+(c.constitution||'—')+'</td>'+
+      '<td><div style="max-width:240px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(c.principalAddr||'')+'">'+(c.principalAddr||'—')+'</div></td>'+
+      '<td>'+(c.regDate?fmtD(c.regDate):'—')+'</td>'+
+      '<td>'+(linked?'<span class="badge b-grn">'+linked.locCode+'</span>':
+        '<select style="background:var(--sur2);border:1px solid var(--brd);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:11px" onchange="lnkCert(''+c.id+'',this.value)"><option value="">Link...</option>'+DATA.map(d=>'<option value="'+d.id+'">'+d.locCode+(d.name?' — '+d.name:'')+'</option>').join('')+'</select>')+'</td>'+
+      '<td><button class="ibtn del" onclick="delCert(''+c.id+'')" title="Delete">&#128465;</button></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function lnkCert(cid,lid){
+  const c=CERTS.find(x=>x.id===cid);if(!c)return;
+  c.linkedLocId=lid;saveCerts(CERTS);
+  if(lid&&c.principalAddr){const loc=DATA.find(d=>d.id===lid);if(loc&&!loc.principalAddr){loc.principalAddr=c.principalAddr;if(!loc.gstin&&c.gstin)loc.gstin=c.gstin;save(DATA);}}
+  toast('Linked','success');renderCerts();renderAll();
+}
+function delCert(cid){if(!confirm('Delete this certificate?'))return;CERTS=CERTS.filter(c=>c.id!==cid);saveCerts(CERTS);renderCerts();toast('Deleted','info');}
+
+// ── ADD / EDIT LOCATION ────────────────────────────────
+function showAddModal(){editId=null;document.getElementById('m-ttl').textContent='Add New Location';document.getElementById('m-ico').textContent='';clearF();openModal('add-modal');}
+function editLoc(id){
+  editId=id;const d=DATA.find(x=>x.id===id);if(!d)return;
+  document.getElementById('m-ttl').textContent='Edit — '+d.locCode;
+  document.getElementById('m-ico').textContent='';
+  document.getElementById('f-lc').value=d.locCode||'';
+  document.getElementById('f-nm').value=d.name||'';
+  document.getElementById('f-stt').value=d.state||'';
+  document.getElementById('f-cy').value=d.city||'';
+  document.getElementById('f-gn').value=d.gstin||'';
+  document.getElementById('f-rs').value=d.regStatus||'registered';
+  document.getElementById('f-rd').value=d.regDate||'';
+  document.getElementById('f-as').value=d.abopStatus||'open';
+  document.getElementById('f-pa').value=d.principalAddr||'';
+  document.getElementById('f-aa').value=d.actualAddr||'';
+  document.getElementById('f-aus').value=d.addrUpdateStatus||'na';
+  document.getElementById('f-ps').value=d.pendingSince||'';
+  document.getElementById('f-rm').value=d.remarks||'';
+  openModal('add-modal');
+}
+function clearF(){
+  ['f-lc','f-nm','f-cy','f-gn','f-rd','f-pa','f-aa','f-ps','f-rm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('f-stt').value='';
+  document.getElementById('f-rs').value='registered';
+  document.getElementById('f-as').value='open';
+  document.getElementById('f-aus').value='na';
+}
+function saveLoc(){
+  const lc=document.getElementById('f-lc').value.trim();
+  if(!lc){toast('Location code required','error');return;}
+  const obj={
+    locCode:lc,name:document.getElementById('f-nm').value.trim(),
+    state:document.getElementById('f-stt').value,city:document.getElementById('f-cy').value.trim(),
+    gstin:document.getElementById('f-gn').value.trim().toUpperCase(),
+    regStatus:document.getElementById('f-rs').value,regDate:document.getElementById('f-rd').value,
+    abopStatus:document.getElementById('f-as').value,
+    principalAddr:document.getElementById('f-pa').value.trim(),
+    actualAddr:document.getElementById('f-aa').value.trim(),
+    addrUpdateStatus:document.getElementById('f-aus').value,
+    pendingSince:document.getElementById('f-ps').value,
+    remarks:document.getElementById('f-rm').value.trim(),
+    markRemove:false
+  };
+  if(editId){const i=DATA.findIndex(d=>d.id===editId);if(i>=0)DATA[i]={...DATA[i],...obj};}
+  else{obj.id='l'+Date.now();DATA.push(obj);}
+  save(DATA);closeModal('add-modal');renderAll();
+  toast(editId?'Updated':'Added','success');
+}
+function delLoc(id){
+  if(!confirm('Delete this location permanently?'))return;
+  DATA=DATA.filter(d=>d.id!==id);save(DATA);renderAll();toast('Deleted','info');
+}
+
+// ── EXPORT ─────────────────────────────────────────────
+function exportToExcel(){
+  if(typeof XLSX==='undefined'){toast('XLSX library not loaded — check internet','error');return;}
+  const rows=DATA.map(d=>({'Loc Code':d.locCode,'Name':d.name,'State':d.state,'City':d.city,'GSTIN':d.gstin,'Reg Status':d.regStatus,'Reg Date':d.regDate,'ABOP Status':d.abopStatus,'GST Portal Address':d.principalAddr,'Actual Address':d.actualAddr,'Addr Update':d.addrUpdateStatus,'Pending Since':d.pendingSince,'Marked Remove':d.markRemove?'YES':'','Remarks':d.remarks}));
+  const ws=XLSX.utils.json_to_sheet(rows);ws['!cols']=[10,22,18,16,20,14,12,14,40,40,14,12,8,30].map(w=>({wch:w}));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'GST-ABOP');
+  const brows=DATA.filter(d=>d.regStatus==='registered').map(d=>({'Loc':d.locCode,'Name':d.name,'GSTIN':d.gstin,'State':d.state,'Portal Addr':d.principalAddr,'Actual Addr':d.actualAddr,'Status':d.addrUpdateStatus,'Days Pending':d.addrUpdateStatus==='pending'&&d.pendingSince?dSince(d.pendingSince)||'':''}));
+  const ws2=XLSX.utils.json_to_sheet(brows);ws2['!cols']=[10,22,20,18,40,40,14,12].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,ws2,'Address-Bifurcation');
+  XLSX.writeFile(wb,'JC_GST_ABOP_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  toast('Excel exported','success');
+}
+
+// ── KEYBOARD + INIT ────────────────────────────────────
+document.querySelectorAll('.modal-ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));
+  if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();showAddModal();}
+});
+
+function renderAll(){
+  renderStats();
+  const a=document.querySelector('.tc.active')?.id;
+  if(a==='tab-abop')renderABOP();
+  if(a==='tab-gst'){fillStateFilter();renderGST();}
+  if(a==='tab-bif')renderBIF();
+  if(a==='tab-certs')renderCerts();
+  updateMarkedUI();
+}
+renderAll();
+</script>
+</body>
+</html>

@@ -8,6 +8,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/tools",
+    "/universe",
+    "/pricing",
     "/insights",
     "/glossary",
     "/updates",
@@ -19,11 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${domain}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : route === "/tools" ? 0.95 : 0.8,
+    priority: route === "" ? 1.0 : route === "/tools" ? 0.95 : route === "/universe" ? 0.92 : route === "/pricing" ? 0.9 : 0.8,
   }));
 
   // Dynamic calculator slugs
   const calculatorSlugs = [
+    "notice-drafting-studio",
     "invoice-to-tally",
     "gst-late-fee-calculator",
     "gst-interest-calculator",

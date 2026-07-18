@@ -5,6 +5,7 @@ import { SessionProvider } from "@/components/session-provider";
 import { RecoveryForward } from "@/components/recovery-forward";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
+import { jsonLdString } from "@/lib/json-ld";
 import "./globals.css";
 
 const inter = Inter({
@@ -71,7 +72,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: jsonLdString({
               "@context": "https://schema.org",
               "@graph": [
                 {

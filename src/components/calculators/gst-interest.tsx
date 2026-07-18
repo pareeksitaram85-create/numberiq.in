@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Calculator, Copy, Check, Printer, Shield, Upload, Download, FileSpreadsheet, AlertTriangle, RefreshCw } from "lucide-react";
+import { calculateGstInterest, GstInterestResult } from "@/lib/calculator-math";
 
 export function GSTInterestCalculator() {
   const [activeTab, setActiveTab] = useState<"single" | "bulk">("single");
@@ -14,40 +15,8 @@ export function GSTInterestCalculator() {
   const [copied, setCopied] = useState(false);
 
   // Bulk Mode State
-  const [bulkRows, setBulkRows] = useState<any[]>([]);
+  const [bulkRows, setBulkRows] = useState<(GstInterestResult & { index: number; tax: string; dueDate: string; paymentDate: string })[]>([]);
   const [bulkError, setBulkError] = useState("");
-
-  const calculateInterestVal = (taxAmtStr: string, dueDateStr: string, paymentDateStr: string, rateStr: string) => {
-    const amt = parseFloat(taxAmtStr);
-    const intRate = parseFloat(rateStr);
-
-    if (isNaN(amt) || amt <= 0 || !dueDateStr || !paymentDateStr) return null;
-
-    const due = new Date(dueDateStr);
-    const paid = new Date(paymentDateStr);
-
-    due.setHours(0,0,0,0);
-    paid.setHours(0,0,0,0);
-
-    const diffTime = paid.getTime() - due.getTime();
-    const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    if (days <= 0) {
-      return { amt, rate: intRate, days: 0, interest: 0, totalPayable: amt, isDelayed: false };
-    }
-
-    const interest = (amt * intRate * days) / (100 * 365);
-    const totalPayable = amt + interest;
-
-    return {
-      amt,
-      rate: intRate,
-      days,
-      interest,
-      totalPayable,
-      isDelayed: true
-    };
-  };
 
   // Derive single calculation output reactively
   let result = null;
@@ -59,7 +28,7 @@ export function GSTInterestCalculator() {
   } else if (!dueDate || !paymentDate) {
     singleError = "Please select both the due date and the payment date.";
   } else if (taxAmount !== "") {
-    result = calculateInterestVal(String(taxAmount), dueDate, paymentDate, rate);
+    result = calculateGstInterest(String(taxAmount), dueDate, paymentDate, rate);
   }
 
   // CSV Template Download
@@ -90,7 +59,7 @@ export function GSTInterestCalculator() {
           return;
         }
 
-        const calculated: any[] = [];
+        const calculated: (GstInterestResult & { index: number; tax: string; dueDate: string; paymentDate: string })[] = [];
         for (let i = 1; i < lines.length; i++) {
           const cols = lines[i].split(",");
           if (cols.length < 3) continue;
@@ -100,7 +69,7 @@ export function GSTInterestCalculator() {
           const paid = cols[2]?.trim();
           const rateVal = cols[3]?.trim() || "18";
 
-          const interestRes = calculateInterestVal(tax, due, paid, rateVal);
+          const interestRes = calculateGstInterest(tax, due, paid, rateVal);
           if (interestRes) {
             calculated.push({
               index: i,
@@ -113,7 +82,7 @@ export function GSTInterestCalculator() {
         }
 
         setBulkRows(calculated);
-      } catch (err) {
+      } catch {
         setBulkError("Failed to parse CSV file. Please use the template.");
       }
     };

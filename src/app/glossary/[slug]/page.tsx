@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { getTermBySlug } from "@/lib/content";
 import Link from "next/link";
 import { ChevronRight, Shield, BookOpen } from "lucide-react";
+import { jsonLdString } from "@/lib/json-ld";
 
 interface PageProps {
   params: Promise<{
@@ -69,7 +70,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdString({
             "@context": "https://schema.org",
             "@graph": [
               {

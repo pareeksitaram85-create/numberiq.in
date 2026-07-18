@@ -219,7 +219,63 @@ body.lg-locked .layout{display:none!important}
     var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storage:window.sessionStorage,persistSession:true,autoRefreshToken:true}});
     window.sbClient=sb;
     var gate=document.getElementById("authGate");
-    function unlock(){ document.body.classList.remove("lg-locked"); gate.style.opacity="0"; gate.style.pointerEvents="none"; setTimeout(function(){ gate.style.display="none"; },360); }
+    function addLogout(email) {
+      if (document.getElementById("lgLogout")) return;
+      var b = document.createElement("button"); b.id = "lgLogout";
+      b.textContent = email + " · Logout";
+      b.onclick = function() { sb.auth.signOut().then(function() { location.reload(); }); };
+      b.style.cssText = "position: fixed; right: 14px; bottom: 14px; z-index: 9999; font-size: 11px; color: #8b93a7; background: rgba(10,12,20,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif;";
+      b.onmouseover = function() { b.style.color = '#fff'; };
+      b.onmouseout = function() { b.style.color = '#8b93a7'; };
+      document.body.appendChild(b);
+    }
+    function showAccessDenied(msg) {
+      document.getElementById("agSub").textContent = "Access Restricted";
+      document.getElementById("agForm").style.display = "block";
+      var er = document.getElementById("agErr");
+      er.style.display = "block";
+      er.textContent = msg;
+      sb.auth.signOut();
+    }
+    function checkAccess(email) {
+      var lowerEmail = (email || "").toLowerCase();
+      if (lowerEmail === "sitaram.pareek@igp.com") {
+        unlock(email);
+        return;
+      }
+      sb.from("user_access")
+        .select("is_admin, allowed_modules")
+        .eq("email", lowerEmail)
+        .maybeSingle()
+        .then(function (res) {
+          if (res.error) {
+            console.error("Access query error:", res.error);
+            showAccessDenied("Error checking access permissions. Please contact administrator.");
+            return;
+          }
+          if (!res.data) {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+            return;
+          }
+          var data = res.data;
+          if (data.is_admin || (data.allowed_modules && data.allowed_modules.indexOf("gst-reco-studio") !== -1)) {
+            unlock(email);
+          } else {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+          }
+        })
+        .catch(function (err) {
+          console.error("Access check failed:", err);
+          showAccessDenied("Error checking access permissions. Please contact administrator.");
+        });
+    }
+    function unlock(email){ 
+      document.body.classList.remove("lg-locked"); 
+      gate.style.opacity="0"; 
+      gate.style.pointerEvents="none"; 
+      setTimeout(function(){ gate.style.display="none"; },360); 
+      if (email) addLogout(email);
+    }
     function showForm(){ document.getElementById("agSub").textContent="Sign in to access GST Automations"; document.getElementById("agForm").style.display="block"; setTimeout(function(){ var el=document.getElementById("agEmail"); if(el) el.focus(); },120); }
     function attempt(){
       var email=(document.getElementById("agEmail").value||"").trim();
@@ -230,12 +286,12 @@ body.lg-locked .layout{display:none!important}
       sb.auth.signInWithPassword({email:email,password:pass}).then(function(res){
         btn.disabled=false; btn.textContent="Sign In";
         if(res.error){ var er=document.getElementById("agErr"); er.style.display="block"; er.textContent=(res.error.message==="Invalid login credentials")?"Invalid email or password. Please try again.":res.error.message; document.getElementById("agPass").value=""; }
-        else { unlock(); }
+        else { checkAccess(res.data.user.email); }
       });
     }
     document.getElementById("agBtn").addEventListener("click",attempt);
     gate.addEventListener("keydown",function(e){ if(e.key==="Enter") attempt(); });
-    sb.auth.getSession().then(function(res){ if(res.data&&res.data.session){ unlock(); } else { showForm(); } });
+    sb.auth.getSession().then(function(res){ if(res.data&&res.data.session){ checkAccess(res.data.session.user.email); } else { showForm(); } });
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",start); else start();
 })();

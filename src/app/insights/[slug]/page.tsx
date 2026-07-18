@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ChevronRight, Calendar, User, Clock, Share2 } from "lucide-react";
 import { PrintButton } from "@/components/print-button";
 import { AdLeaderboard, AdInArticle } from "@/components/adsense";
+import { jsonLdString } from "@/lib/json-ld";
 
 interface PageProps {
   params: Promise<{
@@ -165,7 +166,7 @@ export default async function InsightArticlePage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdString({
             "@context": "https://schema.org",
             "@graph": schemaGraph
           })

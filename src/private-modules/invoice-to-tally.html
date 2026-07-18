@@ -109,6 +109,46 @@
       b.onclick = window.moduleLogout;
       document.body.appendChild(b);
     }
+    function showAccessDenied(msg) {
+      document.getElementById("lgSub").textContent = "Access Restricted";
+      document.getElementById("lgForm").style.display = "block";
+      var er = document.getElementById("lgErr");
+      er.style.display = "block";
+      er.textContent = msg;
+      sb.auth.signOut();
+    }
+    function checkAccess(email) {
+      var lowerEmail = (email || "").toLowerCase();
+      if (lowerEmail === "sitaram.pareek@igp.com") {
+        unlock(email);
+        return;
+      }
+      sb.from("user_access")
+        .select("is_admin, allowed_modules")
+        .eq("email", lowerEmail)
+        .maybeSingle()
+        .then(function (res) {
+          if (res.error) {
+            console.error("Access query error:", res.error);
+            showAccessDenied("Error checking access permissions. Please contact administrator.");
+            return;
+          }
+          if (!res.data) {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+            return;
+          }
+          var data = res.data;
+          if (data.is_admin || (data.allowed_modules && data.allowed_modules.indexOf("invoice-to-tally") !== -1)) {
+            unlock(email);
+          } else {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+          }
+        })
+        .catch(function (err) {
+          console.error("Access check failed:", err);
+          showAccessDenied("Error checking access permissions. Please contact administrator.");
+        });
+    }
     function unlock(email) {
       document.body.classList.remove("lg-locked");
       if (gate.parentNode) gate.remove();
@@ -134,7 +174,7 @@
           er.textContent = (res.error.message === "Invalid login credentials") ? "Invalid email or password. Please try again." : res.error.message;
           document.getElementById("lgPin").value = "";
         } else {
-          unlock(res.data.user.email);
+          checkAccess(res.data.user.email);
         }
       });
     }
@@ -181,7 +221,7 @@
     sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") { isRecovery = true; showReset(); } });
     sb.auth.getSession().then(function (res) {
       if (isRecovery) { showReset(); }
-      else if (res.data && res.data.session) { unlock(res.data.session.user.email); }
+      else if (res.data && res.data.session) { checkAccess(res.data.session.user.email); }
       else { showForm(); }
     });
   })();

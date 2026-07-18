@@ -1,19 +1,22 @@
 import type { NextConfig } from "next";
 
-const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    img-src 'self' blob: data: https://*.google-analytics.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
-    font-src 'self' https://fonts.gstatic.com;
-    connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.supabase.co https://api.anthropic.com https://api.ocr.space https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
-    worker-src 'self' blob:;
-    frame-src 'self' https://googleads.g.doubleclick.net https://bid.g.doubleclick.net;
-    upgrade-insecure-requests;
-`.replace(/\s{2,}/g, ' ').trim();
-
 const nextConfig: NextConfig = {
   async headers() {
+    const isProd = process.env.NODE_ENV === "production";
+    const scriptSrc = `script-src 'self' ${isProd ? "" : "'unsafe-eval'"} 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com;`;
+
+    const cspHeader = `
+        default-src 'self';
+        ${scriptSrc}
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        img-src 'self' blob: data: https://*.google-analytics.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.supabase.co https://api.anthropic.com https://api.ocr.space https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
+        worker-src 'self' blob:;
+        frame-src 'self' https://googleads.g.doubleclick.net https://bid.g.doubleclick.net;
+        upgrade-insecure-requests;
+    `.replace(/\s{2,}/g, ' ').trim();
+
     return [
       {
         source: "/(.*)",
@@ -91,6 +94,10 @@ const nextConfig: NextConfig = {
       // caused an infinite loop (Launch button redirected back to wrapper page).
       { source: "/glossary/:term.html", destination: "/glossary/:term", permanent: true },
       { source: "/insights/:slug.html", destination: "/insights/:slug", permanent: true },
+
+      // 4a. Specific root-level tool pages (must be before catch-all /:slug.html)
+      { source: "/universe.html", destination: "/universe", permanent: true },
+      { source: "/tools/universe", destination: "/universe", permanent: true },
 
       // 4. Catch-all for root level articles (to map to /insights/slug)
       { source: "/:slug.html", destination: "/insights/:slug", permanent: true },

@@ -26,12 +26,12 @@ export default function SignInPage() {
       });
 
       if (res?.error) {
-        setError("Invalid credentials. Try email: admin@numberiq.in, password: admin123");
+        setError("Invalid email or password.");
       } else {
         router.push("/dashboard");
         router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setLoading(false);
@@ -60,7 +60,7 @@ export default function SignInPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@numberiq.in"
+              placeholder="you@yourfirm.com"
               className="bg-white/5 border border-white/10 focus:border-[#4f7cff] focus:outline-none rounded-xl px-4 py-2.5 text-xs text-white placeholder-[#737c92] transition-colors"
               required
             />
@@ -120,9 +120,8 @@ export default function SignInPage() {
         <div className="border border-white/5 bg-[#080a12]/50 p-4 rounded-xl flex items-start gap-2 text-[10px] text-[#737c92] leading-normal">
           <Shield size={14} className="text-[#4f7cff] mt-0.5 flex-shrink-0" />
           <span>
-            Testing? Use the demo credentials:<br />
-            <b>Email:</b> admin@numberiq.in<br />
-            <b>Password:</b> admin123
+            Access is restricted to authorized NumberIQ accounts. Contact the
+            administrator if you need credentials.
           </span>
         </div>
       </div>

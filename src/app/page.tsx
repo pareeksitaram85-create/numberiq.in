@@ -5,12 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { NewsTicker } from "@/components/news-ticker";
 import { Footer } from "@/components/footer";
-import dynamic from "next/dynamic";
 
-const ThreeDSphere = dynamic(
-  () => import("@/components/three-d-sphere").then(m => m.ThreeDSphere),
-  { ssr: false, loading: () => <div className="w-full h-[380px] sm:h-[480px]" /> }
-);
 import {
   motion,
   useMotionValue,
@@ -173,9 +168,55 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-5 h-[400px] lg:h-auto w-full relative flex items-center justify-center"
+            className="lg:col-span-5 h-[440px] lg:h-[520px] w-full relative flex items-center justify-center"
           >
-            <ThreeDSphere />
+            {/* Outer glow rings */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[420px] h-[420px] rounded-full border border-[#00f5ff]/10 animate-[spin_18s_linear_infinite]" />
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[380px] h-[380px] rounded-full border border-[#cc88ff]/15 animate-[spin_12s_linear_infinite_reverse]" />
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[340px] h-[340px] rounded-full border border-[#00ffb3]/10 animate-[spin_22s_linear_infinite]" />
+            </div>
+
+            {/* Multi-color ambient glow */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[360px] h-[360px] rounded-full bg-gradient-to-br from-[#00f5ff]/12 via-[#cc88ff]/8 to-[#00ffb3]/10 blur-3xl" />
+            </div>
+
+            {/* Universe iframe — circular clip */}
+            <div
+              className="relative rounded-full overflow-hidden shadow-[0_0_80px_rgba(0,245,255,0.18),0_0_40px_rgba(204,136,255,0.15),inset_0_0_0_1px_rgba(0,245,255,0.2)]"
+              style={{ width: 330, height: 330 }}
+            >
+              <iframe
+                src="/tools/universe.html?embed=true"
+                title="NumberIQ Tax Intelligence Universe"
+                className="border-0"
+                style={{
+                  width: 660,
+                  height: 660,
+                  transform: "scale(0.5)",
+                  transformOrigin: "0 0",
+                  pointerEvents: "none",
+                  display: "block",
+                }}
+                loading="lazy"
+                scrolling="no"
+              />
+            </div>
+
+            {/* Explore Universe button */}
+            <a
+              href="/universe"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#00f5ff] border border-[#00f5ff]/25 bg-[#00f5ff]/8 hover:bg-[#00f5ff]/15 hover:border-[#00f5ff]/50 transition-all shadow-[0_0_20px_rgba(0,245,255,0.1)] backdrop-blur-sm"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00f5ff] animate-pulse" />
+              Explore Universe
+            </a>
           </motion.div>
         </section>
 
@@ -211,7 +252,7 @@ export default function Home() {
                     <p className="text-xs text-[#737c92] leading-relaxed">50+ calculators — GST interest, TDS, capital gains, MSME lookup.</p>
                   </div>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#4f7cff]/60 group-hover:text-[#4f7cff] transition-colors mt-4">
-                    Open Terminal <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+                    Open Tools <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>

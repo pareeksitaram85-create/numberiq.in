@@ -33,6 +33,13 @@ export const metadata: Metadata = {
 
 const toolsList = [
   {
+    slug: "notice-drafting-studio",
+    name: "AI Notice & Appeal Drafting Studio",
+    desc: "Draft professional, legally cited replies to GST and Income Tax notices (DRC-01, 142(1), 143(2)) in seconds.",
+    category: "mis",
+    featured: true
+  },
+  {
     slug: "invoice-to-tally",
     name: "Invoice to Tally Converter",
     desc: "Upload PDF/scanned invoices, review AI-extracted data, and download Tally-ready XML vouchers + ledger masters.",

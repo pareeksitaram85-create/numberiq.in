@@ -11,18 +11,20 @@
      A deliberately single-theme piece: an infinite dark-space
      environment. Committed dark cosmos, both theme states identical. */
   :root{
-    --bg:#04060f;
-    --ink:#e8eefc;
-    --ink-dim:#8b97b8;
-    --cyan:#22d3ee;
-    --emerald:#34d399;
-    --gold:#f5b942;
-    --violet:#a78bfa;
-    --sapphire:#3f8cff;
-    --glass:rgba(10,16,36,.58);
-    --glass-2:rgba(6,10,26,.42);
-    --edge:rgba(120,180,255,.16);
-    --edge-hot:rgba(94,234,212,.45);
+    --bg:#020510;
+    --ink:#f0f6ff;
+    --ink-dim:#a8b8d8;
+    --cyan:#00f5ff;
+    --emerald:#00ffb3;
+    --gold:#ffcc00;
+    --violet:#cc88ff;
+    --sapphire:#4d9fff;
+    --rose:#ff6eb4;
+    --orange:#ff8c42;
+    --glass:rgba(8,14,40,.72);
+    --glass-2:rgba(4,8,24,.55);
+    --edge:rgba(140,200,255,.28);
+    --edge-hot:rgba(0,255,200,.6);
     --mono:ui-monospace,'Cascadia Mono','Segoe UI Mono',Consolas,monospace;
     --sans:'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,sans-serif;
     --ease-prem:cubic-bezier(.4,0,.2,1);
@@ -40,9 +42,9 @@
   .glass{
     background:linear-gradient(158deg,var(--glass),var(--glass-2));
     border:1px solid var(--edge);
-    backdrop-filter:blur(16px) saturate(1.5);
-    -webkit-backdrop-filter:blur(16px) saturate(1.5);
-    box-shadow:0 18px 50px -18px rgba(0,0,0,.75), inset 0 1px 0 rgba(160,210,255,.09);
+    backdrop-filter:blur(20px) saturate(2);
+    -webkit-backdrop-filter:blur(20px) saturate(2);
+    box-shadow:0 18px 50px -18px rgba(0,0,0,.85), inset 0 1px 0 rgba(160,220,255,.18), 0 0 30px rgba(0,200,255,.06);
     clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
     position:relative;
   }
@@ -206,7 +208,18 @@
     #result{right:12px;left:12px;width:auto;top:64px}
     .panel{width:230px}
   }
+  body.embedded #ui {
+    display: none !important;
+  }
 </style>
+<script>
+  if (window.location.search.includes('embed=true')) {
+    document.documentElement.classList.add('embedded');
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('embedded');
+    });
+  }
+</script>
 </head>
 <body>
 
@@ -328,13 +341,13 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------------- knowledge data ---------------- */
 const RINGS = [
-  { name:'Core Statutes',  r: 74, speed: 0.150, tx: 0.52, tz: 0.20, col:'#f5b942' },
-  { name:'Indirect Tax',   r:112, speed:-0.115, tx:-0.66, tz: 0.44, col:'#3f8cff' },
-  { name:'Direct Tax',     r:150, speed: 0.095, tx: 1.02, tz:-0.30, col:'#34d399' },
-  { name:'International',  r:188, speed:-0.080, tx:-0.34, tz:-0.86, col:'#a78bfa' },
-  { name:'Jurisprudence',  r:224, speed: 0.066, tx: 0.86, tz: 0.76, col:'#dbe6f8' },
-  { name:'Compliance Ops', r:258, speed:-0.052, tx:-1.14, tz: 0.12, col:'#22d3ee' },
-  { name:'Intelligence',   r:294, speed: 0.042, tx: 0.26, tz:-0.56, col:'#f0abfc' },
+  { name:'Core Statutes',  r: 74, speed: 0.150, tx: 0.52, tz: 0.20, col:'#ffcc00' },
+  { name:'Indirect Tax',   r:112, speed:-0.115, tx:-0.66, tz: 0.44, col:'#4d9fff' },
+  { name:'Direct Tax',     r:150, speed: 0.095, tx: 1.02, tz:-0.30, col:'#00ffb3' },
+  { name:'International',  r:188, speed:-0.080, tx:-0.34, tz:-0.86, col:'#cc88ff' },
+  { name:'Jurisprudence',  r:224, speed: 0.066, tx: 0.86, tz: 0.76, col:'#ff6eb4' },
+  { name:'Compliance Ops', r:258, speed:-0.052, tx:-1.14, tz: 0.12, col:'#00f5ff' },
+  { name:'Intelligence',   r:294, speed: 0.042, tx: 0.26, tz:-0.56, col:'#ff8c42' },
 ];
 RINGS.forEach(r => {
   r.cx = Math.cos(r.tx); r.sx = Math.sin(r.tx);
@@ -562,8 +575,9 @@ function nebulaSprite(seedCols) {
   }
   return c;
 }
-const nebulaA = nebulaSprite([[38,18,84],[16,32,92],[10,46,86],[52,14,74]]);
-const nebulaB = nebulaSprite([[10,60,80],[16,72,60],[34,22,96],[8,40,90]]);
+const nebulaA = nebulaSprite([[80,20,160],[20,60,200],[10,120,180],[100,20,140],[0,80,200]]);
+const nebulaB = nebulaSprite([[10,150,180],[0,180,140],[60,30,200],[20,100,220],[180,60,100]]);
+const nebulaC = nebulaSprite([[200,80,20],[180,140,0],[220,100,40],[160,60,200],[100,200,100]]);
 const noiseC = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const g = c.getContext('2d'), im = g.createImageData(128, 128);
@@ -603,10 +617,11 @@ const starLayers = [];
   });
   starLayers.push({ par, arr });
 });
+const DUST_COLS = ['#00f5ff','#cc88ff','#00ffb3','#ffcc00','#ff6eb4','#4d9fff','#ff8c42','#b4e0ff'];
 const dust = [];
-for (let i = 0; i < 150; i++) dust.push({
+for (let i = 0; i < 220; i++) dust.push({
   x: Math.random(), y: Math.random(), vx: rnd(-.006, .006), vy: rnd(-.004, .004),
-  sz: rnd(.8, 2.4), a: rnd(.03, .1), par: rnd(.2, .9), hue: Math.random() < .5 ? '#7dd3fc' : '#c4b5fd',
+  sz: rnd(.9, 2.8), a: rnd(.05, .18), par: rnd(.2, .9), hue: DUST_COLS[i % DUST_COLS.length],
 });
 let comet = null, nextComet = 6;
 
@@ -1084,29 +1099,32 @@ function spawnRipple(x, y, col) {
 
 /* ---------------- drawing ---------------- */
 function drawBackdrop(dt, tier) {
-  ctx.fillStyle = '#04060f';
+  ctx.fillStyle = '#020510';
   ctx.fillRect(0, 0, W, H);
   const px = cam.yaw * 40, py = cam.pitch * 30;
-  // nebula (two hue plates cross-fading = slow aurora)
+  // nebula (three hue plates cross-fading = vivid aurora)
   ctx.globalCompositeOperation = 'screen';
-  const nebA = .8 + .2 * Math.sin(T * .05);
-  const size = Math.max(W, H) * 1.45;
-  ctx.globalAlpha = .9 * nebA;
+  const nebA = 0.9 + 0.1 * Math.sin(T * .05);
+  const nebB = 0.85 + 0.15 * Math.cos(T * .037);
+  const size = Math.max(W, H) * 1.55;
+  ctx.globalAlpha = 1.0 * nebA;
   ctx.drawImage(nebulaA, W/2 - size/2 - px * .4 + Math.sin(T * .013) * 30, H/2 - size/2 - py * .4, size, size);
-  ctx.globalAlpha = .75 * (1.1 - nebA);
+  ctx.globalAlpha = 0.9 * (1.1 - nebA);
   ctx.drawImage(nebulaB, W/2 - size/2 + px * .25 + Math.cos(T * .01) * 40, H/2 - size/2 + py * .3 - 40, size, size);
+  ctx.globalAlpha = 0.6 * nebB;
+  ctx.drawImage(nebulaC, W/2 - size/2 + Math.sin(T * .019) * 50, H/2 - size/2 + Math.cos(T * .023) * 30, size * 0.85, size * 0.85);
   ctx.globalAlpha = 1;
-  ctx.globalCompositeOperation = 'lighter';
-  // stars
+  // colorful stars
+  const STAR_COLS = ['#ffffff','#b4e0ff','#ffd0e8','#d4b4ff','#b4ffe0','#fffdb4','#ff9eb4','#00f5ff'];
   for (const layer of starLayers) {
     const ox = -cam.yaw * layer.par * 130, oy = -cam.pitch * layer.par * 90;
-    for (const s of layer.arr) {
+    for (const [si, s] of layer.arr.entries()) {
       const x = ((s.x * W * 1.6 + ox) % (W * 1.6) + W * 1.6) % (W * 1.6) - W * .3;
       const y = ((s.y * H * 1.6 + oy) % (H * 1.6) + H * 1.6) % (H * 1.6) - H * .3;
       if (x < -4 || x > W + 4 || y < -4 || y > H + 4) continue;
-      const a = (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(T * s.tw + s.ph))) * .8;
+      const a = (0.45 + 0.55 * (0.5 + 0.5 * Math.sin(T * s.tw + s.ph))) * 0.95;
       ctx.globalAlpha = a;
-      ctx.fillStyle = s.warm ? '#ffe8c4' : '#dbeafe';
+      ctx.fillStyle = s.warm ? '#ffe8c4' : STAR_COLS[si % STAR_COLS.length];
       ctx.fillRect(x, y, s.sz, s.sz);
     }
   }

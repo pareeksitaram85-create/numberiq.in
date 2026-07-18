@@ -6,7 +6,7 @@ export interface ApiError {
   retryAfter?: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: ApiError;
@@ -43,8 +43,22 @@ export function createErrorResponse(
 // Simple in-memory rate limiter using Map (survives requests inside same container)
 const ipRequestCounts = new Map<string, { count: number; resetTime: number }>();
 
+// Evict expired entries periodically so the map cannot grow without bound
+// on long-lived containers (one entry per unique client IP otherwise).
+const PRUNE_INTERVAL_MS = 5 * 60 * 1000;
+let lastPruneAt = 0;
+
+function pruneExpiredEntries(now: number) {
+  if (now - lastPruneAt < PRUNE_INTERVAL_MS) return;
+  lastPruneAt = now;
+  for (const [ip, state] of ipRequestCounts) {
+    if (now > state.resetTime) ipRequestCounts.delete(ip);
+  }
+}
+
 export function checkRateLimit(ip: string, limit: number = 20, windowMs: number = 60000) {
   const now = Date.now();
+  pruneExpiredEntries(now);
   const state = ipRequestCounts.get(ip);
 
   // If no entry or window has expired, reset

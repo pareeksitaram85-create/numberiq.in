@@ -30,7 +30,7 @@ deploy/
 │   │   ├── sitemap.ts            # Dynamic search engine index generator
 │   │   └── robots.ts             # Dynamic crawler instructions
 │   ├── components/               # Shareable React components & UI blocks
-│   └── lib/                      # Core helpers (content loading, DB instance)
+│   └── lib/                      # Core helpers (content loading, DB instance, math)
 ```
 
 ---
@@ -39,9 +39,40 @@ deploy/
 
 NumberIQ utilizes a **hybrid content loader** (`src/lib/content.ts`) that guarantees 100% uptime:
 1. **Primary**: Queries live PostgreSQL databases via Prisma client.
-2. **Secondary Fallback**: If the database is offline or unconfigured, it automatically fallbacks to reading compiled articles and terms from `prisma/seedData.json`.
+2. **Secondary Fallback**: If the database is offline or unconfigured, it automatically falls back to reading compiled articles and terms from `prisma/seedData.json`.
 
 This allows the application to compile, build, and run immediately on Vercel Hobby tier without requiring active database connections.
+
+---
+
+## ⚡ Build & Seeding Optimizations
+
+During `next build`, Prisma seeding runs automatically to ensure database records exist. To prevent slow build compilation and redundant operations:
+1. **Smart Seeding Check**: The seeder (`prisma/seed.js`) checks database `Term` and `Post` counts first. If they match the seed payload count, upserts are skipped, saving 150+ network roundtrips.
+2. **Override**: To force-overwrite the database, set the environment variable:
+   ```env
+   FORCE_SEED="true"
+   ```
+
+---
+
+## 🛡️ Security Headers & CSP
+
+* **Dynamic CSP**: Strict Content-Security-Policy (CSP) headers are configured inside `next.config.ts`. In production mode, `'unsafe-eval'` is stripped automatically from `script-src` to prevent cross-site scripting vulnerabilities, while preserved in local development for Fast Refresh compatibility.
+* **Security Standards**: Employs `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Strict-Transport-Security`.
+
+---
+
+## 🧪 Unit Testing Framework
+
+NumberIQ implements **Vitest** for isolated unit testing of financial calculations:
+* Core calculation modules (GST Section 50 Interest, Section 47 Late Fee, Section 206C(1G) LRS TCS, Property gains with Section 50C SDV indexation rules, Equity grandfathering, and Mutual Funds) reside in `src/lib/calculator-math.ts`.
+* Tests are executed in seconds with zero database or interface overhead.
+
+Run tests locally:
+```bash
+npm run test
+```
 
 ---
 
@@ -85,17 +116,12 @@ npm run build
 
 ---
 
-## 🔐 Credentials & Demo Testing
+## 🚀 Production Deployment Checklist (Vercel)
 
-For sandbox environments, utilize the built-in NextAuth test credentials:
-- **Username**: `admin@numberiq.in`
-- **Password**: `admin123`
-- **Role**: `ADMIN` (unclocks access to `/admin` dashboard)
+Before deploying to Vercel production, configure the following environment variables in Vercel settings to enable admin access and form submissions:
 
----
-
-## 🚀 SEO & Security Headers
-
-- **CSP Headers**: Strict Content-Security-Policy (CSP) headers are configured inside `next.config.ts` alongside frame protections.
-- **Sitemap**: Dynamic `sitemap.xml` mapping of all static pages, calculators, insights articles, and glossary definitions.
-- **Robots**: Customized `robots.txt` prohibiting bot indexing of `/admin/` and `/dashboard/` workspaces.
+1. **`DATABASE_URL`**: Your PostgreSQL connection string.
+2. **`ADMIN_EMAIL`**: Secure admin login username (e.g., `admin@numberiq.in`).
+3. **`ADMIN_PASSWORD`**: Secure admin login password (timing-safe verification).
+4. **`NEXTAUTH_SECRET`**: Random 32-character string (generate with `openssl rand -base64 32`).
+5. **`NEXTAUTH_URL`**: `https://numberiq.in`

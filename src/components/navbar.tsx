@@ -5,11 +5,9 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Menu, X, ArrowRight, User } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Sun, Moon, Menu, X, User } from "lucide-react";
 
 export function Navbar() {
-  const { data: session } = useSession();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -96,6 +94,7 @@ export function Navbar() {
     { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
     { name: "Tools", href: "/tools" },
+    { name: "Pricing", href: "/pricing" },
     { name: "Glossary", href: "/glossary" },
     { name: "Insights", href: "/insights" },
     { name: "About", href: "/about" },
@@ -168,23 +167,13 @@ export function Navbar() {
             </button>
           )}
 
-          {session ? (
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all cursor-pointer"
-            >
-              <User size={14} className="text-[#3b82f6]" />
-              Dashboard
-            </Link>
-          ) : (
-            <Link
-              href="/tools"
-              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white hover:opacity-90 transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] cursor-pointer"
-            >
-              Open Terminal
-              <ArrowRight size={14} />
-            </Link>
-          )}
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white hover:opacity-90 transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] cursor-pointer"
+          >
+            <User size={14} />
+            Dashboard
+          </Link>
         </div>
 
         {/* Mobile menu trigger */}
@@ -245,25 +234,14 @@ export function Navbar() {
               );
             })}
             <hr className="border-white/5" />
-            {session ? (
-              <Link
-                href="/dashboard"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider py-3 rounded-lg border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-colors"
-              >
-                <User size={14} className="text-[#3b82f6]" />
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/tools"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider py-3 rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white transition-colors"
-              >
-                Open Terminal
-                <ArrowRight size={14} />
-              </Link>
-            )}
+            <Link
+              href="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider py-3 rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-white transition-colors"
+            >
+              <User size={14} />
+              Dashboard
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Calculator, Calendar, Copy, Check, Printer, Share2, Shield, Upload, Download, FileSpreadsheet, AlertTriangle } from "lucide-react";
+import { Calculator, Copy, Check, Printer, Shield, Upload, Download, FileSpreadsheet, AlertTriangle } from "lucide-react";
+import { calculateGstLateFee, GstLateFeeResult } from "@/lib/calculator-math";
 
 export function GSTLateFeeCalculator() {
   const [activeTab, setActiveTab] = useState<"single" | "bulk">("single");
@@ -11,47 +12,13 @@ export function GSTLateFeeCalculator() {
   const [turnover, setTurnover] = useState("2000"); // maps to max cap
   const [dueDate, setDueDate] = useState("");
   const [filingDate, setFilingDate] = useState("");
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<GstLateFeeResult | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
   // Bulk Mode State
-  const [bulkRows, setBulkRows] = useState<any[]>([]);
+  const [bulkRows, setBulkRows] = useState<(GstLateFeeResult & { index: number; dueDate: string; filingDate: string; type: string })[]>([]);
   const [bulkError, setBulkError] = useState("");
-
-  const calculateLateFee = (dueDateStr: string, filingDateStr: string, type: string, capStr: string) => {
-    if (!dueDateStr || !filingDateStr) return null;
-    
-    const due = new Date(dueDateStr);
-    const filed = new Date(filingDateStr);
-    
-    due.setHours(0,0,0,0);
-    filed.setHours(0,0,0,0);
-
-    const diffTime = filed.getTime() - due.getTime();
-    const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    if (days <= 0) {
-      return { days: 0, perDay: 0, gross: 0, cap: 0, payable: 0, cgst: 0, sgst: 0, isDelayed: false };
-    }
-
-    const perDay = type === "nil" ? 20 : 50;
-    const cap = type === "nil" ? 500 : parseInt(capStr) || 2000;
-    const gross = days * perDay;
-    const payable = Math.min(gross, cap);
-    const half = payable / 2;
-
-    return {
-      days,
-      perDay,
-      gross,
-      cap,
-      payable,
-      cgst: half,
-      sgst: half,
-      isDelayed: true
-    };
-  };
 
   const handleCalculateSingle = () => {
     setError("");
@@ -62,7 +29,7 @@ export function GSTLateFeeCalculator() {
       return;
     }
 
-    const fee = calculateLateFee(dueDate, filingDate, returnType, turnover);
+    const fee = calculateGstLateFee(dueDate, filingDate, returnType, turnover);
     setResult(fee);
   };
 
@@ -94,7 +61,7 @@ export function GSTLateFeeCalculator() {
           return;
         }
 
-        const calculated: any[] = [];
+        const calculated: (GstLateFeeResult & { index: number; dueDate: string; filingDate: string; type: string })[] = [];
         // Start from index 1 (skip headers)
         for (let i = 1; i < lines.length; i++) {
           const cols = lines[i].split(",");
@@ -105,7 +72,7 @@ export function GSTLateFeeCalculator() {
           const type = cols[2]?.trim().toLowerCase() === "nil" ? "nil" : "taxable";
           const cap = cols[3]?.trim() || "2000";
 
-          const feeResult = calculateLateFee(due, filed, type, cap);
+          const feeResult = calculateGstLateFee(due, filed, type, cap);
           if (feeResult) {
             calculated.push({
               index: i,
@@ -118,7 +85,7 @@ export function GSTLateFeeCalculator() {
         }
 
         setBulkRows(calculated);
-      } catch (err) {
+      } catch {
         setBulkError("Failed to parse CSV file. Please use the template.");
       }
     };

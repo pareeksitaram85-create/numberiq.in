@@ -1,6 +1,29 @@
 import { prisma } from "@/lib/prisma";
 import fallbackData from "../../prisma/seedData.json";
 
+interface FallbackPost {
+  slug: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  readingTime: string;
+  published?: boolean;
+  authorName?: string;
+  faq?: unknown;
+  createdAt?: string;
+}
+
+interface FallbackTerm {
+  slug: string;
+  term: string;
+  category: string;
+  definition: string;
+  explanation: string;
+  sections?: string | null;
+  takeaways: string[];
+}
+
 function injectCallout(content: string): string {
   if (!content || content.includes("Income-tax Act 2025 update")) return content;
 
@@ -31,8 +54,8 @@ function injectCallout(content: string): string {
     { oldSec: "56(2)", newSec: "renumbered under the Income-tax Act 2025" }
   ];
 
-  let detectedOld: string[] = [];
-  let detectedNew: string[] = [];
+  const detectedOld: string[] = [];
+  const detectedNew: string[] = [];
 
   for (const m of mappings) {
     const escapedSec = m.oldSec.replace(/[()]/g, '\\$&');
@@ -79,11 +102,11 @@ export async function getPosts() {
       orderBy: { createdAt: "desc" },
     });
     if (posts.length > 0) return posts;
-  } catch (e) {
+  } catch {
     console.warn("Database offline. Falling back to local seedData.json for posts list.");
   }
 
-  return (fallbackData.posts as any[]).map((p: any) => ({
+  return (fallbackData.posts as FallbackPost[]).map((p) => ({
     id: p.slug,
     ...p,
     published: p.published !== undefined ? p.published : true,
@@ -105,11 +128,11 @@ export async function getPostBySlug(slug: string) {
         content: injectCallout(post.content),
       };
     }
-  } catch (e) {
+  } catch {
     console.warn(`Database offline. Falling back to local seedData.json for post: ${slug}`);
   }
 
-  const post: any = (fallbackData.posts as any[]).find((p: any) => p.slug === slug);
+  const post = (fallbackData.posts as FallbackPost[]).find((p) => p.slug === slug);
   if (post) {
     return {
       id: post.slug,
@@ -131,7 +154,7 @@ export async function getTerms() {
       orderBy: { term: "asc" },
     });
     if (terms.length > 0) return terms;
-  } catch (e) {
+  } catch {
     console.warn("Database offline. Falling back to local seedData.json for terms list.");
   }
 
@@ -149,11 +172,11 @@ export async function getTermBySlug(slug: string) {
         explanation: injectCallout(term.explanation),
       };
     }
-  } catch (e) {
+  } catch {
     console.warn(`Database offline. Falling back to local seedData.json for term: ${slug}`);
   }
 
-  const term = fallbackData.terms.find((t: any) => t.slug === slug) || null;
+  const term = (fallbackData.terms as FallbackTerm[]).find((t) => t.slug === slug) || null;
   if (term) {
     return {
       ...term,

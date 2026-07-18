@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { CAConsultation } from "@/components/ca-consultation";
 import { AdSenseUnit, AdLeaderboard } from "@/components/adsense";
+import { jsonLdString } from "@/lib/json-ld";
 
 // Import calculators
 import { GSTLateFeeCalculator } from "@/components/calculators/gst-late-fee";
@@ -17,6 +18,7 @@ import { HsnSacFinder } from "@/components/calculators/hsn-sac-finder";
 import { InvoiceCompliance } from "@/components/calculators/invoice-compliance";
 import { InvoiceToTally } from "@/components/calculators/invoice-to-tally";
 import { SectionMapper } from "@/components/calculators/section-mapper";
+import { NoticeDraftingStudio } from "@/components/calculators/notice-drafting-studio";
 
 interface PageProps {
   params: Promise<{
@@ -33,6 +35,12 @@ interface ToolMeta {
 export function getToolMeta(slug: string): ToolMeta {
   const cleanSlug = slug.toLowerCase();
   switch (cleanSlug) {
+    case "notice-drafting-studio":
+      return {
+        title: "AI GST & Income Tax Notice Reply Drafting Studio | NumberIQ",
+        description: "Draft legally cited, professional replies to GST DRC-01, DRC-01A and Income Tax 143(2) or 142(1) notices instantly using AI.",
+        category: "MIS Suite"
+      };
     case "gst-late-fee-calculator":
       return {
         title: "GST Late Fee Calculator — Free Online Calculator FY 2026-27 | NumberIQ",
@@ -143,6 +151,12 @@ export function getToolMeta(slug: string): ToolMeta {
         description: "Search and map old Income Tax Act 1961 section numbers to their new Income Tax Act 2025 counterparts.",
         category: "Direct Tax Suite"
       };
+    case "universe":
+      return {
+        title: "Tax Intelligence Universe — Interactive Knowledge Map | NumberIQ",
+        description: "Explore the NumberIQ Tax Intelligence Universe — an interactive visual map of Indian tax concepts, GST, Income Tax, TDS, and compliance knowledge.",
+        category: "MIS Suite"
+      };
     default:
       return {
         title: `${slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")} — Free Online Calculator FY 2026-27 | NumberIQ`,
@@ -192,8 +206,12 @@ export default async function ToolPage({ params }: PageProps) {
   let category = "";
 
   const cleanSlug = slug.toLowerCase();
-
-  if (cleanSlug === "gst-late-fee-calculator") {
+  
+  if (cleanSlug === "notice-drafting-studio") {
+    CalculatorComponent = NoticeDraftingStudio;
+    title = "AI Notice & Appeal Drafting Studio";
+    category = "MIS Suite";
+  } else if (cleanSlug === "gst-late-fee-calculator") {
     CalculatorComponent = GSTLateFeeCalculator;
     title = "GST Late Fee Calculator (Section 47)";
     category = "GST Suite";
@@ -265,6 +283,10 @@ export default async function ToolPage({ params }: PageProps) {
     staticHtmlUrl = "/tools/advance-tax-calculator.html";
     title = "Advance Tax Estimator";
     category = "Direct Tax Suite";
+  } else if (cleanSlug === "universe") {
+    staticHtmlUrl = "/tools/universe.html";
+    title = "Tax Intelligence Universe";
+    category = "MIS Suite";
   } else {
     // For other tools not yet rebuilt as custom react components
     title = slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -279,7 +301,7 @@ export default async function ToolPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdString({
             "@context": "https://schema.org",
             "@graph": [
               {

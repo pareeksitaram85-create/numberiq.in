@@ -109,3 +109,16 @@ model Term {
   takeaways   String[]
   createdAt   DateTime @default(now())
 }
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String
+  city      String
+  query     String   @default("") @db.Text
+  tool      String   @default("general")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
