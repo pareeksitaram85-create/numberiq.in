@@ -141,6 +141,119 @@ export function calculateGstLateFee(
 }
 
 // ==========================================
+// 2.1 COMBINED GST INTEREST & LATE FEE (Sec 50 + Sec 47)
+// ==========================================
+
+export interface GstInterestAndLateFeeResult {
+  returnType: "GSTR-3B" | "GSTR-1";
+  taxAmount: number;
+  dueDate: string;
+  filingDate: string;
+  isQrmp: boolean;
+  isNilReturn: boolean;
+  daysDelayed: number;
+  interestRate: number;
+  interestAmount: number;
+  lateFeePerDay: number;
+  lateFeeGross: number;
+  lateFeeCap: number;
+  lateFeePayable: number;
+  lateFeeCgst: number;
+  lateFeeSgst: number;
+  totalStatutoryPayable: number;
+  isDelayed: boolean;
+}
+
+export function calculateGstInterestAndLateFee(
+  returnType: "GSTR-3B" | "GSTR-1",
+  taxAmountInput: number | string,
+  dueDateStr: string,
+  filingDateStr: string,
+  isQrmp: boolean = false,
+  isNilReturn: boolean = false,
+  interestRateInput: number | string = 18,
+  turnoverCapInput: string = "2000"
+): GstInterestAndLateFeeResult | null {
+  if (!dueDateStr || !filingDateStr) return null;
+
+  const taxAmt = isNilReturn ? 0 : (typeof taxAmountInput === "number" ? taxAmountInput : parseFloat(String(taxAmountInput)) || 0);
+  const intRate = typeof interestRateInput === "number" ? interestRateInput : parseFloat(String(interestRateInput)) || 18;
+
+  const due = new Date(dueDateStr);
+  const filed = new Date(filingDateStr);
+  due.setHours(0, 0, 0, 0);
+  filed.setHours(0, 0, 0, 0);
+
+  const diffTime = filed.getTime() - due.getTime();
+  const daysDelayed = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+
+  if (daysDelayed <= 0) {
+    return {
+      returnType,
+      taxAmount: taxAmt,
+      dueDate: dueDateStr,
+      filingDate: filingDateStr,
+      isQrmp,
+      isNilReturn,
+      daysDelayed: 0,
+      interestRate: intRate,
+      interestAmount: 0,
+      lateFeePerDay: 0,
+      lateFeeGross: 0,
+      lateFeeCap: 0,
+      lateFeePayable: 0,
+      lateFeeCgst: 0,
+      lateFeeSgst: 0,
+      totalStatutoryPayable: taxAmt,
+      isDelayed: false,
+    };
+  }
+
+  // Interest under Section 50 (18% or 24% p.a. on Net Cash Liability)
+  const interestAmount = isNilReturn || taxAmt <= 0 ? 0 : (taxAmt * intRate * daysDelayed) / (100 * 365);
+
+  // Late Fee under Section 47 (₹20/day for Nil, ₹50/day for Taxable)
+  const lateFeePerDay = isNilReturn ? 20 : 50;
+
+  let cap = 2000;
+  if (isNilReturn) {
+    cap = 500;
+  } else {
+    const parsedCap = parseInt(turnoverCapInput, 10);
+    if (!isNaN(parsedCap) && parsedCap > 0) {
+      cap = parsedCap;
+    }
+  }
+
+  const lateFeeGross = daysDelayed * lateFeePerDay;
+  const lateFeePayable = Math.min(lateFeeGross, cap);
+  const lateFeeCgst = lateFeePayable / 2;
+  const lateFeeSgst = lateFeePayable / 2;
+
+  const totalStatutoryPayable = taxAmt + interestAmount + lateFeePayable;
+
+  return {
+    returnType,
+    taxAmount: taxAmt,
+    dueDate: dueDateStr,
+    filingDate: filingDateStr,
+    isQrmp,
+    isNilReturn,
+    daysDelayed,
+    interestRate: intRate,
+    interestAmount,
+    lateFeePerDay,
+    lateFeeGross,
+    lateFeeCap: cap,
+    lateFeePayable,
+    lateFeeCgst,
+    lateFeeSgst,
+    totalStatutoryPayable,
+    isDelayed: true,
+  };
+}
+
+// ==========================================
 // 3. LRS TCS (Section 206C(1G))
 // ==========================================
 

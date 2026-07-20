@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   calculateGstInterest,
   calculateGstLateFee,
+  calculateGstInterestAndLateFee,
   calculateLrsTcs,
   calculatePropertyCapitalGains,
   calculateEquityCapitalGains,
@@ -56,6 +57,51 @@ describe("Calculator Math Library Tests", () => {
       const result2 = calculateGstLateFee("2026-06-20", "2026-08-09", "taxable", "2000");
       expect(result2).not.toBeNull();
       expect(result2!.payable).toBe(2000);
+    });
+  });
+
+  // 2.1 Combined GST Interest & Late Fee Tests
+  describe("Combined GST Interest & Late Fee (Sec 50 + Sec 47)", () => {
+    it("should calculate exact worked example (₹1,00,000 liability, due 2026-06-20, filed 2026-07-15)", () => {
+      const res = calculateGstInterestAndLateFee(
+        "GSTR-3B",
+        100000,
+        "2026-06-20",
+        "2026-07-15",
+        false,
+        false,
+        18,
+        "2000"
+      );
+      expect(res).not.toBeNull();
+      expect(res!.daysDelayed).toBe(25);
+      expect(res!.interestAmount).toBeCloseTo(1232.88, 1);
+      expect(res!.lateFeeGross).toBe(1250);
+      expect(res!.lateFeePayable).toBe(1250);
+      expect(res!.lateFeeCgst).toBe(625);
+      expect(res!.lateFeeSgst).toBe(625);
+      expect(res!.totalStatutoryPayable).toBeCloseTo(102482.88, 1);
+    });
+
+    it("should handle Nil return with zero interest and ₹20/day late fee capped at ₹500", () => {
+      const res = calculateGstInterestAndLateFee(
+        "GSTR-3B",
+        0,
+        "2026-06-20",
+        "2026-07-20", // 30 days
+        false,
+        true,
+        18,
+        "2000"
+      );
+      expect(res).not.toBeNull();
+      expect(res!.daysDelayed).toBe(30);
+      expect(res!.interestAmount).toBe(0);
+      expect(res!.lateFeePerDay).toBe(20);
+      expect(res!.lateFeeGross).toBe(600);
+      expect(res!.lateFeePayable).toBe(500); // Capped at 500
+      expect(res!.lateFeeCgst).toBe(250);
+      expect(res!.lateFeeSgst).toBe(250);
     });
   });
 
