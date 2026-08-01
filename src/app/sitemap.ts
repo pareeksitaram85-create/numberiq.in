@@ -52,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "appeal-deadline-calculator",
     "section-270aa-immunity",
     "gemini-invoice-reader",
+    "rcm-applicability-checker",
   ];
 
   const practiceSlugList = ["transfer-pricing", "international-tax", "fema", "tax-audit"];

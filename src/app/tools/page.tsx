@@ -71,6 +71,13 @@ const baseTools = [
     featured: true
   },
   {
+    slug: "rcm-applicability-checker",
+    name: "RCM Applicability Checker (Section 9(3) & 9(4))",
+    desc: "Test GST Reverse Charge applicability across 15+ procurement categories with exact CBIC notification citations.",
+    category: "gst",
+    featured: true
+  },
+  {
     slug: "litigation-cost-calculator",
     name: "Litigation Cost Calculator",
     desc: "Appeal or pay? Model the pre-deposit, accruing interest and break-even success rate before you file.",

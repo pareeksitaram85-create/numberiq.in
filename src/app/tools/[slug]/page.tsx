@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
@@ -26,6 +25,7 @@ import { LitigationCostCalculator } from "@/components/calculators/litigation-co
 import { StatutoryTimeMachine } from "@/components/calculators/statutory-time-machine";
 import { AppealDeadlineCalculator } from "@/components/calculators/appeal-deadline";
 import { ImmunityNavigator } from "@/components/calculators/immunity-navigator";
+import { RCMApplicabilityChecker } from "@/components/calculators/rcm-applicability";
 
 interface PageProps {
   params: Promise<{
@@ -101,6 +101,13 @@ export function getToolMeta(slug: string): ToolMeta {
       return {
         title: "GSTIN Validator & Decoder — Check Any GST Number Free | NumberIQ",
         description: "Validate a 15-digit GSTIN offline using the official GSTN checksum, and decode the state, PAN, holder type and registration count instantly.",
+        category: "GST Suite"
+      };
+    case "rcm-applicability-checker":
+    case "rcm_applicability_checker":
+      return {
+        title: "RCM Applicability Checker (Section 9(3) & 9(4)) — GST Reverse Charge Diagnostic | NumberIQ",
+        description: "Interactive Q&A diagnostic and master database for GST Reverse Charge Mechanism (RCM) on GTA, Legal, Renting, Director fee, and Security under Notification 13/2017-CT(R).",
         category: "GST Suite"
       };
     case "presumptive-tax-optimiser":
@@ -289,6 +296,10 @@ export default async function ToolPage({ params }: PageProps) {
   } else if (cleanSlug === "gstin-validator") {
     CalculatorComponent = GstinValidator;
     title = "GSTIN Validator & Decoder";
+    category = "GST Suite";
+  } else if (cleanSlug === "rcm-applicability-checker" || cleanSlug === "rcm_applicability_checker") {
+    CalculatorComponent = RCMApplicabilityChecker;
+    title = "RCM Applicability Checker (Section 9(3) & 9(4))";
     category = "GST Suite";
   } else if (cleanSlug === "presumptive-tax-optimiser") {
     CalculatorComponent = PresumptiveOptimiser;
