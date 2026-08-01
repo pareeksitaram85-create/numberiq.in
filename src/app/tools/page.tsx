@@ -157,9 +157,9 @@ const baseTools = [
   {
     slug: "hsn-sac-finder",
     name: "HSN/SAC Finder & Rate Chart",
-    desc: "Search standard HSN/SAC codes and corresponding tax rates for goods & services.",
+    desc: "Search 80+ official HSN/SAC tariff codes, verify GST rates and test mandatory HSN digit compliance (Notif 78/2020).",
     category: "gst",
-    featured: false
+    featured: true
   },
   {
     slug: "income-tax-calculator-fy2026-27",
