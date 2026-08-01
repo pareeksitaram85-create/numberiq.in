@@ -730,4 +730,30 @@ export const toolContent: Record<string, ToolContent> = {
       { question: "How does the tool decide whether Section 73 or Section 74 applies to a GST notice?", answer: "It reads the classification stated on the notice itself (Section 73 for non-fraud cases with normal limitation and lower penalty exposure; Section 74 for cases alleging fraud, willful misstatement, or suppression with extended limitation and higher penalty) and structures the response citing the correct section as identified on the actual notice received." },
     ],
   },
+  "rcm-applicability-checker": {
+    eyebrow: "CGST Act Section 9(3) & 9(4) Reverse Charge Engine",
+    lede: "Interactive Q&A diagnostic and master statutory database for GST Reverse Charge Mechanism (RCM) on GTA freight, advocate fees, director remuneration, residential/commercial property renting, and security services under Notification No. 13/2017-Central Tax (Rate).",
+    overviewHeading: "Understanding GST Reverse Charge Mechanism (RCM)",
+    overview: [
+      "Under the general rule of GST, the supplier of goods or services collects tax from the buyer and deposits it with the government. Reverse Charge Mechanism (RCM) flips this statutory responsibility: the recipient of the supply becomes directly liable to pay the GST in cash into the government treasury.",
+      "Section 9(3) of the CGST Act covers specified categories of goods and services notified by the government (such as Notification 13/2017-CT(R) for services and Notification 4/2017-CT(R) for goods), while Section 9(4) applies to procurements from unregistered suppliers by specified registered taxpayers.",
+      "Key compliance rules govern RCM payments: (1) Tax must be paid 100% in cash via Electronic Cash Ledger — Input Tax Credit (ITC) cannot be used to pay RCM liabilities. (2) Under Section 31(3)(f), the recipient MUST issue a Self-Invoice on the date of receipt of service from an unregistered supplier. (3) Under Section 31(3)(g), a Payment Voucher must be issued when making payment to the supplier. (4) Input tax credit can be claimed in the same month's GSTR-3B after cash payment is deposited."
+    ],
+    exampleHeading: "Worked Example: Corporate Renting & Advocate Fee RCM Calculation",
+    exampleIntro: "M/s Zenith Corporate Solutions Pvt Ltd incurs the following expenses during Q1 FY 2026-27:",
+    exampleRows: [
+      { label: "Legal Advocate Fee (Entry 2)", value: "₹2,00,000 → Mandatory 18% RCM = ₹36,000 (CGST ₹18,000 + SGST ₹18,000)" },
+      { label: "Independent Director Sitting Fee (Entry 3)", value: "₹1,50,000 → Mandatory 18% RCM = ₹27,000 (CGST ₹13,500 + SGST ₹13,500)" },
+      { label: "Residential Rent for Guest House (Notif 05/2022)", value: "₹1,00,000 → Mandatory 18% RCM = ₹18,000 (CGST ₹9,000 + SGST ₹9,000)" },
+      { label: "Total Cash Ledger Payment Required in GSTR-3B", value: "₹81,000 (Must be paid in cash via Table 3.1(d))" },
+      { label: "Eligible ITC Claimed in GSTR-3B", value: "₹81,000 (Claimed in Table 4(A)(2) after cash deposit)" }
+    ],
+    faqs: [
+      { question: "Is GST RCM applicable on executive director salary?", answer: "No. Executive director salary subjected to TDS under Section 192 is covered under Schedule III Entry 1 (employee to employer) and is completely exempt from GST." },
+      { question: "Can I pay RCM liability using available ITC in Electronic Credit Ledger?", answer: "No. Section 49(4) of the CGST Act strictly mandates that RCM liabilities must be paid 100% in cash via Electronic Cash Ledger. Using ITC to pay RCM is illegal and attracts 18% interest under Section 50." },
+      { question: "What is a Self-Invoice under Section 31(3)(f)?", answer: "A Self-Invoice is a mandatory tax document issued by a GST-registered recipient when procuring goods or services attracting RCM from an unregistered supplier." },
+      { question: "How does RCM apply to residential and commercial renting?", answer: "Under Notification 05/2022, renting a residential dwelling to any GST-registered entity attracts mandatory 18% RCM. Under Notification 09/2024, commercial rent paid by a registered entity to an unregistered landlord also attracts 18% RCM." },
+      { question: "Do legal advocates need to register for GST if their income is under RCM?", answer: "No. Under Notification 5/2017-CT, advocates providing services 100% covered under Reverse Charge are completely exempt from obtaining GST registration." }
+    ]
+  },
 };
