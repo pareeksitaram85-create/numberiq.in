@@ -31,11 +31,77 @@ export const metadata: Metadata = {
   },
 };
 
-const toolsList = [
+// The AI/automation tools are the paid tier. The calculators stay free forever on purpose:
+// they are what earns the organic traffic (this page holds the site's only page-1 ranking,
+// #5 for "section 270AA immunity calculator"), and a commodity calculator is not something
+// anyone pays for — ClearTax gives the same ones away.
+//
+// Billing is not live yet, so Pro tools remain fully usable and are labelled "free during
+// beta". Nothing here claims to be locked or paid-for until Razorpay is actually wired up.
+const PRO_SLUGS = new Set([
+  "invoice-to-tally",
+  "gemini-invoice-reader",
+  "notice-drafting-studio",
+  "gst-reco-studio-ims-fixed",
+]);
+
+// The flagship: upload an invoice, get the voucher into Tally. Highlighted above the grid.
+const FLAGSHIP_SLUG = "invoice-to-tally";
+
+const baseTools = [
+  {
+    slug: "appeal-deadline-calculator",
+    name: "CIT(A) & ITAT Appeal Deadline Calculator",
+    desc: "Last date to file Form 35 or Form 36, whether condonation is now needed, and the exact fee under s.249(1)/253(6).",
+    category: "mis",
+    featured: true
+  },
+  {
+    slug: "section-270aa-immunity",
+    name: "Section 270AA Immunity Navigator",
+    desc: "Give up the appeal, kill the penalty. Check Form 68 eligibility and weigh immunity against contesting the addition.",
+    category: "tax",
+    featured: true
+  },
+  {
+    slug: "gstin-validator",
+    name: "GSTIN Validator & Decoder",
+    desc: "Check any 15-digit GSTIN against the official checksum and decode its state, PAN, holder type and registration count.",
+    category: "gst",
+    featured: true
+  },
+  {
+    slug: "litigation-cost-calculator",
+    name: "Litigation Cost Calculator",
+    desc: "Appeal or pay? Model the pre-deposit, accruing interest and break-even success rate before you file.",
+    category: "mis",
+    featured: true
+  },
+  {
+    slug: "presumptive-tax-optimiser",
+    name: "Presumptive Tax Optimiser (44AD/44ADA)",
+    desc: "Compare presumptive taxation against regular books, with turnover ceilings, the 5% cash cap and audit exposure.",
+    category: "tax",
+    featured: true
+  },
+  {
+    slug: "statutory-time-machine",
+    name: "Statutory Time Machine",
+    desc: "Pick a transaction date and see which law governed it — ITA 1961 or 2025, pre-GST or GST — with the section to cite.",
+    category: "tax",
+    featured: true
+  },
   {
     slug: "notice-drafting-studio",
     name: "AI Notice & Appeal Drafting Studio",
     desc: "Draft professional, legally cited replies to GST and Income Tax notices (DRC-01, 142(1), 143(2)) in seconds.",
+    category: "mis",
+    featured: true
+  },
+  {
+    slug: "gemini-invoice-reader",
+    name: "Gemini AI Bulk Invoice Extractor & Tally Exporter",
+    desc: "100% Free Gemini AI powered bulk invoice extractor. Upload PDF/images, extract CGST, SGST, IGST, vendor name, and download Tally Prime Excel vouchers.",
     category: "mis",
     featured: true
   },
@@ -166,6 +232,12 @@ const toolsList = [
     featured: true
   }
 ];
+
+const toolsList = baseTools.map((tool) => ({
+  ...tool,
+  tier: PRO_SLUGS.has(tool.slug) ? ("pro" as const) : ("free" as const),
+  flagship: tool.slug === FLAGSHIP_SLUG,
+}));
 
 export default function ToolsPage() {
   return (

@@ -45,6 +45,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "lrs-tcs-calculator",
     "due-date-calendar",
     "section-mapper-1961-to-2025",
+    "gstin-validator",
+    "presumptive-tax-optimiser",
+    "litigation-cost-calculator",
+    "statutory-time-machine",
+    "appeal-deadline-calculator",
+    "section-270aa-immunity",
+    "gemini-invoice-reader",
+  ];
+
+  const practiceSlugList = ["transfer-pricing", "international-tax", "fema", "tax-audit"];
+  const practiceRoutes = [
+    {
+      url: `${domain}/practice`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    ...practiceSlugList.map((slug) => ({
+      url: `${domain}/practice/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
   ];
 
   const calculatorRoutes = calculatorSlugs.map((slug) => ({
@@ -56,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic posts
   const posts = await getPosts();
-  const postRoutes = posts.map((post: any) => ({
+  const postRoutes = posts.map((post: { slug: string; createdAt: Date | string }) => ({
     url: `${domain}/insights/${post.slug}`,
     lastModified: new Date(post.createdAt),
     changeFrequency: "monthly" as const,
@@ -65,12 +88,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic terms
   const terms = await getTerms();
-  const termRoutes = terms.map((term: any) => ({
+  const termRoutes = terms.map((term: { slug: string }) => ({
     url: `${domain}/glossary/${term.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...calculatorRoutes, ...postRoutes, ...termRoutes];
+  return [...staticRoutes, ...practiceRoutes, ...calculatorRoutes, ...postRoutes, ...termRoutes];
 }

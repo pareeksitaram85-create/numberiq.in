@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
-import { ChevronRight, Mail } from "lucide-react";
+import { ChevronRight, Mail, ArrowRight, Clock, MapPin, Wrench, Lightbulb, FileText, Handshake } from "lucide-react";
 
 export const metadata = {
   title: "Contact Us — NumberIQ | Support & Feedback",
@@ -13,13 +13,13 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#05060a]">
+    <div className="relative min-h-screen flex flex-col bg-[#05060a] overflow-hidden">
       {/* Background gradients */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#4f7cff]/5 blur-[120px] pointer-events-none" />
       
       <Navbar />
 
-      <main className="flex-1 pt-32 pb-20 px-6 max-w-4xl mx-auto w-full relative z-10">
+      <main className="flex-1 pt-32 pb-20 px-6 max-w-6xl mx-auto w-full relative z-10">
         {/* Breadcrumb */}
         <div className="flex items-center gap-1.5 text-xs text-[#737c92] mb-8">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -27,60 +27,139 @@ export default function ContactPage() {
           <span className="text-white font-semibold">Contact</span>
         </div>
 
-        {/* Header */}
-        <header className="mb-12 border-b border-white/5 pb-8">
-          <h1 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight mb-3">
-            Contact Us
+        {/* Hero */}
+        <header className="mb-12 max-w-3xl">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-[#4f7cff] bg-[#4f7cff]/10 px-2.5 py-1 rounded border border-[#4f7cff]/20">
+            Contact
+          </span>
+          <h1 className="font-display text-4xl md:text-6xl font-black text-white tracking-tight mt-5 mb-6 leading-[1.05]">
+            Get in <span className="bg-gradient-to-r from-[#4f7cff] to-[#34d399] bg-clip-text text-transparent">touch.</span>
           </h1>
-          <p className="text-sm text-[#4f7cff] font-semibold tracking-wider uppercase">
-            We usually reply in 2–3 working days
+          <p className="text-base md:text-lg text-[#aab2c5] leading-relaxed">
+            Feedback on a tool, a correction, a feature request, or a collaboration enquiry — write
+            in and we will get back to you.
           </p>
         </header>
 
-        {/* Content */}
-        <article className="space-y-6">
-          <p className="text-base md:text-lg text-white leading-relaxed font-medium">
-            Feel free to write in — feedback on a tool, a correction, a feature request, or a collaboration enquiry.
-          </p>
-
-          <h2 className="text-xl md:text-2xl font-bold text-white mt-10 mb-4 flex items-center gap-2.5">
-            <Mail className="text-[#4f7cff]" size={22} />
-            Email
-          </h2>
-          <p className="text-sm md:text-base text-[#737c92] leading-relaxed">
-            Reach us at <a href="mailto:pareek.sitaram85@gmail.com" className="text-white hover:text-[#4f7cff] transition-colors font-bold underline">pareek.sitaram85@gmail.com</a>. We aim to reply within 2–3 working days.
-          </p>
-
-          <h2 className="text-xl md:text-2xl font-bold text-white mt-10 mb-4">
-            What to write in for
-          </h2>
-          <ul className="list-disc list-inside text-sm md:text-base text-[#737c92] space-y-3.5 leading-relaxed">
-            <li>
-              <strong className="text-white">Tool feedback or corrections</strong> — spotted an outdated rate, threshold or section? Tell us and we'll fix it.
-            </li>
-            <li>
-              <strong className="text-white">Feature requests</strong> — a calculator or reckoner you'd like added to the suite.
-            </li>
-            <li>
-              <strong className="text-white">Content &amp; data accuracy</strong> — questions on a guide or the law referenced.
-            </li>
-            <li>
-              <strong className="text-white">Partnerships &amp; advertising</strong> — collaboration, sponsorship or media enquiries.
-            </li>
-          </ul>
-
-          <h2 className="text-xl md:text-2xl font-bold text-white mt-10 mb-4">
-            Please note
-          </h2>
-          <p className="text-sm md:text-base text-[#737c92] leading-relaxed">
-            NumberIQ provides general reference information and tools. It is maintained by an individual CA and cannot offer personalised tax or legal opinions by email. For advice on your specific situation, please consult a qualified Chartered Accountant.
-          </p>
-
-          {/* Disclaimer Alert */}
-          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 text-xs md:text-sm text-[#737c92] italic mt-12 leading-relaxed">
-            By contacting us you agree that email is not a secure channel; please do not send confidential financial or personal data.
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
+          {/* Email card */}
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl border border-[#4f7cff]/20 bg-gradient-to-br from-[#0a0f1e] to-[#050810] p-8 md:p-10">
+            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-[#4f7cff]/10 blur-3xl pointer-events-none" />
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-[#4f7cff]/15 border border-[#4f7cff]/30 flex items-center justify-center text-[#4f7cff] mb-6">
+                <Mail size={20} />
+              </div>
+              <h2 className="font-display text-xl font-bold text-white mb-2">Email us</h2>
+              <p className="text-sm text-[#aab2c5] leading-relaxed mb-6">
+                The fastest way to reach us. Include the tool name or article link if your message
+                is about something specific.
+              </p>
+              <a
+                href="mailto:pareek.sitaram85@gmail.com"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#10b981] text-xs font-bold uppercase tracking-wider text-white hover:opacity-95 transition-opacity break-all"
+              >
+                pareek.sitaram85@gmail.com
+                <ArrowRight size={14} className="flex-shrink-0" />
+              </a>
+            </div>
           </div>
-        </article>
+
+          {/* Response time */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div className="flex-1 relative overflow-hidden rounded-3xl border border-[#34d399]/20 bg-gradient-to-br from-[#06120e] to-[#050810] p-8">
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-[#34d399]/8 blur-3xl pointer-events-none" />
+              <div className="relative z-10">
+                <div className="w-11 h-11 rounded-2xl bg-[#34d399]/15 border border-[#34d399]/30 flex items-center justify-center text-[#34d399] mb-5">
+                  <Clock size={18} />
+                </div>
+                <span className="font-display text-3xl font-black text-[#34d399] block">2–3</span>
+                <span className="text-xs text-[#aab2c5] mt-1 block">working days to reply</span>
+              </div>
+            </div>
+
+            <div className="flex-1 relative overflow-hidden rounded-3xl border border-[#f4b740]/20 bg-gradient-to-br from-[#130e03] to-[#050810] p-8">
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-[#f4b740]/8 blur-3xl pointer-events-none" />
+              <div className="relative z-10">
+                <div className="w-11 h-11 rounded-2xl bg-[#f4b740]/15 border border-[#f4b740]/30 flex items-center justify-center text-[#f4b740] mb-5">
+                  <MapPin size={18} />
+                </div>
+                <span className="font-display text-lg font-bold text-white block">Mumbai, India</span>
+                <span className="text-xs text-[#aab2c5] mt-1 block">
+                  Serving India, the UAE and Singapore
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Reasons to write in */}
+        <h2 className="font-display text-2xl md:text-3xl font-black text-white mb-8">
+          What to write in for
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
+          {[
+            {
+              icon: Wrench,
+              title: "Tool feedback or corrections",
+              tone: "#4f7cff",
+              body: "Spotted an outdated rate, threshold or section? Tell us and we will fix it.",
+            },
+            {
+              icon: Lightbulb,
+              title: "Feature requests",
+              tone: "#34d399",
+              body: "A calculator or reckoner you would like added to the suite.",
+            },
+            {
+              icon: FileText,
+              title: "Content & data accuracy",
+              tone: "#f4b740",
+              body: "Questions on a guide or on the law referenced in it.",
+            },
+            {
+              icon: Handshake,
+              title: "Partnerships & advertising",
+              tone: "#38e1d6",
+              body: "Collaboration, sponsorship or media enquiries.",
+            },
+          ].map((r) => (
+            <div
+              key={r.title}
+              className="relative overflow-hidden rounded-2xl border p-6 bg-gradient-to-br from-[#07091a] to-[#050810] flex items-start gap-4"
+              style={{ borderColor: `${r.tone}22` }}
+            >
+              <div
+                className="w-10 h-10 rounded-xl border flex items-center justify-center flex-shrink-0"
+                style={{ color: r.tone, background: `${r.tone}18`, borderColor: `${r.tone}40` }}
+              >
+                <r.icon size={16} />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1.5">{r.title}</h3>
+                <p className="text-xs text-[#737c92] leading-relaxed">{r.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Notes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <h3 className="text-sm font-bold text-white mb-2">Please note</h3>
+            <p className="text-xs text-[#737c92] leading-relaxed">
+              NumberIQ provides general reference information and tools. It is maintained by an
+              individual CA and cannot offer personalised tax or legal opinions by email. For advice
+              on your specific situation, please consult a qualified Chartered Accountant.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-[#f4b740]/15 bg-[#f4b740]/[0.03] p-6">
+            <h3 className="text-sm font-bold text-[#f4b740] mb-2">Before you send</h3>
+            <p className="text-xs text-[#737c92] leading-relaxed">
+              Email is not a secure channel. Please do not send confidential financial or personal
+              data — including client PANs, GSTINs tied to names, or scanned documents.
+            </p>
+          </div>
+        </div>
       </main>
 
       <Footer />

@@ -1,10 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { getPostBySlug, getPosts } from "@/lib/content";
 import Link from "next/link";
-import { ChevronRight, Calendar, User, Clock, Share2 } from "lucide-react";
+import { ChevronRight, Calendar, User, Clock } from "lucide-react";
 import { PrintButton } from "@/components/print-button";
 import { AdLeaderboard, AdInArticle } from "@/components/adsense";
 import { jsonLdString } from "@/lib/json-ld";
@@ -13,6 +12,20 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+function formatSeoTitle(title: string, brand = "NumberIQ", maxLen = 60): string {
+  const clean = title.replace(/\s*\|\s*NumberIQ$/i, "").trim();
+  const withSuffix = `${clean} | ${brand}`;
+  if (withSuffix.length <= maxLen) return withSuffix;
+  if (clean.length <= maxLen) return clean;
+
+  const truncated = clean.slice(0, maxLen - 3);
+  const lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace > 25) {
+    return `${truncated.slice(0, lastSpace)}...`;
+  }
+  return `${truncated}...`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -25,20 +38,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  // Ensure title is under 60 chars (title + " | NumberIQ" is cleanTitle.length + 11 chars)
-  const cleanTitle = post.title.length > 45 ? `${post.title.slice(0, 45)}...` : post.title;
+  const title = formatSeoTitle(post.title);
   const description = post.excerpt
     ? (post.excerpt.length > 155 ? `${post.excerpt.slice(0, 152)}...` : post.excerpt)
     : `Read ${post.title} on NumberIQ, your finance and tax workspace.`;
 
   return {
-    title: `${cleanTitle} | NumberIQ`,
+    title: title,
     description: description,
     alternates: {
       canonical: `https://numberiq.in/insights/${slug}`,
     },
     openGraph: {
-      title: `${cleanTitle} | NumberIQ`,
+      title: title,
       description: description,
       type: "article",
       url: `https://numberiq.in/insights/${slug}`,
@@ -51,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title: `${cleanTitle} | NumberIQ`,
+      title: title,
       description: description,
       images: ["/og-cover.png"],
     },
@@ -66,8 +78,24 @@ export default async function InsightArticlePage({ params }: PageProps) {
     notFound();
   }
 
+  interface PostItem {
+    slug: string;
+    title: string;
+    excerpt: string;
+    category: string;
+  }
+
+  interface FaqItem {
+    name?: string;
+    question?: string;
+    acceptedAnswer?: {
+      text?: string;
+    };
+    answer?: string;
+  }
+
   const categoryLabel = post.category.toUpperCase();
-  const allPosts = await getPosts();
+  const allPosts = (await getPosts()) as PostItem[];
   // Relevance-scored selection with a per-article deterministic tiebreak. Plain
   // "first 3 in category" made every page link to the same newest posts, so a
   // handful of articles collected all internal links while the rest got none —
@@ -81,18 +109,18 @@ export default async function InsightArticlePage({ params }: PageProps) {
   const baseTokens = tokens(post.title + " " + post.slug);
   const slugHash = [...post.slug].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 0);
   const relatedPosts = allPosts
-    .filter((p: any) => p.slug !== post.slug)
-    .map((p: any, i: number) => {
+    .filter((p: PostItem) => p.slug !== post.slug)
+    .map((p: PostItem, i: number) => {
       let score = 0;
       tokens(p.title + " " + p.slug).forEach(t => { if (baseTokens.has(t)) score += 2; });
       if (p.category === post.category) score += 1;
       return { p, score, tie: (i + slugHash) % (allPosts.length || 1) };
     })
-    .sort((a: any, b: any) => b.score - a.score || a.tie - b.tie)
+    .sort((a, b) => b.score - a.score || a.tie - b.tie)
     .slice(0, 3)
-    .map((x: any) => x.p);
+    .map((x) => x.p);
 
-  const schemaGraph: any[] = [
+  const schemaGraph: Record<string, unknown>[] = [
     {
       "@type": "Article",
       "@id": `https://numberiq.in/insights/${slug}#article`,
@@ -146,11 +174,12 @@ export default async function InsightArticlePage({ params }: PageProps) {
     }
   ];
 
-  if (post.faq && Array.isArray(post.faq) && post.faq.length > 0) {
+  const postFaqs = (Array.isArray(post.faq) ? post.faq : []) as FaqItem[];
+  if (postFaqs.length > 0) {
     schemaGraph.push({
       "@type": "FAQPage",
       "@id": `https://numberiq.in/insights/${slug}#faq`,
-      "mainEntity": post.faq.map((item: any) => ({
+      "mainEntity": postFaqs.map((item: FaqItem) => ({
         "@type": "Question",
         "name": item.name || item.question || "",
         "acceptedAnswer": {
@@ -229,14 +258,14 @@ export default async function InsightArticlePage({ params }: PageProps) {
         <AdInArticle slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_INARTICLE || "3974343520"} />
 
         {/* FAQ Schema Accordion */}
-        {post.faq && Array.isArray(post.faq) && (
+        {postFaqs.length > 0 && (
           <section className="mt-12 border-t border-white/5 pt-12">
             <h2 className="font-display text-lg font-bold text-white mb-6">Frequently Asked Questions</h2>
             <div className="flex flex-col gap-4">
-              {post.faq.map((item: any, idx: number) => (
+              {postFaqs.map((item: FaqItem, idx: number) => (
                 <div key={idx} className="border border-white/5 bg-white/5 p-4 rounded-xl">
-                  <h4 className="text-xs font-bold text-white mb-2">{item.name}</h4>
-                  <p className="text-xs text-[#737c92] leading-relaxed">{item.acceptedAnswer?.text}</p>
+                  <h4 className="text-xs font-bold text-white mb-2">{item.name || item.question}</h4>
+                  <p className="text-xs text-[#737c92] leading-relaxed">{item.acceptedAnswer?.text || item.answer}</p>
                 </div>
               ))}
             </div>
@@ -248,7 +277,7 @@ export default async function InsightArticlePage({ params }: PageProps) {
           <section className="mt-12 border-t border-white/5 pt-12">
             <h2 className="font-display text-lg font-bold text-white mb-6">Related Topics</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {relatedPosts.map((related: any) => (
+              {relatedPosts.map((related: PostItem) => (
                 <Link
                   key={related.slug}
                   href={`/insights/${related.slug}`}

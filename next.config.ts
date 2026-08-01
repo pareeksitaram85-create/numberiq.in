@@ -1,4 +1,42 @@
 import type { NextConfig } from "next";
+import fs from "fs";
+import path from "path";
+
+// Load seed data for explicit legacy root-level extensionless redirects
+const legacyPostRedirects: Array<{ source: string; destination: string; permanent: boolean }> = [];
+const legacyTermRedirects: Array<{ source: string; destination: string; permanent: boolean }> = [];
+
+try {
+  const seedPath = path.join(process.cwd(), "prisma", "seedData.json");
+  if (fs.existsSync(seedPath)) {
+    const raw = fs.readFileSync(seedPath, "utf8");
+    const seedData = JSON.parse(raw);
+    if (Array.isArray(seedData.posts)) {
+      seedData.posts.forEach((p: { slug?: string }) => {
+        if (p?.slug) {
+          legacyPostRedirects.push({
+            source: `/${p.slug}`,
+            destination: `/insights/${p.slug}`,
+            permanent: true,
+          });
+        }
+      });
+    }
+    if (Array.isArray(seedData.terms)) {
+      seedData.terms.forEach((t: { slug?: string }) => {
+        if (t?.slug) {
+          legacyTermRedirects.push({
+            source: `/${t.slug}`,
+            destination: `/glossary/${t.slug}`,
+            permanent: true,
+          });
+        }
+      });
+    }
+  }
+} catch (e) {
+  console.warn("Failed to load seedData.json for redirects in next.config.ts:", e);
+}
 
 const nextConfig: NextConfig = {
   async headers() {
@@ -11,7 +49,7 @@ const nextConfig: NextConfig = {
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         img-src 'self' blob: data: https://*.google-analytics.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
         font-src 'self' https://fonts.gstatic.com;
-        connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.supabase.co https://api.anthropic.com https://api.ocr.space https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
+        connect-src 'self' https://generativelanguage.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.supabase.co https://api.anthropic.com https://api.ocr.space https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
         worker-src 'self' blob:;
         frame-src 'self' https://googleads.g.doubleclick.net https://bid.g.doubleclick.net;
         upgrade-insecure-requests;
@@ -38,12 +76,12 @@ const nextConfig: NextConfig = {
             value: "strict-origin-when-cross-origin",
           },
           {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
-          },
-          {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
           },
         ],
       },
@@ -51,30 +89,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // 1. Core pages redirects
-      { source: "/tools.html", destination: "/tools", permanent: true },
-      { source: "/glossary.html", destination: "/glossary", permanent: true },
-      { source: "/about.html", destination: "/about", permanent: true },
-      { source: "/contact.html", destination: "/contact", permanent: true },
-      { source: "/privacy.html", destination: "/privacy-policy", permanent: true },
-      { source: "/privacy-policy.html", destination: "/privacy-policy", permanent: true },
-      { source: "/disclaimer.html", destination: "/disclaimer", permanent: true },
+      ...legacyPostRedirects,
+      ...legacyTermRedirects,
+      // 1. Core structural renames & legacy moves
+      { source: "/monetization", destination: "/pricing", permanent: true },
+      { source: "/tools/pricing", destination: "/pricing", permanent: true },
+      { source: "/compliance", destination: "/practice", permanent: true },
 
-      // 2. Explicit tools redirects (must load before catch-all slug.html)
-      { source: "/GST_ReCO_Studio_IMS_FIXED.html", destination: "/tools/gst-reco-studio-ims-fixed", permanent: true },
-      { source: "/HSN_SAC_Finder.html", destination: "/tools/hsn-sac-finder", permanent: true },
-      { source: "/Invoice%20Compliance.html", destination: "/tools/invoice-compliance", permanent: true },
-      { source: "/Invoice-Compliance.html", destination: "/tools/invoice-compliance", permanent: true },
-      
-      { source: "/tools/GST_ReCO_Studio_IMS_FIXED", destination: "/tools/gst-reco-studio-ims-fixed", permanent: true },
-      { source: "/tools/gst_reco_studio_ims_fixed", destination: "/tools/gst-reco-studio-ims-fixed", permanent: true },
-      { source: "/tools/HSN_SAC_Finder", destination: "/tools/hsn-sac-finder", permanent: true },
-      { source: "/tools/hsn_sac_finder", destination: "/tools/hsn-sac-finder", permanent: true },
-      // NOTE: "/tools/Invoice-Compliance" redirect REMOVED — Next.js redirect
-      // matching is case-insensitive, so it also matched the lowercase
-      // destination itself, causing an infinite 308 redirect loop that made
-      // the tool page unreachable. The page handles casing via slug.toLowerCase().
+      // 2. Legacy HTML redirects for root calculators
       { source: "/advance-tax-calculator.html", destination: "/tools/advance-tax-calculator", permanent: true },
+      { source: "/appeal-deadline-calculator.html", destination: "/tools/appeal-deadline-calculator", permanent: true },
       { source: "/capital-gains-tax-calculator.html", destination: "/tools/capital-gains-tax-calculator", permanent: true },
       { source: "/depreciation-block-assets-calculator.html", destination: "/tools/depreciation-block-assets-calculator", permanent: true },
       { source: "/due-date-calendar.html", destination: "/tools/due-date-calendar", permanent: true },
@@ -89,9 +113,6 @@ const nextConfig: NextConfig = {
       { source: "/tds-interest-calculator.html", destination: "/tools/tds-interest-calculator", permanent: true },
 
       // 3. Sub-folder redirects
-      // NOTE: /tools/:slug.html redirect REMOVED — actual calculator files live
-      // in public/tools/*.html, and redirects run BEFORE static files, which
-      // caused an infinite loop (Launch button redirected back to wrapper page).
       { source: "/glossary/:term.html", destination: "/glossary/:term", permanent: true },
       { source: "/insights/:slug.html", destination: "/insights/:slug", permanent: true },
 
@@ -99,7 +120,7 @@ const nextConfig: NextConfig = {
       { source: "/universe.html", destination: "/universe", permanent: true },
       { source: "/tools/universe", destination: "/universe", permanent: true },
 
-      // 4. Catch-all for root level articles (to map to /insights/slug)
+      // 4. Catch-all for root level articles with .html
       { source: "/:slug.html", destination: "/insights/:slug", permanent: true },
 
       // 5. Marketplace & Boardroom pages removed — modules now live in /dashboard
@@ -107,8 +128,6 @@ const nextConfig: NextConfig = {
       { source: "/module", destination: "/dashboard", permanent: false },
 
       // 6. Duplicate content: /tax-tools is a near-duplicate listing of /tools
-      // (same calculators, near-identical meta) with zero internal links —
-      // consolidate into the one page that's actually in the navbar.
       { source: "/tax-tools", destination: "/tools", permanent: true }
     ];
   },

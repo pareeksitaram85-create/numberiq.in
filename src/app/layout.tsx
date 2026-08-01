@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "@/components/session-provider";
 import { RecoveryForward } from "@/components/recovery-forward";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import { jsonLdString } from "@/lib/json-ld";
 import "./globals.css";
@@ -117,6 +118,10 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         </SessionProvider>
+        {/* Vercel Web Analytics needs no env var or external account — it only requires the
+            toggle in the Vercel dashboard. It is the fallback measurement source, so the site
+            is never flying blind if NEXT_PUBLIC_GA_ID is unset (as it was until 2026-07-30). */}
+        <Analytics />
         {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>

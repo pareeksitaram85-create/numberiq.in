@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Face Attendance &middot; NumberIQ</title>
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/dist/face-api.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0f1117;--sur:#1a1d27;--sur2:#22263a;--brd:#2e3250;--acc:#6366f1;--acc2:#8b5cf6;--grn:#10b981;--amb:#f59e0b;--red:#ef4444;--blu:#3b82f6;--cyn:#06b6d4;--txt:#e2e8f0;--txt2:#94a3b8;--txt3:#64748b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:14px;-webkit-text-size-adjust:100%}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--sur)}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+.hdr{background:linear-gradient(135deg,#1a1d27,#22263a);border-bottom:1px solid var(--brd);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap}
+.hdr-l{display:flex;align-items:center;gap:12px}
+.logo{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:800;font-size:15px;padding:7px 13px;border-radius:8px;letter-spacing:1px}
+.htitle{font-size:18px;font-weight:700}.hsub{font-size:11px;color:var(--txt2);margin-top:1px}
+.hdr-r{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;transition:all .2s}
+.btn-pri{background:var(--acc);color:#fff}.btn-pri:hover{background:var(--acc2)}
+.btn-sec{background:var(--sur2);color:var(--txt);border:1px solid var(--brd)}.btn-sec:hover{border-color:var(--acc);color:var(--acc)}
+.btn-grn{background:var(--grn);color:#fff}.btn-grn:hover{opacity:.9}
+.btn-amb{background:var(--amb);color:#000}.btn-amb:hover{opacity:.9}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{opacity:.9}
+.btn-sm{padding:4px 9px;font-size:11px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;padding:14px 22px;background:var(--sur);border-bottom:1px solid var(--brd)}
+.sc{background:var(--sur2);border:1px solid var(--brd);border-radius:10px;padding:11px 14px;text-align:center}
+.sn{font-size:25px;font-weight:800;line-height:1}.sl{font-size:9px;color:var(--txt2);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.sc-acc .sn{color:var(--acc)}.sc-grn .sn{color:var(--grn)}.sc-amb .sn{color:var(--amb)}.sc-red .sn{color:var(--red)}.sc-cyn .sn{color:var(--cyn)}
+.tabs{display:flex;gap:2px;padding:10px 22px 0;background:var(--sur);border-bottom:1px solid var(--brd);overflow-x:auto}
+.tb{padding:9px 14px;background:none;border:none;border-bottom:3px solid transparent;color:var(--txt2);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border-radius:6px 6px 0 0;white-space:nowrap}
+.tb:hover{color:var(--txt);background:var(--sur2)}.tb.active{color:var(--acc);border-bottom-color:var(--acc)}
+.main{padding:18px 22px 60px}.tc{display:none}.tc.active{display:block}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.sec-dot{width:7px;height:7px;border-radius:50%;background:var(--acc)}.sec-title{font-size:14px;font-weight:700}.sec-sub{font-size:11px;color:var(--txt2)}
+.frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.flabel{font-size:11px;color:var(--txt2);white-space:nowrap}
+.spacer{margin-left:auto}
+select,input[type=text],input[type=date],input[type=month],input[type=time],input[type=number],input[type=email],input[type=tel]{background:var(--sur2);border:1px solid var(--brd);color:var(--txt);padding:6px 10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:12px;outline:none}
+select:focus,input:focus,textarea:focus{border-color:var(--acc)}select option{background:var(--sur2)}
+textarea{background:var(--sur2);border:1px solid var(--brd);color:var(--txt);padding:7px 10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:12px;outline:none;resize:vertical;min-height:56px;width:100%}
+.tbl-wrap{background:var(--sur);border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-top:4px}
+.tbl-scroll{overflow-x:auto}
+.tbl-top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--brd);gap:8px;flex-wrap:wrap}
+.tbl-ttl{font-weight:600;font-size:13px}.tbl-cnt{font-size:11px;color:var(--txt2)}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--sur2);padding:8px 11px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);border-bottom:1px solid var(--brd);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--brd)}tbody tr:hover{background:rgba(99,102,241,.04)}tbody tr:last-child{border-bottom:none}
+td{padding:8px 11px;font-size:12px;vertical-align:middle;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;padding:1px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.b-grn{background:rgba(16,185,129,.15);color:var(--grn);border:1px solid rgba(16,185,129,.3)}
+.b-amb{background:rgba(245,158,11,.15);color:var(--amb);border:1px solid rgba(245,158,11,.3)}
+.b-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.b-cyn{background:rgba(6,182,212,.15);color:var(--cyn);border:1px solid rgba(6,182,212,.3)}
+.b-blu{background:rgba(59,130,246,.15);color:var(--blu);border:1px solid rgba(59,130,246,.3)}
+.b-gry{background:rgba(100,116,139,.15);color:var(--txt2);border:1px solid var(--brd)}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);padding:16px}.modal-ov.open{display:flex}
+.modal{background:var(--sur);border:1px solid var(--brd);border-radius:12px;width:min(720px,96vw);max-height:92vh;overflow-y:auto;padding:22px;animation:su .2s ease}
+.modal.wide{width:min(920px,96vw)}
+@keyframes su{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.m-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.m-close{margin-left:auto;background:none;border:none;color:var(--txt2);font-size:18px;cursor:pointer;line-height:1}.m-close:hover{color:var(--red)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrp{display:flex;flex-direction:column;gap:4px}.fgrp.s2{grid-column:1/-1}
+label{font-size:11px;font-weight:500;color:var(--txt2)}
+.mfooter{display:flex;gap:7px;justify-content:flex-end;margin-top:16px;padding-top:13px;border-top:1px solid var(--brd);flex-wrap:wrap}
+.upzone{border:2px dashed var(--brd);border-radius:10px;padding:22px;text-align:center;cursor:pointer;margin-bottom:12px}
+.upzone:hover,.upzone.dov{border-color:var(--acc);background:rgba(99,102,241,.05)}
+.up-ico{font-size:30px;margin-bottom:6px}.up-ttl{font-weight:600;margin-bottom:3px;font-size:14px}.up-sub{font-size:11px;color:var(--txt2)}
+.empty{text-align:center;padding:40px 20px;color:var(--txt3)}.empty-ico{font-size:34px;margin-bottom:8px}.empty-ttl{font-size:14px;font-weight:600;color:var(--txt2);margin-bottom:4px}
+.ibtn{background:none;border:none;cursor:pointer;color:var(--txt2);font-size:13px;padding:3px 5px;border-radius:4px}.ibtn:hover{color:var(--acc);background:var(--sur2)}.ibtn.del:hover{color:var(--red)}
+.toast-c{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:6px}
+.toast{background:var(--sur);border:1px solid var(--brd);border-radius:8px;padding:10px 14px;font-size:12px;min-width:220px;animation:si .3s ease;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+@keyframes si{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.toast.success{border-left:3px solid var(--grn)}.toast.error{border-left:3px solid var(--red)}.toast.info{border-left:3px solid var(--blu)}
+.note{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:11px 13px;font-size:11.5px;color:var(--txt2);line-height:1.6;margin-bottom:12px}
+.note b{color:var(--txt)}
+.note.warn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.25)}
+.note.dang{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.25)}
+/* ---- punch stage ---- */
+.punch-wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px}
+@media(max-width:900px){.punch-wrap{grid-template-columns:1fr}}
+.stage{position:relative;background:#000;border:1px solid var(--brd);border-radius:14px;overflow:hidden;aspect-ratio:4/3}
+#video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block;background:#000}
+#overlay{position:absolute;inset:0;width:100%;height:100%;transform:scaleX(-1);pointer-events:none}
+.stage-off{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--txt2);font-size:13px;text-align:center;padding:20px}
+.prompt{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(to top,rgba(0,0,0,.88),transparent);font-size:15px;font-weight:600;text-align:center;letter-spacing:.2px}
+.prompt small{display:block;font-size:11px;font-weight:400;color:#cbd5e1;margin-top:3px}
+.ring{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 11px;font-size:11px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--txt3)}
+.dot.live{background:var(--grn);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.chal{position:absolute;top:12px;right:12px;display:flex;gap:5px}
+.chal span{width:26px;height:5px;border-radius:3px;background:rgba(255,255,255,.2)}
+.chal span.done{background:var(--grn)}.chal span.now{background:var(--amb)}
+.result{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:16px;min-height:120px}
+.res-big{font-size:22px;font-weight:800;margin-bottom:2px}
+.res-sub{font-size:12px;color:var(--txt2)}
+.res-kind{display:inline-block;margin-top:10px;padding:5px 14px;border-radius:8px;font-size:13px;font-weight:700}
+.feed{max-height:330px;overflow-y:auto;margin-top:10px}
+.feed-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--brd);font-size:12px}
+.feed-row:last-child{border-bottom:none}
+.av{width:30px;height:30px;border-radius:50%;background:var(--sur2);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--acc);flex:0 0 auto}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+.enroll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
+.echip{background:var(--sur2);border:1px solid var(--brd);border-radius:8px;padding:8px;text-align:center;font-size:10px;position:relative}
+.echip .q{font-weight:700;color:var(--grn);font-size:13px}
+.echip .x{position:absolute;top:2px;right:4px;cursor:pointer;color:var(--txt3)}.echip .x:hover{color:var(--red)}
+.prog{height:6px;background:var(--brd);border-radius:3px;overflow:hidden;margin:8px 0}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--acc),var(--grn));width:0;transition:width .3s}
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.pill{padding:4px 10px;border-radius:20px;font-size:11px;border:1px solid var(--brd);background:var(--sur2);cursor:pointer}
+.pill.on{background:rgba(99,102,241,.15);border-color:var(--acc);color:var(--acc)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.kvi{background:var(--sur2);border:1px solid var(--brd);border-radius:8px;padding:8px 11px}
+.kvi .k{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3)}
+.kvi .v{font-size:12px;font-weight:600;margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--sur);border:1px solid var(--brd);border-radius:12px;padding:16px}
+.card h4{font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+@media(max-width:768px){.hdr{padding:10px 12px}.stats{padding:10px 12px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.main{padding:12px 12px 60px}.tabs{padding:6px 12px 0}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- ===================== LOGIN GATE (Supabase Auth · shared across NumberIQ modules) ===================== -->
+<style>
+  body.lg-locked > :not(#loginGate):not(script):not(style):not(datalist) { display: none !important; }
+  #loginGate { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(1000px 600px at 18% -10%, rgba(79,124,255,.2), transparent 60%), radial-gradient(900px 600px at 92% 0%, rgba(154,107,255,.18), transparent 55%), #05060a; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #loginGate .lg-card { width: min(400px, 92vw); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 24px; padding: 38px 34px 26px; background: linear-gradient(180deg, rgba(20,24,40,.92), rgba(10,12,20,.97)); backdrop-filter: blur(24px); box-shadow: 0 30px 80px -20px rgba(0,0,0,.7); }
+  #loginGate .lg-mark { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #4f7cff; background: rgba(79,124,255,.12); border: 1px solid rgba(79,124,255,.3); }
+  #loginGate h2 { margin: 0 0 4px; text-align: center; color: #fff; font-size: 20px; letter-spacing: .02em; }
+  #loginGate .lg-sub { text-align: center; color: #8b93a7; font-size: 12.5px; margin-bottom: 20px; }
+  #loginGate label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8b93a7; margin: 12px 0 5px; }
+  #loginGate input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; padding: 10px 12px; color: #fff; font-size: 14px; outline: none; }
+  #loginGate input:focus { border-color: #4f7cff; }
+  #loginGate button { width: 100%; margin-top: 16px; padding: 11px; border: none; border-radius: 10px; background: linear-gradient(120deg, #4f7cff, #6b5bff); color: #fff; font-size: 13.5px; font-weight: 700; letter-spacing: .03em; cursor: pointer; }
+  #loginGate button:hover { filter: brightness(1.1); }
+  #loginGate button:disabled { opacity: .6; cursor: default; }
+  #loginGate .lg-err { display: none; margin-top: 10px; font-size: 12px; color: #ff8b8b; text-align: center; }
+  #loginGate .lg-foot { margin-top: 22px; text-align: center; font-size: 10.5px; color: #5b6274; letter-spacing: .04em; }
+  #lgLogout { position: fixed; right: 14px; bottom: 14px; z-index: 9999; font-size: 11px; color: #8b93a7; background: rgba(10,12,20,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 5px 10px; cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #lgLogout:hover { color: #fff; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (function () {
+    var SUPABASE_URL = "https://qlvsowlzztsdthqqrhgi.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_yrpTeyds6we661S78IdDgg_qv943431";
+    var MODULE_SLUG = "attendance-face";
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storage: window.sessionStorage, persistSession: true, autoRefreshToken: true } });
+    window.sbClient = sb;
+    window.moduleLogout = function () { sb.auth.signOut().then(function () { location.reload(); }); };
+
+    document.body.className += " lg-locked";
+    var gate = document.createElement("div"); gate.id = "loginGate";
+    gate.innerHTML = '<div class="lg-card">' +
+      '<div class="lg-mark">&#9678;</div>' +
+      '<h2>NumberIQ</h2>' +
+      '<div class="lg-sub" id="lgSub">Checking session&hellip;</div>' +
+      '<div id="lgForm" style="display:none">' +
+      '<label>Email</label>' +
+      '<input id="lgId" type="email" autocomplete="username" placeholder="you@company.com">' +
+      '<label>Password</label>' +
+      '<input id="lgPin" type="password" autocomplete="current-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">' +
+      '<button id="lgBtn">Sign In</button>' +
+      '<div class="lg-err" id="lgErr">Invalid email or password. Please try again.</div>' +
+      '<div style="text-align:center;margin-top:10px"><a href="#" id="lgForgot" style="color:#4f7cff;font-size:12px;text-decoration:none">Forgot password?</a></div>' +
+      '<div id="lgMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div id="lgReset" style="display:none">' +
+      '<label>New Password</label>' +
+      '<input id="lgNew" type="password" autocomplete="new-password" placeholder="Enter new password (min 6 chars)">' +
+      '<button id="lgSetBtn">Set New Password</button>' +
+      '<div class="lg-err" id="lgResetErr"></div>' +
+      '<div id="lgResetMsg" style="display:none;margin-top:10px;font-size:12px;color:#7fb77f;text-align:center"></div>' +
+      '</div>' +
+      '<div class="lg-foot">NumberIQ Boardroom &middot; Access restricted</div></div>';
+    document.body.appendChild(gate);
+
+    function addLogout(email) {
+      var b = document.createElement("button"); b.id = "lgLogout";
+      b.textContent = email + " · Logout";
+      b.onclick = window.moduleLogout;
+      document.body.appendChild(b);
+    }
+    function showAccessDenied(msg) {
+      document.getElementById("lgSub").textContent = "Access Restricted";
+      document.getElementById("lgForm").style.display = "block";
+      var er = document.getElementById("lgErr");
+      er.style.display = "block";
+      er.textContent = msg;
+      sb.auth.signOut();
+    }
+    function checkAccess(email) {
+      var lowerEmail = (email || "").toLowerCase();
+      if (lowerEmail === "sitaram.pareek@igp.com") { unlock(email, true); return; }
+      sb.from("user_access").select("is_admin, allowed_modules").eq("email", lowerEmail).maybeSingle()
+        .then(function (res) {
+          if (res.error) { console.error("Access query error:", res.error); showAccessDenied("Error checking access permissions. Please contact administrator."); return; }
+          if (!res.data) { showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek."); return; }
+          var data = res.data;
+          if (data.is_admin || (data.allowed_modules && data.allowed_modules.indexOf(MODULE_SLUG) !== -1)) {
+            unlock(email, !!data.is_admin);
+          } else {
+            showAccessDenied("Access denied. You do not have permission to view this module. Please contact CA Sitaram Pareek.");
+          }
+        })
+        .catch(function (err) { console.error("Access check failed:", err); showAccessDenied("Error checking access permissions. Please contact administrator."); });
+    }
+    function unlock(email, isAdmin) {
+      document.body.classList.remove("lg-locked");
+      if (gate.parentNode) gate.remove();
+      addLogout(email);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 100);
+      if (typeof window.appInit === "function") window.appInit(email, isAdmin);
+      else window.__pendingAuth = { email: email, isAdmin: isAdmin };
+    }
+    function showForm() {
+      document.getElementById("lgSub").textContent = "Sign in to open this module";
+      document.getElementById("lgForm").style.display = "block";
+      setTimeout(function () { var el = document.getElementById("lgId"); if (el) el.focus(); }, 100);
+    }
+    function attempt() {
+      var email = (document.getElementById("lgId").value || "").trim();
+      var pass = (document.getElementById("lgPin").value || "").trim();
+      var btn = document.getElementById("lgBtn");
+      if (!email || !pass) return;
+      btn.disabled = true; btn.textContent = "Signing in…";
+      document.getElementById("lgErr").style.display = "none";
+      sb.auth.signInWithPassword({ email: email, password: pass }).then(function (res) {
+        btn.disabled = false; btn.textContent = "Sign In";
+        if (res.error || !res.data || !res.data.user) {
+          var er = document.getElementById("lgErr");
+          er.textContent = "Invalid email or password. Please try again.";
+          er.style.display = "block";
+          return;
+        }
+        checkAccess(res.data.user.email);
+      });
+    }
+    function forgot(e) {
+      e.preventDefault();
+      var email = (document.getElementById("lgId").value || "").trim();
+      var msg = document.getElementById("lgMsg");
+      if (!email) { var er = document.getElementById("lgErr"); er.textContent = "Enter your email first, then click Forgot password."; er.style.display = "block"; return; }
+      sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href }).then(function () {
+        msg.textContent = "Password reset link sent to " + email;
+        msg.style.display = "block";
+      });
+    }
+    function showReset() {
+      document.getElementById("lgSub").textContent = "Set a new password";
+      document.getElementById("lgReset").style.display = "block";
+    }
+    function doReset() {
+      var np = (document.getElementById("lgNew").value || "").trim();
+      var err = document.getElementById("lgResetErr");
+      if (np.length < 6) { err.textContent = "Password must be at least 6 characters."; err.style.display = "block"; return; }
+      sb.auth.updateUser({ password: np }).then(function (res) {
+        if (res.error) { err.textContent = res.error.message; err.style.display = "block"; return; }
+        document.getElementById("lgReset").style.display = "none";
+        var m = document.getElementById("lgResetMsg"); m.textContent = "Password updated. Loading…"; m.style.display = "block";
+        checkAccess(res.data.user.email);
+      });
+    }
+    document.getElementById("lgBtn").onclick = attempt;
+    document.getElementById("lgPin").onkeydown = function (e) { if (e.key === "Enter") attempt(); };
+    document.getElementById("lgId").onkeydown = function (e) { if (e.key === "Enter") attempt(); };
+    document.getElementById("lgForgot").onclick = forgot;
+    document.getElementById("lgSetBtn").onclick = doReset;
+
+    sb.auth.onAuthStateChange(function (event) { if (event === "PASSWORD_RECOVERY") showReset(); });
+    sb.auth.getSession().then(function (res) {
+      var s = res && res.data ? res.data.session : null;
+      if (s && s.user) checkAccess(s.user.email); else showForm();
+    });
+  })();
+</script>
+<!-- ===================== /LOGIN GATE ===================== -->
+
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="logo">NIQ</div>
+    <div>
+      <div class="htitle">Face Attendance</div>
+      <div class="hsub" id="hdrSub">Biometric punch &middot; register &middot; payroll export</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <span class="badge b-gry" id="roleBadge">&mdash;</span>
+    <button class="btn btn-sec" onclick="App.reloadAll()">&#8635; Refresh</button>
+    <button class="btn btn-pri" onclick="Report.openExport()">&#8681; Export Excel</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="sc sc-acc"><div class="sn" id="stEmp">0</div><div class="sl">Active Employees</div></div>
+  <div class="sc sc-cyn"><div class="sn" id="stEnrolled">0</div><div class="sl">Faces Enrolled</div></div>
+  <div class="sc sc-grn"><div class="sn" id="stIn">0</div><div class="sl">Punched In Today</div></div>
+  <div class="sc sc-amb"><div class="sn" id="stLate">0</div><div class="sl">Late Today</div></div>
+  <div class="sc sc-red"><div class="sn" id="stMissing">0</div><div class="sl">No Punch Today</div></div>
+  <div class="sc"><div class="sn" id="stDay" style="font-size:15px;padding-top:6px">&mdash;</div><div class="sl">Today</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tb active" data-tab="punch">&#9673; Punch Station</button>
+  <button class="tb" data-tab="emp">&#128100; Employee Master</button>
+  <button class="tb" data-tab="reg">&#128197; Attendance Register</button>
+  <button class="tb" data-tab="rep">&#128202; Reports</button>
+  <button class="tb" data-tab="hol">&#127881; Holiday Master</button>
+  <button class="tb" data-tab="set">&#9881; Settings</button>
+  <button class="tb" data-tab="log">&#128220; Audit &amp; Log</button>
+</div>
+
+<div class="main">
+
+  <!-- ============ PUNCH ============ -->
+  <div class="tc active" id="tab-punch">
+    <div class="frow">
+      <div class="pill-row" style="margin:0">
+        <div class="pill on" id="pillKiosk" onclick="Punch.setMode('kiosk')">&#128421; Kiosk (identify anyone)</div>
+        <div class="pill" id="pillMobile" onclick="Punch.setMode('mobile')">&#128241; My Phone (verify me)</div>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn btn-grn" id="btnStartCam" onclick="Punch.start()">&#9654; Start Camera</button>
+      <button class="btn btn-red" id="btnStopCam" onclick="Punch.stop()" style="display:none">&#9632; Stop</button>
+      <select id="camSelect" style="display:none"></select>
+    </div>
+
+    <div class="punch-wrap">
+      <div>
+        <div class="stage" id="stage">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="overlay"></canvas>
+          <div class="stage-off" id="stageOff">
+            <div style="font-size:40px">&#9673;</div>
+            <div><b>Camera is off</b><br>Press <b>Start Camera</b> to begin punching.</div>
+            <div style="font-size:11px;color:var(--txt3)">Face models (~12 MB) download once and are then cached by the browser.</div>
+          </div>
+          <div class="ring" id="ring" style="display:none"><span class="dot" id="ringDot"></span><span id="ringTxt">Idle</span></div>
+          <div class="chal" id="chalBar" style="display:none"></div>
+          <div class="prompt" id="prompt" style="display:none"></div>
+        </div>
+        <div class="note" style="margin-top:12px">
+          <b>How it works:</b> the first recognised face of the day is the <b>Punch-In</b>; the last one is the <b>Punch-Out</b>.
+          Repeat scans inside the cooldown window are ignored, so nobody double-punches by standing in front of the camera.
+          Liveness challenge must be completed before a punch is written.
+        </div>
+      </div>
+
+      <div>
+        <div class="result" id="result">
+          <div class="res-big" id="resName">Ready</div>
+          <div class="res-sub" id="resSub">Start the camera and stand 40&ndash;80&nbsp;cm away, facing the lens.</div>
+          <div id="resKind"></div>
+          <div class="kv" style="margin-top:12px">
+            <div class="kvi"><div class="k">Models</div><div class="v" id="diagModels">not loaded</div></div>
+            <div class="kvi"><div class="k">Enrolled templates</div><div class="v" id="diagTemplates">0</div></div>
+            <div class="kvi"><div class="k">Match threshold</div><div class="v" id="diagThresh">0.45</div></div>
+            <div class="kvi"><div class="k">Location</div><div class="v" id="diagGeo">n/a</div></div>
+          </div>
+        </div>
+        <div class="tbl-wrap" style="margin-top:12px">
+          <div class="tbl-top"><span class="tbl-ttl">Today's punches</span><span class="tbl-cnt" id="feedCount">0</span></div>
+          <div class="feed" id="feed"><div class="empty" style="padding:26px"><div class="empty-ttl">No punches yet today</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EMPLOYEE MASTER ============ -->
+  <div class="tc" id="tab-emp">
+    <div class="frow">
+      <input type="text" id="empSearch" placeholder="Search code / name / department" style="min-width:240px" oninput="Emp.render()">
+      <select id="empDept" onchange="Emp.render()"><option value="">All departments</option></select>
+      <select id="empStatus" onchange="Emp.render()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="">All</option></select>
+      <div class="spacer"></div>
+      <button class="btn btn-sec" onclick="Emp.openImport()">&#8679; Batch Import</button>
+      <button class="btn btn-sec" onclick="Emp.exportMaster()">&#8681; Export Master</button>
+      <button class="btn btn-pri" onclick="Emp.openEdit(null)">+ Add Employee</button>
+    </div>
+    <div class="tbl-wrap"><div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Department</th><th>Designation</th><th>Shift</th><th>Weekly Off</th><th>Faces</th><th>Consent</th><th>Status</th><th></th></tr></thead>
+        <tbody id="empBody"></tbody>
+      </table>
+    </div></div>
+  </div>
+
+  <!-- ============ REGISTER ============ -->
+  <div class="tc" id="tab-reg">
+    <div class="frow">
+      <span class="flabel">View</span>
+      <select id="regMode" onchange="Reg.render()"><option value="day">Single day</option><option value="month">Full month grid</option></select>
+      <span class="flabel" id="regDateLbl">Date</span>
+      <input type="date" id="regDate" onchange="Reg.render()">
+      <input type="month" id="regMonth" onchange="Reg.render()" style="display:none">
+      <select id="regDept" onchange="Reg.render()"><option value="">All departments</option></select>
+      <div class="spacer"></div>
+      <button class="btn btn-sec" onclick="Reg.exportView()">&#8681; Export this view</button>
+    </div>
+    <div id="regHost"></div>
+  </div>
+
+  <!-- ============ REPORTS ============ -->
+  <div class="tc" id="tab-rep">
+    <div class="frow">
+      <span class="flabel">Month</span><input type="month" id="repMonth" onchange="Report.render()">
+      <select id="repDept" onchange="Report.render()"><option value="">All departments</option></select>
+      <div class="spacer"></div>
+      <button class="btn btn-pri" onclick="Report.exportWorkbook()">&#8681; Download 6-sheet Excel</button>
+    </div>
+    <div class="note">
+      <b>Payable days</b> = Present (1) + Half Day (0.5) + Holidays + Weekly Offs. Holidays and weekly offs are recorded as
+      <b>paid non-working days</b>, not as "Present", so your present-day count and attendance % stay honest for payroll.
+    </div>
+    <div id="repHost"></div>
+  </div>
+
+  <!-- ============ HOLIDAYS ============ -->
+  <div class="tc" id="tab-hol">
+    <div class="frow">
+      <span class="flabel">Year</span><select id="holYear" onchange="Hol.render()"></select>
+      <div class="spacer"></div>
+      <button class="btn btn-sec" onclick="Hol.openImport()">&#8679; Import list</button>
+      <button class="btn btn-pri" onclick="Hol.openEdit(null)">+ Add Holiday</button>
+    </div>
+    <div class="grid2">
+      <div class="tbl-wrap"><div class="tbl-top"><span class="tbl-ttl">Holiday master</span><span class="tbl-cnt" id="holCount">0</span></div>
+        <div class="tbl-scroll"><table><thead><tr><th>Date</th><th>Day</th><th>Name</th><th>Type</th><th></th></tr></thead><tbody id="holBody"></tbody></table></div>
+      </div>
+      <div class="card">
+        <h4><span class="sec-dot"></span> Weekly offs (organisation default)</h4>
+        <div class="pill-row" id="woPills"></div>
+        <div style="font-size:11px;color:var(--txt2);line-height:1.6">
+          Selected days are treated as weekly offs for every employee and marked <b>Weekly Off (paid)</b>.
+          Individual employees can override this in the Employee Master &mdash; useful for staff on a rotational week-off.
+        </div>
+        <button class="btn btn-pri btn-sm" style="margin-top:12px" onclick="Hol.saveWeeklyOffs()">Save weekly offs</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETTINGS ============ -->
+  <div class="tc" id="tab-set">
+    <div class="grid2">
+      <div class="card">
+        <h4><span class="sec-dot"></span> Office hours &amp; attendance rules</h4>
+        <div class="fg">
+          <div class="fgrp"><label>Office in-time</label><input type="time" id="setIn"></div>
+          <div class="fgrp"><label>Office out-time</label><input type="time" id="setOut"></div>
+          <div class="fgrp"><label>Grace (minutes)</label><input type="number" id="setGrace" min="0" max="120"></div>
+          <div class="fgrp"><label>Day rollover hour (0&ndash;12)</label><input type="number" id="setRoll" min="0" max="12"></div>
+          <div class="fgrp"><label>Full day &ge; hours</label><input type="number" id="setFull" step="0.25"></div>
+          <div class="fgrp"><label>Half day &ge; hours</label><input type="number" id="setHalf" step="0.25"></div>
+        </div>
+        <div class="note" style="margin-top:12px">Below the half-day threshold the day is recorded <b>Absent</b>. Arrival after in-time + grace is flagged <b>Late</b>.</div>
+      </div>
+      <div class="card">
+        <h4><span class="sec-dot"></span> Recognition &amp; anti-spoofing</h4>
+        <div class="fg">
+          <div class="fgrp"><label>Detector</label><select id="setDet"><option value="ssd">SSD MobileNet (accurate)</option><option value="tiny">Tiny Face (fast)</option></select></div>
+          <div class="fgrp"><label>Match threshold (lower = stricter)</label><input type="number" id="setThresh" step="0.01" min="0.3" max="0.6"></div>
+          <div class="fgrp"><label>Ambiguity margin</label><input type="number" id="setMargin" step="0.01" min="0" max="0.2"></div>
+          <div class="fgrp"><label>Min face size (frame ratio)</label><input type="number" id="setFace" step="0.01" min="0.05" max="0.5"></div>
+          <div class="fgrp"><label>Liveness challenge</label><select id="setLive"><option value="true">Required</option><option value="false">Off (not recommended)</option></select></div>
+          <div class="fgrp"><label>Punch cooldown (seconds)</label><input type="number" id="setGap" min="10" max="3600"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h4><span class="sec-dot"></span> Geofence (phone punching)</h4>
+        <div class="fg">
+          <div class="fgrp"><label>Enforce geofence</label><select id="setGeoOn"><option value="true">Yes</option><option value="false">No</option></select></div>
+          <div class="fgrp"><label>Radius (metres)</label><input type="number" id="setGeoR" min="20" max="5000"></div>
+          <div class="fgrp"><label>Office latitude</label><input type="text" id="setGeoLat" class="mono"></div>
+          <div class="fgrp"><label>Office longitude</label><input type="text" id="setGeoLng" class="mono"></div>
+        </div>
+        <button class="btn btn-sec btn-sm" style="margin-top:10px" onclick="Settings.useMyLocation()">&#128205; Use my current location as office</button>
+      </div>
+      <div class="card">
+        <h4><span class="sec-dot"></span> Privacy, retention &amp; diagnostics</h4>
+        <div class="fg">
+          <div class="fgrp"><label>Organisation name (on reports)</label><input type="text" id="setOrg"></div>
+          <div class="fgrp"><label>Punch retention (months)</label><input type="number" id="setRet" min="6" max="120"></div>
+        </div>
+        <div class="note" style="margin-top:12px">
+          <b>No photographs are stored.</b> Enrolment keeps only a 128-number mathematical descriptor per face image.
+          Under the DPDP Act, 2023 record each employee's consent (Employee Master &rarr; Consent) before enrolling.
+        </div>
+        <div class="frow" style="margin:0">
+          <button class="btn btn-sec btn-sm" onclick="Settings.diagnostics()">&#9881; Run diagnostics</button>
+          <button class="btn btn-red btn-sm" onclick="Settings.purge()">&#128465; Purge punches beyond retention</button>
+        </div>
+        <div id="diagOut" style="margin-top:10px;font-size:11px;color:var(--txt2);line-height:1.7"></div>
+      </div>
+    </div>
+    <div class="frow" style="margin-top:14px"><div class="spacer"></div><button class="btn btn-pri" onclick="Settings.save()">Save settings</button></div>
+  </div>
+
+  <!-- ============ LOG ============ -->
+  <div class="tc" id="tab-log">
+    <div class="frow">
+      <span class="flabel">From</span><input type="date" id="logFrom" onchange="Log.render()">
+      <span class="flabel">To</span><input type="date" id="logTo" onchange="Log.render()">
+      <div class="spacer"></div>
+      <button class="btn btn-sec" onclick="Log.exportLog()">&#8681; Export punch log</button>
+    </div>
+    <div class="grid2">
+      <div class="tbl-wrap"><div class="tbl-top"><span class="tbl-ttl">Punch log</span><span class="tbl-cnt" id="logCount">0</span></div>
+        <div class="tbl-scroll" style="max-height:520px;overflow-y:auto"><table><thead><tr><th>Timestamp</th><th>Employee</th><th>Device</th><th>Dist</th><th>Liveness</th><th></th></tr></thead><tbody id="logBody"></tbody></table></div>
+      </div>
+      <div class="tbl-wrap"><div class="tbl-top"><span class="tbl-ttl">Admin audit trail</span><span class="tbl-cnt" id="audCount">0</span></div>
+        <div class="tbl-scroll" style="max-height:520px;overflow-y:auto"><table><thead><tr><th>When</th><th>Actor</th><th>Action</th><th>Details</th></tr></thead><tbody id="audBody"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-ov" id="mEmp"><div class="modal">
+  <div class="m-title"><span class="sec-dot"></span><span id="mEmpTitle">Employee</span><button class="m-close" onclick="UI.close('mEmp')">&#10005;</button></div>
+  <div class="fg">
+    <div class="fgrp"><label>Employee ID *</label><input type="text" id="eCode"></div>
+    <div class="fgrp"><label>Full name *</label><input type="text" id="eName"></div>
+    <div class="fgrp"><label>Department</label><input type="text" id="eDept" list="deptList"></div>
+    <div class="fgrp"><label>Designation</label><input type="text" id="eDesig"></div>
+    <div class="fgrp"><label>Email (needed for phone punching)</label><input type="email" id="eEmail"></div>
+    <div class="fgrp"><label>Mobile</label><input type="tel" id="eMobile"></div>
+    <div class="fgrp"><label>Date of joining</label><input type="date" id="eDoj"></div>
+    <div class="fgrp"><label>Status</label><select id="eStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+    <div class="fgrp"><label>Shift start</label><input type="time" id="eShiftIn"></div>
+    <div class="fgrp"><label>Shift end</label><input type="time" id="eShiftOut"></div>
+    <div class="fgrp s2"><label>Weekly offs for this employee</label><div class="pill-row" id="eWoPills"></div></div>
+    <div class="fgrp s2"><label>Biometric consent (DPDP Act, 2023)</label>
+      <div style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="eConsent" style="width:16px;height:16px;accent-color:var(--acc)">
+      <span style="font-size:11.5px;color:var(--txt2)">Employee has been informed of the purpose and has consented to face-based attendance.</span></div>
+    </div>
+    <div class="fgrp s2"><label>Notes</label><textarea id="eNotes"></textarea></div>
+  </div>
+  <div class="mfooter">
+    <button class="btn btn-sec" onclick="UI.close('mEmp')">Cancel</button>
+    <button class="btn btn-amb" id="eEnrollBtn" onclick="Enroll.open()">&#9673; Enrol faces</button>
+    <button class="btn btn-pri" onclick="Emp.save()">Save employee</button>
+  </div>
+</div></div>
+<datalist id="deptList"></datalist>
+
+<div class="modal-ov" id="mEnroll"><div class="modal wide">
+  <div class="m-title"><span class="sec-dot"></span><span id="enrTitle">Enrol faces</span><button class="m-close" onclick="Enroll.close()">&#10005;</button></div>
+  <div class="grid2">
+    <div>
+      <div class="stage" style="aspect-ratio:4/3">
+        <video id="enrVideo" autoplay muted playsinline style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1)"></video>
+        <div class="stage-off" id="enrOff"><div style="font-size:34px">&#128247;</div><div>Camera off</div></div>
+        <div class="prompt" id="enrPrompt" style="display:none"></div>
+      </div>
+      <div class="frow" style="margin-top:10px">
+        <button class="btn btn-grn btn-sm" id="enrStart" onclick="Enroll.startCam()">&#9654; Start camera</button>
+        <button class="btn btn-pri btn-sm" id="enrCapture" onclick="Enroll.capture()" disabled>&#128247; Capture sample</button>
+        <button class="btn btn-sec btn-sm" onclick="document.getElementById('enrFiles').click()">&#8679; Upload photos</button>
+        <input type="file" id="enrFiles" accept="image/*" multiple style="display:none" onchange="Enroll.fromFiles(this.files)">
+      </div>
+    </div>
+    <div>
+      <div class="note">
+        Capture <b>at least 3</b> samples &mdash; ideally 5: looking straight, slightly left, slightly right, and one each with and without
+        spectacles. Varied samples are what push real-world recognition past 95&nbsp;%. Samples that don't look like the same
+        person are rejected automatically.
+      </div>
+      <div class="prog"><div class="prog-f" id="enrProg"></div></div>
+      <div style="font-size:12px;color:var(--txt2)" id="enrStatus">0 samples in this session</div>
+      <div class="enroll-grid" id="enrGrid"></div>
+      <div style="margin-top:14px;font-size:12px;color:var(--txt2)">Already stored: <b id="enrStored">0</b> template(s)
+        <button class="btn btn-sec btn-sm" style="margin-left:8px" onclick="Enroll.clearStored()">Delete stored templates</button></div>
+    </div>
+  </div>
+  <div class="mfooter">
+    <button class="btn btn-sec" onclick="Enroll.close()">Close</button>
+    <button class="btn btn-pri" id="enrSave" onclick="Enroll.save()" disabled>Save templates</button>
+  </div>
+</div></div>
+
+<div class="modal-ov" id="mImport"><div class="modal wide">
+  <div class="m-title"><span class="sec-dot"></span>Batch import<button class="m-close" onclick="UI.close('mImport')">&#10005;</button></div>
+  <div class="pill-row">
+    <div class="pill on" id="impPillA" onclick="Emp.impMode('data')">Employee details (Excel/CSV)</div>
+    <div class="pill" id="impPillB" onclick="Emp.impMode('faces')">Face photos (bulk)</div>
+  </div>
+  <div id="impData">
+    <div class="note">Required column: <b>Employee ID</b> and <b>Name</b>. Optional: Department, Designation, Email, Mobile, Date of Joining, Shift In, Shift Out.
+      Existing Employee IDs are updated, new ones are created.</div>
+    <div class="upzone" onclick="document.getElementById('impFile').click()">
+      <div class="up-ico">&#128196;</div><div class="up-ttl">Drop or choose .xlsx / .csv</div><div class="up-sub">First row must be the header row</div>
+    </div>
+    <input type="file" id="impFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="Emp.readImport(this.files[0])">
+    <button class="btn btn-sec btn-sm" onclick="Emp.downloadTemplate()">&#8681; Download blank template</button>
+  </div>
+  <div id="impFaces" style="display:none">
+    <div class="note">Name each photo with the Employee ID as prefix &mdash; <b>EMP001.jpg</b>, <b>EMP001_2.jpg</b>, <b>EMP001-side.png</b>.
+      Every file is matched to its employee, converted to a descriptor, and the photo itself is discarded.</div>
+    <div class="upzone" onclick="document.getElementById('impFaceFiles').click()">
+      <div class="up-ico">&#128443;</div><div class="up-ttl">Choose face photos</div><div class="up-sub">JPG / PNG &middot; one clear frontal face per file</div>
+    </div>
+    <input type="file" id="impFaceFiles" accept="image/*" multiple style="display:none" onchange="Emp.bulkFaces(this.files)">
+  </div>
+  <div class="prog" id="impProgWrap" style="display:none"><div class="prog-f" id="impProg"></div></div>
+  <div id="impOut" style="font-size:12px;color:var(--txt2);max-height:240px;overflow:auto;line-height:1.7"></div>
+  <div class="mfooter"><button class="btn btn-sec" onclick="UI.close('mImport')">Close</button><button class="btn btn-pri" id="impApply" onclick="Emp.applyImport()" style="display:none">Apply import</button></div>
+</div></div>
+
+<div class="modal-ov" id="mHol"><div class="modal">
+  <div class="m-title"><span class="sec-dot"></span><span id="mHolTitle">Holiday</span><button class="m-close" onclick="UI.close('mHol')">&#10005;</button></div>
+  <div class="fg">
+    <div class="fgrp"><label>Date *</label><input type="date" id="hDate"></div>
+    <div class="fgrp"><label>Type</label><select id="hKind"><option value="public">Public holiday</option><option value="company">Company holiday</option><option value="optional">Optional</option></select></div>
+    <div class="fgrp s2"><label>Name *</label><input type="text" id="hName" placeholder="e.g. Diwali"></div>
+  </div>
+  <div class="mfooter"><button class="btn btn-sec" onclick="UI.close('mHol')">Cancel</button><button class="btn btn-pri" onclick="Hol.save()">Save</button></div>
+</div></div>
+
+<div class="modal-ov" id="mFix"><div class="modal">
+  <div class="m-title"><span class="sec-dot"></span>Regularise attendance<button class="m-close" onclick="UI.close('mFix')">&#10005;</button></div>
+  <div class="note warn">Use this when someone forgot to punch out, was on leave, or was on client duty. Every correction is written to the audit trail with your email.</div>
+  <div class="fg">
+    <div class="fgrp s2"><label>Employee</label><input type="text" id="fixEmp" disabled></div>
+    <div class="fgrp"><label>Date</label><input type="date" id="fixDate" disabled></div>
+    <div class="fgrp"><label>Status</label><select id="fixStatus">
+      <option value="">(clear override &mdash; use punches)</option>
+      <option value="Present">Present</option><option value="Half Day">Half Day</option><option value="Absent">Absent</option>
+      <option value="Leave">Leave</option><option value="On Duty">On Duty</option><option value="Holiday">Holiday</option></select></div>
+    <div class="fgrp"><label>In time</label><input type="time" id="fixIn"></div>
+    <div class="fgrp"><label>Out time</label><input type="time" id="fixOut"></div>
+    <div class="fgrp s2"><label>Reason *</label><input type="text" id="fixReason" placeholder="e.g. Forgot to punch out; confirmed by reporting manager"></div>
+  </div>
+  <div class="mfooter"><button class="btn btn-sec" onclick="UI.close('mFix')">Cancel</button><button class="btn btn-pri" onclick="Reg.saveFix()">Save correction</button></div>
+</div></div>
+
+<div class="toast-c" id="toasts"></div>
+<canvas id="scratch" style="display:none"></canvas>
+
+<script>
+/* =====================================================================
+   NumberIQ · Face Attendance
+   Part 1 — state, helpers, data access, attendance mathematics
+   ===================================================================== */
+var S = {
+  me: null, isAdmin: false,
+  employees: [], faces: [], holidays: [], overrides: [], audit: [],
+  settings: {}, roster: [], today: [], punches: [], punchRange: null,
+  modelsLoaded: false, lastPunchAt: {}
+};
+
+var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+/* ---------------- small helpers ---------------- */
+function pad(n){ return (n<10?'0':'')+n; }
+function ymd(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function parseYmd(s){ var p=String(s).split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function hhmm(d){ return d ? pad(d.getHours())+':'+pad(d.getMinutes()) : ''; }
+function hhmmss(d){ return d ? hhmm(d)+':'+pad(d.getSeconds()) : ''; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function num(v,d){ var n=parseFloat(v); return isNaN(n)?d:n; }
+function minutesOfTime(t){ if(!t) return null; var p=String(t).split(':'); return (+p[0])*60+(+p[1]||0); }
+function initials(name){ return String(name||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase(); }
+function hoursBetween(a,b){ return Math.max(0,(b-a)/3600000); }
+function fmtHours(h){ if(!h) return '0:00'; var m=Math.round(h*60); return Math.floor(m/60)+':'+pad(m%60); }
+function workDateOf(dt){
+  var roll = (S.settings.day_start_hour==null) ? 4 : S.settings.day_start_hour;
+  var d = new Date(dt.getTime());
+  if (d.getHours() < roll) d.setDate(d.getDate()-1);
+  return ymd(d);
+}
+function todayYmd(){ return workDateOf(new Date()); }
+function daysInMonth(y,m){ return new Date(y, m+1, 0).getDate(); }
+function haversine(a1,o1,a2,o2){
+  var R=6371000, t=Math.PI/180;
+  var dLat=(a2-a1)*t, dLon=(o2-o1)*t;
+  var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a1*t)*Math.cos(a2*t)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return 2*R*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+}
+
+/* ---------------- UI shell ---------------- */
+var UI = {
+  toast: function(msg, kind){
+    var c=document.getElementById('toasts');
+    var t=document.createElement('div'); t.className='toast '+(kind||'info');
+    t.innerHTML='<span>'+(kind==='success'?'&#10003;':kind==='error'?'&#9888;':'&#8505;')+'</span><span>'+esc(msg)+'</span>';
+    c.appendChild(t);
+    setTimeout(function(){ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(function(){t.remove();},300); }, kind==='error'?6000:3200);
+  },
+  open: function(id){ document.getElementById(id).classList.add('open'); },
+  close: function(id){ document.getElementById(id).classList.remove('open'); },
+  tab: function(name){
+    document.querySelectorAll('.tb').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===name); });
+    document.querySelectorAll('.tc').forEach(function(c){ c.classList.toggle('active', c.id==='tab-'+name); });
+    if(name!=='punch') Punch.stop();
+    if(name==='reg') Reg.render();
+    if(name==='rep') Report.render();
+    if(name==='log') Log.load();
+    if(name==='emp') Emp.render();
+    if(name==='hol') Hol.render();
+  },
+  adminOnly: function(){
+    if(S.isAdmin) return true;
+    UI.toast('Read-only access — only administrators can change this.','error');
+    return false;
+  }
+};
+
+/* ---------------- data access ---------------- */
+var Data = {
+  sb: function(){ return window.sbClient; },
+  err: function(where, e){ console.error(where, e); UI.toast(where+': '+(e && e.message ? e.message : 'failed'), 'error'); },
+
+  loadCore: async function(){
+    var sb=Data.sb();
+    var r = await Promise.all([
+      sb.from('att_settings').select('*').eq('id',1).maybeSingle(),
+      sb.from('att_employees').select('*').order('emp_code'),
+      sb.from('att_faces').select('id,employee_id,descriptor,label,quality,created_at'),
+      sb.from('att_holidays').select('*').order('holiday_date'),
+      sb.from('att_overrides').select('*')
+    ]);
+    if(r[0].error) return Data.err('Load settings', r[0].error);
+    if(r[1].error) return Data.err('Load employees', r[1].error);
+    S.settings  = r[0].data || {};
+    S.employees = r[1].data || [];
+    S.faces     = r[2].data || [];
+    S.holidays  = r[3].data || [];
+    S.overrides = r[4].data || [];
+    Data.buildRoster();
+  },
+
+  buildRoster: function(){
+    var byEmp = {};
+    S.faces.forEach(function(f){
+      (byEmp[f.employee_id] = byEmp[f.employee_id] || []).push(Float32Array.from(f.descriptor));
+    });
+    S.roster = S.employees.filter(function(e){ return e.status==='active' && byEmp[e.id]; })
+      .map(function(e){ return { id:e.id, code:e.emp_code, name:e.full_name, emp:e, templates:byEmp[e.id] }; });
+  },
+
+  fetchPunches: async function(from, to){
+    var sb=Data.sb(), out=[], page=0, size=1000;
+    while(true){
+      var r = await sb.from('att_punches').select('*').gte('work_date',from).lte('work_date',to)
+                .order('punched_at').range(page*size, page*size+size-1);
+      if(r.error){ Data.err('Load punches', r.error); break; }
+      out = out.concat(r.data||[]);
+      if(!r.data || r.data.length<size) break;
+      page++;
+    }
+    return out;
+  },
+
+  loadRange: async function(from, to){
+    S.punches = await Data.fetchPunches(from,to);
+    S.punchRange = {from:from, to:to};
+    return S.punches;
+  },
+
+  loadToday: async function(){
+    var t = todayYmd();
+    S.today = await Data.fetchPunches(t,t);
+    return S.today;
+  },
+
+  audit: async function(action, details){
+    try{ await Data.sb().from('att_audit').insert({ actor:S.me, action:action, details:details||{} }); }catch(e){ console.warn('audit',e); }
+  }
+};
+
+/* ---------------- attendance mathematics ---------------- */
+var Att = {
+  holidayMap: function(){ var m={}; S.holidays.forEach(function(h){ m[h.holiday_date]=h; }); return m; },
+  overrideMap: function(){ var m={}; S.overrides.forEach(function(o){ m[o.employee_id+'|'+o.work_date]=o; }); return m; },
+  weeklyOffsFor: function(emp){
+    return (emp && emp.weekly_offs && emp.weekly_offs.length) ? emp.weekly_offs : (S.settings.weekly_offs || [0,6]);
+  },
+  payable: function(status){
+    var w = {}; w['Present']=1; w['Half Day']=0.5; w['Holiday']=1; w['Weekly Off']=1; w['Leave']=1; w['On Duty']=1;
+    return w[status] || 0;
+  },
+  cls: function(status){
+    var c = {}; c['Present']='b-grn'; c['Half Day']='b-amb'; c['Absent']='b-red'; c['Missing Punch']='b-red';
+    c['Holiday']='b-cyn'; c['Weekly Off']='b-blu'; c['Leave']='b-blu'; c['On Duty']='b-blu'; c['Not Joined']='b-gry';
+    return c[status] || 'b-gry';
+  },
+  shortCode: function(status){
+    var c = {}; c['Present']='P'; c['Half Day']='H'; c['Absent']='A'; c['Missing Punch']='M';
+    c['Holiday']='HO'; c['Weekly Off']='WO'; c['Leave']='L'; c['On Duty']='OD'; c['Not Joined']='-';
+    return c[status] || '?';
+  },
+
+  day: function(emp, dateStr, punches, hmap, omap){
+    var st = S.settings;
+    var res = { date:dateStr, emp:emp, status:'Absent', inTime:null, outTime:null, hours:0,
+                late:false, lateBy:0, remark:'', punchCount:0, holidayName:'' };
+
+    if(emp.date_of_joining && dateStr < emp.date_of_joining){ res.status='Not Joined'; return res; }
+
+    var list = (punches||[]).slice().sort(function(a,b){ return new Date(a.punched_at)-new Date(b.punched_at); });
+    res.punchCount = list.length;
+    if(list.length){
+      res.inTime  = new Date(list[0].punched_at);
+      res.outTime = new Date(list[list.length-1].punched_at);
+      if(list.length>1) res.hours = hoursBetween(res.inTime, res.outTime);
+    }
+
+    var ov = omap[emp.id+'|'+dateStr];
+    if(ov && ov.status){
+      res.status = ov.status;
+      res.remark = 'Regularised' + (ov.reason ? ' — '+ov.reason : '');
+      if(ov.in_time){  var i=parseYmd(dateStr); i.setHours(+ov.in_time.split(':')[0], +ov.in_time.split(':')[1]||0,0,0); res.inTime=i; }
+      if(ov.out_time){ var o=parseYmd(dateStr); o.setHours(+ov.out_time.split(':')[0], +ov.out_time.split(':')[1]||0,0,0); res.outTime=o; }
+      if(res.inTime && res.outTime) res.hours = hoursBetween(res.inTime,res.outTime);
+      Att.markLate(res, emp);
+      return res;
+    }
+
+    var hol = hmap[dateStr];
+    if(hol){
+      res.status='Holiday'; res.holidayName=hol.name;
+      res.remark = list.length>1 ? ('Worked on holiday — '+fmtHours(res.hours)+' hrs') : hol.name;
+      return res;
+    }
+    var dow = parseYmd(dateStr).getDay();
+    if(Att.weeklyOffsFor(emp).indexOf(dow)!==-1){
+      res.status='Weekly Off';
+      res.remark = list.length>1 ? ('Worked on weekly off — '+fmtHours(res.hours)+' hrs') : (DAYS[dow]+' weekly off');
+      return res;
+    }
+
+    if(list.length===0){ res.status='Absent'; res.remark='No punch recorded'; return res; }
+    if(list.length===1){ res.status='Missing Punch'; res.remark='Only one scan — needs regularisation'; Att.markLate(res,emp); return res; }
+
+    var full = num(st.full_day_hours,8), half = num(st.half_day_hours,6);
+    if(res.hours >= full) res.status='Present';
+    else if(res.hours >= half) res.status='Half Day';
+    else { res.status='Absent'; res.remark='Worked '+fmtHours(res.hours)+' hrs — below half-day threshold'; }
+    Att.markLate(res, emp);
+    return res;
+  },
+
+  markLate: function(res, emp){
+    if(!res.inTime) return;
+    if(['Holiday','Weekly Off','Not Joined','Leave','On Duty'].indexOf(res.status)!==-1) return;
+    var start = minutesOfTime(emp.shift_start || S.settings.office_in || '10:00');
+    var grace = num(S.settings.grace_minutes,15);
+    var arrived = res.inTime.getHours()*60 + res.inTime.getMinutes();
+    if(arrived > start + grace){ res.late=true; res.lateBy = arrived - start; }
+  },
+
+  matrix: function(employees, from, to, punches){
+    var hmap=Att.holidayMap(), omap=Att.overrideMap(), byKey={};
+    (punches||[]).forEach(function(p){ (byKey[p.employee_id+'|'+p.work_date] = byKey[p.employee_id+'|'+p.work_date] || []).push(p); });
+    var out={}, d=parseYmd(from), end=parseYmd(to), dates=[];
+    while(d<=end){ dates.push(ymd(d)); d.setDate(d.getDate()+1); }
+    employees.forEach(function(e){
+      out[e.id]={};
+      dates.forEach(function(ds){ out[e.id][ds]=Att.day(e, ds, byKey[e.id+'|'+ds], hmap, omap); });
+    });
+    return { dates:dates, cells:out };
+  },
+
+  summarise: function(cells, dates){
+    var s={present:0,half:0,absent:0,missing:0,holiday:0,weekoff:0,leave:0,onduty:0,late:0,hours:0,payable:0,working:0};
+    dates.forEach(function(ds){
+      var c=cells[ds]; if(!c || c.status==='Not Joined') return;
+      if(['Holiday','Weekly Off'].indexOf(c.status)===-1) s.working++;
+      if(c.status==='Present') s.present++;
+      else if(c.status==='Half Day') s.half++;
+      else if(c.status==='Absent') s.absent++;
+      else if(c.status==='Missing Punch') s.missing++;
+      else if(c.status==='Holiday') s.holiday++;
+      else if(c.status==='Weekly Off') s.weekoff++;
+      else if(c.status==='Leave') s.leave++;
+      else if(c.status==='On Duty') s.onduty++;
+      if(c.late) s.late++;
+      s.hours += c.hours||0;
+      s.payable += Att.payable(c.status);
+    });
+    return s;
+  }
+};
+</script>
+
+<script>
+/* =====================================================================
+   Part 2 — face engine, liveness, punch station, enrolment
+   ===================================================================== */
+var Face = {
+  WEIGHTS: 'https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights',
+  /* Below roughly 100px of face width the descriptor degrades badly — measured on real
+     group photos, two different people came within 0.018 of the accept threshold when
+     both faces were under 100px. Enrolling from such an image poisons the template set. */
+  MIN_FACE_PX: 100,
+  loading: null,
+
+  load: function(status){
+    if(S.modelsLoaded) return Promise.resolve();
+    if(Face.loading) return Face.loading;
+    var det = S.settings.detector || 'ssd';
+    Face.loading = (async function(){
+      if(typeof faceapi==='undefined') throw new Error('face-api library did not load (check network / ad-blocker)');
+      if(status) status('Downloading face models…');
+      await faceapi.nets.faceLandmark68Net.loadFromUri(Face.WEIGHTS);
+      await faceapi.nets.faceRecognitionNet.loadFromUri(Face.WEIGHTS);
+      if(det==='tiny') await faceapi.nets.tinyFaceDetector.loadFromUri(Face.WEIGHTS);
+      else await faceapi.nets.ssdMobilenetv1.loadFromUri(Face.WEIGHTS);
+      S.modelsLoaded = true;
+      /* Warm up the graph on a blank frame. Measured cold, the first real inference costs
+         ~12 s of JIT compilation — unacceptable with someone standing at the kiosk. */
+      if(status) status('Warming up…');
+      try{
+        var warm=document.createElement('canvas'); warm.width=320; warm.height=240;
+        var wx=warm.getContext('2d'); wx.fillStyle='#808080'; wx.fillRect(0,0,320,240);
+        await faceapi.detectAllFaces(warm, Face.opts()).withFaceLandmarks().withFaceDescriptors();
+      }catch(e){ console.warn('warm-up skipped', e); }
+      var el=document.getElementById('diagModels'); if(el) el.textContent = (det==='tiny'?'Tiny Face':'SSD MobileNet')+' + landmarks + recognition';
+    })();
+    Face.loading.catch(function(){ Face.loading=null; });
+    return Face.loading;
+  },
+
+  opts: function(){
+    return (S.settings.detector==='tiny')
+      ? new faceapi.TinyFaceDetectorOptions({ inputSize:416, scoreThreshold:0.5 })
+      : new faceapi.SsdMobilenetv1Options({ minConfidence:0.5 });
+  },
+
+  detectAll: function(el){ return faceapi.detectAllFaces(el, Face.opts()).withFaceLandmarks().withFaceDescriptors(); },
+  detectOne: function(el){ return faceapi.detectSingleFace(el, Face.opts()).withFaceLandmarks().withFaceDescriptor(); },
+  detectLandmarks: function(el){ return faceapi.detectSingleFace(el, Face.opts()).withFaceLandmarks(); },
+
+  /* 1:N identification with an ambiguity guard */
+  identify: function(desc){
+    if(!S.roster.length) return { ok:false, reason:'No faces enrolled yet' };
+    var th = num(S.settings.match_threshold,0.45), mg = num(S.settings.ambiguity_margin,0.06);
+    var best={d:Infinity,r:null}, second={d:Infinity,r:null};
+    S.roster.forEach(function(r){
+      var dmin=Infinity;
+      for(var i=0;i<r.templates.length;i++){
+        var d=faceapi.euclideanDistance(desc, r.templates[i]);
+        if(d<dmin) dmin=d;
+      }
+      if(dmin<best.d){ second=best; best={d:dmin,r:r}; }
+      else if(dmin<second.d){ second={d:dmin,r:r}; }
+    });
+    if(!best.r || best.d > th) return { ok:false, reason:'Face not recognised', d:best.r?best.d:null };
+    if(second.r && (second.d - best.d) < mg) return { ok:false, reason:'Ambiguous match — move closer and retry', d:best.d };
+    return { ok:true, r:best.r, d:best.d };
+  },
+
+  /* 1:1 verification for phone mode (slightly stricter) */
+  verify: function(desc, empId){
+    var r = S.roster.filter(function(x){ return x.id===empId; })[0];
+    if(!r) return { ok:false, reason:'Your face is not enrolled yet — ask the administrator to enrol you' };
+    var dmin=Infinity;
+    for(var i=0;i<r.templates.length;i++){ var d=faceapi.euclideanDistance(desc, r.templates[i]); if(d<dmin) dmin=d; }
+    var th = Math.max(0.32, num(S.settings.match_threshold,0.45) - 0.03);
+    if(dmin > th) return { ok:false, reason:'Face does not match the enrolled templates', d:dmin };
+    return { ok:true, r:r, d:dmin };
+  },
+
+  /* ---- liveness geometry ---- */
+  ear: function(eye){
+    var d=function(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); };
+    return (d(eye[1],eye[5]) + d(eye[2],eye[4])) / (2*d(eye[0],eye[3]) || 1);
+  },
+  centre: function(pts){
+    var x=0,y=0; pts.forEach(function(p){ x+=p.x; y+=p.y; });
+    return { x:x/pts.length, y:y/pts.length };
+  },
+  /* >0 = subject turned to their own left, <0 = their right */
+  turnScore: function(lm){
+    var le=Face.centre(lm.getLeftEye()), re=Face.centre(lm.getRightEye()), nose=lm.getNose()[3];
+    var dL=Math.hypot(nose.x-le.x, nose.y-le.y), dR=Math.hypot(nose.x-re.x, nose.y-re.y);
+    return (dL-dR)/((dL+dR)||1);
+  },
+  blinkState: function(lm){
+    return (Face.ear(lm.getLeftEye()) + Face.ear(lm.getRightEye()))/2;
+  }
+};
+
+/* =====================================================================
+   Punch station
+   ===================================================================== */
+var Punch = {
+  mode:'kiosk', stream:null, running:false, phase:'idle', busy:false,
+  candidate:null, chal:[], chalIdx:0, chalStart:0, blinkLow:false, blinkCount:0, geo:null,
+  calib:{ n:0, ear:[], turn:[], baseEar:0.30, baseTurn:0 },
+
+  setMode: function(m){
+    Punch.mode=m;
+    document.getElementById('pillKiosk').classList.toggle('on', m==='kiosk');
+    document.getElementById('pillMobile').classList.toggle('on', m==='mobile');
+    if(m==='mobile'){
+      var me = Punch.myEmployee();
+      if(!me) UI.toast('No employee record is linked to '+S.me+'. Add your email to the Employee Master first.','error');
+      else UI.toast('Phone mode — you will punch as '+me.full_name+' ('+me.emp_code+')','info');
+    }
+    if(Punch.running){ Punch.stop(); }
+  },
+
+  myEmployee: function(){
+    var m=(S.me||'').toLowerCase();
+    return S.employees.filter(function(e){ return (e.email||'').toLowerCase()===m && e.status==='active'; })[0] || null;
+  },
+
+  say: function(text, sub){
+    var p=document.getElementById('prompt');
+    p.style.display='block';
+    p.innerHTML = esc(text) + (sub ? '<small>'+esc(sub)+'</small>' : '');
+  },
+  ring: function(txt, live){
+    document.getElementById('ring').style.display='flex';
+    document.getElementById('ringTxt').textContent = txt;
+    document.getElementById('ringDot').className = 'dot'+(live?' live':'');
+  },
+  result: function(name, sub, kind, kindClass){
+    document.getElementById('resName').textContent = name;
+    document.getElementById('resSub').textContent = sub || '';
+    var k=document.getElementById('resKind');
+    k.innerHTML = kind ? '<span class="res-kind '+(kindClass||'b-grn')+'">'+esc(kind)+'</span>' : '';
+  },
+
+  start: async function(){
+    try{
+      document.getElementById('btnStartCam').disabled=true;
+      Punch.ring('Loading models…', false);
+      Punch.say('Loading face models…','First run downloads about 12 MB, then it is cached');
+      await Face.load(function(m){ Punch.ring(m,false); });
+
+      if(Punch.mode==='mobile'){
+        var me=Punch.myEmployee();
+        if(!me){ throw new Error('No employee record linked to '+S.me); }
+        if(S.settings.geofence_enabled && S.settings.geofence_lat!=null){
+          Punch.ring('Checking location…', false);
+          Punch.geo = await Punch.getGeo();
+          var dist = haversine(Punch.geo.lat, Punch.geo.lng, S.settings.geofence_lat, S.settings.geofence_lng);
+          document.getElementById('diagGeo').textContent = Math.round(dist)+' m from office (±'+Math.round(Punch.geo.acc)+' m)';
+          if(dist > num(S.settings.geofence_radius_m,200) + (Punch.geo.acc||0)){
+            throw new Error('You are '+Math.round(dist)+' m from the office — outside the '+S.settings.geofence_radius_m+' m punching zone');
+          }
+        }
+      }
+
+      var constraints = { video:{ facingMode:'user', width:{ideal:1280}, height:{ideal:720} }, audio:false };
+      var sel=document.getElementById('camSelect');
+      if(sel.value) constraints.video={ deviceId:{exact:sel.value}, width:{ideal:1280}, height:{ideal:720} };
+      Punch.stream = await navigator.mediaDevices.getUserMedia(constraints);
+      var v=document.getElementById('video');
+      v.srcObject = Punch.stream;
+      await v.play();
+      Punch.listCameras();
+
+      document.getElementById('stageOff').style.display='none';
+      document.getElementById('btnStartCam').style.display='none';
+      document.getElementById('btnStopCam').style.display='inline-flex';
+      sel.style.display='inline-block';
+      Punch.running=true; Punch.phase='scan';
+      Punch.say('Look at the camera', Punch.mode==='kiosk' ? 'One person at a time' : 'Verifying your identity');
+      Punch.loop();
+    }catch(e){
+      console.error(e);
+      UI.toast(e.message || 'Could not start the camera', 'error');
+      Punch.ring('Error', false);
+      Punch.say('Could not start', e.message||'');
+    }finally{
+      document.getElementById('btnStartCam').disabled=false;
+    }
+  },
+
+  listCameras: async function(){
+    try{
+      var devs = await navigator.mediaDevices.enumerateDevices();
+      var cams = devs.filter(function(d){ return d.kind==='videoinput'; });
+      var sel=document.getElementById('camSelect');
+      if(sel.options.length===cams.length && cams.length) return;
+      sel.innerHTML = cams.map(function(c,i){ return '<option value="'+c.deviceId+'">'+esc(c.label||('Camera '+(i+1)))+'</option>'; }).join('');
+      sel.onchange = function(){ if(Punch.running){ Punch.stop(); Punch.start(); } };
+    }catch(e){ /* labels need permission; ignore */ }
+  },
+
+  getGeo: function(){
+    return new Promise(function(res, rej){
+      if(!navigator.geolocation) return rej(new Error('This device cannot report its location'));
+      navigator.geolocation.getCurrentPosition(
+        function(p){ res({ lat:p.coords.latitude, lng:p.coords.longitude, acc:p.coords.accuracy }); },
+        function(){ rej(new Error('Location permission denied — required for phone punching')); },
+        { enableHighAccuracy:true, timeout:12000, maximumAge:30000 });
+    });
+  },
+
+  stop: function(){
+    Punch.running=false; Punch.phase='idle'; Punch.candidate=null;
+    if(Punch.stream){ Punch.stream.getTracks().forEach(function(t){ t.stop(); }); Punch.stream=null; }
+    var v=document.getElementById('video'); if(v) v.srcObject=null;
+    var off=document.getElementById('stageOff'); if(off) off.style.display='flex';
+    var b1=document.getElementById('btnStartCam'), b2=document.getElementById('btnStopCam');
+    if(b1) b1.style.display='inline-flex';
+    if(b2) b2.style.display='none';
+    var p=document.getElementById('prompt'); if(p) p.style.display='none';
+    var r=document.getElementById('ring'); if(r) r.style.display='none';
+    var c=document.getElementById('chalBar'); if(c) c.style.display='none';
+    Punch.clearOverlay();
+  },
+
+  clearOverlay: function(){
+    var c=document.getElementById('overlay'), v=document.getElementById('video');
+    if(!c||!v) return;
+    c.width=v.clientWidth||640; c.height=v.clientHeight||480;
+    c.getContext('2d').clearRect(0,0,c.width,c.height);
+  },
+
+  drawBox: function(box, colour){
+    var c=document.getElementById('overlay'), v=document.getElementById('video');
+    if(!c||!v||!v.videoWidth) return;
+    c.width=v.clientWidth; c.height=v.clientHeight;
+    var ctx=c.getContext('2d');
+    ctx.clearRect(0,0,c.width,c.height);
+    if(!box) return;
+    /* video uses object-fit:cover — replicate the crop */
+    var sx=c.width/v.videoWidth, sy=c.height/v.videoHeight, s=Math.max(sx,sy);
+    var ox=(c.width - v.videoWidth*s)/2, oy=(c.height - v.videoHeight*s)/2;
+    ctx.strokeStyle=colour; ctx.lineWidth=3;
+    var x=box.x*s+ox, y=box.y*s+oy, w=box.width*s, h=box.height*s, r=12;
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); ctx.stroke();
+  },
+
+  loop: async function(){
+    if(!Punch.running) return;
+    var v=document.getElementById('video');
+    if(!v || !v.videoWidth){ setTimeout(Punch.loop, 200); return; }
+    if(Punch.busy){ setTimeout(Punch.loop, 120); return; }
+    Punch.busy=true;
+    try{
+      if(Punch.phase==='scan') await Punch.scanStep(v);
+      else if(Punch.phase==='challenge') await Punch.challengeStep(v);
+    }catch(e){ console.error('loop', e); }
+    Punch.busy=false;
+    setTimeout(Punch.loop, Punch.phase==='challenge' ? 90 : 260);
+  },
+
+  scanStep: async function(v){
+    var res = await Face.detectAll(v);
+    if(!res.length){ Punch.drawBox(null); Punch.ring('Searching', true); Punch.say('Look at the camera','No face detected'); return; }
+    if(res.length>1){
+      Punch.drawBox(res[0].detection.box, '#f59e0b');
+      Punch.ring('Multiple faces', true);
+      Punch.say('One person at a time','More than one face is in frame');
+      return;
+    }
+    var det=res[0], box=det.detection.box;
+    var ratio = box.width / v.videoWidth;
+    if(ratio < num(S.settings.min_face_ratio,0.16)){
+      Punch.drawBox(box, '#f59e0b');
+      Punch.ring('Too far', true);
+      Punch.say('Please come closer','Your face is too small in the frame');
+      return;
+    }
+
+    var m = (Punch.mode==='mobile')
+      ? Face.verify(det.descriptor, (Punch.myEmployee()||{}).id)
+      : Face.identify(det.descriptor);
+
+    if(!m.ok){
+      Punch.drawBox(box, '#ef4444');
+      Punch.ring('Not recognised', true);
+      Punch.say(m.reason, m.d!=null ? ('closest distance '+m.d.toFixed(3)) : '');
+      return;
+    }
+
+    var gap = num(S.settings.min_punch_gap_sec,60)*1000;
+    var last = Punch.lastPunchTime(m.r.id);
+    if(last && (Date.now()-last) < gap){
+      Punch.drawBox(box, '#3b82f6');
+      Punch.ring('Already recorded', true);
+      Punch.say(m.r.name+' — already recorded', 'Cooldown '+Math.ceil((gap-(Date.now()-last))/1000)+'s');
+      return;
+    }
+
+    Punch.drawBox(box, '#10b981');
+    Punch.candidate = { r:m.r, d:m.d };
+    if(S.settings.liveness_required===false){ await Punch.commit('skipped'); return; }
+    Punch.beginChallenge();
+  },
+
+  beginChallenge: function(){
+    var pool=['blink','left','right'];
+    for(var i=pool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=pool[i]; pool[i]=pool[j]; pool[j]=t; }
+    Punch.chal = pool.slice(0,2);
+    Punch.chalIdx = 0; Punch.chalStart = Date.now(); Punch.blinkLow=false; Punch.blinkCount=0;
+    Punch.resetCalib();
+    Punch.phase='challenge';
+    Punch.renderChalBar();
+    Punch.promptChallenge();
+  },
+
+  resetCalib: function(){ Punch.calib={ n:0, ear:[], turn:[], baseEar:0.30, baseTurn:0 }; },
+
+  renderChalBar: function(){
+    var bar=document.getElementById('chalBar');
+    bar.style.display='flex';
+    bar.innerHTML = Punch.chal.map(function(_,i){
+      return '<span class="'+(i<Punch.chalIdx?'done':(i===Punch.chalIdx?'now':''))+'"></span>';
+    }).join('');
+  },
+
+  promptChallenge: function(){
+    var c=Punch.chal[Punch.chalIdx];
+    var name = Punch.candidate ? Punch.candidate.r.name : '';
+    var txt = c==='blink' ? 'Blink your eyes' : (c==='left' ? 'Turn your head to your LEFT' : 'Turn your head to your RIGHT');
+    Punch.ring('Liveness check', true);
+    Punch.say(txt, name + ' — step '+(Punch.chalIdx+1)+' of '+Punch.chal.length);
+  },
+
+  challengeStep: async function(v){
+    if(Date.now()-Punch.chalStart > 11000){
+      Punch.fail('Liveness check timed out — please try again');
+      return;
+    }
+    var det = await Face.detectLandmarks(v);
+    if(!det){ Punch.drawBox(null); return; }
+    Punch.drawBox(det.detection.box, '#f59e0b');
+    var lm = det.landmarks, c = Punch.chal[Punch.chalIdx], passed=false;
+
+    /* Calibrate against THIS person's neutral face before judging the challenge.
+       Absolute thresholds do not work: measured on real faces, a resting eye-aspect-ratio
+       runs anywhere from 0.20 to 0.45, and a relaxed frontal face can already read a turn
+       score of -0.18. Both are judged as a change from the person's own baseline. */
+    if(Punch.calib.n < 5){
+      Punch.calib.ear.push(Face.blinkState(lm));
+      Punch.calib.turn.push(Face.turnScore(lm));
+      Punch.calib.n++;
+      if(Punch.calib.n < 5){ Punch.say('Hold still…','Calibrating'); return; }
+      var med=function(a){ var s=a.slice().sort(function(x,y){ return x-y; }); return s[Math.floor(s.length/2)]; };
+      Punch.calib.baseEar  = Math.min(0.45, Math.max(0.15, med(Punch.calib.ear)));
+      Punch.calib.baseTurn = med(Punch.calib.turn);
+      Punch.chalStart = Date.now();
+      Punch.promptChallenge();
+      return;
+    }
+
+    if(c==='blink'){
+      var e = Face.blinkState(lm), b = Punch.calib.baseEar;
+      if(e < b*0.72) Punch.blinkLow = true;
+      else if(e > b*0.88 && Punch.blinkLow){ Punch.blinkLow=false; Punch.blinkCount++; }
+      if(Punch.blinkCount >= 1) passed=true;
+    } else {
+      var t = Face.turnScore(lm) - Punch.calib.baseTurn;
+      if(c==='left'  && t >  0.22) passed=true;
+      if(c==='right' && t < -0.22) passed=true;
+    }
+
+    if(passed){
+      Punch.chalIdx++;
+      Punch.chalStart = Date.now();
+      Punch.blinkLow=false; Punch.blinkCount=0;
+      Punch.resetCalib();
+      Punch.renderChalBar();
+      if(Punch.chalIdx >= Punch.chal.length){ await Punch.confirmAndCommit(v); }
+      else Punch.promptChallenge();
+    }
+  },
+
+  /* re-verify identity after the challenge so nobody swaps in mid-way */
+  confirmAndCommit: async function(v){
+    Punch.phase='commit';
+    Punch.say('Confirming…','Re-checking identity');
+    var det = await Face.detectOne(v);
+    if(!det){ Punch.fail('Lost the face while confirming — try again'); return; }
+    var m = (Punch.mode==='mobile')
+      ? Face.verify(det.descriptor, (Punch.myEmployee()||{}).id)
+      : Face.identify(det.descriptor);
+    if(!m.ok || !Punch.candidate || m.r.id !== Punch.candidate.r.id){
+      Punch.fail('Identity changed during the check — punch cancelled');
+      return;
+    }
+    Punch.candidate.d = m.d;
+    await Punch.commit(Punch.chal.join('+'));
+  },
+
+  fail: function(msg){
+    Punch.phase='scan';
+    Punch.candidate=null;
+    document.getElementById('chalBar').style.display='none';
+    Punch.ring('Retry', true);
+    Punch.say(msg, 'Step away and come back to the camera');
+    UI.toast(msg,'error');
+  },
+
+  lastPunchTime: function(empId){
+    var t=0;
+    (S.today||[]).forEach(function(p){ if(p.employee_id===empId){ var x=new Date(p.punched_at).getTime(); if(x>t) t=x; } });
+    if(S.lastPunchAt[empId] && S.lastPunchAt[empId]>t) t=S.lastPunchAt[empId];
+    return t;
+  },
+
+  commit: async function(liveness){
+    var cand = Punch.candidate;
+    if(!cand) { Punch.phase='scan'; return; }
+    var now = new Date();
+    var row = {
+      employee_id: cand.r.id,
+      punched_at: now.toISOString(),
+      work_date: workDateOf(now),
+      device: Punch.mode,
+      match_distance: Number(cand.d.toFixed(4)),
+      liveness: liveness,
+      created_by: S.me
+    };
+    if(Punch.mode==='mobile' && Punch.geo){ row.lat=Punch.geo.lat; row.lng=Punch.geo.lng; row.accuracy_m=Punch.geo.acc; }
+
+    var existing = (S.today||[]).filter(function(p){ return p.employee_id===cand.r.id; });
+    var isFirst = existing.length===0;
+
+    var r = await Data.sb().from('att_punches').insert(row).select().maybeSingle();
+    if(r.error){
+      Data.err('Save punch', r.error);
+      Punch.fail('Could not save the punch — check your connection');
+      return;
+    }
+    S.today.push(r.data || row);
+    S.lastPunchAt[cand.r.id] = now.getTime();
+
+    var mine = (S.today||[]).filter(function(p){ return p.employee_id===cand.r.id; })
+                  .sort(function(a,b){ return new Date(a.punched_at)-new Date(b.punched_at); });
+    var first = new Date(mine[0].punched_at);
+    var hrs = mine.length>1 ? hoursBetween(first, now) : 0;
+
+    var emp = cand.r.emp;
+    var startMin = minutesOfTime(emp.shift_start || S.settings.office_in || '10:00');
+    var grace = num(S.settings.grace_minutes,15);
+    var lateFlag = isFirst && ((first.getHours()*60+first.getMinutes()) > startMin+grace);
+
+    if(isFirst){
+      Punch.result(cand.r.name,
+        cand.r.code+' · '+(emp.department||'—')+' · in at '+hhmmss(now),
+        lateFlag ? 'PUNCH-IN · LATE' : 'PUNCH-IN',
+        lateFlag ? 'b-amb' : 'b-grn');
+    }else{
+      Punch.result(cand.r.name,
+        cand.r.code+' · in '+hhmm(first)+' · out '+hhmm(now)+' · '+fmtHours(hrs)+' hrs so far',
+        'PUNCH-OUT UPDATED', 'b-blu');
+    }
+    UI.toast((isFirst?'Punch-In':'Punch-Out')+' recorded for '+cand.r.name+(lateFlag?' (late)':''), 'success');
+    Punch.say(cand.r.name+' — '+(isFirst?'Punch-In':'Punch-Out')+' at '+hhmm(now), 'Next person may step in');
+
+    Punch.candidate=null;
+    Punch.phase='scan';
+    document.getElementById('chalBar').style.display='none';
+    Punch.renderFeed();
+    App.renderStats();
+  },
+
+  renderFeed: function(){
+    var host=document.getElementById('feed');
+    var byEmp={};
+    (S.today||[]).forEach(function(p){ (byEmp[p.employee_id]=byEmp[p.employee_id]||[]).push(p); });
+    var rows = Object.keys(byEmp).map(function(id){
+      var list=byEmp[id].slice().sort(function(a,b){ return new Date(a.punched_at)-new Date(b.punched_at); });
+      var e = S.employees.filter(function(x){ return x.id===id; })[0] || {full_name:'(deleted)', emp_code:'—'};
+      var inT=new Date(list[0].punched_at), outT=new Date(list[list.length-1].punched_at);
+      return { e:e, inT:inT, outT:list.length>1?outT:null, n:list.length, hrs:list.length>1?hoursBetween(inT,outT):0 };
+    }).sort(function(a,b){ return b.inT-a.inT; });
+
+    document.getElementById('feedCount').textContent = rows.length+' employee(s) · '+(S.today||[]).length+' scans';
+    if(!rows.length){ host.innerHTML='<div class="empty" style="padding:26px"><div class="empty-ttl">No punches yet today</div></div>'; return; }
+    host.innerHTML = rows.map(function(r){
+      return '<div class="feed-row"><div class="av">'+esc(initials(r.e.full_name))+'</div>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:600">'+esc(r.e.full_name)+'</div>'+
+        '<div style="font-size:11px;color:var(--txt2)">'+esc(r.e.emp_code)+' · in '+hhmm(r.inT)+(r.outT?(' · out '+hhmm(r.outT)):'')+'</div></div>'+
+        '<div style="text-align:right"><div class="mono" style="font-size:12px">'+fmtHours(r.hrs)+'</div>'+
+        '<div style="font-size:10px;color:var(--txt3)">'+r.n+' scan'+(r.n>1?'s':'')+'</div></div></div>';
+    }).join('');
+  }
+};
+
+/* =====================================================================
+   Enrolment
+   ===================================================================== */
+var Enroll = {
+  emp:null, stream:null, samples:[], ready:false,
+
+  open: function(){
+    if(!UI.adminOnly()) return;
+    var e = Emp.editing;
+    if(!e || !e.id){ UI.toast('Save the employee first, then enrol faces.','error'); return; }
+    Enroll.emp=e; Enroll.samples=[];
+    document.getElementById('enrTitle').textContent = 'Enrol faces — '+e.full_name+' ('+e.emp_code+')';
+    document.getElementById('enrGrid').innerHTML='';
+    document.getElementById('enrSave').disabled=true;
+    Enroll.updateStatus();
+    Enroll.renderStored();
+    UI.open('mEnroll');
+  },
+
+  renderStored: function(){
+    var n = S.faces.filter(function(f){ return f.employee_id===Enroll.emp.id; }).length;
+    document.getElementById('enrStored').textContent = n;
+  },
+
+  close: function(){
+    if(Enroll.stream){ Enroll.stream.getTracks().forEach(function(t){t.stop();}); Enroll.stream=null; }
+    document.getElementById('enrVideo').srcObject=null;
+    document.getElementById('enrOff').style.display='flex';
+    document.getElementById('enrCapture').disabled=true;
+    UI.close('mEnroll');
+  },
+
+  startCam: async function(){
+    try{
+      document.getElementById('enrPrompt').style.display='block';
+      document.getElementById('enrPrompt').textContent='Loading face models…';
+      await Face.load();
+      Enroll.stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user', width:{ideal:1280}, height:{ideal:720} } });
+      var v=document.getElementById('enrVideo'); v.srcObject=Enroll.stream; await v.play();
+      document.getElementById('enrOff').style.display='none';
+      document.getElementById('enrCapture').disabled=false;
+      Enroll.hint();
+    }catch(e){ UI.toast(e.message||'Camera failed','error'); }
+  },
+
+  hint: function(){
+    var tips=['Look straight at the camera','Turn slightly to your left','Turn slightly to your right','Tilt your chin down a little','Same pose, with/without spectacles'];
+    var p=document.getElementById('enrPrompt');
+    p.style.display='block';
+    p.textContent = tips[Math.min(Enroll.samples.length, tips.length-1)];
+  },
+
+  updateStatus: function(){
+    var n=Enroll.samples.length;
+    document.getElementById('enrStatus').textContent = n+' sample'+(n===1?'':'s')+' in this session'+(n<3?' — at least 3 recommended':'');
+    document.getElementById('enrProg').style.width = Math.min(100, (n/5)*100)+'%';
+    document.getElementById('enrSave').disabled = n===0;
+  },
+
+  addSample: function(desc, quality, label){
+    for(var i=0;i<Enroll.samples.length;i++){
+      var d=faceapi.euclideanDistance(desc, Enroll.samples[i].desc);
+      if(d > 0.55){ UI.toast('That sample looks like a different person — not added.','error'); return false; }
+      if(d < 0.12){ UI.toast('Too similar to an existing sample — change your angle.','error'); return false; }
+    }
+    Enroll.samples.push({ desc:desc, quality:quality, label:label||('sample '+(Enroll.samples.length+1)) });
+    Enroll.renderSamples(); Enroll.updateStatus(); Enroll.hint();
+    return true;
+  },
+
+  renderSamples: function(){
+    document.getElementById('enrGrid').innerHTML = Enroll.samples.map(function(s,i){
+      return '<div class="echip"><span class="x" onclick="Enroll.remove('+i+')">&#10005;</span>'+
+             '<div class="q">'+(s.quality?Math.round(s.quality*100)+'%':'—')+'</div><div>'+esc(s.label)+'</div></div>';
+    }).join('');
+  },
+  remove: function(i){ Enroll.samples.splice(i,1); Enroll.renderSamples(); Enroll.updateStatus(); },
+
+  capture: async function(){
+    var v=document.getElementById('enrVideo');
+    if(!v.videoWidth){ UI.toast('Camera not ready','error'); return; }
+    document.getElementById('enrCapture').disabled=true;
+    try{
+      var all = await Face.detectAll(v);
+      if(!all.length){ UI.toast('No face detected','error'); return; }
+      if(all.length>1){ UI.toast('More than one face in frame','error'); return; }
+      var det=all[0];
+      if(det.detection.box.width / v.videoWidth < 0.18){ UI.toast('Come closer — face too small','error'); return; }
+      Enroll.addSample(det.descriptor, det.detection.score, 'live '+(Enroll.samples.length+1));
+    }catch(e){ UI.toast(e.message||'Capture failed','error'); }
+    finally{ document.getElementById('enrCapture').disabled=false; }
+  },
+
+  fromFiles: async function(files){
+    if(!files || !files.length) return;
+    await Face.load();
+    for(var i=0;i<files.length;i++){
+      try{
+        var img = await Enroll.readImage(files[i]);
+        var det = await Face.detectOne(img);
+        if(!det){ UI.toast(files[i].name+': no face found','error'); continue; }
+        if(det.detection.box.width < Face.MIN_FACE_PX){
+          UI.toast(files[i].name+': face is only '+Math.round(det.detection.box.width)+'px wide — too small to enrol reliably','error'); continue;
+        }
+        Enroll.addSample(det.descriptor, det.detection.score, files[i].name.slice(0,14));
+      }catch(e){ UI.toast(files[i].name+': '+(e.message||'failed'),'error'); }
+    }
+    document.getElementById('enrFiles').value='';
+  },
+
+  readImage: function(file){
+    return new Promise(function(res, rej){
+      var url=URL.createObjectURL(file), img=new Image();
+      img.onload=function(){ URL.revokeObjectURL(url); res(img); };
+      img.onerror=function(){ URL.revokeObjectURL(url); rej(new Error('not an image')); };
+      img.src=url;
+    });
+  },
+
+  save: async function(){
+    if(!Enroll.samples.length) return;
+    var rows = Enroll.samples.map(function(s){
+      return { employee_id:Enroll.emp.id, descriptor:Array.from(s.desc), label:s.label,
+               quality:s.quality?Number(s.quality.toFixed(3)):null, created_by:S.me };
+    });
+    var r = await Data.sb().from('att_faces').insert(rows).select();
+    if(r.error) return Data.err('Save templates', r.error);
+    S.faces = S.faces.concat(r.data||[]);
+    Data.buildRoster();
+    Data.audit('enrol_faces', { employee:Enroll.emp.emp_code, count:rows.length });
+    UI.toast(rows.length+' template(s) saved for '+Enroll.emp.full_name, 'success');
+    Enroll.samples=[]; Enroll.renderSamples(); Enroll.updateStatus(); Enroll.renderStored();
+    Emp.render(); App.renderStats();
+  },
+
+  clearStored: async function(){
+    if(!UI.adminOnly()) return;
+    if(!confirm('Delete all stored face templates for '+Enroll.emp.full_name+'? They will have to be re-enrolled.')) return;
+    var r = await Data.sb().from('att_faces').delete().eq('employee_id', Enroll.emp.id);
+    if(r.error) return Data.err('Delete templates', r.error);
+    S.faces = S.faces.filter(function(f){ return f.employee_id!==Enroll.emp.id; });
+    Data.buildRoster();
+    Data.audit('delete_faces', { employee:Enroll.emp.emp_code });
+    Enroll.renderStored(); Emp.render(); App.renderStats();
+    UI.toast('Templates deleted','success');
+  }
+};
+</script>
+
+<script>
+/* =====================================================================
+   Part 3 — employee master, register, reports, holidays, settings, log
+   ===================================================================== */
+function woPillHtml(selected, handler){
+  return DAYS.map(function(d,i){
+    return '<div class="pill'+(selected.indexOf(i)!==-1?' on':'')+'" data-dow="'+i+'" onclick="'+handler+'(this)">'+d+'</div>';
+  }).join('');
+}
+function woSelected(hostId){
+  var out=[];
+  document.querySelectorAll('#'+hostId+' .pill.on').forEach(function(p){ out.push(+p.dataset.dow); });
+  return out.sort();
+}
+function togglePill(el){ el.classList.toggle('on'); }
+
+/* =====================  EMPLOYEE MASTER  ===================== */
+var Emp = {
+  editing:null, importRows:null, importMode:'data',
+
+  faceCount: function(id){ return S.faces.filter(function(f){ return f.employee_id===id; }).length; },
+
+  filtered: function(){
+    var q=(document.getElementById('empSearch').value||'').toLowerCase().trim();
+    var dept=document.getElementById('empDept').value;
+    var st=document.getElementById('empStatus').value;
+    return S.employees.filter(function(e){
+      if(st && e.status!==st) return false;
+      if(dept && (e.department||'')!==dept) return false;
+      if(q){
+        var hay=(e.emp_code+' '+e.full_name+' '+(e.department||'')+' '+(e.designation||'')).toLowerCase();
+        if(hay.indexOf(q)===-1) return false;
+      }
+      return true;
+    });
+  },
+
+  render: function(){
+    var rows=Emp.filtered();
+    var body=document.getElementById('empBody');
+    if(!rows.length){
+      body.innerHTML='<tr><td colspan="10"><div class="empty"><div class="empty-ico">&#128100;</div><div class="empty-ttl">No employees</div><div>Add employees or use Batch Import.</div></div></td></tr>';
+    }else{
+      body.innerHTML = rows.map(function(e){
+        var fc=Emp.faceCount(e.id);
+        var wo=Att.weeklyOffsFor(e).map(function(i){ return DAYS[i]; }).join(', ');
+        return '<tr>'+
+          '<td class="mono">'+esc(e.emp_code)+'</td>'+
+          '<td><b>'+esc(e.full_name)+'</b>'+(e.email?'<div style="font-size:10px;color:var(--txt3)">'+esc(e.email)+'</div>':'')+'</td>'+
+          '<td>'+esc(e.department||'—')+'</td>'+
+          '<td>'+esc(e.designation||'—')+'</td>'+
+          '<td class="mono">'+esc((e.shift_start||'').slice(0,5))+'–'+esc((e.shift_end||'').slice(0,5))+'</td>'+
+          '<td style="font-size:11px">'+esc(wo)+'</td>'+
+          '<td><span class="badge '+(fc>=3?'b-grn':fc>0?'b-amb':'b-red')+'">'+fc+'</span></td>'+
+          '<td>'+(e.consent_at?'<span class="badge b-grn">Yes</span>':'<span class="badge b-red">Missing</span>')+'</td>'+
+          '<td><span class="badge '+(e.status==='active'?'b-grn':'b-gry')+'">'+esc(e.status)+'</span></td>'+
+          '<td style="text-align:right"><button class="ibtn" title="Edit" onclick="Emp.openEdit(\''+e.id+'\')">&#9998;</button>'+
+          '<button class="ibtn" title="Enrol faces" onclick="Emp.openEdit(\''+e.id+'\',true)">&#9673;</button>'+
+          '<button class="ibtn del" title="Delete" onclick="Emp.remove(\''+e.id+'\')">&#128465;</button></td></tr>';
+      }).join('');
+    }
+    Emp.refreshDeptOptions();
+  },
+
+  refreshDeptOptions: function(){
+    var set={}; S.employees.forEach(function(e){ if(e.department) set[e.department]=1; });
+    var opts = Object.keys(set).sort();
+    ['empDept','regDept','repDept'].forEach(function(id){
+      var el=document.getElementById(id); if(!el) return;
+      var cur=el.value;
+      el.innerHTML='<option value="">All departments</option>'+opts.map(function(d){ return '<option'+(d===cur?' selected':'')+'>'+esc(d)+'</option>'; }).join('');
+    });
+    document.getElementById('deptList').innerHTML = opts.map(function(d){ return '<option value="'+esc(d)+'">'; }).join('');
+  },
+
+  openEdit: function(id, goEnroll){
+    if(!UI.adminOnly()) return;
+    var e = id ? S.employees.filter(function(x){ return x.id===id; })[0] : null;
+    Emp.editing = e || { shift_start:S.settings.office_in||'10:00', shift_end:S.settings.office_out||'19:00',
+                         weekly_offs:(S.settings.weekly_offs||[0,6]).slice(), status:'active' };
+    var v=Emp.editing;
+    document.getElementById('mEmpTitle').textContent = e ? ('Edit — '+e.full_name) : 'New employee';
+    document.getElementById('eCode').value=v.emp_code||'';
+    document.getElementById('eName').value=v.full_name||'';
+    document.getElementById('eDept').value=v.department||'';
+    document.getElementById('eDesig').value=v.designation||'';
+    document.getElementById('eEmail').value=v.email||'';
+    document.getElementById('eMobile').value=v.mobile||'';
+    document.getElementById('eDoj').value=v.date_of_joining||'';
+    document.getElementById('eStatus').value=v.status||'active';
+    document.getElementById('eShiftIn').value=(v.shift_start||'10:00').slice(0,5);
+    document.getElementById('eShiftOut').value=(v.shift_end||'19:00').slice(0,5);
+    document.getElementById('eNotes').value=v.notes||'';
+    document.getElementById('eConsent').checked=!!v.consent_at;
+    document.getElementById('eWoPills').innerHTML = woPillHtml(Att.weeklyOffsFor(v), 'togglePill');
+    document.getElementById('eEnrollBtn').style.display = e ? 'inline-flex' : 'none';
+    UI.open('mEmp');
+    if(goEnroll) setTimeout(function(){ Enroll.open(); }, 120);
+  },
+
+  save: async function(){
+    if(!UI.adminOnly()) return;
+    var code=(document.getElementById('eCode').value||'').trim();
+    var name=(document.getElementById('eName').value||'').trim();
+    if(!code || !name){ UI.toast('Employee ID and Name are required','error'); return; }
+    var consent=document.getElementById('eConsent').checked;
+    var row = {
+      emp_code:code, full_name:name,
+      department:(document.getElementById('eDept').value||'').trim()||null,
+      designation:(document.getElementById('eDesig').value||'').trim()||null,
+      email:(document.getElementById('eEmail').value||'').trim()||null,
+      mobile:(document.getElementById('eMobile').value||'').trim()||null,
+      date_of_joining:document.getElementById('eDoj').value||null,
+      status:document.getElementById('eStatus').value,
+      shift_start:document.getElementById('eShiftIn').value||'10:00',
+      shift_end:document.getElementById('eShiftOut').value||'19:00',
+      weekly_offs:woSelected('eWoPills'),
+      notes:(document.getElementById('eNotes').value||'').trim()||null,
+      updated_at:new Date().toISOString()
+    };
+    if(consent && !Emp.editing.consent_at){ row.consent_at=new Date().toISOString(); row.consent_by=S.me; }
+    if(!consent){ row.consent_at=null; row.consent_by=null; }
+
+    var sb=Data.sb(), r, isNew=!Emp.editing.id;
+    if(!isNew) r = await sb.from('att_employees').update(row).eq('id',Emp.editing.id).select().maybeSingle();
+    else r = await sb.from('att_employees').insert(row).select().maybeSingle();
+    if(r.error) return Data.err('Save employee', r.error);
+
+    var idx = S.employees.findIndex(function(x){ return x.id===r.data.id; });
+    if(idx>=0) S.employees[idx]=r.data; else S.employees.push(r.data);
+    S.employees.sort(function(a,b){ return a.emp_code.localeCompare(b.emp_code); });
+    Emp.editing = r.data;
+    Data.buildRoster();
+    Data.audit(isNew?'create_employee':'update_employee', { emp_code:code });
+    UI.toast('Employee saved','success');
+    UI.close('mEmp'); Emp.render(); App.renderStats();
+  },
+
+  remove: async function(id){
+    if(!UI.adminOnly()) return;
+    var e=S.employees.filter(function(x){ return x.id===id; })[0]; if(!e) return;
+    if(!confirm('Delete '+e.full_name+' ('+e.emp_code+')?\n\nThis also deletes their face templates and punch history. Consider setting the status to Inactive instead.')) return;
+    var r = await Data.sb().from('att_employees').delete().eq('id',id);
+    if(r.error) return Data.err('Delete employee', r.error);
+    S.employees = S.employees.filter(function(x){ return x.id!==id; });
+    S.faces = S.faces.filter(function(f){ return f.employee_id!==id; });
+    Data.buildRoster(); Data.audit('delete_employee',{ emp_code:e.emp_code });
+    Emp.render(); App.renderStats(); UI.toast('Employee deleted','success');
+  },
+
+  /* ---------- batch import ---------- */
+  openImport: function(){ if(!UI.adminOnly()) return; Emp.importRows=null; document.getElementById('impOut').innerHTML=''; document.getElementById('impApply').style.display='none'; UI.open('mImport'); },
+  impMode: function(m){
+    Emp.importMode=m;
+    document.getElementById('impPillA').classList.toggle('on', m==='data');
+    document.getElementById('impPillB').classList.toggle('on', m==='faces');
+    document.getElementById('impData').style.display = m==='data'?'block':'none';
+    document.getElementById('impFaces').style.display = m==='faces'?'block':'none';
+    document.getElementById('impOut').innerHTML=''; document.getElementById('impApply').style.display='none';
+  },
+
+  downloadTemplate: function(){
+    var aoa=[['Employee ID','Name','Department','Designation','Email','Mobile','Date of Joining','Shift In','Shift Out'],
+             ['EMP001','Ramesh Kumar','Accounts','Senior Executive','ramesh@company.com','9876543210','2024-04-01','10:00','19:00']];
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), 'Employees');
+    XLSX.writeFile(wb, 'Employee_Master_Template.xlsx');
+  },
+
+  readImport: function(file){
+    if(!file) return;
+    var rd=new FileReader();
+    rd.onload=function(ev){
+      try{
+        var wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array', cellDates:true});
+        var ws=wb.Sheets[wb.SheetNames[0]];
+        var json=XLSX.utils.sheet_to_json(ws,{defval:''});
+        var pick=function(o,keys){ for(var i=0;i<keys.length;i++){ for(var k in o){ if(k.toLowerCase().replace(/[^a-z]/g,'')===keys[i]) return o[k]; } } return ''; };
+        var rows=json.map(function(o){
+          var doj=pick(o,['dateofjoining','doj','joiningdate']);
+          if(doj instanceof Date) doj=ymd(doj);
+          return {
+            emp_code:String(pick(o,['employeeid','empid','empcode','code','id'])||'').trim(),
+            full_name:String(pick(o,['name','employeename','fullname'])||'').trim(),
+            department:String(pick(o,['department','dept'])||'').trim()||null,
+            designation:String(pick(o,['designation','role','title'])||'').trim()||null,
+            email:String(pick(o,['email','emailid'])||'').trim()||null,
+            mobile:String(pick(o,['mobile','phone','contact','mobileno'])||'').trim()||null,
+            date_of_joining:String(doj||'').slice(0,10)||null,
+            shift_start:String(pick(o,['shiftin','shiftstart','intime'])||'').slice(0,5)||(S.settings.office_in||'10:00').slice(0,5),
+            shift_end:String(pick(o,['shiftout','shiftend','outtime'])||'').slice(0,5)||(S.settings.office_out||'19:00').slice(0,5)
+          };
+        }).filter(function(r){ return r.emp_code && r.full_name; });
+        Emp.importRows=rows;
+        var have={}; S.employees.forEach(function(e){ have[e.emp_code]=1; });
+        var nw=rows.filter(function(r){ return !have[r.emp_code]; }).length;
+        document.getElementById('impOut').innerHTML='<b>'+rows.length+'</b> valid row(s) — '+nw+' new, '+(rows.length-nw)+' will update existing.<br>'+
+          rows.slice(0,12).map(function(r){ return '· '+esc(r.emp_code)+' — '+esc(r.full_name)+' ('+esc(r.department||'no dept')+')'; }).join('<br>')+
+          (rows.length>12?'<br>… and '+(rows.length-12)+' more':'');
+        document.getElementById('impApply').style.display = rows.length?'inline-flex':'none';
+      }catch(e){ UI.toast('Could not read the file: '+e.message,'error'); }
+    };
+    rd.readAsArrayBuffer(file);
+    document.getElementById('impFile').value='';
+  },
+
+  applyImport: async function(){
+    if(!Emp.importRows || !Emp.importRows.length) return;
+    var sb=Data.sb(), ok=0, fail=0, out=[];
+    document.getElementById('impProgWrap').style.display='block';
+    for(var i=0;i<Emp.importRows.length;i++){
+      var row=Emp.importRows[i];
+      row.updated_at=new Date().toISOString();
+      var r = await sb.from('att_employees').upsert(row,{ onConflict:'emp_code' }).select().maybeSingle();
+      if(r.error){ fail++; out.push('✗ '+row.emp_code+': '+r.error.message); }
+      else{ ok++; var idx=S.employees.findIndex(function(x){ return x.emp_code===row.emp_code; }); if(idx>=0) S.employees[idx]=r.data; else S.employees.push(r.data); }
+      document.getElementById('impProg').style.width=Math.round(((i+1)/Emp.importRows.length)*100)+'%';
+    }
+    S.employees.sort(function(a,b){ return a.emp_code.localeCompare(b.emp_code); });
+    Data.buildRoster(); Data.audit('import_employees',{ ok:ok, failed:fail });
+    document.getElementById('impOut').innerHTML='<b>Imported '+ok+'</b>'+(fail?(', failed '+fail):'')+'<br>'+out.slice(0,10).join('<br>');
+    document.getElementById('impApply').style.display='none';
+    Emp.render(); App.renderStats();
+    UI.toast('Imported '+ok+' employee(s)', fail?'error':'success');
+  },
+
+  bulkFaces: async function(files){
+    if(!files || !files.length) return;
+    if(!UI.adminOnly()) return;
+    document.getElementById('impProgWrap').style.display='block';
+    var out=[], added=0;
+    document.getElementById('impOut').innerHTML='Loading face models…';
+    await Face.load();
+    var byCode={}; S.employees.forEach(function(e){ byCode[e.emp_code.toUpperCase()]=e; });
+    for(var i=0;i<files.length;i++){
+      var f=files[i];
+      var base=f.name.replace(/\.[^.]+$/,'');
+      var code=base.split(/[_\-\s.]/)[0].toUpperCase();
+      var emp=byCode[code];
+      document.getElementById('impProg').style.width=Math.round(((i+1)/files.length)*100)+'%';
+      if(!emp){ out.push('✗ '+f.name+': no employee with ID '+code); continue; }
+      try{
+        var img = await Enroll.readImage(f);
+        var det = await Face.detectOne(img);
+        if(!det){ out.push('✗ '+f.name+': no face detected'); continue; }
+        if(det.detection.box.width < Face.MIN_FACE_PX){
+          out.push('✗ '+f.name+': face only '+Math.round(det.detection.box.width)+'px wide — too small, use a closer photo'); continue;
+        }
+        var r = await Data.sb().from('att_faces').insert({
+          employee_id:emp.id, descriptor:Array.from(det.descriptor), label:f.name.slice(0,20),
+          quality:Number(det.detection.score.toFixed(3)), created_by:S.me }).select().maybeSingle();
+        if(r.error){ out.push('✗ '+f.name+': '+r.error.message); continue; }
+        S.faces.push(r.data); added++;
+        out.push('✓ '+f.name+' → '+emp.full_name);
+      }catch(e){ out.push('✗ '+f.name+': '+(e.message||'failed')); }
+    }
+    Data.buildRoster(); Data.audit('bulk_face_import',{ added:added, files:files.length });
+    document.getElementById('impOut').innerHTML='<b>'+added+' template(s) added</b><br>'+out.join('<br>');
+    document.getElementById('impFaceFiles').value='';
+    Emp.render(); App.renderStats();
+  },
+
+  exportMaster: function(){
+    var aoa=[['Employee ID','Name','Department','Designation','Email','Mobile','Date of Joining','Shift In','Shift Out','Weekly Offs','Face Templates','Consent Recorded','Status']];
+    S.employees.forEach(function(e){
+      aoa.push([e.emp_code,e.full_name,e.department||'',e.designation||'',e.email||'',e.mobile||'',e.date_of_joining||'',
+        (e.shift_start||'').slice(0,5),(e.shift_end||'').slice(0,5),
+        Att.weeklyOffsFor(e).map(function(i){return DAYS[i];}).join('/'),
+        Emp.faceCount(e.id), e.consent_at?ymd(new Date(e.consent_at)):'', e.status]);
+    });
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), 'Employee Master');
+    XLSX.writeFile(wb,'Employee_Master_'+todayYmd()+'.xlsx');
+  }
+};
+
+/* =====================  ATTENDANCE REGISTER  ===================== */
+var Reg = {
+  fixing:null, last:null,
+
+  activeEmployees: function(){
+    var dept=document.getElementById('regDept').value;
+    return S.employees.filter(function(e){ return e.status==='active' && (!dept || e.department===dept); });
+  },
+
+  render: async function(){
+    var mode=document.getElementById('regMode').value;
+    document.getElementById('regDate').style.display = mode==='day'?'inline-block':'none';
+    document.getElementById('regMonth').style.display = mode==='month'?'inline-block':'none';
+    document.getElementById('regDateLbl').textContent = mode==='day'?'Date':'Month';
+    var host=document.getElementById('regHost');
+    host.innerHTML='<div class="empty"><div class="empty-ttl">Loading…</div></div>';
+
+    var from, to;
+    if(mode==='day'){ from=to=document.getElementById('regDate').value || todayYmd(); }
+    else{
+      var mv=document.getElementById('regMonth').value || (new Date().getFullYear()+'-'+pad(new Date().getMonth()+1));
+      var y=+mv.split('-')[0], m=+mv.split('-')[1]-1;
+      from=ymd(new Date(y,m,1)); to=ymd(new Date(y,m,daysInMonth(y,m)));
+    }
+    var punches = await Data.fetchPunches(from,to);
+    var emps = Reg.activeEmployees();
+    var mx = Att.matrix(emps, from, to, punches);
+    Reg.last={ mode:mode, from:from, to:to, emps:emps, mx:mx };
+    if(mode==='day') Reg.renderDay(host, emps, mx, from);
+    else Reg.renderMonth(host, emps, mx);
+  },
+
+  renderDay: function(host, emps, mx, date){
+    var d=parseYmd(date);
+    var rows = emps.map(function(e){
+      var c=mx.cells[e.id][date];
+      return '<tr>'+
+        '<td class="mono">'+esc(e.emp_code)+'</td>'+
+        '<td><b>'+esc(e.full_name)+'</b></td>'+
+        '<td>'+esc(e.department||'—')+'</td>'+
+        '<td class="mono">'+(c.inTime?hhmm(c.inTime):'—')+'</td>'+
+        '<td class="mono">'+(c.outTime && c.punchCount>1?hhmm(c.outTime):'—')+'</td>'+
+        '<td class="mono">'+fmtHours(c.hours)+'</td>'+
+        '<td><span class="badge '+Att.cls(c.status)+'">'+esc(c.status)+'</span></td>'+
+        '<td>'+(c.late?'<span class="badge b-amb">'+Math.floor(c.lateBy/60)+'h '+(c.lateBy%60)+'m</span>':'—')+'</td>'+
+        '<td style="white-space:normal;font-size:11px;color:var(--txt2);max-width:280px">'+esc(c.remark)+'</td>'+
+        '<td style="text-align:right"><button class="ibtn" title="Regularise" onclick="Reg.openFix(\''+e.id+'\',\''+date+'\')">&#9998;</button></td></tr>';
+    }).join('');
+    var s=(function(){ var acc={present:0,half:0,absent:0,missing:0,late:0};
+      emps.forEach(function(e){ var c=mx.cells[e.id][date];
+        if(c.status==='Present')acc.present++; else if(c.status==='Half Day')acc.half++;
+        else if(c.status==='Absent')acc.absent++; else if(c.status==='Missing Punch')acc.missing++;
+        if(c.late)acc.late++; });
+      return acc; })();
+    host.innerHTML =
+      '<div class="frow"><span class="badge b-gry">'+DAYS[d.getDay()]+', '+date+'</span>'+
+      '<span class="badge b-grn">Present '+s.present+'</span><span class="badge b-amb">Half '+s.half+'</span>'+
+      '<span class="badge b-red">Absent '+s.absent+'</span><span class="badge b-red">Missing punch '+s.missing+'</span>'+
+      '<span class="badge b-amb">Late '+s.late+'</span></div>'+
+      '<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr>'+
+      '<th>Code</th><th>Name</th><th>Dept</th><th>Punch In</th><th>Punch Out</th><th>Hours</th><th>Status</th><th>Late By</th><th>Remark</th><th></th>'+
+      '</tr></thead><tbody>'+(rows||'<tr><td colspan="10"><div class="empty"><div class="empty-ttl">No employees</div></div></td></tr>')+'</tbody></table></div></div>';
+  },
+
+  renderMonth: function(host, emps, mx){
+    var dates=mx.dates;
+    var head='<th style="position:sticky;left:0;background:var(--sur2);z-index:2">Employee</th>'+
+      dates.map(function(ds){ var d=parseYmd(ds); return '<th style="text-align:center">'+d.getDate()+'<div style="font-weight:400;color:var(--txt3)">'+DAYS[d.getDay()][0]+'</div></th>'; }).join('')+
+      '<th>P</th><th>H</th><th>A</th><th>Late</th><th>Payable</th>';
+    var body=emps.map(function(e){
+      var sum=Att.summarise(mx.cells[e.id], dates);
+      return '<tr><td style="position:sticky;left:0;background:var(--sur);z-index:1"><b>'+esc(e.full_name)+'</b><div style="font-size:10px;color:var(--txt3)" class="mono">'+esc(e.emp_code)+'</div></td>'+
+        dates.map(function(ds){
+          var c=mx.cells[e.id][ds];
+          var code=Att.shortCode(c.status);
+          var colour = c.status==='Present'?'var(--grn)':c.status==='Half Day'?'var(--amb)':
+                       (c.status==='Absent'||c.status==='Missing Punch')?'var(--red)':
+                       c.status==='Holiday'?'var(--cyn)':c.status==='Weekly Off'?'var(--blu)':'var(--txt3)';
+          var tip=c.status+(c.inTime?(' · '+hhmm(c.inTime)+(c.punchCount>1?('–'+hhmm(c.outTime)):'')):'')+(c.remark?(' · '+c.remark):'');
+          return '<td style="text-align:center;padding:6px 4px;color:'+colour+';font-weight:700;font-size:10px" title="'+esc(tip)+'">'+code+(c.late?'<span style="color:var(--amb)">*</span>':'')+'</td>';
+        }).join('')+
+        '<td class="mono">'+sum.present+'</td><td class="mono">'+sum.half+'</td><td class="mono">'+(sum.absent+sum.missing)+'</td>'+
+        '<td class="mono">'+sum.late+'</td><td class="mono"><b>'+sum.payable+'</b></td></tr>';
+    }).join('');
+    host.innerHTML='<div class="note">P Present · H Half day · A Absent · M Missing punch · HO Holiday · WO Weekly off · L Leave · OD On duty · <b>*</b> late arrival. Hover a cell for times.</div>'+
+      '<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr>'+head+'</tr></thead><tbody>'+body+'</tbody></table></div></div>';
+  },
+
+  openFix: function(empId, date){
+    if(!UI.adminOnly()) return;
+    var e=S.employees.filter(function(x){ return x.id===empId; })[0]; if(!e) return;
+    var ov=S.overrides.filter(function(o){ return o.employee_id===empId && o.work_date===date; })[0];
+    Reg.fixing={ empId:empId, date:date, existing:ov };
+    document.getElementById('fixEmp').value=e.full_name+' ('+e.emp_code+')';
+    document.getElementById('fixDate').value=date;
+    document.getElementById('fixStatus').value=ov?ov.status:'';
+    document.getElementById('fixIn').value=ov&&ov.in_time?ov.in_time.slice(0,5):'';
+    document.getElementById('fixOut').value=ov&&ov.out_time?ov.out_time.slice(0,5):'';
+    document.getElementById('fixReason').value=ov?ov.reason||'':'';
+    UI.open('mFix');
+  },
+
+  saveFix: async function(){
+    var f=Reg.fixing; if(!f) return;
+    var status=document.getElementById('fixStatus').value;
+    var reason=(document.getElementById('fixReason').value||'').trim();
+    var sb=Data.sb();
+    if(!status){
+      var r0 = await sb.from('att_overrides').delete().eq('employee_id',f.empId).eq('work_date',f.date);
+      if(r0.error) return Data.err('Clear override', r0.error);
+      S.overrides = S.overrides.filter(function(o){ return !(o.employee_id===f.empId && o.work_date===f.date); });
+      Data.audit('clear_override',{ employee_id:f.empId, date:f.date });
+      UI.close('mFix'); Reg.render(); UI.toast('Override cleared','success'); return;
+    }
+    if(!reason){ UI.toast('A reason is required for every correction','error'); return; }
+    var row={ employee_id:f.empId, work_date:f.date, status:status,
+      in_time:document.getElementById('fixIn').value||null, out_time:document.getElementById('fixOut').value||null,
+      reason:reason, approved_by:S.me };
+    var r = await sb.from('att_overrides').upsert(row,{ onConflict:'employee_id,work_date' }).select().maybeSingle();
+    if(r.error) return Data.err('Save correction', r.error);
+    S.overrides = S.overrides.filter(function(o){ return !(o.employee_id===f.empId && o.work_date===f.date); });
+    S.overrides.push(r.data);
+    Data.audit('regularise',{ employee_id:f.empId, date:f.date, status:status, reason:reason });
+    UI.close('mFix'); Reg.render(); App.renderStats(); UI.toast('Correction saved','success');
+  },
+
+  exportView: function(){
+    if(!Reg.last){ UI.toast('Nothing to export yet','error'); return; }
+    var L=Reg.last, wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(Report.dailyAoA(L.emps, L.mx)), 'Register');
+    XLSX.writeFile(wb, 'Attendance_Register_'+L.from+(L.from!==L.to?('_to_'+L.to):'')+'.xlsx');
+  }
+};
+
+/* =====================  REPORTS  ===================== */
+var Report = {
+  last:null,
+
+  openExport: function(){ UI.tab('rep'); setTimeout(function(){ Report.exportWorkbook(); }, 400); },
+
+  monthRange: function(){
+    var mv=document.getElementById('repMonth').value || (new Date().getFullYear()+'-'+pad(new Date().getMonth()+1));
+    var y=+mv.split('-')[0], m=+mv.split('-')[1]-1;
+    return { y:y, m:m, from:ymd(new Date(y,m,1)), to:ymd(new Date(y,m,daysInMonth(y,m))), label:MONTHS[m]+' '+y };
+  },
+
+  render: async function(){
+    var host=document.getElementById('repHost');
+    host.innerHTML='<div class="empty"><div class="empty-ttl">Building report…</div></div>';
+    var R=Report.monthRange();
+    var dept=document.getElementById('repDept').value;
+    var emps=S.employees.filter(function(e){ return e.status==='active' && (!dept || e.department===dept); });
+    var punches = await Data.fetchPunches(R.from,R.to);
+    var mx = Att.matrix(emps, R.from, R.to, punches);
+    Report.last={ R:R, emps:emps, mx:mx, punches:punches };
+
+    var rows = emps.map(function(e){
+      var s=Att.summarise(mx.cells[e.id], mx.dates);
+      return '<tr><td class="mono">'+esc(e.emp_code)+'</td><td><b>'+esc(e.full_name)+'</b></td><td>'+esc(e.department||'—')+'</td>'+
+        '<td class="mono">'+s.working+'</td><td class="mono" style="color:var(--grn)">'+s.present+'</td>'+
+        '<td class="mono" style="color:var(--amb)">'+s.half+'</td><td class="mono" style="color:var(--red)">'+s.absent+'</td>'+
+        '<td class="mono" style="color:var(--red)">'+s.missing+'</td><td class="mono">'+s.holiday+'</td><td class="mono">'+s.weekoff+'</td>'+
+        '<td class="mono" style="color:var(--amb)">'+s.late+'</td><td class="mono">'+fmtHours(s.hours)+'</td>'+
+        '<td class="mono"><b>'+s.payable+'</b></td></tr>';
+    }).join('');
+    host.innerHTML='<div class="sec-hdr"><span class="sec-dot"></span><span class="sec-title">'+esc(R.label)+' — monthly summary</span>'+
+      '<span class="sec-sub">'+emps.length+' employee(s)</span></div>'+
+      '<div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr>'+
+      '<th>Code</th><th>Name</th><th>Dept</th><th>Working Days</th><th>Present</th><th>Half</th><th>Absent</th><th>Missing Punch</th>'+
+      '<th>Holidays</th><th>Weekly Offs</th><th>Late</th><th>Total Hours</th><th>Payable Days</th></tr></thead>'+
+      '<tbody>'+(rows||'<tr><td colspan="13"><div class="empty"><div class="empty-ttl">No employees</div></div></td></tr>')+'</tbody></table></div></div>';
+  },
+
+  dailyAoA: function(emps, mx){
+    var aoa=[['Date','Day','Employee ID','Name','Department','Punch In','Punch Out','Total Hours','Status','Late','Late By (min)','Payable','Remark']];
+    mx.dates.forEach(function(ds){
+      var d=parseYmd(ds);
+      emps.forEach(function(e){
+        var c=mx.cells[e.id][ds];
+        if(c.status==='Not Joined') return;
+        aoa.push([ds, DAYS[d.getDay()], e.emp_code, e.full_name, e.department||'',
+          c.inTime?hhmm(c.inTime):'', (c.outTime&&c.punchCount>1)?hhmm(c.outTime):'',
+          Number((c.hours||0).toFixed(2)), c.status, c.late?'Yes':'', c.late?c.lateBy:'',
+          Att.payable(c.status), c.remark||'']);
+      });
+    });
+    return aoa;
+  },
+
+  exportWorkbook: function(){
+    if(!Report.last){ UI.toast('Open the Reports tab first','error'); return; }
+    var L=Report.last, R=L.R, wb=XLSX.utils.book_new();
+    var org=S.settings.org_name||'NumberIQ';
+
+    /* 1 — monthly summary */
+    var sum=[['Organisation',org],['Report','Monthly Attendance Summary'],['Period',R.label],['Generated',new Date().toLocaleString()],['Generated by',S.me],[],
+      ['Employee ID','Name','Department','Designation','Working Days','Present','Half Day','Absent','Missing Punch','Leave','On Duty','Holidays','Weekly Offs','Late Arrivals','Total Hours','Avg Hours/Present Day','Payable Days']];
+    L.emps.forEach(function(e){
+      var s=Att.summarise(L.mx.cells[e.id], L.mx.dates);
+      var denom=s.present+s.half;
+      sum.push([e.emp_code,e.full_name,e.department||'',e.designation||'',s.working,s.present,s.half,s.absent,s.missing,s.leave,s.onduty,
+        s.holiday,s.weekoff,s.late,Number(s.hours.toFixed(2)), denom?Number((s.hours/denom).toFixed(2)):0, s.payable]);
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sum), 'Monthly Summary');
+
+    /* 2 — daily register */
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(Report.dailyAoA(L.emps, L.mx)), 'Daily Register');
+
+    /* 3 — late arrivals */
+    var late=[['Date','Employee ID','Name','Department','Shift Start','Punch In','Late By (min)']];
+    L.mx.dates.forEach(function(ds){
+      L.emps.forEach(function(e){
+        var c=L.mx.cells[e.id][ds];
+        if(c.late) late.push([ds,e.emp_code,e.full_name,e.department||'',(e.shift_start||'').slice(0,5),hhmm(c.inTime),c.lateBy]);
+      });
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(late), 'Late Arrivals');
+
+    /* 4 — absentees & missing punches */
+    var abs=[['Date','Employee ID','Name','Department','Status','Hours Worked','Remark']];
+    L.mx.dates.forEach(function(ds){
+      L.emps.forEach(function(e){
+        var c=L.mx.cells[e.id][ds];
+        if(c.status==='Absent'||c.status==='Missing Punch') abs.push([ds,e.emp_code,e.full_name,e.department||'',c.status,Number((c.hours||0).toFixed(2)),c.remark||'']);
+      });
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(abs), 'Absent & Missing');
+
+    /* 5 — raw punch log */
+    var byId={}; S.employees.forEach(function(e){ byId[e.id]=e; });
+    var log=[['Timestamp','Work Date','Employee ID','Name','Device','Match Distance','Liveness','Latitude','Longitude','Recorded By']];
+    L.punches.forEach(function(p){
+      var e=byId[p.employee_id]||{};
+      var t=new Date(p.punched_at);
+      log.push([ymd(t)+' '+hhmmss(t), p.work_date, e.emp_code||'', e.full_name||'', p.device, p.match_distance, p.liveness||'', p.lat||'', p.lng||'', p.created_by||'']);
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(log), 'Punch Log');
+
+    /* 6 — holiday master */
+    var hol=[['Date','Day','Holiday','Type']];
+    S.holidays.filter(function(h){ return h.holiday_date>=R.from && h.holiday_date<=R.to; })
+      .forEach(function(h){ hol.push([h.holiday_date, DAYS[parseYmd(h.holiday_date).getDay()], h.name, h.kind]); });
+    hol.push([]); hol.push(['Weekly offs', (S.settings.weekly_offs||[0,6]).map(function(i){ return DAYS[i]; }).join(', ')]);
+    hol.push(['Rule','Holidays and weekly offs are paid non-working days (payable 1.0), recorded separately from Present.']);
+    hol.push(['Office hours',(S.settings.office_in||'').slice(0,5)+' to '+(S.settings.office_out||'').slice(0,5)+'; grace '+S.settings.grace_minutes+' min']);
+    hol.push(['Thresholds','Full day >= '+S.settings.full_day_hours+' h; Half day >= '+S.settings.half_day_hours+' h; below that = Absent']);
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(hol), 'Holidays & Rules');
+
+    XLSX.writeFile(wb, 'Attendance_'+org.replace(/[^A-Za-z0-9]/g,'')+'_'+R.label.replace(' ','_')+'.xlsx');
+    Data.audit('export_workbook',{ period:R.label, employees:L.emps.length });
+  }
+};
+
+/* =====================  HOLIDAY MASTER  ===================== */
+var Hol = {
+  editing:null,
+
+  render: function(){
+    var sel=document.getElementById('holYear');
+    if(!sel.options.length){
+      var y=new Date().getFullYear(), out='';
+      for(var i=y-2;i<=y+2;i++) out+='<option'+(i===y?' selected':'')+'>'+i+'</option>';
+      sel.innerHTML=out;
+    }
+    var year=sel.value||String(new Date().getFullYear());
+    var list=S.holidays.filter(function(h){ return h.holiday_date.slice(0,4)===year; });
+    document.getElementById('holCount').textContent=list.length+' in '+year;
+    document.getElementById('holBody').innerHTML = list.length ? list.map(function(h){
+      return '<tr><td class="mono">'+esc(h.holiday_date)+'</td><td>'+DAYS[parseYmd(h.holiday_date).getDay()]+'</td>'+
+        '<td><b>'+esc(h.name)+'</b></td><td><span class="badge b-cyn">'+esc(h.kind)+'</span></td>'+
+        '<td style="text-align:right"><button class="ibtn" onclick="Hol.openEdit(\''+h.id+'\')">&#9998;</button>'+
+        '<button class="ibtn del" onclick="Hol.remove(\''+h.id+'\')">&#128465;</button></td></tr>';
+    }).join('') : '<tr><td colspan="5"><div class="empty"><div class="empty-ttl">No holidays for '+year+'</div></div></td></tr>';
+    document.getElementById('woPills').innerHTML = woPillHtml(S.settings.weekly_offs||[0,6], 'togglePill');
+  },
+
+  openEdit: function(id){
+    if(!UI.adminOnly()) return;
+    var h = id ? S.holidays.filter(function(x){ return x.id===id; })[0] : null;
+    Hol.editing=h;
+    document.getElementById('mHolTitle').textContent = h?'Edit holiday':'New holiday';
+    document.getElementById('hDate').value=h?h.holiday_date:'';
+    document.getElementById('hName').value=h?h.name:'';
+    document.getElementById('hKind').value=h?h.kind:'public';
+    UI.open('mHol');
+  },
+
+  save: async function(){
+    var date=document.getElementById('hDate').value, name=(document.getElementById('hName').value||'').trim();
+    if(!date || !name){ UI.toast('Date and name are required','error'); return; }
+    var row={ holiday_date:date, name:name, kind:document.getElementById('hKind').value, created_by:S.me };
+    var r = await Data.sb().from('att_holidays').upsert(row,{ onConflict:'holiday_date' }).select().maybeSingle();
+    if(r.error) return Data.err('Save holiday', r.error);
+    S.holidays = S.holidays.filter(function(h){ return h.holiday_date!==date; });
+    S.holidays.push(r.data);
+    S.holidays.sort(function(a,b){ return a.holiday_date.localeCompare(b.holiday_date); });
+    Data.audit('save_holiday',{ date:date, name:name });
+    UI.close('mHol'); Hol.render(); UI.toast('Holiday saved','success');
+  },
+
+  remove: async function(id){
+    if(!UI.adminOnly()) return;
+    var h=S.holidays.filter(function(x){ return x.id===id; })[0]; if(!h) return;
+    if(!confirm('Delete holiday "'+h.name+'" on '+h.holiday_date+'?')) return;
+    var r = await Data.sb().from('att_holidays').delete().eq('id',id);
+    if(r.error) return Data.err('Delete holiday', r.error);
+    S.holidays=S.holidays.filter(function(x){ return x.id!==id; });
+    Data.audit('delete_holiday',{ date:h.holiday_date });
+    Hol.render(); UI.toast('Holiday deleted','success');
+  },
+
+  saveWeeklyOffs: async function(){
+    if(!UI.adminOnly()) return;
+    var w=woSelected('woPills');
+    var r = await Data.sb().from('att_settings').update({ weekly_offs:w, updated_at:new Date().toISOString(), updated_by:S.me }).eq('id',1).select().maybeSingle();
+    if(r.error) return Data.err('Save weekly offs', r.error);
+    S.settings=r.data;
+    Data.audit('save_weekly_offs',{ weekly_offs:w });
+    UI.toast('Weekly offs saved','success');
+  },
+
+  openImport: function(){
+    if(!UI.adminOnly()) return;
+    var txt=prompt('Paste one holiday per line as  YYYY-MM-DD, Holiday name\n\nExample:\n2026-08-15, Independence Day\n2026-10-20, Diwali');
+    if(!txt) return;
+    var rows=txt.split(/\r?\n/).map(function(l){
+      var p=l.split(','); if(p.length<2) return null;
+      var d=p[0].trim(); if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) return null;
+      return { holiday_date:d, name:p.slice(1).join(',').trim(), kind:'public', created_by:S.me };
+    }).filter(Boolean);
+    if(!rows.length){ UI.toast('Nothing recognised — use YYYY-MM-DD, Name','error'); return; }
+    Data.sb().from('att_holidays').upsert(rows,{ onConflict:'holiday_date' }).select().then(function(r){
+      if(r.error) return Data.err('Import holidays', r.error);
+      (r.data||[]).forEach(function(h){
+        S.holidays=S.holidays.filter(function(x){ return x.holiday_date!==h.holiday_date; });
+        S.holidays.push(h);
+      });
+      S.holidays.sort(function(a,b){ return a.holiday_date.localeCompare(b.holiday_date); });
+      Data.audit('import_holidays',{ count:rows.length });
+      Hol.render(); UI.toast(rows.length+' holiday(s) imported','success');
+    });
+  }
+};
+
+/* =====================  SETTINGS  ===================== */
+var Settings = {
+  fill: function(){
+    var s=S.settings;
+    document.getElementById('setIn').value=(s.office_in||'10:00').slice(0,5);
+    document.getElementById('setOut').value=(s.office_out||'19:00').slice(0,5);
+    document.getElementById('setGrace').value=s.grace_minutes;
+    document.getElementById('setRoll').value=s.day_start_hour;
+    document.getElementById('setFull').value=s.full_day_hours;
+    document.getElementById('setHalf').value=s.half_day_hours;
+    document.getElementById('setDet').value=s.detector||'ssd';
+    document.getElementById('setThresh').value=s.match_threshold;
+    document.getElementById('setMargin').value=s.ambiguity_margin;
+    document.getElementById('setFace').value=s.min_face_ratio;
+    document.getElementById('setLive').value=String(s.liveness_required!==false);
+    document.getElementById('setGap').value=s.min_punch_gap_sec;
+    document.getElementById('setGeoOn').value=String(s.geofence_enabled!==false);
+    document.getElementById('setGeoR').value=s.geofence_radius_m;
+    document.getElementById('setGeoLat').value=s.geofence_lat==null?'':s.geofence_lat;
+    document.getElementById('setGeoLng').value=s.geofence_lng==null?'':s.geofence_lng;
+    document.getElementById('setOrg').value=s.org_name||'';
+    document.getElementById('setRet').value=s.retention_months;
+    document.getElementById('diagThresh').textContent=s.match_threshold;
+  },
+
+  save: async function(){
+    if(!UI.adminOnly()) return;
+    var row={
+      office_in:document.getElementById('setIn').value||'10:00',
+      office_out:document.getElementById('setOut').value||'19:00',
+      grace_minutes:num(document.getElementById('setGrace').value,15),
+      day_start_hour:num(document.getElementById('setRoll').value,4),
+      full_day_hours:num(document.getElementById('setFull').value,8),
+      half_day_hours:num(document.getElementById('setHalf').value,6),
+      detector:document.getElementById('setDet').value,
+      match_threshold:num(document.getElementById('setThresh').value,0.45),
+      ambiguity_margin:num(document.getElementById('setMargin').value,0.06),
+      min_face_ratio:num(document.getElementById('setFace').value,0.16),
+      liveness_required:document.getElementById('setLive').value==='true',
+      min_punch_gap_sec:num(document.getElementById('setGap').value,60),
+      geofence_enabled:document.getElementById('setGeoOn').value==='true',
+      geofence_radius_m:num(document.getElementById('setGeoR').value,200),
+      geofence_lat:document.getElementById('setGeoLat').value?num(document.getElementById('setGeoLat').value,null):null,
+      geofence_lng:document.getElementById('setGeoLng').value?num(document.getElementById('setGeoLng').value,null):null,
+      org_name:(document.getElementById('setOrg').value||'').trim()||'NumberIQ',
+      retention_months:num(document.getElementById('setRet').value,36),
+      updated_at:new Date().toISOString(), updated_by:S.me
+    };
+    if(row.half_day_hours > row.full_day_hours){ UI.toast('Half-day threshold cannot exceed the full-day threshold','error'); return; }
+    var prevDet=S.settings.detector;
+    var r = await Data.sb().from('att_settings').update(row).eq('id',1).select().maybeSingle();
+    if(r.error) return Data.err('Save settings', r.error);
+    S.settings=r.data;
+    if(prevDet!==r.data.detector){ S.modelsLoaded=false; Face.loading=null; UI.toast('Detector changed — models will reload on next punch','info'); }
+    Data.audit('save_settings', row);
+    Settings.fill(); UI.toast('Settings saved','success');
+  },
+
+  useMyLocation: async function(){
+    try{
+      var g=await Punch.getGeo();
+      document.getElementById('setGeoLat').value=g.lat.toFixed(6);
+      document.getElementById('setGeoLng').value=g.lng.toFixed(6);
+      UI.toast('Location captured (±'+Math.round(g.acc)+' m) — remember to Save settings','success');
+    }catch(e){ UI.toast(e.message,'error'); }
+  },
+
+  diagnostics: async function(){
+    var out=[];
+    out.push('Signed in as <b>'+esc(S.me)+'</b> ('+(S.isAdmin?'administrator':'read-only / punch only')+')');
+    out.push('face-api library: '+(typeof faceapi!=='undefined'?'<b style="color:var(--grn)">loaded</b>':'<b style="color:var(--red)">NOT loaded</b>'));
+    out.push('Models: '+(S.modelsLoaded?'<b style="color:var(--grn)">ready</b>':'not loaded yet (loads on first camera start)'));
+    out.push('Secure context (camera needs HTTPS): '+(window.isSecureContext?'<b style="color:var(--grn)">yes</b>':'<b style="color:var(--red)">no</b>'));
+    out.push('Camera API: '+(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia?'available':'<b style="color:var(--red)">unavailable</b>'));
+    out.push('Geolocation API: '+(navigator.geolocation?'available':'unavailable'));
+    out.push('Employees: '+S.employees.length+' · active: '+S.employees.filter(function(e){return e.status==='active';}).length);
+    out.push('Face templates: '+S.faces.length+' across '+S.roster.length+' enrolled employee(s)');
+    var thin=S.roster.filter(function(r){ return r.templates.length<3; });
+    if(thin.length) out.push('<b style="color:var(--amb)">'+thin.length+' employee(s) have fewer than 3 templates</b> — accuracy suffers: '+thin.slice(0,8).map(function(r){return esc(r.code);}).join(', '));
+    var noConsent=S.employees.filter(function(e){ return e.status==='active' && !e.consent_at && Emp.faceCount(e.id)>0; });
+    if(noConsent.length) out.push('<b style="color:var(--red)">'+noConsent.length+' enrolled employee(s) have no recorded consent</b> — record it in the Employee Master.');
+    try{
+      var t0=performance.now();
+      var r=await Data.sb().from('att_settings').select('id').eq('id',1).maybeSingle();
+      out.push('Database round-trip: '+(r.error?('<b style="color:var(--red)">'+r.error.message+'</b>'):(Math.round(performance.now()-t0)+' ms')));
+    }catch(e){ out.push('Database: <b style="color:var(--red)">'+esc(e.message)+'</b>'); }
+    document.getElementById('diagOut').innerHTML=out.join('<br>');
+  },
+
+  purge: async function(){
+    if(!UI.adminOnly()) return;
+    var months=num(S.settings.retention_months,36);
+    var cut=new Date(); cut.setMonth(cut.getMonth()-months);
+    if(!confirm('Permanently delete all punch records before '+ymd(cut)+' ('+months+' months retention)?\n\nAttendance already exported to Excel is unaffected. This cannot be undone.')) return;
+    var r = await Data.sb().from('att_punches').delete().lt('work_date', ymd(cut));
+    if(r.error) return Data.err('Purge', r.error);
+    Data.audit('purge_punches',{ before:ymd(cut), retention_months:months });
+    UI.toast('Punch records before '+ymd(cut)+' deleted','success');
+  }
+};
+
+/* =====================  LOG  ===================== */
+var Log = {
+  rows:[],
+  load: async function(){
+    var f=document.getElementById('logFrom'), t=document.getElementById('logTo');
+    if(!f.value){ var d=new Date(); d.setDate(d.getDate()-7); f.value=ymd(d); }
+    if(!t.value) t.value=todayYmd();
+    Log.rows = await Data.fetchPunches(f.value, t.value);
+    var a = await Data.sb().from('att_audit').select('*').order('at',{ascending:false}).limit(200);
+    S.audit = a.error ? [] : (a.data||[]);
+    Log.render();
+  },
+  render: function(){
+    var byId={}; S.employees.forEach(function(e){ byId[e.id]=e; });
+    var rows=Log.rows.slice().sort(function(a,b){ return new Date(b.punched_at)-new Date(a.punched_at); });
+    document.getElementById('logCount').textContent=rows.length+' punches';
+    document.getElementById('logBody').innerHTML = rows.length ? rows.slice(0,600).map(function(p){
+      var e=byId[p.employee_id]||{}; var t=new Date(p.punched_at);
+      return '<tr><td class="mono">'+ymd(t)+' '+hhmmss(t)+'</td>'+
+        '<td>'+esc(e.full_name||'—')+'<div style="font-size:10px;color:var(--txt3)" class="mono">'+esc(e.emp_code||'')+'</div></td>'+
+        '<td><span class="badge '+(p.device==='kiosk'?'b-blu':p.device==='mobile'?'b-cyn':'b-gry')+'">'+esc(p.device)+'</span></td>'+
+        '<td class="mono">'+(p.match_distance!=null?p.match_distance:'—')+'</td>'+
+        '<td style="font-size:11px">'+esc(p.liveness||'—')+'</td>'+
+        '<td style="text-align:right">'+(S.isAdmin?'<button class="ibtn del" title="Delete punch" onclick="Log.remove(\''+p.id+'\')">&#128465;</button>':'')+'</td></tr>';
+    }).join('') : '<tr><td colspan="6"><div class="empty"><div class="empty-ttl">No punches in this range</div></div></td></tr>';
+
+    document.getElementById('audCount').textContent=S.audit.length;
+    document.getElementById('audBody').innerHTML = S.audit.length ? S.audit.map(function(a){
+      var t=new Date(a.at);
+      return '<tr><td class="mono">'+ymd(t)+' '+hhmm(t)+'</td><td style="font-size:11px">'+esc(a.actor||'—')+'</td>'+
+        '<td><span class="badge b-gry">'+esc(a.action)+'</span></td>'+
+        '<td style="white-space:normal;font-size:11px;color:var(--txt2);max-width:280px">'+esc(JSON.stringify(a.details||{}).slice(0,160))+'</td></tr>';
+    }).join('') : '<tr><td colspan="4"><div class="empty"><div class="empty-ttl">No audit entries</div></div></td></tr>';
+  },
+  remove: async function(id){
+    if(!UI.adminOnly()) return;
+    if(!confirm('Delete this punch record? Attendance for that day will be recalculated.')) return;
+    var r = await Data.sb().from('att_punches').delete().eq('id',id);
+    if(r.error) return Data.err('Delete punch', r.error);
+    Log.rows=Log.rows.filter(function(p){ return p.id!==id; });
+    S.today=(S.today||[]).filter(function(p){ return p.id!==id; });
+    Data.audit('delete_punch',{ punch_id:id });
+    Log.render(); Punch.renderFeed(); App.renderStats(); UI.toast('Punch deleted','success');
+  },
+  exportLog: function(){
+    var byId={}; S.employees.forEach(function(e){ byId[e.id]=e; });
+    var aoa=[['Timestamp','Work Date','Employee ID','Name','Device','Match Distance','Liveness','Latitude','Longitude','Accuracy (m)','Recorded By']];
+    Log.rows.forEach(function(p){
+      var e=byId[p.employee_id]||{}, t=new Date(p.punched_at);
+      aoa.push([ymd(t)+' '+hhmmss(t),p.work_date,e.emp_code||'',e.full_name||'',p.device,p.match_distance,p.liveness||'',p.lat||'',p.lng||'',p.accuracy_m||'',p.created_by||'']);
+    });
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa),'Punch Log');
+    XLSX.writeFile(wb,'Punch_Log_'+document.getElementById('logFrom').value+'_to_'+document.getElementById('logTo').value+'.xlsx');
+  }
+};
+
+/* =====================  APP BOOTSTRAP  ===================== */
+var App = {
+  renderStats: function(){
+    var active=S.employees.filter(function(e){ return e.status==='active'; });
+    var enrolled=S.roster.length;
+    var byEmp={}; (S.today||[]).forEach(function(p){ byEmp[p.employee_id]=(byEmp[p.employee_id]||[]).concat(p); });
+    var inCount=Object.keys(byEmp).length;
+    var hmap=Att.holidayMap(), omap=Att.overrideMap(), t=todayYmd();
+    var late=0, missing=0;
+    active.forEach(function(e){
+      var c=Att.day(e, t, byEmp[e.id], hmap, omap);
+      if(c.late) late++;
+      if(!byEmp[e.id] && ['Holiday','Weekly Off','Not Joined'].indexOf(c.status)===-1) missing++;
+    });
+    document.getElementById('stEmp').textContent=active.length;
+    document.getElementById('stEnrolled').textContent=enrolled;
+    document.getElementById('stIn').textContent=inCount;
+    document.getElementById('stLate').textContent=late;
+    document.getElementById('stMissing').textContent=missing;
+    var d=parseYmd(t);
+    var hol=hmap[t];
+    var dow=d.getDay();
+    var tag = hol ? (' · '+hol.name) : ((S.settings.weekly_offs||[0,6]).indexOf(dow)!==-1 ? ' · Weekly Off' : '');
+    document.getElementById('stDay').textContent=DAYS[dow]+' '+d.getDate()+'/'+(d.getMonth()+1)+tag;
+    document.getElementById('diagTemplates').textContent=S.faces.length;
+    document.getElementById('diagThresh').textContent=S.settings.match_threshold;
+  },
+
+  reloadAll: async function(){
+    await Data.loadCore();
+    await Data.loadToday();
+    Settings.fill(); Emp.render(); Hol.render(); Punch.renderFeed(); App.renderStats();
+    UI.toast('Refreshed','success');
+  },
+
+  init: async function(email, isAdmin){
+    S.me=(email||'').toLowerCase();
+    S.isAdmin=!!isAdmin;
+    document.getElementById('roleBadge').textContent = isAdmin?'Administrator':'Punch / read-only';
+    document.getElementById('roleBadge').className = 'badge '+(isAdmin?'b-grn':'b-blu');
+
+    await Data.loadCore();
+    await Data.loadToday();
+
+    var t=todayYmd();
+    document.getElementById('regDate').value=t;
+    var mk=t.slice(0,7);
+    document.getElementById('regMonth').value=mk;
+    document.getElementById('repMonth').value=mk;
+    document.getElementById('logTo').value=t;
+    var wk=new Date(); wk.setDate(wk.getDate()-7);
+    document.getElementById('logFrom').value=ymd(wk);
+
+    Settings.fill(); Emp.render(); Hol.render(); Punch.renderFeed(); App.renderStats();
+    document.getElementById('hdrSub').textContent=(S.settings.org_name||'NumberIQ')+' · '+
+      (S.settings.office_in||'').slice(0,5)+'–'+(S.settings.office_out||'').slice(0,5)+
+      ' · '+S.settings.grace_minutes+' min grace · full day '+S.settings.full_day_hours+' h';
+
+    if(!S.roster.length) UI.toast('No faces enrolled yet — add employees and enrol their faces to start punching.','info');
+  }
+};
+
+window.appInit = App.init;
+document.querySelectorAll('.tb').forEach(function(b){ b.onclick=function(){ UI.tab(b.dataset.tab); }; });
+document.querySelectorAll('.modal-ov').forEach(function(m){ m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('open'); }); });
+window.addEventListener('beforeunload', function(){ Punch.stop(); });
+if(window.__pendingAuth){ App.init(window.__pendingAuth.email, window.__pendingAuth.isAdmin); }
+</script>
+</body>
+</html>

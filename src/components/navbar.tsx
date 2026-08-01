@@ -93,6 +93,7 @@ export function Navbar() {
   const links = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
+    { name: "Practice", href: "/practice" },
     { name: "Tools", href: "/tools" },
     { name: "Pricing", href: "/pricing" },
     { name: "Glossary", href: "/glossary" },

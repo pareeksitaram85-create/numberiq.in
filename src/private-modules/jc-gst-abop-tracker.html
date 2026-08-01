@@ -294,734 +294,876 @@ input[type=text].sm{padding:5px 9px;font-size:12px}
 </script>
 <!-- ===================== /LOGIN GATE ===================== -->
 
+<style>
+/* master-tracker additions */
+.b-mod{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
+.abop-chip{display:block;background:var(--sur2);border:1px solid var(--brd);border-left:3px solid var(--cyn);border-radius:6px;padding:4px 8px;font-size:10.5px;line-height:1.45;margin:2px 0;max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.abop-chip.st-new{border-left-color:var(--cyn)}
+.abop-chip.st-modified{border-left-color:#a855f7}
+.abop-chip.st-to-remove{border-left-color:var(--red);opacity:.85;text-decoration:line-through}
+.ppb-cell{max-width:280px;font-size:11px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dup-flag{color:var(--amb);font-size:13px;cursor:help}
+.row-removed td{opacity:.45;text-decoration:line-through}
+.report-card{background:var(--sur);border:1px solid var(--brd);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.report-hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.report-gstin{font-family:monospace;font-weight:700;color:var(--cyn);font-size:13px}
+.report-sec{margin-top:8px;font-size:11.5px}
+.report-sec .rs-t{font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.rs-add .rs-t{color:var(--grn)} .rs-rem .rs-t{color:var(--red)} .rs-mod .rs-t{color:#c084fc} .rs-res .rs-t{color:var(--cyn)}
+.report-item{background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:5px 9px;margin:3px 0;font-size:11px;line-height:1.5}
+.arrow{color:var(--txt3);padding:0 6px}
+.hist-note{font-size:11px;color:var(--txt2);padding:8px 12px;background:var(--sur2);border:1px solid var(--brd);border-radius:8px;margin-bottom:10px}
+.gd-sec{margin-top:14px}
+.gd-sec h4{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);margin-bottom:7px}
+.loc-line{display:flex;gap:8px;align-items:flex-start;background:var(--sur2);border:1px solid var(--brd);border-radius:8px;padding:8px 11px;margin-bottom:6px;font-size:11.5px;line-height:1.5}
+.loc-line .n{font-family:monospace;color:var(--cyn);font-weight:700;flex-shrink:0}
+td .addr{max-width:320px;white-space:normal;line-height:1.45;font-size:11px}
+.mini{font-size:10px;color:var(--txt3)}
+/* GSTN-wise summary page */
+th.th-in{background:rgba(99,102,241,.16);color:#a5b4fc}
+td.td-in{background:rgba(99,102,241,.05)}
+input.num-in{width:66px;text-align:center;padding:5px 6px;font-size:12px;font-family:monospace}
+select.sum-st{padding:5px 8px;font-size:11.5px;width:132px}
+tfoot td{background:var(--sur2);border-top:1px solid var(--brd);font-weight:700;font-size:12px;padding:9px 11px}
+tfoot td.tf-l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);font-weight:600}
+</style>
+
 <div class="hdr">
   <div class="hdr-l">
     <div class="logo">JC</div>
     <div>
-      <div class="htitle">GST Registration &amp; ABOP Tracker</div>
-      <div class="hsub">All Branch/Office Premises &nbsp;&middot;&nbsp; Address Update Monitor &nbsp;&middot;&nbsp; GSTN Certificate Reader</div>
+      <div class="htitle">GSTN Principal Place &amp; ABOP Master Tracker</div>
+      <div class="hsub">Join Commerce Private Limited &nbsp;&middot;&nbsp; 19 GSTINs &nbsp;&middot;&nbsp; every PPB &amp; ABOP tracked individually with change history</div>
     </div>
   </div>
   <div class="hdr-r">
-    <button class="btn btn-sec btn-sm" onclick="exportToExcel()">&#128202; Export Excel</button>
-    <button class="btn btn-sec btn-sm" onclick="bulkImportAll()">&#128193; Bulk Import PDFs</button>
-    <button class="btn btn-amb btn-sm" onclick="deleteMarked()" id="del-marked-btn" style="display:none">&#128465; Remove Marked (<span id="marked-count">0</span>)</button>
-    <button class="btn btn-pri btn-sm" onclick="showAddModal()">+ Add Location</button>
+    <button class="btn btn-sec btn-sm" onclick="exportExcel()">&#128202; Export Excel</button>
+    <button class="btn btn-grn btn-sm" onclick="openGstinAddModal()">+ Add New GSTIN</button>
+    <button class="btn btn-pri btn-sm" onclick="openLocModal()">+ Add Location</button>
   </div>
 </div>
 
 <div class="stats" id="stats-bar"></div>
 
 <div class="tabs">
-  <button class="tb active" onclick="switchTab('abop',this)">&#127968; ABOP Dashboard</button>
-  <button class="tb" onclick="switchTab('gst',this)">&#128203; GST Registration</button>
-  <button class="tb" onclick="switchTab('bif',this)">&#9878;&#65039; Address Bifurcation</button>
-  <button class="tb" onclick="switchTab('certs',this)">&#128272; GSTN Certificates</button>
+  <button class="tb active" onclick="switchTab('matrix',this)">&#128202; GSTIN Matrix</button>
+  <button class="tb" onclick="switchTab('gstnsummary',this)">&#129518; GSTN-wise Summary</button>
+  <button class="tb" onclick="switchTab('register',this)">&#128205; Master Location Register</button>
+  <button class="tb" onclick="switchTab('upload',this)">&#128228; Upload &amp; Compare</button>
+  <button class="tb" onclick="switchTab('history',this)">&#128340; Change History</button>
 </div>
 
 <div class="main">
 
-  <!-- ── TAB: ABOP ── -->
-  <div id="tab-abop" class="tc active">
-    <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-title">All Branch / Office Premises — Operational Status</div><span class="sec-sub" id="abop-ts"></span></div>
-    <div class="frow">
-      <span class="flabel">ABOP:</span>
-      <select id="f-abop-st" onchange="renderABOP()"><option value="all">All</option><option value="open">Open</option><option value="closed">Closed</option><option value="process">In Process</option></select>
-      <span class="flabel">GST:</span>
-      <select id="f-abop-gst" onchange="renderABOP()"><option value="all">All</option><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
-      <input type="text" id="s-abop" placeholder="Search location, GSTIN, city..." style="min-width:200px" oninput="renderABOP()"/>
-      <span style="font-size:11px;color:var(--txt3)">&#10004; Tick card corner to mark for removal</span>
-    </div>
-    <div class="card-grid" id="abop-cards"></div>
-  </div>
-
-  <!-- ── TAB: GST REG ── -->
-  <div id="tab-gst" class="tc">
-    <div class="sec-hdr"><div class="sec-dot" style="background:var(--grn)"></div><div class="sec-title">GST Registration Register</div></div>
-    <div class="frow">
-      <span class="flabel">Reg:</span>
-      <select id="f-reg" onchange="renderGST()"><option value="all">All</option><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
-      <span class="flabel">Address:</span>
-      <select id="f-addr" onchange="renderGST()"><option value="all">All</option><option value="updated">Updated</option><option value="pending">Pending</option><option value="na">N/A</option></select>
-      <span class="flabel">State:</span>
-      <select id="f-st" onchange="renderGST()"><option value="all">All States</option></select>
-      <input type="text" id="s-gst" placeholder="Search GSTIN, name, city..." style="min-width:200px" oninput="renderGST()"/>
-    </div>
-    <div class="remove-actions" id="rm-actions">
-      <span style="font-size:11px;color:var(--red);font-weight:600">&#10003; Marked for removal:</span>
-      <span id="rm-cnt" style="font-size:11px;color:var(--txt2)">0 locations</span>
-      <button class="btn btn-red btn-sm" onclick="deleteMarked()">&#128465; Remove Selected</button>
-      <button class="btn btn-sec btn-sm" onclick="clearMarked()">Clear Selection</button>
-    </div>
+  <!-- ── TAB: GSTIN MATRIX ── -->
+  <div id="tab-matrix" class="tc active">
+    <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-title">One row per GSTIN — Principal Place + ABOPs</div><span class="sec-sub" id="matrix-ts"></span></div>
     <div class="tbl-wrap">
-      <div class="tbl-top">
-        <span class="tbl-ttl">Registration Records</span>
-        <span class="tbl-cnt" id="gst-cnt"></span>
-        <button class="btn btn-sec btn-sm" onclick="bulkImportAll()">&#128228; Import All Certificates</button>
-      </div>
+      <div class="tbl-top"><span class="tbl-ttl">GSTIN Overview</span><span class="tbl-cnt" id="matrix-cnt"></span></div>
       <div style="overflow-x:auto">
         <table>
           <thead><tr>
-            <th title="Check to mark for removal"><input type="checkbox" id="chk-all" onchange="toggleAll(this.checked)" style="width:13px;height:13px;cursor:pointer;accent-color:var(--red)"/></th>
-            <th onclick="srt('locCode')">Loc #</th>
-            <th onclick="srt('name')">Location</th>
-            <th onclick="srt('state')">State</th>
-            <th onclick="srt('gstin')">GSTIN</th>
-            <th onclick="srt('regStatus')">Reg Status</th>
-            <th onclick="srt('regDate')">Reg Date</th>
-            <th>Address on GST Portal <span style="color:var(--cyn)">(from certificate)</span></th>
-            <th>Actual Address <span style="color:var(--amb)">(pending — fill here)</span></th>
-            <th onclick="srt('addrUpdateStatus')">Addr Status</th>
-            <th onclick="srt('abopStatus')">ABOP</th>
-            <th>Actions</th>
+            <th>GSTIN</th><th>State</th><th>Principal Place of Business</th><th style="text-align:center">ABOPs</th><th>ABOP List (current)</th><th>Status</th><th></th>
           </tr></thead>
-          <tbody id="gst-tbody"></tbody>
+          <tbody id="matrix-tbody"></tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- ── TAB: BIFURCATION ── -->
-  <div id="tab-bif" class="tc">
-    <div class="sec-hdr"><div class="sec-dot" style="background:var(--amb)"></div><div class="sec-title">Address Bifurcation Report</div><span class="sec-sub">Updated vs Pending on GST Portal</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-      <div class="sc sc-grn" style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2)">
-        <div class="sn" id="bfu">0</div><div class="sl">&#10003; Address Updated on GST Portal</div>
-        <div class="prg"><div class="prg-f" id="bprg" style="background:var(--grn);width:0%"></div></div>
-      </div>
-      <div class="sc sc-amb" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2)">
-        <div class="sn" id="bfp">0</div><div class="sl">&#9203; Address Update Pending</div>
-      </div>
-    </div>
-    <div class="bif-grid">
-      <div class="bif-col">
-        <div class="bif-ch bif-u">&#10003; Updated — Matches Portal (<span id="bfu2">0</span>)</div>
-        <div id="bfu-list"></div>
-      </div>
-      <div class="bif-col">
-        <div class="bif-ch bif-p">&#9203; Pending — Not Updated (<span id="bfp2">0</span>)</div>
-        <div id="bfp-list"></div>
-      </div>
+  <!-- ── TAB: GSTN-WISE SUMMARY ── -->
+  <div id="tab-gstnsummary" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:#c084fc"></div><div class="sec-title">GSTN-wise Summary — how many ABOPs to add or remove</div><span class="sec-sub" id="sum-ts"></span></div>
+    <div class="hist-note">The first four columns are counted live from the tracker. The shaded columns — <b>ABOP Required</b>, <b>Add ABOP</b>, <b>Remove ABOP</b>, <b>Status</b> and <b>Remarks</b> — are yours to fill in and are saved on this device. Nothing typed here changes the Matrix, the Master Register or the Change History.</div>
+    <div class="frow">
+      <input type="text" id="s-q" placeholder="Filter by GSTIN / state / status / remarks..." style="min-width:250px" oninput="renderGstnSummary()"/>
+      <button class="btn btn-sec btn-sm" onclick="autoCalcAll()">&#9881; Auto-fill Add / Remove from Required</button>
+      <button class="btn btn-sec btn-sm" onclick="clearSummary()">Clear my entries</button>
     </div>
     <div class="tbl-wrap">
-      <div class="tbl-top"><span class="tbl-ttl">Detailed Address Comparison</span><button class="btn btn-sec btn-sm" onclick="exportToExcel()">Export Excel</button></div>
+      <div class="tbl-top"><span class="tbl-ttl">GSTN-wise Summary</span><span class="tbl-cnt" id="sum-cnt"></span></div>
       <div style="overflow-x:auto">
-        <table><thead><tr>
-          <th>Loc #</th><th>Location</th><th>State</th><th>GSTIN</th>
-          <th>GST Portal Address</th><th>Actual Address</th><th>Status</th><th>Days Pending</th><th>Quick Action</th>
-        </tr></thead>
-        <tbody id="bif-tbody"></tbody></table>
+        <table>
+          <thead><tr>
+            <th>GSTN</th>
+            <th style="text-align:center">Total Places</th>
+            <th style="text-align:center">Principal Place</th>
+            <th style="text-align:center">ABOP in Master</th>
+            <th class="th-in" style="text-align:center">ABOP Required</th>
+            <th class="th-in" style="text-align:center">Add ABOP</th>
+            <th class="th-in" style="text-align:center">Remove ABOP</th>
+            <th class="th-in">Status</th>
+            <th class="th-in">Remarks</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="sum-tbody"></tbody>
+          <tfoot id="sum-tfoot"></tfoot>
+        </table>
       </div>
     </div>
   </div>
 
-  <!-- ── TAB: CERTIFICATES ── -->
-  <div id="tab-certs" class="tc">
-    <div class="sec-hdr"><div class="sec-dot" style="background:var(--cyn)"></div><div class="sec-title">GSTN Certificate Reader</div><span class="sec-sub">Import PDFs — auto-extract GSTIN, address, dates — auto-match to locations</span></div>
+  <!-- ── TAB: MASTER REGISTER ── -->
+  <div id="tab-register" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--grn)"></div><div class="sec-title">Master Location Register — one row per location</div></div>
+    <div class="frow">
+      <span class="flabel">GSTIN:</span>
+      <select id="f-gstin" onchange="renderRegister()"><option value="all">All GSTINs</option></select>
+      <span class="flabel">Type:</span>
+      <select id="f-type" onchange="renderRegister()"><option value="all">All</option><option value="PPB">Principal Place</option><option value="ABOP">ABOP</option></select>
+      <span class="flabel">Status:</span>
+      <select id="f-status" onchange="renderRegister()">
+        <option value="active">Active (default)</option><option value="all">All incl. Removed</option>
+        <option value="existing">Existing</option><option value="new">New</option><option value="modified">Modified</option>
+        <option value="to-remove">To Be Removed</option><option value="removed">Removed (history)</option><option value="dup">&#9888; Duplicates</option>
+      </select>
+      <input type="text" id="f-q" placeholder="Search address, name, GSTIN..." style="min-width:220px" oninput="renderRegister()"/>
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl-top"><span class="tbl-ttl">Locations</span><span class="tbl-cnt" id="reg-cnt"></span></div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>#</th><th>GSTIN</th><th>State</th><th>Type</th><th>Location Name</th><th>Complete Address</th><th>Status</th><th>&#9888;</th><th>Remarks</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="reg-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB: UPLOAD & COMPARE ── -->
+  <div id="tab-upload" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--amb)"></div><div class="sec-title">Upload updated REG-06 certificates — compare against the tracker</div><span class="sec-sub">Nothing is overwritten without comparison · removed ABOPs are only flagged, never deleted</span></div>
     <div class="upzone" onclick="document.getElementById('pdf-main').click()"
          ondragover="event.preventDefault();this.classList.add('dov')"
          ondragleave="this.classList.remove('dov')"
-         ondrop="doDrop(event,'cert-res')">
+         ondrop="doDrop(event)">
       <div class="up-ico">&#128196;</div>
-      <div class="up-ttl">Drop ALL GSTN Certificate PDFs Here</div>
-      <div class="up-sub">Select all 34 PDFs at once &middot; Auto-matched to locations by GSTIN state code &middot; Addresses auto-filled</div>
+      <div class="up-ttl">Drop updated JC certificate PDFs here (Form GST REG-06)</div>
+      <div class="up-sub">GSTIN, Principal Place &amp; Annexure-A ABOPs are extracted and compared &middot; Join Commerce (PAN AAECJ6910B) only &middot; a change report is generated per GSTIN</div>
     </div>
-    <input type="file" id="pdf-main" accept=".pdf" multiple style="display:none" onchange="pdfUpload(event,'cert-res')"/>
+    <input type="file" id="pdf-main" accept=".pdf" multiple style="display:none" onchange="pdfUpload(event)"/>
     <div class="bulk-prog" id="bulk-prog">
       <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px">
-        <span id="bp-label">Processing...</span>
-        <span id="bp-frac" style="color:var(--txt2)">0 / 0</span>
+        <span id="bp-label">Processing...</span><span id="bp-frac" style="color:var(--txt2)">0 / 0</span>
       </div>
       <div class="bp-bar"><div class="bp-fill" id="bp-fill" style="width:0%"></div></div>
-      <div id="bp-log" style="font-size:10px;color:var(--txt3);max-height:80px;overflow-y:auto;margin-top:4px"></div>
     </div>
-    <div id="cert-res"></div>
-    <div class="tbl-wrap">
-      <div class="tbl-top"><span class="tbl-ttl">Imported Certificate Data</span><span class="tbl-cnt" id="cert-cnt"></span></div>
-      <div style="overflow-x:auto">
-        <table><thead><tr>
-          <th>GSTIN</th><th>Legal Name</th><th>State</th><th>Constitution</th>
-          <th>Principal Place of Business (Portal Address)</th><th>Reg Date</th><th>Linked Location</th><th>Actions</th>
-        </tr></thead>
-        <tbody id="cert-tbody"></tbody>
-      </table></div>
+    <div class="sec-hdr" style="margin-top:18px"><div class="sec-dot" style="background:var(--cyn)"></div><div class="sec-title">Latest Change Report</div></div>
+    <div id="latest-report"><div class="empty"><div class="empty-ico">&#128203;</div><div class="empty-ttl">No upload yet in this session</div><div style="font-size:11px">Drop certificates above — the comparison report appears here</div></div></div>
+  </div>
+
+  <!-- ── TAB: HISTORY ── -->
+  <div id="tab-history" class="tc">
+    <div class="sec-hdr"><div class="sec-dot" style="background:var(--red)"></div><div class="sec-title">Change History — every certificate comparison ever run</div></div>
+    <div class="frow">
+      <input type="text" id="h-q" placeholder="Filter by GSTIN / address..." style="min-width:240px" oninput="renderHistory()"/>
+      <button class="btn btn-sec btn-sm" onclick="clearHistory()">Clear History</button>
     </div>
+    <div id="history-list"></div>
   </div>
 
 </div><!-- /main -->
 
-<!-- MODAL: Add/Edit Location -->
-<div class="modal-ov" id="add-modal">
+<!-- MODAL: GSTIN detail -->
+<div class="modal-ov" id="gstin-modal">
+  <div class="modal" style="width:min(760px,95vw)">
+    <div class="m-title"><span>&#128203;</span><span id="gd-title">GSTIN</span><button class="m-close" onclick="closeModal('gstin-modal')">&#10005;</button></div>
+    <div id="gd-body"></div>
+  </div>
+</div>
+
+<!-- MODAL: Add / Edit location -->
+<div class="modal-ov" id="loc-modal">
   <div class="modal">
-    <div class="m-title"><span id="m-ico">&#127968;</span><span id="m-ttl">Add New Location</span><button class="m-close" onclick="closeModal('add-modal')">&#10005;</button></div>
+    <div class="m-title"><span>&#128205;</span><span id="lm-title">Add Location</span><button class="m-close" onclick="closeModal('loc-modal')">&#10005;</button></div>
     <div class="fg">
-      <div class="fgrp"><label>Location Code *</label><input type="text" id="f-lc" placeholder="JC-03"/></div>
-      <div class="fgrp"><label>Location Name</label><input type="text" id="f-nm" placeholder="Mumbai Central"/></div>
-      <div class="fgrp"><label>State</label>
-        <select id="f-stt"><option value="">Select State</option>
-        <option>Maharashtra</option><option>Delhi</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option><option>West Bengal</option><option>Telangana</option><option>Andhra Pradesh</option><option>Punjab</option><option>Haryana</option><option>Madhya Pradesh</option><option>Bihar</option><option>Odisha</option><option>Kerala</option><option>Jharkhand</option><option>Assam</option><option>Himachal Pradesh</option><option>Uttarakhand</option><option>Goa</option><option>Chhattisgarh</option><option>Chandigarh</option><option>Puducherry</option><option>Jammu and Kashmir</option><option>Sikkim</option><option>Manipur</option><option>Mizoram</option><option>Nagaland</option><option>Meghalaya</option><option>Arunachal Pradesh</option><option>Tripura</option>
-        </select>
+      <div class="fgrp"><label>GSTIN *</label><select id="lm-gstin"></select></div>
+      <div class="fgrp"><label>Type *</label>
+        <select id="lm-type"><option value="ABOP">Additional Place of Business (ABOP)</option><option value="PPB">Principal Place of Business</option></select>
       </div>
-      <div class="fgrp"><label>City</label><input type="text" id="f-cy" placeholder="Mumbai"/></div>
-      <div class="fgrp"><label>GSTIN (from certificate)</label><input type="text" id="f-gn" placeholder="27AAAAA0000A1Z5" maxlength="15" style="text-transform:uppercase"/></div>
-      <div class="fgrp"><label>Registration Status</label>
-        <select id="f-rs"><option value="registered">Registered</option><option value="in-process">In Process</option><option value="not-applied">Not Applied</option></select>
+      <div class="fgrp"><label>Location Name (optional)</label><input type="text" id="lm-name" placeholder="e.g. Ludhiana Warehouse"/></div>
+      <div class="fgrp"><label>Status</label>
+        <select id="lm-status"><option value="new">New</option><option value="existing">Existing</option><option value="modified">Modified</option><option value="to-remove">To Be Removed</option><option value="removed">Removed</option></select>
       </div>
-      <div class="fgrp"><label>Registration Date</label><input type="date" id="f-rd"/></div>
-      <div class="fgrp"><label>ABOP / Operational Status</label>
-        <select id="f-as"><option value="open">Open / Operational</option><option value="process">In Process / Opening Soon</option><option value="closed">Closed</option></select>
-      </div>
-      <div class="fgrp s2"><label>&#128205; Address on GST Portal (auto-filled from certificate)</label><textarea id="f-pa" placeholder="Extracted from GSTN certificate..."></textarea></div>
-      <div class="fgrp s2"><label>&#128204; Actual / Current Address (fill this for pending locations)</label><textarea id="f-aa" placeholder="Enter actual current address — leave blank if same as portal address..."></textarea></div>
-      <div class="fgrp"><label>Address Update Status</label>
-        <select id="f-aus"><option value="updated">&#10003; Updated — Matches Portal</option><option value="pending">&#9203; Pending — Needs Update</option><option value="na">— N/A</option></select>
-      </div>
-      <div class="fgrp"><label>Pending Since</label><input type="date" id="f-ps"/></div>
-      <div class="fgrp s2"><label>Remarks</label><textarea id="f-rm" style="min-height:44px" placeholder="Notes, action pending..."></textarea></div>
+      <div class="fgrp s2"><label>Complete Address *</label><textarea id="lm-addr" placeholder="Full address as per certificate / amendment application..."></textarea></div>
+      <div class="fgrp s2"><label>Remarks</label><textarea id="lm-remarks" style="min-height:44px" placeholder="e.g. Amendment ARN filed on ..."></textarea></div>
     </div>
+    <input type="hidden" id="lm-id"/>
     <div class="mfooter">
-      <button class="btn btn-sec" onclick="closeModal('add-modal')">Cancel</button>
+      <button class="btn btn-sec" onclick="closeModal('loc-modal')">Cancel</button>
       <button class="btn btn-pri" onclick="saveLoc()">&#128190; Save Location</button>
     </div>
   </div>
 </div>
 
+<!-- MODAL: Add new GSTIN -->
+<div class="modal-ov" id="gstin-add-modal">
+  <div class="modal">
+    <div class="m-title"><span>&#127970;</span><span>Add New GSTIN</span><button class="m-close" onclick="closeModal('gstin-add-modal')">&#10005;</button></div>
+    <div class="fg">
+      <div class="fgrp"><label>GSTIN *</label><input type="text" id="gm-gstin" maxlength="15" placeholder="e.g. 27AAECJ6910B1ZW" style="text-transform:uppercase;font-family:monospace" oninput="this.value=this.value.toUpperCase();gmAutoState()"/></div>
+      <div class="fgrp"><label>State</label><input type="text" id="gm-state" placeholder="auto-filled from GSTIN"/></div>
+      <div class="fgrp"><label>ISD Registration?</label>
+        <select id="gm-isd"><option value="no">No</option><option value="yes">Yes (Input Service Distributor)</option></select>
+      </div>
+      <div class="fgrp"><label>Status</label>
+        <select id="gm-status"><option value="new">New</option><option value="existing">Existing</option></select>
+      </div>
+      <div class="fgrp s2"><label>Principal Place of Business Address *</label><textarea id="gm-ppb-addr" placeholder="Complete PPB address as per certificate..."></textarea></div>
+      <div class="fgrp s2"><label>Remarks</label><textarea id="gm-remarks" style="min-height:44px" placeholder="e.g. New GSTIN obtained on ..."></textarea></div>
+    </div>
+    <div class="mfooter">
+      <button class="btn btn-sec" onclick="closeModal('gstin-add-modal')">Cancel</button>
+      <button class="btn btn-grn" onclick="saveNewGstin()">&#128190; Add GSTIN</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-c" id="tc"></div>
-<input type="file" id="pdf-bulk" accept=".pdf" multiple style="display:none" onchange="pdfUpload(event,'cert-res')"/>
 
 <script>
-// ── PDF.js worker ──────────────────────────────────────
 if(typeof pdfjsLib!=='undefined'){
   pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-// ── DATA STORE ─────────────────────────────────────────
-const DK='jc_v5',CK='jc_certs_v5';
-function ld(){try{return JSON.parse(localStorage.getItem(DK))||[]}catch{return[]}}
-function save(d){localStorage.setItem(DK,JSON.stringify(d))}
-function lc(){try{return JSON.parse(localStorage.getItem(CK))||[]}catch{return[]}}
-function saveCerts(d){localStorage.setItem(CK,JSON.stringify(d))}
+const LOC_SEED=[{"gstin":"03AAECJ6910B1Z6","state":"Punjab","stateCode":"03","isd":false,"certFile":"JC - 03 AA030425058165G_RC30042025 (2).pdf","certDate":"2025-04-30","type":"PPB","address":"1st Floor, Gali No. 6 Main Adda Bhargo Camp Market Punjab Complex, HDFC Bank Abadpura, Basti Sheikh Model Town Jalandhar Jalandhar 144003"},{"gstin":"03AAECJ6910B1Z6","state":"Punjab","stateCode":"03","isd":false,"certFile":"JC - 03 AA030425058165G_RC30042025 (2).pdf","certDate":"2025-04-30","type":"ABOP","seq":1,"address":"2655/1, Gurdev Nagar, Gurdev Nagar, Ludhiana, Ludhiana, Punjab, 141001"},{"gstin":"03AAECJ6910B1Z6","state":"Punjab","stateCode":"03","isd":false,"certFile":"JC - 03 AA030425058165G_RC30042025 (2).pdf","certDate":"2025-04-30","type":"ABOP","seq":2,"address":"Super Standard Industries, Partap Estate, Ram Talai, Head Water Works Road, Ram Talai, Amritsar, Amritsar, Punjab, 143001"},{"gstin":"03AAECJ6910B1Z6","state":"Punjab","stateCode":"03","isd":false,"certFile":"JC - 03 AA030425058165G_RC30042025 (2).pdf","certDate":"2025-04-30","type":"ABOP","seq":3,"address":"SCF 12, FF, ZIRAKPUR, VIP Road, Mohali, SAS Nagar, Punjab, 140603"},{"gstin":"03AAECJ6910B1Z6","state":"Punjab","stateCode":"03","isd":false,"certFile":"JC - 03 AA030425058165G_RC30042025 (2).pdf","certDate":"2025-04-30","type":"ABOP","seq":4,"address":"SCO 1, Mehak Complex, NH 21 Mundi Kharar Mohali, Mundi Kharar, Kharar, SAS Nagar, Punjab, 140301"},{"gstin":"04AAECJ6910B1Z4","state":"Chandigarh","stateCode":"04","isd":false,"certFile":"JC - 04 AA0403220005531_RC21032022 (1).pdf","certDate":"2022-03-21","type":"PPB","address":"Plot No. 95, Press Site, Industrial Area, Phase-1, Chandigarh, Chandigarh, Chandigarh, 160002"},{"gstin":"05AAECJ6910B1Z2","state":"Uttarakhand","stateCode":"05","isd":false,"certFile":"JC - 05 AA050722018574D_RC05082022.pdf","certDate":"2022-08-05","type":"PPB","address":"3rd Floor, Navdeesh Tower, Near Kamla Palace, G M S Road, Kanwali, Dehradun, Dehradun, Uttarakhand, 248001"},{"gstin":"06AAECJ6910B1Z0","state":"Haryana","stateCode":"06","isd":false,"certFile":"JC - 06 AA060523035660J_RC07062023 (1).pdf","certDate":"2023-06-07","type":"PPB","address":"Plot No. 18/18A Noble Enclave, Old Delhi Gurugram Road, Moulahera, Gurugram, Gurugram, Haryana, 122015"},{"gstin":"06AAECJ6910B1Z0","state":"Haryana","stateCode":"06","isd":false,"certFile":"JC - 06 AA060523035660J_RC07062023 (1).pdf","certDate":"2023-06-07","type":"ABOP","seq":1,"address":"Basement, J-3157, Basement, J Block, Sainik Colony, Sainik Colony, Sector 49, Sector 49, Faridabad, Faridabad, Haryana, 121001"},{"gstin":"06AAECJ6910B1Z0","state":"Haryana","stateCode":"06","isd":false,"certFile":"JC - 06 AA060523035660J_RC07062023 (1).pdf","certDate":"2023-06-07","type":"ABOP","seq":2,"address":"Plot No. 315, Near Baktawar Community Center, Jharsa Village Road, Jharsa Village, Gurugram, Gurugram, Haryana, 122003"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"PPB","address":"B-108, First Floor Okhla Industrial Estate Phase 1 Okhla Industrial Phase 1 Road Okhla Industrial Estate Phase 1 New Delhi South East Delhi 110020"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":1,"address":"Khasra No. 506, Village Fatehpur Beri, Fatehpur Beri, Fatehpur, New Delhi, South Delhi, Delhi, 110074"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":2,"address":"Property No. 3/4, Bindra Market, Gurudwara Dera Santpura, Nirmal Asthan Dera Sant Pura Gurudwara, Najafgarh Road, Tilak Nagar, New Delhi, West Delhi, Delhi, 110018"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":3,"address":"C-9/11, Krishna Nagar, Opposite Axis Bank ATM, Lala Hans Raj Mahajan Road, Krishna Nagar East, New Delhi, East Delhi, Delhi, 110051"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":4,"address":"H.No. 190-A, GF, Shahpur Jat Village, Shahpur Jat Village, New Delhi, South Delhi, Delhi, 110049"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":5,"address":"Shed No.3 First Floor,, Masood Pur, Dairy Farm, New Delhi, New Delhi, New Delhi, Delhi, 110070"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":6,"address":"H.NO. 95, GANJA MOHALLA, JONAPUR VILLAGE, JONAPUR VILLAGE, New Delhi, New Delhi, Delhi, 110047"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":7,"address":"Second Floor, T-2363, Faiz Road Karol Bagh, Anand Parbat Sub Post Office, Ashok nagar, New Delhi, Central Delhi, Delhi, 110005"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":8,"address":"Ground Floor, 873/3, Lal Dora Village Rithala City Delhi, Tilak Nagar, New Delhi, North West Delhi, Delhi, 110085"},{"gstin":"07AAECJ6910B1ZY","state":"Delhi","stateCode":"07","isd":false,"certFile":"JC - 07 AA0701260196972_RC21012026.pdf","certDate":"2026-01-21","type":"ABOP","seq":9,"address":"Ground Floor, D-469-470, Chauham Niwas, Palam Extn Vidyalaya Marg, Raj Nagar 2 Sub Post Office, Palam, New Delhi, South West Delhi, Delhi, 110077"},{"gstin":"08AAECJ6910B1ZW","state":"Rajasthan","stateCode":"08","isd":false,"certFile":"JC - 08 AA080525051314E_RC21052025.pdf","certDate":"2025-05-21","type":"PPB","address":"2nd Floor, E-195 A RIICO Industrial Area Mansarovar Jaipur Jaipur 302020"},{"gstin":"08AAECJ6910B1ZW","state":"Rajasthan","stateCode":"08","isd":false,"certFile":"JC - 08 AA080525051314E_RC21052025.pdf","certDate":"2025-05-21","type":"ABOP","seq":1,"address":"Ground Floor, E-195A RIICO Industrial Area, Mansarovar, Jaipur, Jaipur, Rajasthan, 302020"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"PPB","address":"B-1/16, Ridhya Plaza, Second Floor Aliganj Mahabirji Mandir Marg Aliganj Lucknow Lucknow 226024"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":1,"address":"MIG-23, Azad Nagar, Moradabad, Moradabad, Uttar Pradesh, 244001"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":2,"address":"Plot No. 184, Arazi No. 832, Shyam Nagar, Ganga Nagar, Shyam Nagar, Kanpur, Kanpur Nagar, Uttar Pradesh, 208013"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":3,"address":"Plot No. 165B, Mohan Nagar, Anand Industrial Area, Mohan Nagar, Ghaziabad, Ghaziabad, Uttar Pradesh, 201007"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":4,"address":"B-30, Sector 67, Sector 67, Noida, Gautambuddha Nagar, Uttar Pradesh, 201301"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":5,"address":"40, Makanpur, Indirapuram, Ghaziabad, Ghaziabad, Ghaziabad, Uttar Pradesh, 201014"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":6,"address":"A 180, NOIDA HCL, Noida Head Post Office, Sector 83, Noida, Gautambuddha Nagar, Uttar Pradesh, 201301"},{"gstin":"09AAECJ6910B1ZU","state":"Uttar Pradesh","stateCode":"09","isd":false,"certFile":"JC - 09 AA090126040039F_RC28012026.pdf","certDate":"2026-01-28","type":"ABOP","seq":7,"address":"B-204, Jagat Farm Greater Noida, IA Surajpur Sub Post Office, Surajpur Site B Industrial, Greater Noida, Gautambuddha Nagar, Uttar Pradesh, 201306"},{"gstin":"10AAECJ6910B1ZB","state":"Bihar","stateCode":"10","isd":false,"certFile":"JC - 10 AA100622018110A_RC29062022.pdf","certDate":"2022-06-29","type":"PPB","address":"1st Floor, Office No. 1, 117A, Shree Raj Complex, Main Road, Dujra, Dujra, Patna, Patna, Bihar, 800001"},{"gstin":"19AAECJ6910B1ZT","state":"West Bengal","stateCode":"19","isd":false,"certFile":"JC - 19 AA191125014375F_RC26112025 (2).pdf","certDate":"2025-11-26","type":"PPB","address":"192 Block IB Sector-III,Salt Lake City Bidhan Nagar Ib Market Sub Post Office Sector 3 Bidhan Nagar North Twenty Four Parganas 700106"},{"gstin":"19AAECJ6910B1ZT","state":"West Bengal","stateCode":"19","isd":false,"certFile":"JC - 19 AA191125014375F_RC26112025 (2).pdf","certDate":"2025-11-26","type":"ABOP","seq":1,"address":"Premises No. 43A known as 57 B.L. Saha Road, BL Saha Road, BL Saha Road, New Alipore, Kolkata, Kolkata, West Bengal, 700053"},{"gstin":"19AAECJ6910B1ZT","state":"West Bengal","stateCode":"19","isd":false,"certFile":"JC - 19 AA191125014375F_RC26112025 (2).pdf","certDate":"2025-11-26","type":"ABOP","seq":2,"address":"1/1, BL-A Gr Floor, Howrah, Hurdutt Rai Chamaria Road, Uttar Howrah, Howrah, Howrah, West Bengal, 711101"},{"gstin":"19AAECJ6910B1ZT","state":"West Bengal","stateCode":"19","isd":false,"certFile":"JC - 19 AA191125014375F_RC26112025 (2).pdf","certDate":"2025-11-26","type":"ABOP","seq":3,"address":"Ground Floor, 22/3, Chinar Park, Kolkata, North Twenty Four Parganas, West Bengal, 700157"},{"gstin":"19AAECJ6910B1ZT","state":"West Bengal","stateCode":"19","isd":false,"certFile":"JC - 19 AA191125014375F_RC26112025 (2).pdf","certDate":"2025-11-26","type":"ABOP","seq":4,"address":"00, Synergy Building, Mouza Thakdhari Road, Krishnapur Sub Post Office, Krishnapur, New Town, North Twenty Four Parganas, West Bengal, 700102"},{"gstin":"20AAECJ6910B1ZA","state":"Jharkhand","stateCode":"20","isd":false,"certFile":"JC - 20 AA201024011845W_RC22112024.pdf","certDate":"2024-11-22","type":"PPB","address":"718, Sadar HB Road Kokar Ranchi Ranchi 834001"},{"gstin":"21AAECJ6910B1Z8","state":"Odisha","stateCode":"21","isd":false,"certFile":"JC - 21 AA2111250316400_RC28112025.pdf","certDate":"2025-11-28","type":"PPB","address":"Plot No. 202 SCR, PS-Capital-1 Bapuji Nagar Main Road Bapuji Nagar Bhubaneswar Khordha 751009"},{"gstin":"21AAECJ6910B1Z8","state":"Odisha","stateCode":"21","isd":false,"certFile":"JC - 21 AA2111250316400_RC28112025.pdf","certDate":"2025-11-28","type":"ABOP","seq":1,"address":"F/8,, Chandaka Industerial Estate, KIIT Sub Post Office, Patia, Bhubaneswar, Khordha, Odisha, 751024"},{"gstin":"23AAECJ6910B1Z4","state":"Madhya Pradesh","stateCode":"23","isd":false,"certFile":"JC - 23 AA2308240099924_RC03092024.pdf","certDate":"2024-09-03","type":"PPB","address":"FIRST FLOOR PLOT NO. C-150 Scheme No 103 IDA SCHEME NO 103 NEAR D J JUNCTION DHABA Scheme No 103 Indore Indore 452012"},{"gstin":"23AAECJ6910B1Z4","state":"Madhya Pradesh","stateCode":"23","isd":false,"certFile":"JC - 23 AA2308240099924_RC03092024.pdf","certDate":"2024-09-03","type":"ABOP","seq":1,"address":"151-B (New) Old 59, Sheetal Nagar, Sheetal Nagar, Indore, Indore, Madhya Pradesh, 452010"},{"gstin":"24AAECJ6910B1Z2","state":"Gujarat","stateCode":"24","isd":false,"certFile":"JC - 24 AA2409250490374_RC16092025.pdf","certDate":"2025-09-16","type":"PPB","address":"BASEMENT NO. 1 SIDDHANCHAL COMPLEX NEAR TV TOWER,OPP DRIVE IN CINEMA THALTEJ Ahmedabad 380054"},{"gstin":"24AAECJ6910B1Z2","state":"Gujarat","stateCode":"24","isd":false,"certFile":"JC - 24 AA2409250490374_RC16092025.pdf","certDate":"2025-09-16","type":"ABOP","seq":1,"address":"FF-114-A/B Orchid Plaza, Sama Savli Road, Vemali Village, Vadodara, Vadodara, Gujarat, 390022"},{"gstin":"24AAECJ6910B1Z2","state":"Gujarat","stateCode":"24","isd":false,"certFile":"JC - 24 AA2409250490374_RC16092025.pdf","certDate":"2025-09-16","type":"ABOP","seq":2,"address":"24/B Archana Ind.Estate,, Rakhial Road, Opp.Ajit Mills, Rakhial, Ahmedabad, Ahmedabad, Gujarat, 380023"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"PPB","address":"BLDG C9 H No 898 Bhumi World Ind Par MUMBAI Thane 421302"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":1,"address":"Floor No.1, Flat No. 103, Sai Heritage, Block Sector. Baner Road, Pune, Pune, Maharashtra, 411045"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":2,"address":"D-125, Building No. 1, Kailash Industrial Complex, Veer Savarkar Road, Vikhroli West, Mumbai, Mumbai Suburban, Maharashtra, 400079"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":3,"address":"Sy. No. 28/2, 3, 4, Sahil Park, Ratandeep Building, Soundarya Warehouse No. 2, Dange Chowk Road, Near Raghunandan Mangal Karyalaya, Tathavade, Pune, Pune, Maharashtra, 411057"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":4,"address":"Ground, Upper Floors and Terrace, PLOT NO. PAP-A-317, Kopar Khairane, TDC MIDC Khairane Road, Kopar Khairane, Navi Mumbai, Thane, Maharashtra, 400709"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":5,"address":"Gala No. 106, 107, 108, 1st Floor, Bajsons Industrial Estate, Chakala Road, Andheri East, Chakala MIDC, Mumbai, Mumbai Suburban, Maharashtra, 400093"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":6,"address":"37D, Ground Floor, Doctor Compound, Dattaram Lad Path, Doctor Compound, Mumbai, Mumbai, Maharashtra, 400012"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":7,"address":"Shop No. 02, Plot No. 71, Sector 17, Vashi, Arenja Circle, Sector 17, Navi Mumbai, Thane, Maharashtra, 400703"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":8,"address":"H.No. 68, Pearl Heaven, Bandra, Chapel Road, Bandra West, Mumbai, Mumbai Suburban, Maharashtra, 400050"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":9,"address":"Shop No. 11, Tirupati Apartment, Plot No. 4/755, Tirupati Apartment, Mahalaxmi Temple Lane, Cumballa Hill, Mumbai, Mumbai, Maharashtra, 400026"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":10,"address":"SR NO. 21/2, FLNO1 BLDG A ARCHANA GREEN SOCY, KONDHWAKD PUNE, Pune, Pune, Maharashtra, 411048"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":11,"address":"Shop No. 4, New lucky dairy farm, akurli road, Kandivli, Near Pioneer School, Mumbai, Mumbai Suburban, Maharashtra, 400101"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":12,"address":"04, New Police Quarters 1, Pokhran Road Khopat,Punjani Industerial Estate, Thane Head"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":13,"address":"H.No. 696 BLDG No. G-2, Iris JMD Complex, GALA No. 10 Jalaram Complex Pimplas, Shastrinagar Sub Post Office, Padma Nagar, Bhiwandi, Thane, Maharashtra, 421302"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":14,"address":"7,Floor-G, Plot No. 399,7C,, Building 2, Udyog Mandir No. 1,Bhago Ji Keer Marg Near Paradise Cinema, Mahim Head Post Office, Mahim, Mumbai, Mumbai, Maharashtra, 400016"},{"gstin":"27AAECJ6910B1ZW","state":"Maharashtra","stateCode":"27","isd":false,"certFile":"JC - 27 AA271225013146M_RC03122025 (2).pdf","certDate":"2025-12-03","type":"ABOP","seq":15,"address":"S.NO.52, 4/31, High school Near by Mother Terraca, Near Mother Terraca, Viman Nagar, Pune, Pune, Maharashtra, 411014"},{"gstin":"27AAECJ6910B2ZV","state":"Maharashtra","stateCode":"27","isd":true,"certFile":"JC - 27 ISD AA270125149364A_RC25022025.pdf","certDate":"2025-02-25","type":"PPB","address":"GALA -32 GR. FLR. H.NO. 898 BLDG C-9 PIMPLAS VILLAGE BHUMIWORLD IND PAR Shastrinagar Sub Post Office Dandekarwadi Bhiwandi Thane 421302"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"PPB","address":"No. 31/1 10th Main, Ground Floor, 14th Cross, Wilson Garden Bangalore Bengaluru Urban 560030"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":1,"address":"14, Bannerghatta Main Road, kalandappa garde, Anepalyan, Bhairav Shree Crystal Ceramics, Adugodi, Bengaluru, Bengaluru Urban, Karnataka, 560030"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":2,"address":"170, Main Road,, Block Parvathi, Hosur Road, JSP Autocore, Singasandra, Bengaluru, Bengaluru Urban, Karnataka, 560068"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":3,"address":"1582, 1st Phase, 1st Main Road,Chandra Layout, Sri Lakshmi Kalyana Mahal, Vijaya Nagar, Bengaluru, Bengaluru Urban, Karnataka, 560040"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":4,"address":"43/2, Varthur Main Road, Kundanhali gate, Varthur Bus Stop, Varthur Marattahalli, Bengaluru, Bengaluru Urban, Karnataka, 560087"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":5,"address":"57/2-57/3, Kasabahobli N.M Garden, Chira Shanthi Dhama Behind Esteem Mall, Hebbal Kempapura, Bengaluru, Bengaluru Urban, Karnataka, 560024"},{"gstin":"29AAECJ6910B1ZS","state":"Karnataka","stateCode":"29","isd":false,"certFile":"JC - 29 AA291225004142R_RC23122025 (1).pdf","certDate":"2025-12-23","type":"ABOP","seq":6,"address":"No.51, Sarjapura Road Kaikondarahalli, Carmelram Sub Post Office, Doddakannelli, Bengaluru, Bengaluru Urban, Karnataka, 560035"},{"gstin":"33AAECJ6910B1Z3","state":"Tamil Nadu","stateCode":"33","isd":false,"certFile":"JC - 33 AA330524003322Y_RC25052024 (1).pdf","certDate":"2024-05-25","type":"PPB","address":"House No. 39, First Floor, Karuneegar Street, Railway Station Road Adambakkam Chennai Chennai 600088"},{"gstin":"33AAECJ6910B1Z3","state":"Tamil Nadu","stateCode":"33","isd":false,"certFile":"JC - 33 AA330524003322Y_RC25052024 (1).pdf","certDate":"2024-05-25","type":"ABOP","seq":1,"address":"Door No. 39, Adambakkam, Karuneegar Street, Adambakkam, Chennai, Chennai, Tamil Nadu, 600088"},{"gstin":"33AAECJ6910B1Z3","state":"Tamil Nadu","stateCode":"33","isd":false,"certFile":"JC - 33 AA330524003322Y_RC25052024 (1).pdf","certDate":"2024-05-25","type":"ABOP","seq":2,"address":"No.21, Kamarajar, Srinivasa Nagar, Padi, 3rd Cross Street, Padi, Chennai, Chennai, Tamil Nadu, 600050"},{"gstin":"36AAECJ6910B1ZX","state":"Telangana","stateCode":"36","isd":false,"certFile":"JC - 36 AA361124002529I_RC20112024 (2).pdf","certDate":"2024-11-20","type":"PPB","address":"HOUSE NO. 12-2-422/54 PRIYA COLONY, GUDIMALKAPUR HYDERABAD Hyderabad 500028"},{"gstin":"36AAECJ6910B1ZX","state":"Telangana","stateCode":"36","isd":false,"certFile":"JC - 36 AA361124002529I_RC20112024 (2).pdf","certDate":"2024-11-20","type":"ABOP","seq":1,"address":"1st Floor, House No. 5-5-35/143/1, Plot No. 158, Prashanthi Nagar, IDA, Prashanti Nagar, Kukatpally Main Road, Hyderabad, Rangareddy, Telangana, 500072"},{"gstin":"36AAECJ6910B1ZX","state":"Telangana","stateCode":"36","isd":false,"certFile":"JC - 36 AA361124002529I_RC20112024 (2).pdf","certDate":"2024-11-20","type":"ABOP","seq":2,"address":"First Floor, H.No. 4-1-16, A.S. Plaza, First Floor, Snehapuri Colony, A.S. Plaza, Mallapur Main Road, Beside HDFC Bank, Nacharam, Hyderabad, Medchal Malkajgiri, Telangana, 500076"},{"gstin":"36AAECJ6910B1ZX","state":"Telangana","stateCode":"36","isd":false,"certFile":"JC - 36 AA361124002529I_RC20112024 (2).pdf","certDate":"2024-11-20","type":"ABOP","seq":3,"address":"8-1-21/A/3,, Surya Nagar Colony Road,Hyderabad, Rethi Bowli, Secunderabad, Hyderabad, Telangana, 500008"},{"gstin":"37AAECJ6910B1ZV","state":"Andhra Pradesh","stateCode":"37","isd":false,"certFile":"JC - 37 AA371124011139M_RC28112024.pdf","certDate":"2024-11-28","type":"PPB","address":"FIRST FLOOR D NO: 49-52-5/3 RATNADEEP COMPLEX Shanthipuram Road Visakhapatnam Visakhapatnam 530016"}];
 
-// GST state codes
-const SC={
-  '01':'Jammu and Kashmir','02':'Himachal Pradesh','03':'Punjab','04':'Chandigarh',
-  '05':'Uttarakhand','06':'Haryana','07':'Delhi','08':'Rajasthan','09':'Uttar Pradesh',
-  '10':'Bihar','11':'Sikkim','12':'Arunachal Pradesh','13':'Nagaland','14':'Manipur',
-  '15':'Mizoram','16':'Tripura','17':'Meghalaya','18':'Assam','19':'West Bengal',
-  '20':'Jharkhand','21':'Odisha','22':'Chhattisgarh','23':'Madhya Pradesh','24':'Gujarat',
-  '26':'Dadra and NH','27':'Maharashtra','29':'Karnataka','30':'Goa','31':'Lakshadweep',
-  '32':'Kerala','33':'Tamil Nadu','34':'Puducherry','35':'Andaman and Nicobar',
-  '36':'Telangana','37':'Andhra Pradesh','38':'Ladakh'
-};
-function stateFromGSTIN(g){return g&&g.length>=2?SC[g.substring(0,2)]||'':''}
 
-// ── SEED DATA ──────────────────────────────────────────
-const SEED=[
-  {locCode:'JC-03',name:'Jaipur',state:'Rajasthan',city:'Jaipur',gstin:'',regStatus:'registered',regDate:'2025-04-30',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2025-05-01',remarks:'',markRemove:false},
-  {locCode:'JC-04',name:'Ahmedabad',state:'Gujarat',city:'Ahmedabad',gstin:'',regStatus:'registered',regDate:'2022-03-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-04-01',remarks:'',markRemove:false},
-  {locCode:'JC-05',name:'Chennai',state:'Tamil Nadu',city:'Chennai',gstin:'',regStatus:'registered',regDate:'2022-08-05',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-08-10',remarks:'',markRemove:false},
-  {locCode:'JC-06',name:'Pune',state:'Maharashtra',city:'Pune',gstin:'',regStatus:'registered',regDate:'2023-06-07',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2023-06-10',remarks:'',markRemove:false},
-  {locCode:'JC-07',name:'Lucknow',state:'Uttar Pradesh',city:'Lucknow',gstin:'',regStatus:'registered',regDate:'2026-01-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-08',name:'Hyderabad',state:'Telangana',city:'Hyderabad',gstin:'',regStatus:'registered',regDate:'2025-05-21',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-09',name:'Bhopal',state:'Madhya Pradesh',city:'Bhopal',gstin:'',regStatus:'registered',regDate:'2026-01-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-10',name:'Bengaluru',state:'Karnataka',city:'Bengaluru',gstin:'',regStatus:'registered',regDate:'2022-06-29',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2022-07-01',remarks:'',markRemove:false},
-  {locCode:'JC-19',name:'Kolkata',state:'West Bengal',city:'Kolkata',gstin:'',regStatus:'registered',regDate:'2025-11-26',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-20',name:'Patna',state:'Bihar',city:'Patna',gstin:'',regStatus:'registered',regDate:'2024-11-22',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-21',name:'Chandigarh',state:'Chandigarh',city:'Chandigarh',gstin:'',regStatus:'registered',regDate:'2025-11-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-23',name:'Nagpur',state:'Maharashtra',city:'Nagpur',gstin:'',regStatus:'registered',regDate:'2024-09-03',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-24',name:'Surat',state:'Gujarat',city:'Surat',gstin:'',regStatus:'registered',regDate:'2025-09-16',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-27',name:'Mumbai HO',state:'Maharashtra',city:'Mumbai',gstin:'',regStatus:'registered',regDate:'2025-12-03',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'pending',pendingSince:'2025-12-10',remarks:'Head Office',markRemove:false},
-  {locCode:'JC-27 ISD',name:'Mumbai ISD',state:'Maharashtra',city:'Mumbai',gstin:'',regStatus:'registered',regDate:'2025-02-25',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'ISD Registration',markRemove:false},
-  {locCode:'JC-29',name:'Indore',state:'Madhya Pradesh',city:'Indore',gstin:'',regStatus:'registered',regDate:'2025-12-23',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-33',name:'Ahmedabad 2',state:'Gujarat',city:'Ahmedabad',gstin:'',regStatus:'registered',regDate:'2024-05-25',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-36',name:'Coimbatore',state:'Tamil Nadu',city:'Coimbatore',gstin:'',regStatus:'registered',regDate:'2024-11-20',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-37',name:'Vijayawada',state:'Andhra Pradesh',city:'Vijayawada',gstin:'',regStatus:'registered',regDate:'2024-11-28',abopStatus:'open',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'',markRemove:false},
-  {locCode:'JC-NEW-1',name:'New Location 1',state:'',city:'',gstin:'',regStatus:'in-process',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'In process',markRemove:false},
-  {locCode:'JC-NEW-2',name:'New Location 2',state:'',city:'',gstin:'',regStatus:'in-process',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'In process',markRemove:false},
-  {locCode:'JC-NEW-3',name:'New Location 3',state:'',city:'',gstin:'',regStatus:'not-applied',regDate:'',abopStatus:'process',principalAddr:'',actualAddr:'',addrUpdateStatus:'na',pendingSince:'',remarks:'Opening soon',markRemove:false}
-];
+const JC_PAN='AAECJ6910B';
+const LEGAL='JOIN COMMERCE PRIVATE LIMITED';
+const LS_KEY='jcloc_v1';
+const GSTIN_RE=/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
+const GST_STATE_CODES={'01':'Jammu and Kashmir','02':'Himachal Pradesh','03':'Punjab','04':'Chandigarh','05':'Uttarakhand','06':'Haryana','07':'Delhi','08':'Rajasthan','09':'Uttar Pradesh','10':'Bihar','11':'Sikkim','12':'Arunachal Pradesh','13':'Nagaland','14':'Manipur','15':'Mizoram','16':'Tripura','17':'Meghalaya','18':'Assam','19':'West Bengal','20':'Jharkhand','21':'Odisha','22':'Chhattisgarh','23':'Madhya Pradesh','24':'Gujarat','25':'Daman and Diu','26':'Dadra and Nagar Haveli','27':'Maharashtra','28':'Andhra Pradesh (Old)','29':'Karnataka','30':'Goa','31':'Lakshadweep','32':'Kerala','33':'Tamil Nadu','34':'Puducherry','35':'Andaman and Nicobar Islands','36':'Telangana','37':'Andhra Pradesh','38':'Ladakh'};
 
-let DATA=ld(),CERTS=lc(),editId=null,sk='locCode',sdir=1;
-window._pc={};
-if(!DATA.length){DATA=SEED.map((s,i)=>({...s,id:'l'+Date.now()+'_'+i}));save(DATA);}
-
-// ── UTILS ──────────────────────────────────────────────
-function toast(msg,type='info'){
-  const tc=document.getElementById('tc');
-  const t=document.createElement('div');
-  t.className='toast '+type;
-  t.innerHTML=('<span>'+(type==='success'?'&#10003;':type==='error'?'&#10007;':'&#8505;')+'</span><span>'+msg+'</span>');
-  tc.appendChild(t);
-  setTimeout(()=>t.remove(),3500);
-}
+// ── helpers ────────────────────────────────────────────
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function today(){return new Date().toISOString().slice(0,10);}
+function nowTS(){const d=new Date();return d.toISOString().slice(0,10)+' '+d.toTimeString().slice(0,8);}
+function fmtD(d){if(!d)return'—';try{return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}catch(e){return d}}
+function norm(a){return String(a||'').toUpperCase().replace(/[^A-Z0-9]/g,'');}
+function pinOf(a){const m=String(a||'').match(/\b\d{6}\b/g);return m?m[m.length-1]:'';}
+function tokens(a){return new Set(String(a||'').toUpperCase().split(/[^A-Z0-9]+/).filter(w=>w.length>1));}
+function overlap(a,b){const A=tokens(a),B=tokens(b);if(!A.size||!B.size)return 0;let n=0;A.forEach(t=>{if(B.has(t))n++;});return n/Math.min(A.size,B.size);}
+function toast(msg,type){type=type||'info';const c=document.getElementById('tc');const t=document.createElement('div');t.className='toast '+type;
+  t.innerHTML='<span>'+(type==='success'?'&#10003;':type==='error'?'&#10007;':'&#8505;')+'</span><span>'+esc(msg)+'</span>';c.appendChild(t);setTimeout(()=>t.remove(),3800);}
 function openModal(id){document.getElementById(id).classList.add('open')}
 function closeModal(id){document.getElementById(id).classList.remove('open')}
-function fmtD(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}catch{return d}}
-function dSince(d){if(!d)return null;return Math.floor((Date.now()-new Date(d).getTime())/86400000)}
-function bReg(s){const m={registered:'b-grn','in-process':'b-amb','not-applied':'b-gry'};const l={registered:'Registered','in-process':'In Process','not-applied':'Not Applied'};return'<span class="badge '+(m[s]||'b-gry')+'">'+(l[s]||s)+'</span>'}
-function bABOP(s){const m={open:'b-grn',closed:'b-red',process:'b-amb'};const l={open:'Open',closed:'Closed',process:'In Process'};return'<span class="badge '+(m[s]||'b-gry')+'">'+(l[s]||s)+'</span>'}
-function bAddr(s){if(s==='updated')return'<span class="badge b-grn">&#10003; Updated</span>';if(s==='pending')return'<span class="badge b-amb">&#9203; Pending</span>';return'<span class="badge b-gry">N/A</span>'}
 
-// ── MARKED REMOVE TRACKING ──────────────────────────────
-function markedCount(){return DATA.filter(d=>d.markRemove).length;}
-function updateMarkedUI(){
-  const cnt=markedCount();
-  const btn=document.getElementById('del-marked-btn');
-  const sp=document.getElementById('marked-count');
-  if(cnt>0){btn.style.display='';sp.textContent=cnt;}else{btn.style.display='none';}
-  const ra=document.getElementById('rm-actions');
-  const rc=document.getElementById('rm-cnt');
-  if(ra){if(cnt>0){ra.classList.add('show');rc.textContent=cnt+' location'+(cnt>1?'s':'');}else{ra.classList.remove('show');}}
+// ── state ──────────────────────────────────────────────
+function seedState(){
+  const locs=LOC_SEED.map((s,i)=>({
+    id:'L'+(i+1), gstin:s.gstin, state:s.state, stateCode:s.stateCode, isd:!!s.isd,
+    type:s.type, address:s.address, oldAddress:'', name:'', status:'existing', remarks:'',
+    firstSeen:today(), lastSeen:today(), sourceFile:s.certFile, certDate:s.certDate||''
+  }));
+  return { locations:locs, history:[{ts:nowTS(), kind:'seed', gstin:'', file:'', note:'Tracker seeded from 19 JC registration certificates — '+locs.filter(l=>l.type==='PPB').length+' Principal Places + '+locs.filter(l=>l.type==='ABOP').length+' ABOPs.'}], nextId:locs.length+1, summary:{} };
 }
-function toggleMark(id,v){const d=DATA.find(x=>x.id===id);if(d){d.markRemove=v;save(DATA);updateMarkedUI();renderAll();}}
-function toggleAll(v){DATA.forEach(d=>d.markRemove=v);save(DATA);updateMarkedUI();renderAll();}
-function clearMarked(){DATA.forEach(d=>d.markRemove=false);save(DATA);updateMarkedUI();renderAll();}
-function deleteMarked(){
-  const m=DATA.filter(d=>d.markRemove);
-  if(!m.length){toast('Nothing marked','info');return;}
-  if(!confirm('Remove '+m.length+' marked location(s)? This cannot be undone.'))return;
-  DATA=DATA.filter(d=>!d.markRemove);
-  save(DATA);
-  updateMarkedUI();
-  renderAll();
-  toast(m.length+' location(s) removed','success');
+let S=null;
+try{S=JSON.parse(localStorage.getItem(LS_KEY));}catch(e){}
+if(!S||!Array.isArray(S.locations)||!S.locations.length){S=seedState();persist();}
+if(!S.summary||typeof S.summary!=='object'||Array.isArray(S.summary)){S.summary={};persist();}
+function persist(){localStorage.setItem(LS_KEY,JSON.stringify(S));}
+function newId(){return 'L'+(S.nextId++);}
+function activeLocs(){return S.locations.filter(l=>l.status!=='removed');}
+function gstinList(){return [...new Set(S.locations.map(l=>l.gstin))].sort();}
+function locsOf(g){return S.locations.filter(l=>l.gstin===g);}
+
+// duplicate detection: same normalized address active under >1 GSTIN, or twice anywhere
+function dupInfo(){
+  const map={};
+  activeLocs().forEach(l=>{const k=norm(l.address);if(!k)return;(map[k]=map[k]||[]).push(l);});
+  const dupIds={};
+  Object.values(map).forEach(arr=>{
+    if(arr.length>1){
+      const gs=[...new Set(arr.map(x=>x.gstin))];
+      arr.forEach(x=>dupIds[x.id]=gs.length>1?('Same address also under: '+gs.filter(g=>g!==x.gstin).join(', ')||'duplicate'):'Duplicate entry under same GSTIN');
+    }
+  });
+  return dupIds;
 }
 
-// ── STATS ──────────────────────────────────────────────
+// ── badges ─────────────────────────────────────────────
+const ST_LABEL={'existing':'Existing','new':'New','modified':'Modified','to-remove':'To Be Removed','removed':'Removed'};
+function stBadge(s){
+  const cls=s==='existing'?'b-grn':s==='new'?'b-cyn':s==='modified'?'b-mod':s==='to-remove'?'b-red':'b-gry';
+  return '<span class="badge '+cls+'">'+ST_LABEL[s]+'</span>';
+}
+function typeBadge(t,isd){return t==='PPB'?'<span class="badge b-grn">Principal</span>':'<span class="badge b-cyn">ABOP</span>'+(isd?'':'');}
+
+// ── stats ──────────────────────────────────────────────
 function renderStats(){
-  const t=DATA.length,op=DATA.filter(d=>d.abopStatus==='open').length,
-    cl=DATA.filter(d=>d.abopStatus==='closed').length,pr=DATA.filter(d=>d.abopStatus==='process').length,
-    rg=DATA.filter(d=>d.regStatus==='registered').length,ri=DATA.filter(d=>d.regStatus==='in-process').length,
-    au=DATA.filter(d=>d.addrUpdateStatus==='updated').length,ap=DATA.filter(d=>d.addrUpdateStatus==='pending').length;
+  const act=activeLocs();
+  const dups=Object.keys(dupInfo()).length;
+  const nNew=act.filter(l=>l.status==='new').length, nMod=act.filter(l=>l.status==='modified').length, nRem=act.filter(l=>l.status==='to-remove').length;
   document.getElementById('stats-bar').innerHTML=
-    '<div class="sc sc-acc"><div class="sn">'+t+'</div><div class="sl">Total Locations</div></div>'+
-    '<div class="sc sc-grn"><div class="sn">'+op+'</div><div class="sl">Open</div><div class="ss">'+(Math.round(op/t*100)||0)+'%</div></div>'+
-    '<div class="sc sc-amb"><div class="sn">'+pr+'</div><div class="sl">In Process</div></div>'+
-    '<div class="sc sc-red"><div class="sn">'+cl+'</div><div class="sl">Closed</div></div>'+
-    '<div class="sc sc-cyn"><div class="sn">'+rg+'</div><div class="sl">GST Registered</div><div class="ss">'+ri+' in process</div></div>'+
-    '<div class="sc sc-grn"><div class="sn">'+au+'</div><div class="sl">Addr Updated</div></div>'+
-    '<div class="sc sc-amb"><div class="sn">'+ap+'</div><div class="sl">Addr Pending</div></div>';
+    '<div class="sc sc-acc"><div class="sn">'+gstinList().length+'</div><div class="sl">GSTINs</div></div>'+
+    '<div class="sc sc-cyn"><div class="sn">'+act.length+'</div><div class="sl">Active Locations</div></div>'+
+    '<div class="sc sc-grn"><div class="sn">'+act.filter(l=>l.type==='PPB').length+'</div><div class="sl">Principal Places</div></div>'+
+    '<div class="sc sc-cyn"><div class="sn">'+act.filter(l=>l.type==='ABOP').length+'</div><div class="sl">ABOPs</div></div>'+
+    '<div class="sc sc-cyn"><div class="sn">'+nNew+'</div><div class="sl">New</div></div>'+
+    '<div class="sc sc-amb"><div class="sn">'+nMod+'</div><div class="sl">Modified</div></div>'+
+    '<div class="sc sc-red"><div class="sn">'+nRem+'</div><div class="sl">To Be Removed</div></div>'+
+    '<div class="sc '+(dups?'sc-amb':'sc-grn')+'"><div class="sn">'+dups+'</div><div class="sl">&#9888; Duplicates</div></div>';
 }
 
-// ── TABS ───────────────────────────────────────────────
+// ── tabs ───────────────────────────────────────────────
 function switchTab(name,el){
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  el.classList.add('active');
-  if(name==='abop')renderABOP();
-  if(name==='gst'){fillStateFilter();renderGST();}
-  if(name==='bif')renderBIF();
-  if(name==='certs')renderCerts();
+  if(el)el.classList.add('active');
+  if(name==='matrix')renderMatrix();
+  if(name==='gstnsummary')renderGstnSummary();
+  if(name==='register')renderRegister();
+  if(name==='history')renderHistory();
 }
+function renderAll(){renderStats();const a=document.querySelector('.tc.active');if(!a)return;
+  if(a.id==='tab-matrix')renderMatrix(); if(a.id==='tab-gstnsummary')renderGstnSummary(); if(a.id==='tab-register')renderRegister(); if(a.id==='tab-history')renderHistory();}
 
-// ── ABOP CARDS ─────────────────────────────────────────
-function renderABOP(){
-  const sf=document.getElementById('f-abop-st').value;
-  const gf=document.getElementById('f-abop-gst').value;
-  const q=(document.getElementById('s-abop').value||'').toLowerCase();
-  document.getElementById('abop-ts').textContent='Updated: '+new Date().toLocaleString('en-IN');
-  let items=DATA.filter(d=>{
-    if(sf!=='all'&&d.abopStatus!==sf)return false;
-    if(gf!=='all'&&d.regStatus!==gf)return false;
-    if(q&&!(d.locCode+' '+d.name+' '+d.city+' '+d.state+' '+(d.gstin||'')).toLowerCase().includes(q))return false;
-    return true;
-  });
-  const c=document.getElementById('abop-cards');
-  if(!items.length){c.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ico">&#128269;</div><div class="empty-ttl">No locations found</div></div>';return;}
-  c.innerHTML=items.map(d=>{
-    const sc=d.abopStatus==='open'?'op':d.abopStatus==='closed'?'cl':'pr';
-    const rmCls=d.markRemove?' remove-flag':'';
-    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
-    return '<div class="lcard '+sc+rmCls+'" onclick="editLoc(''+d.id+'')" id="card-'+d.id+'">'+
-      '<div class="rm-tick '+(d.markRemove?'checked':'')+'" onclick="event.stopPropagation();toggleMark(''+d.id+'','+(!d.markRemove)+')" title="Mark for removal">&#10005;</div>'+
-      '<div class="ct"><div><div class="ccode">'+d.locCode+'</div><div class="cname">'+(d.name||'Unnamed')+'</div></div>'+bABOP(d.abopStatus)+'</div>'+
-      '<div class="cbody">'+
-        (d.state?'&#128507; '+(d.city?d.city+', ':'')+d.state:'<i>State not set</i>')+
-        (d.gstin?'<br>GSTIN: <span style="font-family:monospace;color:var(--cyn);font-size:11px">'+d.gstin+'</span>':'<br><span style="color:var(--amb)">&#9888; GSTIN not set — import certificate</span>')+
-        (d.regDate?'<br>Reg: '+fmtD(d.regDate):'')+
-        (days!==null?'<br><span style="color:var(--amb)">&#9203; Addr pending '+days+' days</span>':'')+'</div>'+
-      '<div class="cfoot">'+bReg(d.regStatus)+bAddr(d.addrUpdateStatus)+
-        (d.principalAddr?'<span class="badge b-cyn">&#10003; Addr extracted</span>':'<span class="badge b-gry">No cert data</span>')+
-      '</div></div>';
+// ── GSTIN MATRIX ───────────────────────────────────────
+function renderMatrix(){
+  document.getElementById('matrix-ts').textContent='Updated: '+new Date().toLocaleString('en-IN');
+  const gs=gstinList();
+  document.getElementById('matrix-cnt').textContent=gs.length+' GSTINs';
+  document.getElementById('matrix-tbody').innerHTML=gs.map(g=>{
+    const rows=locsOf(g).filter(l=>l.status!=='removed');
+    const ppb=rows.find(l=>l.type==='PPB');
+    const abops=rows.filter(l=>l.type==='ABOP');
+    const shown=abops.slice(0,5);
+    const isd=rows.some(l=>l.isd);
+    const flags=[];
+    const nNew=rows.filter(l=>l.status==='new').length, nMod=rows.filter(l=>l.status==='modified').length, nRem=rows.filter(l=>l.status==='to-remove').length;
+    if(nNew)flags.push('<span class="badge b-cyn">'+nNew+' new</span>');
+    if(nMod)flags.push('<span class="badge b-mod">'+nMod+' modified</span>');
+    if(nRem)flags.push('<span class="badge b-red">'+nRem+' to remove</span>');
+    if(!flags.length)flags.push('<span class="badge b-grn">Up to date</span>');
+    return '<tr>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11.5px;white-space:nowrap">'+g+(isd?' <span class="badge b-gry" style="font-size:9px">ISD</span>':'')+'</td>'+
+      '<td>'+(ppb?esc(ppb.state):'—')+'</td>'+
+      '<td><div class="ppb-cell" title="'+esc(ppb?ppb.address:'')+'">'+(ppb?esc(ppb.address):'<em style="color:var(--txt3)">No PPB on record</em>')+'</div>'+(ppb&&ppb.status!=='existing'?stBadge(ppb.status):'')+'</td>'+
+      '<td style="text-align:center;font-weight:800;color:var(--acc)">'+abops.length+'</td>'+
+      '<td>'+(shown.map(a=>'<span class="abop-chip st-'+a.status+'" title="'+esc(a.address)+'">'+(a.name?'<b>'+esc(a.name)+'</b> · ':'')+esc(a.address)+'</span>').join(''))+(abops.length>5?'<span class="mini">+ '+(abops.length-5)+' more — open detail</span>':'')+(abops.length?'':'<span class="mini">No ABOPs</span>')+'</td>'+
+      '<td>'+flags.join(' ')+'</td>'+
+      '<td><button class="btn btn-sec btn-sm" onclick="openGstinModal(\''+g+'\')">Open</button></td>'+
+    '</tr>';
   }).join('');
 }
 
-// ── GST REGISTRATION TABLE ─────────────────────────────
-function fillStateFilter(){
-  const states=[...new Set(DATA.map(d=>d.state).filter(Boolean))].sort();
-  const sel=document.getElementById('f-st'),cur=sel.value;
-  sel.innerHTML='<option value="all">All States</option>'+states.map(s=>'<option'+(s===cur?' selected':'')+'>'+s+'</option>').join('');
+function openGstinModal(g){
+  const rows=locsOf(g);
+  const act=rows.filter(l=>l.status!=='removed');
+  const ppb=act.find(l=>l.type==='PPB');
+  const abops=act.filter(l=>l.type==='ABOP');
+  const removed=rows.filter(l=>l.status==='removed');
+  document.getElementById('gd-title').textContent=g+' — '+(ppb?ppb.state:'');
+  const hist=S.history.filter(h=>h.gstin===g);
+  document.getElementById('gd-body').innerHTML=
+    '<div style="text-align:right;margin-bottom:10px"><button class="btn btn-red btn-sm" onclick="deleteGstin(\''+g+'\')">&#10005; Remove this GSTIN entirely</button></div>'+
+    '<div class="cdf-grid" style="margin-bottom:4px">'+
+      '<div class="cdf"><div class="cdf-l">Legal Name</div><div class="cdf-v">'+esc(LEGAL)+'</div></div>'+
+      '<div class="cdf"><div class="cdf-l">GSTIN</div><div class="cdf-v mono">'+g+'</div></div>'+
+      '<div class="cdf"><div class="cdf-l">Total ABOPs (active)</div><div class="cdf-v">'+abops.length+'</div></div>'+
+    '</div>'+
+    '<div class="gd-sec"><h4>Principal Place of Business</h4>'+
+      (ppb?'<div class="loc-line"><span class="n">PPB</span><div>'+esc(ppb.address)+
+        (ppb.status!=='existing'?'<div style="margin-top:3px">'+stBadge(ppb.status)+(ppb.oldAddress?'<div class="mini" style="margin-top:3px">Earlier: '+esc(ppb.oldAddress)+'</div>':'')+'</div>':'')+
+      '</div></div>':'<div class="mini">No Principal Place on record.</div>')+'</div>'+
+    '<div class="gd-sec"><h4>Additional Places of Business ('+abops.length+')</h4>'+
+      (abops.map((a,i)=>'<div class="loc-line"><span class="n">'+(i+1)+'</span><div>'+(a.name?'<b>'+esc(a.name)+'</b><br>':'')+esc(a.address)+
+        '<div style="margin-top:3px">'+stBadge(a.status)+(a.remarks?' <span class="mini">'+esc(a.remarks)+'</span>':'')+(a.oldAddress?'<div class="mini" style="margin-top:2px">Earlier: '+esc(a.oldAddress)+'</div>':'')+'</div></div>'+
+        '<button class="ibtn" style="margin-left:auto" onclick="closeModal(\'gstin-modal\');openLocModal(\''+a.id+'\')" title="Edit">&#9998;</button></div>').join('')||'<div class="mini">No ABOPs on this registration.</div>')+'</div>'+
+    (removed.length?'<div class="gd-sec"><h4>Removed (history preserved)</h4>'+removed.map(a=>'<div class="loc-line" style="opacity:.55"><span class="n">&#10005;</span><div>'+esc(a.address)+'<div class="mini">Removed '+esc(a.removedOn||'')+'</div></div></div>').join('')+'</div>':'')+
+    '<div class="gd-sec"><h4>Change History for this GSTIN</h4>'+
+      (hist.length?hist.map(h=>renderReportCard(h,true)).join(''):'<div class="mini">No certificate comparisons recorded yet for this GSTIN.</div>')+'</div>';
+  openModal('gstin-modal');
 }
-function srt(key){if(sk===key)sdir*=-1;else{sk=key;sdir=1;}renderGST();}
 
-function renderGST(){
-  updateMarkedUI();
-  const rf=document.getElementById('f-reg').value,af=document.getElementById('f-addr').value,
-    stf=document.getElementById('f-st').value,q=(document.getElementById('s-gst').value||'').toLowerCase();
-  let items=DATA.filter(d=>{
-    if(rf!=='all'&&d.regStatus!==rf)return false;
-    if(af!=='all'&&d.addrUpdateStatus!==af)return false;
-    if(stf!=='all'&&d.state!==stf)return false;
-    if(q&&!(d.locCode+' '+d.name+' '+(d.gstin||'')+' '+d.city+' '+d.state).toLowerCase().includes(q))return false;
-    return true;
+// ── GSTN-WISE SUMMARY ──────────────────────────────────
+// Manual worksheet: live counts on the left, user-entered plan on the right.
+// Lives in S.summary keyed by GSTIN — completely separate from S.locations.
+const SUM_STATUS=['','Pending','Matched','In Progress','Application Filed','Done'];
+const BLANK_SUM={required:'',add:'',remove:'',status:'',remarks:''};
+const AUTO_REMARK=/^(?:-|Add \d+ ABOP|Remove \d+ ABOP)$/;
+
+function sumRead(g){return Object.assign({},BLANK_SUM,S.summary[g]||{});}     // never mutates
+function sumRec(g){if(!S.summary[g])S.summary[g]=Object.assign({},BLANK_SUM);return S.summary[g];}
+function sumCounts(g){
+  const act=locsOf(g).filter(l=>l.status!=='removed');
+  return {total:act.length,ppb:act.filter(l=>l.type==='PPB').length,abop:act.filter(l=>l.type==='ABOP').length};
+}
+function sumStateOf(g){const rows=locsOf(g);const p=rows.find(l=>l.type==='PPB')||rows[0];return p?p.state:'';}
+function numOr0(v){const n=parseInt(v,10);return isNaN(n)?0:n;}
+
+function renderGstnSummary(){
+  document.getElementById('sum-ts').textContent='Updated: '+new Date().toLocaleString('en-IN');
+  const q=(document.getElementById('s-q').value||'').toLowerCase();
+  const all=gstinList();
+  const rows=all.map(g=>({g:g,c:sumCounts(g),r:sumRead(g),state:sumStateOf(g)}))
+    .filter(o=>!q||(o.g+' '+o.state+' '+o.r.status+' '+o.r.remarks).toLowerCase().includes(q));
+  document.getElementById('sum-cnt').textContent=rows.length+' of '+all.length+' GSTINs';
+  document.getElementById('sum-tbody').innerHTML=rows.length?rows.map(o=>{
+    const g=o.g,c=o.c,r=o.r;
+    const num=(f,v)=>'<input type="text" class="num-in" inputmode="numeric" value="'+esc(v)+'" placeholder="—" '+
+      'oninput="this.value=this.value.replace(/[^0-9]/g,\'\')" onchange="updSummary(\''+g+'\',\''+f+'\',this.value)"/>';
+    const opts=SUM_STATUS.slice();
+    if(r.status&&opts.indexOf(r.status)===-1)opts.push(r.status);
+    return '<tr>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11.5px;white-space:nowrap">'+g+
+        '<div class="mini" style="font-family:Inter,sans-serif">'+esc(o.state)+'</div></td>'+
+      '<td style="text-align:center;font-weight:700">'+c.total+'</td>'+
+      '<td style="text-align:center;font-weight:700;color:'+(c.ppb===1?'var(--grn)':'var(--red)')+'">'+c.ppb+'</td>'+
+      '<td style="text-align:center;font-weight:800;color:var(--acc)">'+c.abop+'</td>'+
+      '<td class="td-in" style="text-align:center">'+num('required',r.required)+'</td>'+
+      '<td class="td-in" style="text-align:center">'+num('add',r.add)+'</td>'+
+      '<td class="td-in" style="text-align:center">'+num('remove',r.remove)+'</td>'+
+      '<td class="td-in"><select class="sum-st" onchange="updSummary(\''+g+'\',\'status\',this.value)">'+
+        opts.map(s=>'<option value="'+esc(s)+'"'+(r.status===s?' selected':'')+'>'+(s?esc(s):'—')+'</option>').join('')+'</select></td>'+
+      '<td class="td-in"><input type="text" class="sm" value="'+esc(r.remarks)+'" placeholder="remarks..." style="width:180px" '+
+        'onchange="updSummary(\''+g+'\',\'remarks\',this.value)"/></td>'+
+      '<td style="white-space:nowrap"><span class="quick-toggle qt-upd" onclick="autoCalcRow(\''+g+'\')" title="Fill Add / Remove / Status from ABOP Required">Auto</span></td>'+
+    '</tr>';
+  }).join(''):'<tr><td colspan="10"><div class="empty"><div class="empty-ico">&#128269;</div><div class="empty-ttl">No GSTINs match the filter</div></div></td></tr>';
+  renderSummaryTotals();
+}
+
+function renderSummaryTotals(){
+  const t={total:0,ppb:0,abop:0,req:0,add:0,rem:0,pending:0,matched:0};
+  gstinList().forEach(g=>{
+    const c=sumCounts(g),r=sumRead(g);
+    t.total+=c.total;t.ppb+=c.ppb;t.abop+=c.abop;
+    t.req+=numOr0(r.required);t.add+=numOr0(r.add);t.rem+=numOr0(r.remove);
+    if(r.status==='Matched'||r.status==='Done')t.matched++; else if(numOr0(r.add)||numOr0(r.remove)||r.status==='Pending'||r.status==='In Progress'||r.status==='Application Filed')t.pending++;
   });
-  items.sort((a,b)=>{const va=(a[sk]||'').toString().toLowerCase(),vb=(b[sk]||'').toString().toLowerCase();return va<vb?-sdir:va>vb?sdir:0;});
-  document.getElementById('gst-cnt').textContent=items.length+' of '+DATA.length;
-  const tbody=document.getElementById('gst-tbody');
-  if(!items.length){tbody.innerHTML='<tr><td colspan="12"><div class="empty"><div class="empty-ico">&#128203;</div><div class="empty-ttl">No records match filters</div></div></td></tr>';return;}
-  tbody.innerHTML=items.map(d=>{
-    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
-    const pac=d.addrUpdateStatus==='updated'?'ab-m':d.addrUpdateStatus==='pending'?'ab-mm':'';
-    const rmRow=d.markRemove?' class="marked-remove"':'';
-    return '<tr'+rmRow+'>'+
-      '<td><input type="checkbox" class="rm-chk" '+(d.markRemove?'checked':'')+' onchange="toggleMark(''+d.id+'',this.checked)"/></td>'+
-      '<td><strong style="color:var(--acc)">'+d.locCode+'</strong></td>'+
-      '<td>'+(d.name||'—')+'</td>'+
-      '<td>'+(d.state||'—')+'</td>'+
-      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(d.gstin||'<span style="color:var(--txt3)">—</span>')+'</td>'+
-      '<td>'+bReg(d.regStatus)+'</td>'+
-      '<td>'+fmtD(d.regDate)+'</td>'+
-      '<td><div class="ab '+pac+'" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.principalAddr||'')+'">'+(d.principalAddr||'<em style="color:var(--txt3)">Import certificate to auto-fill</em>')+'</div></td>'+
-      '<td><div style="display:flex;gap:4px;align-items:center">'+
-        '<input type="text" class="sm" value="'+(d.actualAddr||'')+'" style="width:170px" placeholder="Enter actual address..." onchange="updateActualAddr(''+d.id+'',this.value)" title="Enter actual current address"/>'+
-      '</div></td>'+
-      '<td>'+bAddr(d.addrUpdateStatus)+(days!==null?'<div style="font-size:10px;color:var(--amb);margin-top:2px">'+days+' days</div>':'')+'<br>'+
-        '<span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')" title="Mark address as updated">&#10003; Updated</span> '+
-        '<span class="quick-toggle qt-pnd" onclick="quickToggle(''+d.id+'','pending')" title="Mark address as pending">&#9203; Pending</span>'+
+  const f=document.getElementById('sum-tfoot');if(!f)return;
+  f.innerHTML='<tr>'+
+    '<td class="tf-l">Total &mdash; '+gstinList().length+' GSTINs</td>'+
+    '<td style="text-align:center">'+t.total+'</td>'+
+    '<td style="text-align:center">'+t.ppb+'</td>'+
+    '<td style="text-align:center;color:var(--acc)">'+t.abop+'</td>'+
+    '<td style="text-align:center">'+(t.req||'—')+'</td>'+
+    '<td style="text-align:center;color:'+(t.add?'var(--grn)':'var(--txt3)')+'">'+t.add+'</td>'+
+    '<td style="text-align:center;color:'+(t.rem?'var(--red)':'var(--txt3)')+'">'+t.rem+'</td>'+
+    '<td colspan="3" class="tf-l">'+t.matched+' matched &middot; '+t.pending+' pending action</td>'+
+  '</tr>';
+}
+
+function updSummary(g,f,v){
+  const r=sumRec(g);
+  r[f]=String(v==null?'':v).trim();
+  persist();renderSummaryTotals();
+}
+
+// Fills Add / Remove / Status (and an auto remark) from "ABOP Required" vs the master count.
+function autoCalc(g){
+  const r=sumRec(g);
+  if(r.required==='')return false;
+  const req=numOr0(r.required),have=sumCounts(g).abop;
+  r.add=String(Math.max(0,req-have));
+  r.remove=String(Math.max(0,have-req));
+  r.status=(req===have)?'Matched':'Pending';
+  if(!r.remarks||AUTO_REMARK.test(r.remarks))
+    r.remarks=req===have?'-':(req>have?'Add '+(req-have)+' ABOP':'Remove '+(have-req)+' ABOP');
+  return true;
+}
+function autoCalcRow(g){
+  if(!autoCalc(g)){toast('Enter "ABOP Required" for '+g+' first','error');return;}
+  persist();renderGstnSummary();toast('Auto-filled for '+g,'success');
+}
+function autoCalcAll(){
+  let n=0;gstinList().forEach(g=>{if(autoCalc(g))n++;});
+  if(!n){toast('Nothing to calculate — fill in "ABOP Required" first','info');return;}
+  persist();renderGstnSummary();toast(n+' GSTIN(s) auto-filled','success');
+}
+function clearSummary(){
+  if(!confirm('Clear every entry you have typed on the GSTN-wise Summary page?\n\n(Required / Add / Remove / Status / Remarks — the tracker itself is not affected.)'))return;
+  S.summary={};persist();renderGstnSummary();toast('Summary entries cleared','success');
+}
+
+// ── MASTER REGISTER ────────────────────────────────────
+function fillGstinFilters(){
+  const opts=gstinList().map(g=>'<option value="'+g+'">'+g+'</option>').join('');
+  const f=document.getElementById('f-gstin');const cur=f.value;
+  f.innerHTML='<option value="all">All GSTINs</option>'+opts; if(cur)f.value=cur;
+  const lm=document.getElementById('lm-gstin'); lm.innerHTML=opts;
+}
+function renderRegister(){
+  fillGstinFilters();
+  const dups=dupInfo();
+  const fg=document.getElementById('f-gstin').value, ft=document.getElementById('f-type').value, fs=document.getElementById('f-status').value;
+  const q=(document.getElementById('f-q').value||'').toLowerCase();
+  let rows=S.locations.slice();
+  if(fs==='active')rows=rows.filter(l=>l.status!=='removed');
+  else if(fs==='dup')rows=rows.filter(l=>dups[l.id]);
+  else if(fs!=='all')rows=rows.filter(l=>l.status===fs);
+  if(fg!=='all')rows=rows.filter(l=>l.gstin===fg);
+  if(ft!=='all')rows=rows.filter(l=>l.type===ft);
+  if(q)rows=rows.filter(l=>(l.gstin+' '+l.state+' '+l.address+' '+(l.name||'')+' '+(l.remarks||'')).toLowerCase().includes(q));
+  rows.sort((a,b)=>a.gstin.localeCompare(b.gstin)||(a.type==='PPB'?0:1)-(b.type==='PPB'?0:1)||a.address.localeCompare(b.address));
+  document.getElementById('reg-cnt').textContent=rows.length+' of '+S.locations.length+' locations';
+  document.getElementById('reg-tbody').innerHTML=rows.length?rows.map((l,i)=>{
+    const dup=dups[l.id];
+    return '<tr class="'+(l.status==='removed'?'row-removed':'')+'">'+
+      '<td class="mini">'+(i+1)+'</td>'+
+      '<td style="font-family:monospace;color:var(--cyn);font-size:11px;white-space:nowrap">'+l.gstin+'</td>'+
+      '<td>'+esc(l.state)+'</td>'+
+      '<td>'+typeBadge(l.type,l.isd)+(l.isd&&l.type==='PPB'?' <span class="badge b-gry" style="font-size:9px">ISD</span>':'')+'</td>'+
+      '<td><input type="text" class="sm" value="'+esc(l.name||'')+'" placeholder="name..." style="width:110px" onchange="updField(\''+l.id+'\',\'name\',this.value)"/></td>'+
+      '<td><div class="addr">'+esc(l.address)+(l.oldAddress?'<div class="mini">Earlier: '+esc(l.oldAddress)+'</div>':'')+'</div></td>'+
+      '<td>'+stBadge(l.status)+(l.status==='removed'&&l.removedOn?'<div class="mini">'+esc(l.removedOn)+'</div>':'')+'</td>'+
+      '<td>'+(dup?'<span class="dup-flag" title="'+esc(dup)+'">&#9888;</span>':'')+'</td>'+
+      '<td><input type="text" class="sm" value="'+esc(l.remarks||'')+'" placeholder="remarks..." style="width:130px" onchange="updField(\''+l.id+'\',\'remarks\',this.value)"/></td>'+
+      '<td style="white-space:nowrap">'+
+        '<button class="ibtn" onclick="openLocModal(\''+l.id+'\')" title="Edit">&#9998;</button> '+
+        (l.status==='to-remove'
+          ?'<span class="quick-toggle qt-upd" onclick="restoreLoc(\''+l.id+'\')">Restore</span> <span class="quick-toggle qt-pnd" onclick="confirmRemove(\''+l.id+'\')">Confirm Removed</span>'
+          :l.status!=='removed'?'<span class="quick-toggle qt-pnd" onclick="markRemove(\''+l.id+'\')">Mark Remove</span>':'<span class="quick-toggle qt-upd" onclick="restoreLoc(\''+l.id+'\')">Restore</span>')+
       '</td>'+
-      '<td>'+bABOP(d.abopStatus)+'</td>'+
-      '<td><button class="ibtn" onclick="editLoc(''+d.id+'')" title="Edit">&#9998;</button> <button class="ibtn del" onclick="delLoc(''+d.id+'')" title="Delete">&#128465;</button></td>'+
     '</tr>';
-  }).join('');
+  }).join(''):'<tr><td colspan="10"><div class="empty"><div class="empty-ico">&#128269;</div><div class="empty-ttl">No locations match the filters</div></div></td></tr>';
 }
+function updField(id,f,v){const l=S.locations.find(x=>x.id===id);if(!l)return;l[f]=v.trim();persist();renderStats();}
+function markRemove(id){const l=S.locations.find(x=>x.id===id);if(!l)return;l.status='to-remove';l.removedOn=today();
+  S.history.unshift({ts:nowTS(),kind:'manual',gstin:l.gstin,file:'',note:'Marked "To Be Removed": '+l.address});persist();renderAll();toast('Marked as To Be Removed','info');}
+function confirmRemove(id){const l=S.locations.find(x=>x.id===id);if(!l)return;
+  if(!confirm('Confirm removal of this location? It stays in history but leaves active lists.\n\n'+l.address))return;
+  l.status='removed';l.removedOn=today();
+  S.history.unshift({ts:nowTS(),kind:'manual',gstin:l.gstin,file:'',note:'Removal confirmed (kept in history): '+l.address});persist();renderAll();toast('Removed — preserved in history','success');}
+function restoreLoc(id){const l=S.locations.find(x=>x.id===id);if(!l)return;l.status='existing';l.removedOn='';
+  S.history.unshift({ts:nowTS(),kind:'manual',gstin:l.gstin,file:'',note:'Restored: '+l.address});persist();renderAll();toast('Restored','success');}
 
-function updateActualAddr(id,val){
-  const d=DATA.find(x=>x.id===id);if(!d)return;
-  d.actualAddr=val.trim();
-  save(DATA);
-  // auto-set status
-  if(d.actualAddr){d.addrUpdateStatus='pending';if(!d.pendingSince)d.pendingSince=new Date().toISOString().slice(0,10);save(DATA);}
-  renderStats();
-}
-
-function quickToggle(id,status){
-  const d=DATA.find(x=>x.id===id);if(!d)return;
-  d.addrUpdateStatus=status;
-  if(status==='pending'&&!d.pendingSince)d.pendingSince=new Date().toISOString().slice(0,10);
-  if(status==='updated'){d.pendingSince='';d.actualAddr=d.actualAddr||d.principalAddr;}
-  save(DATA);renderGST();renderStats();
-  toast(d.locCode+' marked as '+status,'success');
-}
-
-// ── BIFURCATION ────────────────────────────────────────
-function renderBIF(){
-  const reg=DATA.filter(d=>d.regStatus==='registered');
-  const upd=reg.filter(d=>d.addrUpdateStatus==='updated');
-  const pnd=reg.filter(d=>d.addrUpdateStatus==='pending');
-  const na=reg.filter(d=>d.addrUpdateStatus==='na');
-  const pct=reg.length?Math.round(upd.length/reg.length*100):0;
-  document.getElementById('bfu').textContent=upd.length;
-  document.getElementById('bfp').textContent=pnd.length;
-  document.getElementById('bprg').style.width=pct+'%';
-  document.getElementById('bfu2').textContent=upd.length;
-  document.getElementById('bfp2').textContent=pnd.length;
-  document.getElementById('bfu-list').innerHTML=upd.length
-    ?upd.map(d=>'<div class="bif-item"><div style="flex:1"><div class="bif-loc">'+d.locCode+' — '+(d.name||'—')+'</div><div class="bif-gstin">'+(d.gstin||'—')+' &middot; '+(d.state||'—')+'</div></div></div>').join('')
-    :'<div class="bif-item" style="color:var(--txt3)">No updated entries yet</div>';
-  document.getElementById('bfp-list').innerHTML=pnd.length
-    ?pnd.map(d=>{const days=dSince(d.pendingSince);return'<div class="bif-item"><div style="flex:1"><div class="bif-loc">'+d.locCode+' — '+(d.name||'—')+'</div><div class="bif-gstin">'+(d.gstin||'—')+' &middot; '+(d.state||'—')+'</div>'+(days!==null?'<div style="font-size:10px;color:var(--amb)">'+days+' days since '+fmtD(d.pendingSince)+'</div>':'')+'</div><span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')" style="white-space:nowrap">Mark Updated</span></div>';}).join('')
-    :'<div class="bif-item" style="color:var(--txt3)">No pending entries &#127881;</div>';
-  const all=[...upd,...pnd,...na];
-  document.getElementById('bif-tbody').innerHTML=all.map(d=>{
-    const days=d.addrUpdateStatus==='pending'?dSince(d.pendingSince):null;
-    return '<tr>'+
-      '<td><strong style="color:var(--acc)">'+d.locCode+'</strong></td>'+
-      '<td>'+(d.name||'—')+'</td><td>'+(d.state||'—')+'</td>'+
-      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(d.gstin||'—')+'</td>'+
-      '<td><div class="ab ab-m" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.principalAddr||'')+'">'+(d.principalAddr||'<em>Not imported</em>')+'</div></td>'+
-      '<td><div class="ab" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(d.actualAddr||'')+'">'+(d.actualAddr||'<em>Not entered</em>')+'</div></td>'+
-      '<td>'+bAddr(d.addrUpdateStatus)+'</td>'+
-      '<td>'+(days!==null?'<span style="color:var(--amb)">'+days+' days</span>':'—')+'</td>'+
-      '<td>'+(d.addrUpdateStatus!=='updated'?'<span class="quick-toggle qt-upd" onclick="quickToggle(''+d.id+'','updated')">Mark Updated</span>':'<span style="color:var(--grn);font-size:11px">&#10003; Done</span>')+'</td>'+
-    '</tr>';
-  }).join('');
-}
-
-// ── PDF PARSING ────────────────────────────────────────
-async function parsePDF(file){
-  if(typeof pdfjsLib==='undefined'){return{error:'PDF.js not loaded — check internet',fileName:file.name,id:'e'+Date.now()};}
-  try{
-    const ab=await file.arrayBuffer();
-    const pdf=await pdfjsLib.getDocument({data:ab}).promise;
-    let txt='';
-    for(let p=1;p<=Math.min(pdf.numPages,10);p++){
-      const pg=await pdf.getPage(p);
-      const tc=await pg.getTextContent();
-      // Sort by Y desc, X asc for reading order
-      const its=tc.items.sort((a,b)=>{
-        const yd=Math.round(b.transform[5])-Math.round(a.transform[5]);
-        return Math.abs(yd)>3?yd:a.transform[4]-b.transform[4];
-      });
-      txt+=its.map(i=>i.str).join(' ')+' \n';
-    }
-    return extractData(txt,file.name);
-  }catch(e){return{error:e.message,fileName:file.name,id:'e'+Date.now()};}
-}
-
-function extractData(text,fn){
-  const cl=t=>(t||'').replace(/\s+/g,' ').trim();
-  const d={fileName:fn,id:'c'+Date.now()+'_'+Math.random().toString(36).substr(2,5)};
-
-  // GSTIN — standard 15-char pattern
-  const gm=text.match(/\b([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z])\b/);
-  if(gm){d.gstin=gm[1];d.state=stateFromGSTIN(d.gstin);}
-
-  // Registration date from filename: e.g. _RC30072025
-  const rc=fn.match(/_RC(\d{2})(\d{2})(\d{4})/);
-  if(rc)d.regDate=rc[3]+'-'+rc[2]+'-'+rc[1];
-
-  // Loc code from filename: e.g. "JC - 27"
-  const lm=fn.match(/JC\s*-\s*(\w+)/i);
-  if(lm)d.fileLocCode='JC-'+lm[1].toUpperCase();
-
-  // Legal name
-  const nmPatterns=[
-    /Legal\s+Name\s+of\s+(?:the\s+)?Business\s*[:\-]\s*([A-Z][^\n\r,;]{4,80}?)(?=\s{2,}|\n)/i,
-    /Legal\s+Name\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i,
-    /Name\s+of\s+(?:the\s+)?Business\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i,
-    /Registered\s+Name\s*[:\-]\s*([A-Z][^\n\r]{4,70})/i
-  ];
-  for(const p of nmPatterns){const m=text.match(p);if(m){d.legalName=cl(m[1]);break;}}
-
-  // Trade name
-  const tm=text.match(/Trade\s+Name\s*[:\-]\s*([^\n\r]{2,60})/i);
-  if(tm)d.tradeName=cl(tm[1]);
-
-  // Constitution
-  const cm=text.match(/Constitution\s+(?:of\s+Business)?\s*[:\-]\s*([^\n\r]{3,60})/i)||
-           text.match(/Nature\s+of\s+Business\s*[:\-]\s*([^\n\r]{3,50})/i);
-  if(cm)d.constitution=cl(cm[1]);
-
-  // Valid from / effective date
-  const vm=text.match(/(?:Effective\s+Date|Valid\s+From|Date\s+of\s+Liability)\s*[:\-]\s*(\d{1,2}[\/\-\.\s]\d{1,2}[\/\-\.\s]\d{2,4})/i);
-  if(vm){
-    const dp=vm[1].match(/(\d{1,2})[\/\-\.\s](\d{1,2})[\/\-\.\s](\d{2,4})/);
-    if(dp){const yr=dp[3].length===2?'20'+dp[3]:dp[3];d.validFrom=yr+'-'+dp[2].padStart(2,'0')+'-'+dp[1].padStart(2,'0');}
+// add / edit modal
+function openLocModal(id){
+  fillGstinFilters();
+  const l=id?S.locations.find(x=>x.id===id):null;
+  document.getElementById('lm-title').textContent=l?'Edit Location — '+l.gstin:'Add Location';
+  document.getElementById('lm-id').value=l?l.id:'';
+  if(l){
+    document.getElementById('lm-gstin').value=l.gstin;
+    document.getElementById('lm-type').value=l.type;
+    document.getElementById('lm-name').value=l.name||'';
+    document.getElementById('lm-status').value=l.status;
+    document.getElementById('lm-addr').value=l.address;
+    document.getElementById('lm-remarks').value=l.remarks||'';
+  }else{
+    document.getElementById('lm-type').value='ABOP';
+    document.getElementById('lm-name').value='';
+    document.getElementById('lm-status').value='new';
+    document.getElementById('lm-addr').value='';
+    document.getElementById('lm-remarks').value='';
   }
-
-  // Principal place of business — key extraction
-  const ppPatterns=[
-    /Principal\s+Place\s+of\s+Business\s*[:\-]\s*([^\n\r]{15,400})/i,
-    /Registered\s+Address\s*[:\-]\s*([^\n\r]{15,300})/i,
-    /Place\s+of\s+Business\s*[:\-]\s*([^\n\r]{15,300})/i
-  ];
-  for(const p of ppPatterns){const m=text.match(p);if(m){d.principalAddr=cl(m[1]);break;}}
-
-  // Additional places
-  const ap=text.match(/Additional\s+Place[s]?\s+of\s+Business\s*[:\-]\s*([^\n\r]{5,300})/i);
-  if(ap)d.additionalPlaces=cl(ap[1]);
-
-  return d;
-}
-
-// ── BULK IMPORT ────────────────────────────────────────
-function bulkImportAll(){
-  document.getElementById('pdf-bulk').click();
-}
-
-async function pdfUpload(event,cid){
-  const files=Array.from(event.target.files);
-  if(!files.length)return;
-  const c=document.getElementById(cid);
-  if(c)c.innerHTML='';
-  window._pc={};
-  const prog=document.getElementById('bulk-prog');
-  if(prog){prog.classList.add('show');}
-  let done=0,matched=0,failed=0;
-  const total=files.length;
-  const log=document.getElementById('bp-log');
-  for(const f of files){
-    document.getElementById('bp-label').textContent='Processing: '+f.name;
-    document.getElementById('bp-frac').textContent=done+' / '+total;
-    document.getElementById('bp-fill').style.width=Math.round(done/total*100)+'%';
-    const data=await parsePDF(f);
-    window._pc[data.id]=data;
-    if(data.error){
-      failed++;
-      if(log)log.innerHTML+='<div style="color:var(--red)">&#10007; '+f.name+' — ERROR</div>';
-    } else {
-      // Auto-match to location by GSTIN state code or location code from filename
-      let linked=null;
-      if(data.gstin){
-        // Try exact GSTIN match first
-        linked=DATA.find(d=>d.gstin&&d.gstin.toUpperCase()===data.gstin.toUpperCase());
-        // Try by filename loc code (e.g. JC-27)
-        if(!linked&&data.fileLocCode){
-          linked=DATA.find(d=>d.locCode.toUpperCase()===data.fileLocCode.toUpperCase())||
-                 DATA.find(d=>d.locCode.toUpperCase().includes(data.fileLocCode.replace('JC-','').trim().toUpperCase()));
-        }
-        // Try by state match (if only 1 location in that state without GSTIN)
-        if(!linked&&data.state){
-          const sameState=DATA.filter(d=>d.state===data.state&&!d.gstin);
-          if(sameState.length===1)linked=sameState[0];
-        }
-      }
-      if(linked){
-        data.linkedLocId=linked.id;
-        if(!linked.principalAddr&&data.principalAddr){linked.principalAddr=data.principalAddr;}
-        if(!linked.gstin&&data.gstin){linked.gstin=data.gstin;}
-        if(!linked.regDate&&data.regDate){linked.regDate=data.regDate;}
-        if(data.state&&!linked.state){linked.state=data.state;}
-        save(DATA);
-        matched++;
-        if(log)log.innerHTML+='<div style="color:var(--grn)">&#10003; '+f.name+' &#8594; '+linked.locCode+'</div>';
-      } else {
-        if(log)log.innerHTML+='<div style="color:var(--amb)">&#9670; '+f.name+' &#8594; No match ('+( data.gstin||'no GSTIN')+')</div>';
-      }
-      // Save cert
-      if(!CERTS.find(c=>c.gstin&&c.gstin===data.gstin)){
-        CERTS.push(data);
-        saveCerts(CERTS);
-      }
-    }
-    done++;
-    if(log)log.scrollTop=log.scrollHeight;
-  }
-  document.getElementById('bp-label').textContent='Done! '+matched+' matched, '+failed+' errors';
-  document.getElementById('bp-frac').textContent=total+' / '+total;
-  document.getElementById('bp-fill').style.width='100%';
-  event.target.value='';
-  renderAll();
-  renderCerts();
-  toast('Imported '+total+' PDFs: '+matched+' auto-matched, '+failed+' errors','success');
-}
-
-function doDrop(event,cid){
-  event.preventDefault();
-  event.currentTarget.classList.remove('dov');
-  const files=Array.from(event.dataTransfer.files).filter(f=>f.type==='application/pdf');
-  if(!files.length)return;
-  // fake event
-  const fakeEv={target:{files:files,value:''}};
-  pdfUpload(fakeEv,cid);
-}
-
-// ── CERT TABLE ─────────────────────────────────────────
-function renderCerts(){
-  const tbody=document.getElementById('cert-tbody');
-  document.getElementById('cert-cnt').textContent=CERTS.length+' certificates';
-  if(!CERTS.length){
-    tbody.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-ico">&#128196;</div><div class="empty-ttl">No certificates imported yet</div><div>Drop all 34 PDFs in the zone above</div></div></td></tr>';
-    return;
-  }
-  tbody.innerHTML=CERTS.map(c=>{
-    const linked=c.linkedLocId?DATA.find(d=>d.id===c.linkedLocId):null;
-    return '<tr>'+
-      '<td style="font-family:monospace;color:var(--cyn);font-size:11px">'+(c.gstin||'—')+'</td>'+
-      '<td>'+(c.legalName||'—')+'</td>'+
-      '<td>'+(c.state||stateFromGSTIN(c.gstin)||'—')+'</td>'+
-      '<td>'+(c.constitution||'—')+'</td>'+
-      '<td><div style="max-width:240px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+(c.principalAddr||'')+'">'+(c.principalAddr||'—')+'</div></td>'+
-      '<td>'+(c.regDate?fmtD(c.regDate):'—')+'</td>'+
-      '<td>'+(linked?'<span class="badge b-grn">'+linked.locCode+'</span>':
-        '<select style="background:var(--sur2);border:1px solid var(--brd);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:11px" onchange="lnkCert(''+c.id+'',this.value)"><option value="">Link...</option>'+DATA.map(d=>'<option value="'+d.id+'">'+d.locCode+(d.name?' — '+d.name:'')+'</option>').join('')+'</select>')+'</td>'+
-      '<td><button class="ibtn del" onclick="delCert(''+c.id+'')" title="Delete">&#128465;</button></td>'+
-    '</tr>';
-  }).join('');
-}
-
-function lnkCert(cid,lid){
-  const c=CERTS.find(x=>x.id===cid);if(!c)return;
-  c.linkedLocId=lid;saveCerts(CERTS);
-  if(lid&&c.principalAddr){const loc=DATA.find(d=>d.id===lid);if(loc&&!loc.principalAddr){loc.principalAddr=c.principalAddr;if(!loc.gstin&&c.gstin)loc.gstin=c.gstin;save(DATA);}}
-  toast('Linked','success');renderCerts();renderAll();
-}
-function delCert(cid){if(!confirm('Delete this certificate?'))return;CERTS=CERTS.filter(c=>c.id!==cid);saveCerts(CERTS);renderCerts();toast('Deleted','info');}
-
-// ── ADD / EDIT LOCATION ────────────────────────────────
-function showAddModal(){editId=null;document.getElementById('m-ttl').textContent='Add New Location';document.getElementById('m-ico').textContent='';clearF();openModal('add-modal');}
-function editLoc(id){
-  editId=id;const d=DATA.find(x=>x.id===id);if(!d)return;
-  document.getElementById('m-ttl').textContent='Edit — '+d.locCode;
-  document.getElementById('m-ico').textContent='';
-  document.getElementById('f-lc').value=d.locCode||'';
-  document.getElementById('f-nm').value=d.name||'';
-  document.getElementById('f-stt').value=d.state||'';
-  document.getElementById('f-cy').value=d.city||'';
-  document.getElementById('f-gn').value=d.gstin||'';
-  document.getElementById('f-rs').value=d.regStatus||'registered';
-  document.getElementById('f-rd').value=d.regDate||'';
-  document.getElementById('f-as').value=d.abopStatus||'open';
-  document.getElementById('f-pa').value=d.principalAddr||'';
-  document.getElementById('f-aa').value=d.actualAddr||'';
-  document.getElementById('f-aus').value=d.addrUpdateStatus||'na';
-  document.getElementById('f-ps').value=d.pendingSince||'';
-  document.getElementById('f-rm').value=d.remarks||'';
-  openModal('add-modal');
-}
-function clearF(){
-  ['f-lc','f-nm','f-cy','f-gn','f-rd','f-pa','f-aa','f-ps','f-rm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('f-stt').value='';
-  document.getElementById('f-rs').value='registered';
-  document.getElementById('f-as').value='open';
-  document.getElementById('f-aus').value='na';
+  openModal('loc-modal');
 }
 function saveLoc(){
-  const lc=document.getElementById('f-lc').value.trim();
-  if(!lc){toast('Location code required','error');return;}
-  const obj={
-    locCode:lc,name:document.getElementById('f-nm').value.trim(),
-    state:document.getElementById('f-stt').value,city:document.getElementById('f-cy').value.trim(),
-    gstin:document.getElementById('f-gn').value.trim().toUpperCase(),
-    regStatus:document.getElementById('f-rs').value,regDate:document.getElementById('f-rd').value,
-    abopStatus:document.getElementById('f-as').value,
-    principalAddr:document.getElementById('f-pa').value.trim(),
-    actualAddr:document.getElementById('f-aa').value.trim(),
-    addrUpdateStatus:document.getElementById('f-aus').value,
-    pendingSince:document.getElementById('f-ps').value,
-    remarks:document.getElementById('f-rm').value.trim(),
-    markRemove:false
-  };
-  if(editId){const i=DATA.findIndex(d=>d.id===editId);if(i>=0)DATA[i]={...DATA[i],...obj};}
-  else{obj.id='l'+Date.now();DATA.push(obj);}
-  save(DATA);closeModal('add-modal');renderAll();
-  toast(editId?'Updated':'Added','success');
-}
-function delLoc(id){
-  if(!confirm('Delete this location permanently?'))return;
-  DATA=DATA.filter(d=>d.id!==id);save(DATA);renderAll();toast('Deleted','info');
-}
-
-// ── EXPORT ─────────────────────────────────────────────
-function exportToExcel(){
-  if(typeof XLSX==='undefined'){toast('XLSX library not loaded — check internet','error');return;}
-  const rows=DATA.map(d=>({'Loc Code':d.locCode,'Name':d.name,'State':d.state,'City':d.city,'GSTIN':d.gstin,'Reg Status':d.regStatus,'Reg Date':d.regDate,'ABOP Status':d.abopStatus,'GST Portal Address':d.principalAddr,'Actual Address':d.actualAddr,'Addr Update':d.addrUpdateStatus,'Pending Since':d.pendingSince,'Marked Remove':d.markRemove?'YES':'','Remarks':d.remarks}));
-  const ws=XLSX.utils.json_to_sheet(rows);ws['!cols']=[10,22,18,16,20,14,12,14,40,40,14,12,8,30].map(w=>({wch:w}));
-  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'GST-ABOP');
-  const brows=DATA.filter(d=>d.regStatus==='registered').map(d=>({'Loc':d.locCode,'Name':d.name,'GSTIN':d.gstin,'State':d.state,'Portal Addr':d.principalAddr,'Actual Addr':d.actualAddr,'Status':d.addrUpdateStatus,'Days Pending':d.addrUpdateStatus==='pending'&&d.pendingSince?dSince(d.pendingSince)||'':''}));
-  const ws2=XLSX.utils.json_to_sheet(brows);ws2['!cols']=[10,22,20,18,40,40,14,12].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,ws2,'Address-Bifurcation');
-  XLSX.writeFile(wb,'JC_GST_ABOP_'+new Date().toISOString().slice(0,10)+'.xlsx');
-  toast('Excel exported','success');
+  const id=document.getElementById('lm-id').value;
+  const gstin=document.getElementById('lm-gstin').value;
+  const type=document.getElementById('lm-type').value;
+  const addr=document.getElementById('lm-addr').value.trim();
+  if(!addr){toast('Address is required','error');return;}
+  // rule: one PPB per GSTIN
+  if(type==='PPB'){
+    const other=S.locations.find(x=>x.gstin===gstin&&x.type==='PPB'&&x.status!=='removed'&&x.id!==id);
+    if(other){toast('This GSTIN already has a Principal Place. A GSTIN can have only ONE PPB — edit the existing one instead.','error');return;}
+  }
+  // rule: no duplicate address within same GSTIN
+  const dupSame=S.locations.find(x=>x.gstin===gstin&&x.id!==id&&x.status!=='removed'&&norm(x.address)===norm(addr));
+  if(dupSame){toast('This exact address already exists under this GSTIN — duplicates are not allowed.','error');return;}
+  const fields={gstin,type,name:document.getElementById('lm-name').value.trim(),status:document.getElementById('lm-status').value,
+    address:addr,remarks:document.getElementById('lm-remarks').value.trim()};
+  const seed=S.locations.find(x=>x.gstin===gstin);
+  if(id){
+    const l=S.locations.find(x=>x.id===id);if(!l)return;
+    if(norm(l.address)!==norm(addr)){l.oldAddress=l.address;if(fields.status==='existing')fields.status='modified';}
+    Object.assign(l,fields);l.lastSeen=today();
+    S.history.unshift({ts:nowTS(),kind:'manual',gstin,file:'',note:'Location edited: '+addr});
+  }else{
+    S.locations.push({id:newId(),...fields,state:seed?seed.state:'',stateCode:seed?seed.stateCode:gstin.slice(0,2),isd:false,
+      oldAddress:'',firstSeen:today(),lastSeen:today(),sourceFile:'manual entry',certDate:''});
+    S.history.unshift({ts:nowTS(),kind:'manual',gstin,file:'',note:'Location added manually ('+type+'): '+addr});
+  }
+  persist();closeModal('loc-modal');renderAll();toast('Saved','success');
 }
 
-// ── KEYBOARD + INIT ────────────────────────────────────
-document.querySelectorAll('.modal-ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));
-  if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();showAddModal();}
-});
+// ── ADD NEW GSTIN ──────────────────────────────────────
+function gmAutoState(){
+  const g=(document.getElementById('gm-gstin').value||'').trim();
+  const code=g.slice(0,2);
+  if(/^\d{2}$/.test(code)&&GST_STATE_CODES[code])document.getElementById('gm-state').value=GST_STATE_CODES[code];
+}
+function openGstinAddModal(){
+  document.getElementById('gm-gstin').value='';
+  document.getElementById('gm-state').value='';
+  document.getElementById('gm-isd').value='no';
+  document.getElementById('gm-status').value='new';
+  document.getElementById('gm-ppb-addr').value='';
+  document.getElementById('gm-remarks').value='';
+  openModal('gstin-add-modal');
+}
+function saveNewGstin(){
+  const gstin=(document.getElementById('gm-gstin').value||'').trim().toUpperCase();
+  const addr=document.getElementById('gm-ppb-addr').value.trim();
+  if(!GSTIN_RE.test(gstin)){toast('Enter a valid 15-character GSTIN (e.g. 27AAECJ6910B1ZW)','error');return;}
+  if(!addr){toast('Principal Place of Business address is required','error');return;}
+  if(gstinList().includes(gstin)){toast('This GSTIN already exists in the tracker — use "Add Location" to add its PPB/ABOP instead.','error');return;}
+  const stateCode=gstin.slice(0,2);
+  const state=(document.getElementById('gm-state').value||'').trim()||GST_STATE_CODES[stateCode]||'';
+  const isd=document.getElementById('gm-isd').value==='yes';
+  const status=document.getElementById('gm-status').value;
+  const remarks=document.getElementById('gm-remarks').value.trim();
+  S.locations.push({id:newId(),gstin,state,stateCode,isd,type:'PPB',address:addr,oldAddress:'',name:'',status,remarks,
+    firstSeen:today(),lastSeen:today(),sourceFile:'manual entry',certDate:''});
+  S.history.unshift({ts:nowTS(),kind:'manual',gstin,file:'',note:'New GSTIN added manually: '+gstin+' ('+state+')'});
+  persist();closeModal('gstin-add-modal');renderAll();toast('GSTIN added','success');
+}
+function deleteGstin(g){
+  const rows=S.locations.filter(l=>l.gstin===g&&l.status!=='removed');
+  if(!rows.length){toast('No active locations for this GSTIN','info');return;}
+  if(!confirm('Remove GSTIN '+g+' and all '+rows.length+' of its locations? They stay in history but leave active lists.'))return;
+  rows.forEach(l=>{l.status='removed';l.removedOn=today();});
+  S.history.unshift({ts:nowTS(),kind:'manual',gstin:g,file:'',note:'GSTIN removed entirely (kept in history): '+g});
+  persist();closeModal('gstin-modal');renderAll();toast('GSTIN removed — preserved in history','success');
+}
 
-function renderAll(){
+// ── UPLOAD & COMPARE ───────────────────────────────────
+function doDrop(ev){ev.preventDefault();ev.currentTarget.classList.remove('dov');
+  const files=Array.from(ev.dataTransfer.files).filter(f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name));
+  if(files.length)processFiles(files);}
+function pdfUpload(ev){const files=Array.from(ev.target.files);ev.target.value='';if(files.length)processFiles(files);}
+
+async function processFiles(files){
+  if(typeof pdfjsLib==='undefined'){toast('PDF.js not loaded — check internet','error');return;}
+  const prog=document.getElementById('bulk-prog');prog.classList.add('show');
+  const reports=[];let done=0;
+  for(const f of files){
+    document.getElementById('bp-label').textContent='Reading: '+f.name;
+    document.getElementById('bp-frac').textContent=done+' / '+files.length;
+    document.getElementById('bp-fill').style.width=Math.round(done/files.length*100)+'%';
+    try{
+      const p=await parseCertPDF(f);
+      if(!p.gstin){reports.push({ts:nowTS(),kind:'error',gstin:'',file:f.name,note:'No GSTIN found — is this a REG-06 certificate?'});done++;continue;}
+      if(p.gstin.substring(2,12)!==JC_PAN){reports.push({ts:nowTS(),kind:'error',gstin:p.gstin,file:f.name,note:'Not a Join Commerce certificate ('+p.gstin+') — this tracker is JC-only.'});done++;continue;}
+      reports.push(compareAndApply(p,f.name));
+    }catch(err){reports.push({ts:nowTS(),kind:'error',gstin:'',file:f.name,note:'Read error: '+err.message});}
+    done++;
+  }
+  document.getElementById('bp-label').textContent='Done';
+  document.getElementById('bp-frac').textContent=files.length+' / '+files.length;
+  document.getElementById('bp-fill').style.width='100%';
+  reports.slice().reverse().forEach(r=>S.history.unshift(r));
+  persist();
+  document.getElementById('latest-report').innerHTML=reports.map(r=>renderReportCard(r)).join('');
   renderStats();
-  const a=document.querySelector('.tc.active')?.id;
-  if(a==='tab-abop')renderABOP();
-  if(a==='tab-gst'){fillStateFilter();renderGST();}
-  if(a==='tab-bif')renderBIF();
-  if(a==='tab-certs')renderCerts();
-  updateMarkedUI();
+  toast(files.length+' certificate(s) compared — see change report','success');
 }
-renderAll();
+
+// core comparison per the tracking rules: never overwrite without comparison
+function compareAndApply(p,fileName){
+  const g=p.gstin;
+  const rep={ts:nowTS(),kind:'compare',gstin:g,file:fileName,ppb:'no-change',ppbOld:'',ppbNew:'',added:[],removed:[],modified:[],restored:[]};
+  const mine=S.locations.filter(l=>l.gstin===g&&l.status!=='removed');
+  const stateCode=g.slice(0,2);
+  const seedRow=mine[0];
+
+  // ----- Principal Place (kept strictly separate from ABOPs) -----
+  const ppbRow=mine.find(l=>l.type==='PPB');
+  if(p.principal){
+    if(!ppbRow){
+      S.locations.push({id:newId(),gstin:g,state:seedRow?seedRow.state:'',stateCode,isd:false,type:'PPB',address:p.principal,oldAddress:'',
+        name:'',status:'new',remarks:'PPB added from '+fileName,firstSeen:today(),lastSeen:today(),sourceFile:fileName,certDate:p.certDate||''});
+      rep.ppb='added';rep.ppbNew=p.principal;
+    }else if(norm(ppbRow.address)!==norm(p.principal)){
+      rep.ppb='changed';rep.ppbOld=ppbRow.address;rep.ppbNew=p.principal;
+      ppbRow.oldAddress=ppbRow.address;ppbRow.address=p.principal;ppbRow.status='modified';
+      ppbRow.lastSeen=today();ppbRow.sourceFile=fileName;if(p.certDate)ppbRow.certDate=p.certDate;
+    }else{ppbRow.lastSeen=today();ppbRow.sourceFile=fileName;if(p.certDate)ppbRow.certDate=p.certDate;}
+  }
+
+  // ----- ABOPs -----
+  const trackerAbops=S.locations.filter(l=>l.gstin===g&&l.type==='ABOP'&&l.status!=='removed');
+  const certList=(p.apobList||[]).map(a=>a.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const matchedTracker={}, matchedCert={};
+  // pass 1: exact (normalized) matches
+  certList.forEach((a,ci)=>{
+    const t=trackerAbops.find(l=>!matchedTracker[l.id]&&norm(l.address)===norm(a));
+    if(t){matchedTracker[t.id]=1;matchedCert[ci]=1;t.lastSeen=today();t.sourceFile=fileName;
+      if(t.status==='to-remove'){t.status='existing';t.removedOn='';rep.restored.push(t.address);}
+      else if(t.status==='new'||t.status==='modified'){t.status='existing';}
+    }
+  });
+  // pass 2: modified pairing — same PIN + strong token overlap
+  certList.forEach((a,ci)=>{
+    if(matchedCert[ci])return;
+    const cand=trackerAbops.filter(l=>!matchedTracker[l.id]).map(l=>({l,score:overlap(l.address,a),pin:pinOf(l.address)===pinOf(a)&&!!pinOf(a)}))
+      .filter(x=>x.pin&&x.score>=0.5).sort((x,y)=>y.score-x.score);
+    if(cand.length){
+      const t=cand[0].l;matchedTracker[t.id]=1;matchedCert[ci]=1;
+      rep.modified.push({from:t.address,to:a});
+      t.oldAddress=t.address;t.address=a;t.status='modified';t.lastSeen=today();t.sourceFile=fileName;
+    }
+  });
+  // pass 3: leftover cert ABOPs = newly added
+  certList.forEach((a,ci)=>{
+    if(matchedCert[ci])return;
+    if(S.locations.some(l=>l.gstin===g&&l.status!=='removed'&&norm(l.address)===norm(a)))return; // dedupe guard
+    S.locations.push({id:newId(),gstin:g,state:seedRow?seedRow.state:'',stateCode,isd:false,type:'ABOP',address:a,oldAddress:'',
+      name:'',status:'new',remarks:'Added per '+fileName,firstSeen:today(),lastSeen:today(),sourceFile:fileName,certDate:p.certDate||''});
+    rep.added.push(a);
+  });
+  // pass 4: tracker ABOPs missing from certificate = To Be Removed (never auto-deleted)
+  trackerAbops.forEach(t=>{
+    if(matchedTracker[t.id])return;
+    if(t.status!=='to-remove'){t.status='to-remove';t.removedOn=today();rep.removed.push(t.address);}
+  });
+
+  rep.noChange=rep.ppb==='no-change'&&!rep.added.length&&!rep.removed.length&&!rep.modified.length&&!rep.restored.length;
+  return rep;
+}
+
+// report card renderer (also reused inside GSTIN modal)
+function renderReportCard(r,compact){
+  if(r.kind==='seed'||r.kind==='manual')return '<div class="hist-note"><b class="mono" style="color:var(--cyn)">'+esc(r.ts)+'</b> &middot; '+(r.gstin?'<span style="font-family:monospace">'+esc(r.gstin)+'</span> &middot; ':'')+esc(r.note)+'</div>';
+  if(r.kind==='error')return '<div class="hist-note" style="border-left:3px solid var(--red)"><b class="mono">'+esc(r.ts)+'</b> &middot; <b style="color:var(--red)">'+esc(r.file)+'</b> — '+esc(r.note)+'</div>';
+  const sec=(cls,title,items)=>items.length?'<div class="report-sec '+cls+'"><div class="rs-t">'+title+' ('+items.length+')</div>'+items.map(x=>'<div class="report-item">'+x+'</div>').join('')+'</div>':'';
+  return '<div class="report-card">'+
+    '<div class="report-hd"><span class="report-gstin">GSTIN: '+esc(r.gstin)+'</span><span class="mini">'+esc(r.file)+' &middot; '+esc(r.ts)+'</span></div>'+
+    '<div class="report-sec"><div class="rs-t" style="color:var(--txt2)">Principal Place</div>'+
+      (r.ppb==='no-change'?'<div class="report-item">&#10003; No Change</div>'
+       :r.ppb==='added'?'<div class="report-item" style="border-left:3px solid var(--grn)">Added: '+esc(r.ppbNew)+'</div>'
+       :'<div class="report-item" style="border-left:3px solid #a855f7">'+esc(r.ppbOld)+'<span class="arrow">&#8594;</span>'+esc(r.ppbNew)+'</div>')+'</div>'+
+    sec('rs-add','Added',r.added.map(esc))+
+    sec('rs-rem','Removed — marked "To Be Removed"',r.removed.map(esc))+
+    sec('rs-mod','Modified',r.modified.map(m=>esc(m.from)+'<span class="arrow">&#8594;</span>'+esc(m.to)))+
+    sec('rs-res','Re-appeared — restored',r.restored.map(esc))+
+    (r.noChange?'<div class="report-sec"><div class="report-item">&#10003; ABOPs: No changes — tracker already in sync.</div></div>':'')+
+  '</div>';
+}
+
+// ── HISTORY TAB ────────────────────────────────────────
+function renderHistory(){
+  const q=(document.getElementById('h-q').value||'').toLowerCase();
+  let items=S.history;
+  if(q)items=items.filter(h=>JSON.stringify(h).toLowerCase().includes(q));
+  document.getElementById('history-list').innerHTML=items.length?items.map(h=>renderReportCard(h)).join(''):'<div class="empty"><div class="empty-ico">&#128340;</div><div class="empty-ttl">No history entries</div></div>';
+}
+function clearHistory(){
+  if(!confirm('Clear the entire change history log? (Locations are not affected.)'))return;
+  S.history=[{ts:nowTS(),kind:'manual',gstin:'',file:'',note:'History cleared by user.'}];persist();renderHistory();
+}
+
+// ── PDF parsing (REG-06, row/column aware) ─────────────
+async function parseCertPDF(file){
+  const buf=await file.arrayBuffer();
+  const doc=await pdfjsLib.getDocument({data:buf}).promise;
+  let mainText='',principal='',apobCount=0;const apobRows=[];
+  for(let p=1;p<=Math.min(doc.numPages,12);p++){
+    const page=await doc.getPage(p);
+    const tcnt=await page.getTextContent();
+    const items=tcnt.items.filter(i=>i.str&&i.str.trim()).map(i=>({y:Math.round(i.transform[5]),x:i.transform[4],s:i.str}));
+    const rowsMap=[];
+    for(const it of items){
+      let row=rowsMap.find(r=>Math.abs(r.y-it.y)<=3);
+      if(!row){row={y:it.y,cells:[]};rowsMap.push(row);}
+      row.cells.push(it);
+    }
+    rowsMap.sort((a,b)=>b.y-a.y);
+    const rows=rowsMap.map(r=>r.cells.sort((a,b)=>a.x-b.x));
+    const pageText=rows.map(r=>r.map(c=>c.s).join(' ')).join('\n');
+    if(/Details of\s+Managing/i.test(pageText))continue;
+    if(/Details of Additional Place of Business/i.test(pageText)){
+      const tot=pageText.match(/Total Number of Additional Places? of Business\(?s?\)?\s*in the State\s*(\d+)/i);
+      if(tot)apobCount=parseInt(tot[1],10);
+      apobRows.push(...rows);continue;
+    }
+    mainText+=pageText+'\n';
+    if(!principal){
+      const top=items.find(i=>/Address of Principal Place/i.test(i.s));
+      const bot=items.find(i=>/Date of Liability/i.test(i.s));
+      if(top&&bot){
+        const band=items.filter(i=>i.x>=250&&i.y<=top.y+4&&i.y>bot.y+4).sort((a,b)=>(b.y-a.y)||(a.x-b.x));
+        if(band.length)principal=band.map(i=>i.s).join(' ').replace(/\s+/g,' ').trim();
+      }
+    }
+  }
+  const g=mainText.match(/\b(\d{2}[A-Z]{5}\d{4}[A-Z][0-9A-Z]Z[0-9A-Z])\b/);
+  const doi=mainText.match(/Date of issue of Certificate\s*:?\s*(\d{2})\/(\d{2})\/(\d{4})/);
+  const apobList=[];let current=null,started=false;
+  for(const cells of apobRows){
+    const rowText=cells.map(c=>c.s).join(' ').replace(/\s+/g,' ').trim();
+    if(!rowText)continue;
+    if(/Total Number of Additional/i.test(rowText)){started=true;continue;}
+    if(!started)continue;
+    if(/^(Legal Name|Trade Name|Additional trade names|any$|Goods and Services|Annexure)/i.test(rowText))continue;
+    const first=cells[0].s.trim();
+    if(/^\d{1,2}$/.test(first)){
+      if(current)apobList.push(current.replace(/\s+/g,' ').trim());
+      current=cells.slice(1).map(c=>c.s).join(' ');
+    }else if(current!==null){current+=' '+rowText;}
+  }
+  if(current)apobList.push(current.replace(/\s+/g,' ').trim());
+  return {gstin:g?g[1]:null,principal,apobCount:apobCount||apobList.length,apobList,
+    certDate:doi?doi[3]+'-'+doi[2]+'-'+doi[1]:''};
+}
+
+// ── EXCEL EXPORT ───────────────────────────────────────
+function exportExcel(){
+  if(typeof XLSX==='undefined'){toast('XLSX library not loaded — check internet','error');return;}
+  const wb=XLSX.utils.book_new();
+  // Sheet 1: GSTIN matrix
+  const maxAb=Math.max(5,...gstinList().map(g=>locsOf(g).filter(l=>l.type==='ABOP'&&l.status!=='removed').length));
+  const mrows=gstinList().map(g=>{
+    const act=locsOf(g).filter(l=>l.status!=='removed');
+    const ppb=act.find(l=>l.type==='PPB');const abops=act.filter(l=>l.type==='ABOP');
+    const row={'GSTIN':g,'State':ppb?ppb.state:'','Principal Place':ppb?ppb.address:'','Total ABOPs':abops.length};
+    for(let i=0;i<maxAb;i++)row['ABOP '+(i+1)]=abops[i]?abops[i].address+(abops[i].status!=='existing'?' ['+ST_LABEL[abops[i].status]+']':''):'';
+    const nNew=act.filter(l=>l.status==='new').length,nMod=act.filter(l=>l.status==='modified').length,nRem=act.filter(l=>l.status==='to-remove').length;
+    row['Status']=(nNew||nMod||nRem)?[nNew&&nNew+' new',nMod&&nMod+' modified',nRem&&nRem+' to remove'].filter(Boolean).join(', '):'Up to date';
+    return row;
+  });
+  const ws1=XLSX.utils.json_to_sheet(mrows);ws1['!cols']=Object.keys(mrows[0]).map(k=>({wch:k.startsWith('ABOP')||k==='Principal Place'?45:14}));
+  XLSX.utils.book_append_sheet(wb,ws1,'GSTIN Matrix');
+  // Sheet 2: master register
+  const dups=dupInfo();
+  const rrows=S.locations.slice().sort((a,b)=>a.gstin.localeCompare(b.gstin)||(a.type==='PPB'?0:1)-(b.type==='PPB'?0:1)).map(l=>({
+    'Location Address':l.address,'GSTIN':l.gstin,'Type':l.type==='PPB'?'Principal':'ABOP','State':l.state,
+    'Location Name':l.name||'','Status':ST_LABEL[l.status],'Duplicate':dups[l.id]?'YES — '+dups[l.id]:'',
+    'Earlier Address':l.oldAddress||'','First Seen':l.firstSeen||'','Last Updated':l.lastSeen||'','Removed On':l.removedOn||'',
+    'Source Certificate':l.sourceFile||'','Remarks':l.remarks||''}));
+  const ws2=XLSX.utils.json_to_sheet(rrows);ws2['!cols']=[50,18,10,16,16,14,30,40,11,11,11,34,26].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws2,'Master Location Register');
+  // Sheet 3: change history
+  const hrows=[];
+  S.history.forEach(h=>{
+    if(h.kind==='compare'){
+      hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'Principal Place','Detail':h.ppb==='no-change'?'No change':(h.ppb==='added'?'Added: '+h.ppbNew:h.ppbOld+' -> '+h.ppbNew),'File':h.file});
+      h.added.forEach(a=>hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'ABOP Added','Detail':a,'File':h.file}));
+      h.removed.forEach(a=>hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'ABOP To Be Removed','Detail':a,'File':h.file}));
+      h.modified.forEach(m=>hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'ABOP Modified','Detail':m.from+' -> '+m.to,'File':h.file}));
+      (h.restored||[]).forEach(a=>hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'ABOP Restored','Detail':a,'File':h.file}));
+      if(h.noChange)hrows.push({'Date':h.ts,'GSTIN':h.gstin,'Change':'No Change','Detail':'Certificate matches tracker','File':h.file});
+    }else{
+      hrows.push({'Date':h.ts,'GSTIN':h.gstin||'','Change':h.kind==='seed'?'Seed':h.kind==='error'?'Error':'Manual','Detail':h.note||'','File':h.file||''});
+    }
+  });
+  const ws3=XLSX.utils.json_to_sheet(hrows.length?hrows:[{'Info':'No history'}]);ws3['!cols']=[19,18,22,60,32].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws3,'Change History');
+  // Sheet 4: GSTN-wise summary
+  const srows=gstinList().map(g=>{
+    const c=sumCounts(g),r=sumRead(g);
+    return {'GSTN':g,'State':sumStateOf(g),'Total Places':c.total,'Principal Place':c.ppb,'ABOP in Master':c.abop,
+      'ABOP Required':r.required===''?'':numOr0(r.required),'Add ABOP':r.add===''?'':numOr0(r.add),
+      'Remove ABOP':r.remove===''?'':numOr0(r.remove),'Status':r.status||'','Remarks':r.remarks||''};
+  });
+  const ws4=XLSX.utils.json_to_sheet(srows);ws4['!cols']=[18,16,12,15,15,14,11,13,17,40].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws4,'GSTN-wise Summary');
+  XLSX.writeFile(wb,'JC_PPB_ABOP_Master_Tracker_'+today()+'.xlsx');
+  toast('Excel exported (4 sheets)','success');
+}
+
+// ── init ───────────────────────────────────────────────
+document.querySelectorAll('.modal-ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));});
+renderStats();renderMatrix();
 </script>
 </body>
 </html>

@@ -3,10 +3,11 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, BookOpen, Calculator, HelpCircle } from "lucide-react";
 import { CAConsultation } from "@/components/ca-consultation";
 import { AdSenseUnit, AdLeaderboard } from "@/components/adsense";
 import { jsonLdString } from "@/lib/json-ld";
+import { toolContent } from "@/lib/tool-content";
 
 // Import calculators
 import { GSTLateFeeCalculator } from "@/components/calculators/gst-late-fee";
@@ -19,6 +20,12 @@ import { InvoiceCompliance } from "@/components/calculators/invoice-compliance";
 import { InvoiceToTally } from "@/components/calculators/invoice-to-tally";
 import { SectionMapper } from "@/components/calculators/section-mapper";
 import { NoticeDraftingStudio } from "@/components/calculators/notice-drafting-studio";
+import { GstinValidator } from "@/components/calculators/gstin-validator";
+import { PresumptiveOptimiser } from "@/components/calculators/presumptive-optimiser";
+import { LitigationCostCalculator } from "@/components/calculators/litigation-cost";
+import { StatutoryTimeMachine } from "@/components/calculators/statutory-time-machine";
+import { AppealDeadlineCalculator } from "@/components/calculators/appeal-deadline";
+import { ImmunityNavigator } from "@/components/calculators/immunity-navigator";
 
 interface PageProps {
   params: Promise<{
@@ -77,6 +84,42 @@ export function getToolMeta(slug: string): ToolMeta {
         title: "HSN & SAC Code Finder — Free Online Calculator FY 2026-27 | NumberIQ",
         description: "Find correct HSN (Goods) and SAC (Services) codes and rates for GST invoicing under CGST Act rules.",
         category: "GST Suite"
+      };
+    case "appeal-deadline-calculator":
+      return {
+        title: "CIT(A) & ITAT Appeal Deadline and Fee Calculator | NumberIQ",
+        description: "Work out the last date to file Form 35 or Form 36, whether condonation of delay is now needed, and the exact appeal fee under Sections 249(1) and 253(6).",
+        category: "Litigation Suite"
+      };
+    case "section-270aa-immunity":
+      return {
+        title: "Section 270AA Immunity Navigator — Form 68 Penalty Waiver | NumberIQ",
+        description: "Check eligibility for immunity from penalty under Section 270A and prosecution, compute the Form 68 deadline, and weigh immunity against filing an appeal.",
+        category: "Litigation Suite"
+      };
+    case "gstin-validator":
+      return {
+        title: "GSTIN Validator & Decoder — Check Any GST Number Free | NumberIQ",
+        description: "Validate a 15-digit GSTIN offline using the official GSTN checksum, and decode the state, PAN, holder type and registration count instantly.",
+        category: "GST Suite"
+      };
+    case "presumptive-tax-optimiser":
+      return {
+        title: "Presumptive Tax Calculator 44AD & 44ADA FY 2026-27 | NumberIQ",
+        description: "Compare presumptive taxation under Section 44AD and 44ADA against regular books, with turnover ceilings, the 5% cash cap and tax-audit exposure.",
+        category: "Direct Tax Suite"
+      };
+    case "litigation-cost-calculator":
+      return {
+        title: "Appeal or Pay? GST & Income Tax Litigation Cost Calculator | NumberIQ",
+        description: "Work out the pre-deposit, accruing interest and break-even success rate before filing a GST or income-tax appeal — settle now or contest.",
+        category: "Litigation Suite"
+      };
+    case "statutory-time-machine":
+      return {
+        title: "Which Tax Law Applied On This Date? Statutory Time Machine | NumberIQ",
+        description: "Pick any transaction date and see which statute governed it — Income-tax Act 1961 or 2025, pre-GST or GST — with the correct section numbering to cite.",
+        category: "Direct Tax Suite"
       };
     case "invoice-compliance":
       return {
@@ -235,6 +278,30 @@ export default async function ToolPage({ params }: PageProps) {
     CalculatorComponent = HsnSacFinder;
     title = "HSN & SAC Code Finder";
     category = "GST Suite";
+  } else if (cleanSlug === "appeal-deadline-calculator") {
+    CalculatorComponent = AppealDeadlineCalculator;
+    title = "CIT(A) & ITAT Appeal Deadline and Fee Calculator";
+    category = "Litigation Suite";
+  } else if (cleanSlug === "section-270aa-immunity") {
+    CalculatorComponent = ImmunityNavigator;
+    title = "Section 270AA Immunity Navigator (Form 68)";
+    category = "Litigation Suite";
+  } else if (cleanSlug === "gstin-validator") {
+    CalculatorComponent = GstinValidator;
+    title = "GSTIN Validator & Decoder";
+    category = "GST Suite";
+  } else if (cleanSlug === "presumptive-tax-optimiser") {
+    CalculatorComponent = PresumptiveOptimiser;
+    title = "Presumptive Tax Optimiser (Section 44AD / 44ADA)";
+    category = "Direct Tax Suite";
+  } else if (cleanSlug === "litigation-cost-calculator") {
+    CalculatorComponent = LitigationCostCalculator;
+    title = "Litigation Cost Calculator — Appeal or Settle";
+    category = "Litigation Suite";
+  } else if (cleanSlug === "statutory-time-machine") {
+    CalculatorComponent = StatutoryTimeMachine;
+    title = "Statutory Time Machine — Law In Force On A Date";
+    category = "Direct Tax Suite";
   } else if (cleanSlug === "invoice-compliance") {
     CalculatorComponent = InvoiceCompliance;
     title = "GST Invoice Compliance Checker";
@@ -295,6 +362,80 @@ export default async function ToolPage({ params }: PageProps) {
 
   const toolMeta = getToolMeta(slug);
   const toolDescription = toolMeta.description;
+  const content = toolContent[cleanSlug];
+
+  const jsonLdGraph: Record<string, unknown>[] = [
+    {
+      "@type": "SoftwareApplication",
+      "@id": `https://numberiq.in/tools/${slug}#application`,
+      "name": title,
+      "description": toolDescription,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": `https://numberiq.in/tools/${slug}#product`,
+      "name": title,
+      "description": toolDescription,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR",
+        "valueAddedTaxIncluded": "false"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": `https://numberiq.in/tools/${slug}#service`,
+      "name": title,
+      "description": toolDescription,
+      "provider": {
+        "@type": "Organization",
+        "@id": "https://numberiq.in/#organization",
+        "name": "NumberIQ",
+        "url": "https://numberiq.in"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `https://numberiq.in/tools/${slug}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Tools",
+          "item": "https://numberiq.in/tools"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": title,
+          "item": `https://numberiq.in/tools/${slug}`
+        }
+      ]
+    }
+  ];
+
+  if (content) {
+    jsonLdGraph.push({
+      "@type": "FAQPage",
+      "@id": `https://numberiq.in/tools/${slug}#faq`,
+      "mainEntity": content.faqs.map((item) => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    });
+  }
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#05060a]">
@@ -303,63 +444,7 @@ export default async function ToolPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{
           __html: jsonLdString({
             "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "SoftwareApplication",
-                "@id": `https://numberiq.in/tools/${slug}#application`,
-                "name": title,
-                "description": toolDescription,
-                "applicationCategory": "FinanceApplication",
-                "operatingSystem": "All",
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "INR"
-                }
-              },
-              {
-                "@type": "Product",
-                "@id": `https://numberiq.in/tools/${slug}#product`,
-                "name": title,
-                "description": toolDescription,
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "INR",
-                  "valueAddedTaxIncluded": "false"
-                }
-              },
-              {
-                "@type": "Service",
-                "@id": `https://numberiq.in/tools/${slug}#service`,
-                "name": title,
-                "description": toolDescription,
-                "provider": {
-                  "@type": "Organization",
-                  "@id": "https://numberiq.in/#organization",
-                  "name": "NumberIQ",
-                  "url": "https://numberiq.in"
-                }
-              },
-              {
-                "@type": "BreadcrumbList",
-                "@id": `https://numberiq.in/tools/${slug}#breadcrumb`,
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Tools",
-                    "item": "https://numberiq.in/tools"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": title,
-                    "item": `https://numberiq.in/tools/${slug}`
-                  }
-                ]
-              }
-            ]
+            "@graph": jsonLdGraph
           })
         }}
       />
@@ -376,6 +461,21 @@ export default async function ToolPage({ params }: PageProps) {
           <ChevronRight size={12} />
           <span className="text-white truncate max-w-xs">{title}</span>
         </div>
+
+        {/* Page Heading (single H1) */}
+        {content && (
+          <header className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4f7cff]/10 border border-[#4f7cff]/20 text-[#4f7cff] text-xs font-semibold uppercase tracking-wider mb-4">
+              {content.eyebrow}
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              {title}
+            </h1>
+            <p className="mt-4 text-base sm:text-lg text-[#8a95ad] leading-relaxed">
+              {content.lede}
+            </p>
+          </header>
+        )}
 
         {/* Leaderboard Ad — above the fold, before calculator */}
         <AdLeaderboard slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD || "3974343520"} className="mb-2" />
@@ -426,6 +526,55 @@ export default async function ToolPage({ params }: PageProps) {
             </div>
           </div>
         </div>
+
+        {/* Structured SEO Guide Content */}
+        {content && (
+          <article className="bg-[#121624] border border-[#23293e] rounded-2xl p-6 md:p-10 text-sm md:text-base leading-relaxed space-y-10 text-[#c3cbe0]">
+            <section className="space-y-4">
+              <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-3">
+                <BookOpen className="w-6 h-6 text-[#4f7cff]" />
+                {content.overviewHeading}
+              </h2>
+              {content.overview.map((para, idx) => (
+                <p key={idx} className="text-[#a3b1cc]">{para}</p>
+              ))}
+            </section>
+
+            <section className="space-y-4 bg-[#1a2138]/50 border border-[#23293e] rounded-xl p-6">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <Calculator className="w-5 h-5 text-emerald-400" />
+                {content.exampleHeading}
+              </h2>
+              <p className="text-sm text-[#a3b1cc]">{content.exampleIntro}</p>
+              <div className="bg-[#121624] p-4 rounded-xl border border-[#23293e] space-y-3 text-xs md:text-sm">
+                {content.exampleRows.map((row, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex flex-col sm:flex-row sm:justify-between gap-1 ${idx !== content.exampleRows.length - 1 ? "border-b border-[#23293e] pb-2" : "pt-1"}`}
+                  >
+                    <span className={idx === content.exampleRows.length - 1 ? "font-bold text-white" : ""}>{row.label}:</span>
+                    <span className={`font-mono font-bold ${idx === content.exampleRows.length - 1 ? "text-emerald-400 text-base" : "text-[#4f7cff]"}`}>{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="space-y-6">
+              <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-3">
+                <HelpCircle className="w-6 h-6 text-[#4f7cff]" />
+                Frequently Asked Questions (FAQs)
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {content.faqs.map((item, idx) => (
+                  <div key={idx} className="bg-[#1a2138] border border-[#23293e] rounded-xl p-5 space-y-2">
+                    <h3 className="text-sm md:text-base font-bold text-white">{item.question}</h3>
+                    <p className="text-xs md:text-sm text-[#8a95ad] leading-relaxed whitespace-pre-line">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </article>
+        )}
       </main>
 
       <Footer />

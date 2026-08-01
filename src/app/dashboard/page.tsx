@@ -14,9 +14,12 @@ import {
   ChevronRight, 
   FileSpreadsheet, 
   FileCode2, 
-  Clock, 
-  Database, 
-  Cpu 
+  Clock,
+  Database,
+  Cpu,
+  ScanFace,
+  UserCheck,
+  Inbox
 } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -121,17 +124,17 @@ const MODULES: BoardroomModule[] = [
   },
   {
     id: "tax-compliance",
-    name: "Tax Compliance & Litigation",
-    tagline: "Group Tax Command Center",
+    name: "Tax Notice & Litigation Tracker",
+    tagline: "Issue to Final Disposal",
     description:
-      "Enterprise command center for group-wide tax compliance, notice workflows, litigation hierarchies, and due date calendars across 7 companies and 70+ retail stores.",
+      "CA-firm grade tracker for Income Tax, GST and TDS/TCS notices, assessments and appeals — master notice register, department-wise case sheets with statutory stage workflows, appeals & limitation tracking, hearing calendar, client/officer masters and a 10-sheet Excel workbook export. Pre-loaded with all in-process group matters.",
     href: "/api/module/tax-compliance",
     icon: <Shield size={20} />,
     accent: "#ef4444",
     features: [
-      { icon: <Shield size={13} />, label: "Notice & Appeal Kanban" },
-      { icon: <Clock size={13} />, label: "Due Date & Alert Center" },
-      { icon: <Activity size={13} />, label: "Govt Portal Sync Logs" },
+      { icon: <Shield size={13} />, label: "Master Notice Tracker" },
+      { icon: <Activity size={13} />, label: "Appeals & Hearing Calendar" },
+      { icon: <Table size={13} />, label: "10-Sheet Excel Workbook" },
     ],
     submodules: [],
   },
@@ -140,7 +143,7 @@ const MODULES: BoardroomModule[] = [
     name: "JC GST & ABOP Tracker",
     tagline: "Address & Registration Monitor",
     description:
-      "All Branch/Office Premises (ABOP) operational status, address bifurcation updates, and automated GSTN registration certificate reader for Join Ventures.",
+      "All Branch/Office Premises (ABOP) operational status, address bifurcation updates, and automated GSTN registration certificate reader for Join Commerce (JC).",
     href: "/api/module/jc-gst-abop-tracker",
     icon: <Shield size={20} />,
     accent: "#00D68F",
@@ -148,6 +151,38 @@ const MODULES: BoardroomModule[] = [
       { icon: <Shield size={13} />, label: "ABOP Dashboard" },
       { icon: <Table size={13} />, label: "Address Bifurcation" },
       { icon: <Activity size={13} />, label: "GSTN Cert Reader" },
+    ],
+    submodules: [],
+  },
+  {
+    id: "attendance-face",
+    name: "Face Attendance",
+    tagline: "Biometric Punch to Payroll",
+    description:
+      "Camera-based attendance with liveness-checked face recognition. First scan of the day is the Punch-In, the last is the Punch-Out; hours decide Present / Half Day / Absent, arrivals past the grace window are flagged late. Employee master with multi-image enrolment and batch onboarding, holiday and weekly-off master, and a 6-sheet Excel workbook for payroll.",
+    href: "/api/module/attendance-face",
+    icon: <ScanFace size={20} />,
+    accent: "#6366f1",
+    features: [
+      { icon: <UserCheck size={13} />, label: "Liveness-Checked Punch" },
+      { icon: <Clock size={13} />, label: "Hours, Late & Half Day" },
+      { icon: <FileSpreadsheet size={13} />, label: "6-Sheet Payroll Excel" },
+    ],
+    submodules: [],
+  },
+  {
+    id: "ca-inbox-autopilot",
+    name: "CA Inbox Autopilot",
+    tagline: "Email → Drive → Tally, every morning",
+    description:
+      "Reads the day's email attachments without opening the mail, sorts each one with AI into invoice, notice or other, files it into a dated Google Drive folder, turns invoices into a Tally-ready Excel register and drafts replies to notices. Runs on a schedule or on demand, with a live canvas showing each step as it happens.",
+    href: "/dashboard/ca-inbox-autopilot",
+    icon: <Inbox size={20} />,
+    accent: "#06b6d4",
+    features: [
+      { icon: <Cpu size={13} />, label: "AI Document Sorting" },
+      { icon: <FileSpreadsheet size={13} />, label: "Tally Excel + XML" },
+      { icon: <Activity size={13} />, label: "Live Run Canvas" },
     ],
     submodules: [],
   },
@@ -268,7 +303,7 @@ function BoardroomCard({ m }: { m: BoardroomModule }) {
       }}
       whileHover={{ y: -6, scale: 1.015 }}
       transition={{ type: "spring", stiffness: 350, damping: 24 }}
-      className="group relative border border-white/5 hover:border-white/10 bg-[#0E121B]/60 backdrop-blur-md rounded-3xl p-7 flex flex-col gap-5 overflow-hidden transition-all duration-300 shadow-[0_15px_35px_rgba(0,0,0,0.5)]"
+      className="group relative nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 hover:border-white/15 rounded-3xl p-7 flex flex-col gap-5 overflow-hidden transition-all duration-300"
     >
       {/* Cursor tracking glow */}
       <motion.div
@@ -468,11 +503,11 @@ export default function DashboardPage() {
               className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-6 gap-4"
             >
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4F7EFF]/20 to-[#A66BFF]/20 border border-white/10 flex items-center justify-center text-[#4F7EFF] shadow-[0_0_15px_rgba(79,126,255,0.15)]">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#4F7EFF]/25 to-[#A66BFF]/25 border border-white/10 flex items-center justify-center text-[#4F7EFF] shadow-[0_0_28px_rgba(79,126,255,0.28)]">
                   <Shield size={18} />
                 </div>
                 <div>
-                  <h1 className="text-base font-bold text-white uppercase tracking-wider font-display">
+                  <h1 className="text-2xl md:text-3xl font-black tracking-tight font-display bg-gradient-to-r from-white via-[#dbe3f5] to-[#8fa6d8] bg-clip-text text-transparent">
                     Boardroom Executive Dashboard
                   </h1>
                   <p className="text-[10px] text-[#737c92] mt-0.5 font-mono">
@@ -495,7 +530,7 @@ export default function DashboardPage() {
               className="grid grid-cols-2 lg:grid-cols-4 gap-4"
             >
               {/* Stat 1 */}
-              <div className="bg-[#0E121B]/40 border border-white/5 rounded-2xl p-5 backdrop-blur-sm relative overflow-hidden group shadow-[0_4px_25px_rgba(0,0,0,0.2)]">
+              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
                 <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#4F7EFF]/20 to-transparent" />
                 <div className="flex items-center justify-between text-[#737c92]">
                   <span className="text-[9px] uppercase tracking-wider font-bold">Vouchers Synced</span>
@@ -510,7 +545,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Stat 2 */}
-              <div className="bg-[#0E121B]/40 border border-white/5 rounded-2xl p-5 backdrop-blur-sm relative overflow-hidden group shadow-[0_4px_25px_rgba(0,0,0,0.2)]">
+              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
                 <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#A66BFF]/20 to-transparent" />
                 <div className="flex items-center justify-between text-[#737c92]">
                   <span className="text-[9px] uppercase tracking-wider font-bold">AI Extraction Accuracy</span>
@@ -525,7 +560,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Stat 3 */}
-              <div className="bg-[#0E121B]/40 border border-white/5 rounded-2xl p-5 backdrop-blur-sm relative overflow-hidden group shadow-[0_4px_25px_rgba(0,0,0,0.2)]">
+              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
                 <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00D68F]/20 to-transparent" />
                 <div className="flex items-center justify-between text-[#737c92]">
                   <span className="text-[9px] uppercase tracking-wider font-bold">Active Sync Channels</span>
@@ -540,7 +575,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Stat 4 */}
-              <div className="bg-[#0E121B]/40 border border-white/5 rounded-2xl p-5 backdrop-blur-sm relative overflow-hidden group shadow-[0_4px_25px_rgba(0,0,0,0.2)]">
+              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
                 <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#FFB547]/20 to-transparent" />
                 <div className="flex items-center justify-between text-[#737c92]">
                   <span className="text-[9px] uppercase tracking-wider font-bold">Mean Response Time</span>
