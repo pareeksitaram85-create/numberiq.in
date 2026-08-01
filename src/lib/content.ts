@@ -96,6 +96,40 @@ function injectCallout(content: string): string {
   return content;
 }
 
+/**
+ * A glossary entry has to carry this many words of its own before we let Google
+ * index it. Below the line it is a stub: real for a reader who clicked through
+ * from /glossary, too thin to stand as a search result on its own. Google reads a
+ * site full of near-identical short definition pages as thin content, which is
+ * what got numberiq.in turned down by AdSense ("Low value content", 2026-08).
+ *
+ * Nothing is hidden from users — sub-threshold entries stay live and stay linked
+ * from the glossary index. They are only kept out of the sitemap and marked
+ * noindex. Expand an entry past the threshold and it re-enters the index on the
+ * next deploy with no code change.
+ */
+export const GLOSSARY_MIN_INDEXABLE_WORDS = 400;
+
+interface TermDepthInput {
+  definition: string;
+  explanation: string;
+  sections?: string | null;
+  takeaways?: string[];
+}
+
+/** Words of unique prose on a glossary page, ignoring markup and page chrome. */
+export function glossaryTermWordCount(term: TermDepthInput): number {
+  return [term.definition, term.explanation, term.sections ?? "", ...(term.takeaways ?? [])]
+    .join(" ")
+    .replace(/<[^>]+>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+export function isGlossaryTermIndexable(term: TermDepthInput): boolean {
+  return glossaryTermWordCount(term) >= GLOSSARY_MIN_INDEXABLE_WORDS;
+}
+
 export async function getPosts() {
   try {
     const posts = await prisma.post.findMany({

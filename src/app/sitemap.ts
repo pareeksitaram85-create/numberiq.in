@@ -1,14 +1,17 @@
 import { MetadataRoute } from "next";
-import { getPosts, getTerms } from "@/lib/content";
+import { getPosts, getTerms, isGlossaryTermIndexable } from "@/lib/content";
+import { toolContent } from "@/lib/tool-content";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const domain = "https://numberiq.in";
 
-  // Static routes
+  // Static routes.
+  // /universe is deliberately absent: the page is a shell around an iframed
+  // canvas app and renders ~26 crawlable words, so submitting it advertises an
+  // empty page. It is marked noindex at the route instead.
   const staticRoutes = [
     "",
     "/tools",
-    "/universe",
     "/pricing",
     "/insights",
     "/glossary",
@@ -21,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${domain}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : route === "/tools" ? 0.95 : route === "/universe" ? 0.92 : route === "/pricing" ? 0.9 : 0.8,
+    priority: route === "" ? 1.0 : route === "/tools" ? 0.95 : route === "/pricing" ? 0.9 : 0.8,
   }));
 
   // Dynamic calculator slugs
@@ -71,12 +74,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 
-  const calculatorRoutes = calculatorSlugs.map((slug) => ({
-    url: `${domain}/tools/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-  }));
+  // These two have hand-written route files of their own under app/tools/<slug>/,
+  // so they carry their content directly rather than through tool-content.tsx.
+  const dedicatedToolPages = new Set(["gst-interest-calculator", "gemini-invoice-reader"]);
+
+  // Everything else on the /tools/[slug] route needs an entry in tool-content.tsx
+  // to render its prose, worked example and FAQs. Without one the page is a bare
+  // calculator shell, so it is left out here and marked noindex on the route.
+  const calculatorRoutes = calculatorSlugs
+    .filter((slug) => dedicatedToolPages.has(slug) || Boolean(toolContent[slug]))
+    .map((slug) => ({
+      url: `${domain}/tools/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    }));
 
   // Dynamic posts
   const posts = await getPosts();
@@ -87,14 +99,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  // Dynamic terms
+  // Dynamic terms — stub-length entries are excluded; they carry a matching
+  // noindex on the route itself. They re-enter here once expanded past
+  // GLOSSARY_MIN_INDEXABLE_WORDS.
   const terms = await getTerms();
-  const termRoutes = terms.map((term: { slug: string }) => ({
-    url: `${domain}/glossary/${term.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.5,
-  }));
+  const termRoutes = terms
+    .filter(isGlossaryTermIndexable)
+    .map((term: { slug: string }) => ({
+      url: `${domain}/glossary/${term.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }));
 
   return [...staticRoutes, ...practiceRoutes, ...calculatorRoutes, ...postRoutes, ...termRoutes];
 }

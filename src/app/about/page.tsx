@@ -48,9 +48,9 @@ export default function AboutPage() {
         {/* Stats band */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
           {[
-            { value: "24+", label: "Free calculators", tone: "#4f7cff" },
-            { value: "100+", label: "CA-reviewed guides", tone: "#34d399" },
-            { value: "50", label: "Glossary definitions", tone: "#f4b740" },
+            { value: "25", label: "Free calculators", tone: "#4f7cff" },
+            { value: "106", label: "CA-written guides", tone: "#34d399" },
+            { value: "58", label: "Glossary definitions", tone: "#f4b740" },
             { value: "0", label: "Figures leaving your browser", tone: "#38e1d6" },
           ].map((s) => (
             <div
@@ -125,6 +125,105 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+
+        {/* Who publishes this — named, so readers and reviewers can see who
+            stands behind the numbers rather than an anonymous "a CA". */}
+        <section className="mb-16">
+          <h2 className="font-display text-2xl md:text-3xl font-black text-white mb-8">
+            Who runs NumberIQ
+          </h2>
+          <div className="relative overflow-hidden rounded-3xl border border-[#4f7cff]/20 bg-gradient-to-br from-[#07091a] to-[#050810] p-8 md:p-10">
+            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-[#4f7cff]/8 blur-3xl pointer-events-none" />
+            <div className="relative z-10 flex flex-col sm:flex-row gap-6 items-start">
+              <div className="w-16 h-16 shrink-0 rounded-full bg-gradient-to-br from-[#4f7cff] to-[#9a6bff] flex items-center justify-center font-display font-bold text-white text-xl">
+                SP
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-wider text-[#737c92] font-bold mb-1">
+                  Founder, author and reviewer
+                </p>
+                <h3 className="font-display text-xl font-bold text-white mb-3">CA Sitaram Pareek</h3>
+                <p className="text-sm text-[#aab2c5] leading-relaxed mb-4">
+                  Chartered Accountant (ICAI) and holder of the Diploma in International Taxation
+                  (DIIT-ICAI), based in Mumbai. Works in-house with a multinational group operating
+                  across India, the UAE and Singapore, handling GST compliance, direct tax, transfer
+                  pricing, DTAA advisory and FEMA matters. NumberIQ is written, built and maintained
+                  by him — every guide, calculator and glossary entry on this site is his own work,
+                  not syndicated or licensed from elsewhere.
+                </p>
+                <Link
+                  href="/contact"
+                  className="text-xs font-semibold text-[#4f7cff] hover:text-white transition-colors"
+                >
+                  Contact CA Sitaram Pareek &rarr;
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Editorial standards */}
+        <section className="mb-16">
+          <h2 className="font-display text-2xl md:text-3xl font-black text-white mb-3">
+            How we write and review
+          </h2>
+          <p className="text-sm text-[#aab2c5] leading-relaxed mb-8 max-w-3xl">
+            Tax writing is only worth reading if you can trace it back to the law. These are the
+            rules every page on NumberIQ is held to.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              {
+                title: "Sourced from the bare law",
+                body: "Guides and calculators are written against the bare Act and the current CBDT / CBIC notifications and circulars, cross-checked on the official portals — incometax.gov.in, gst.gov.in and cbic.gov.in. Where a position is stated, the section, rule or notification behind it is named on the page.",
+              },
+              {
+                title: "Written by a practising CA, not spun",
+                body: "Every article and tool is drafted and reviewed by CA Sitaram Pareek. Nothing on the site is scraped, syndicated, spun from another publisher, or published without a professional reading it first.",
+              },
+              {
+                title: "Dated to a position of law",
+                body: "Rates and thresholds are tied to a stated financial year, and pages affected by the renumbering under the Income-tax Act 2025 carry an on-page note mapping the 1961 Act section to its 2025 counterpart. Where the law has moved, the page says so rather than quietly going stale.",
+              },
+              {
+                title: "Corrections are welcome",
+                body: "If a rate, threshold or section reference on this site is wrong or out of date, write in and it gets fixed. Corrections to published guidance are made on the page itself, not buried.",
+              },
+            ].map((s) => (
+              <div
+                key={s.title}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
+              >
+                <h3 className="text-sm font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-xs text-[#737c92] leading-relaxed">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* How NumberIQ is funded — stated plainly, since the site carries ads */}
+        <section className="mb-16">
+          <h2 className="font-display text-2xl md:text-3xl font-black text-white mb-3">
+            How NumberIQ is funded
+          </h2>
+          <p className="text-sm text-[#aab2c5] leading-relaxed max-w-3xl">
+            The calculators and guides are free to use with no sign-up. The site is supported by
+            third-party advertising and by paid subscriptions to the professional modules.
+            Advertising is served by third parties and never influences what is written or which
+            position of law is stated — see the{" "}
+            <Link href="/disclaimer" className="text-[#4f7cff] hover:text-white transition-colors">
+              disclaimer
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/privacy-policy"
+              className="text-[#4f7cff] hover:text-white transition-colors"
+            >
+              privacy policy
+            </Link>{" "}
+            for how ads and cookies are handled.
+          </p>
+        </section>
 
         {/* CTA */}
         <div className="relative overflow-hidden rounded-3xl border border-[#4f7cff]/20 bg-gradient-to-br from-[#0a0f1e] to-[#050810] p-10 text-center mb-12">

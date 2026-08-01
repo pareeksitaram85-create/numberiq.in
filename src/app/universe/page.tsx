@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Tax Intelligence Universe — Interactive Knowledge Map | NumberIQ",
   description:
     "Explore the NumberIQ Tax Intelligence Universe — an interactive 3D visual map of Indian tax concepts, GST, Income Tax, TDS, Transfer Pricing, and compliance knowledge.",
+  // The page body is an iframed WebGL canvas — ~26 words reach a crawler, so as
+  // a search result it is an empty page. Kept live for visitors, kept out of the
+  // index (and out of sitemap.ts) until it has crawlable prose of its own.
+  robots: { index: false, follow: true },
   alternates: {
     canonical: "https://numberiq.in/universe",
   },

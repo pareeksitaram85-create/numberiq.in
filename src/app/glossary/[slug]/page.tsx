@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { getTermBySlug } from "@/lib/content";
+import { getTermBySlug, isGlossaryTermIndexable } from "@/lib/content";
 import Link from "next/link";
-import { ChevronRight, Shield, BookOpen } from "lucide-react";
+import { ChevronRight, Shield } from "lucide-react";
 import { jsonLdString } from "@/lib/json-ld";
 
 interface PageProps {
@@ -31,6 +31,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${cleanTitle} — Meaning for CAs & Tax Practitioners | NumberIQ`,
     description: description,
+    // Short entries stay readable but out of the index — see
+    // GLOSSARY_MIN_INDEXABLE_WORDS. follow:true so the outbound links still pass.
+    robots: isGlossaryTermIndexable(term)
+      ? undefined
+      : { index: false, follow: true },
     alternates: {
       canonical: `https://numberiq.in/glossary/${slug}`,
     },

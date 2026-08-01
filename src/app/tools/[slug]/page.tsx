@@ -222,6 +222,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: meta.title,
     description: meta.description,
+    // A tool with no entry in tool-content.tsx renders as a bare calculator with
+    // no statutory prose, worked example or FAQ — the thin "card + launch button"
+    // shell that layer exists to prevent. Usable, but not something to put in
+    // front of a search crawler. Indexes itself once an entry is added.
+    robots: toolContent[slug] ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `https://numberiq.in/tools/${slug}`,
     },
