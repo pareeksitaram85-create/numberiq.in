@@ -8,18 +8,13 @@ import {
   Activity, 
   Table, 
   BarChart3, 
-  Megaphone, 
-  Globe2, 
   Lock, 
   ChevronRight, 
   FileSpreadsheet, 
   FileCode2, 
-  Clock,
   Database,
   Cpu,
-  ScanFace,
-  UserCheck,
-  Inbox
+  Clock
 } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -59,22 +54,6 @@ const MODULES: BoardroomModule[] = [
     submodules: [],
   },
   {
-    id: "marketing-tracker",
-    name: "Marketing Tracker",
-    tagline: "Campaign & Spend Analytics",
-    description:
-      "Track campaign performance, marketing spend effectiveness, channel ROI and lead attribution across business units.",
-    href: null,
-    icon: <Megaphone size={20} />,
-    accent: "#FFB547",
-    features: [
-      { icon: <Activity size={13} />, label: "Campaign ROI" },
-      { icon: <BarChart3 size={13} />, label: "Channel Analytics" },
-      { icon: <Table size={13} />, label: "Spend Ledger" },
-    ],
-    submodules: [],
-  },
-  {
     id: "invoice-to-tally",
     name: "Invoice → Tally Converter",
     tagline: "Automated Voucher Entry",
@@ -107,22 +86,6 @@ const MODULES: BoardroomModule[] = [
     submodules: [],
   },
   {
-    id: "international-business",
-    name: "International Business",
-    tagline: "Cross-Border Operations MIS",
-    description:
-      "Consolidated view of international entities — revenue, compliance calendar, transfer pricing data and country-wise P&L.",
-    href: "/api/module/international-business",
-    icon: <Globe2 size={20} />,
-    accent: "#00D68F",
-    features: [
-      { icon: <Globe2 size={13} />, label: "Entity Consolidation" },
-      { icon: <Table size={13} />, label: "Country P&L" },
-      { icon: <Activity size={13} />, label: "Compliance Calendar" },
-    ],
-    submodules: [],
-  },
-  {
     id: "tax-compliance",
     name: "Tax Notice & Litigation Tracker",
     tagline: "Issue to Final Disposal",
@@ -151,38 +114,6 @@ const MODULES: BoardroomModule[] = [
       { icon: <Shield size={13} />, label: "ABOP Dashboard" },
       { icon: <Table size={13} />, label: "Address Bifurcation" },
       { icon: <Activity size={13} />, label: "GSTN Cert Reader" },
-    ],
-    submodules: [],
-  },
-  {
-    id: "attendance-face",
-    name: "Face Attendance",
-    tagline: "Biometric Punch to Payroll",
-    description:
-      "Camera-based attendance with liveness-checked face recognition. First scan of the day is the Punch-In, the last is the Punch-Out; hours decide Present / Half Day / Absent, arrivals past the grace window are flagged late. Employee master with multi-image enrolment and batch onboarding, holiday and weekly-off master, and a 6-sheet Excel workbook for payroll.",
-    href: "/api/module/attendance-face",
-    icon: <ScanFace size={20} />,
-    accent: "#6366f1",
-    features: [
-      { icon: <UserCheck size={13} />, label: "Liveness-Checked Punch" },
-      { icon: <Clock size={13} />, label: "Hours, Late & Half Day" },
-      { icon: <FileSpreadsheet size={13} />, label: "6-Sheet Payroll Excel" },
-    ],
-    submodules: [],
-  },
-  {
-    id: "ca-inbox-autopilot",
-    name: "CA Inbox Autopilot",
-    tagline: "Email → Drive → Tally, every morning",
-    description:
-      "Reads the day's email attachments without opening the mail, sorts each one with AI into invoice, notice or other, files it into a dated Google Drive folder, turns invoices into a Tally-ready Excel register and drafts replies to notices. Runs on a schedule or on demand, with a live canvas showing each step as it happens.",
-    href: "/dashboard/ca-inbox-autopilot",
-    icon: <Inbox size={20} />,
-    accent: "#06b6d4",
-    features: [
-      { icon: <Cpu size={13} />, label: "AI Document Sorting" },
-      { icon: <FileSpreadsheet size={13} />, label: "Tally Excel + XML" },
-      { icon: <Activity size={13} />, label: "Live Run Canvas" },
     ],
     submodules: [],
   },
@@ -429,6 +360,7 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
