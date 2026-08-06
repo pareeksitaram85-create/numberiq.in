@@ -26,6 +26,7 @@ import { StatutoryTimeMachine } from "@/components/calculators/statutory-time-ma
 import { AppealDeadlineCalculator } from "@/components/calculators/appeal-deadline";
 import { ImmunityNavigator } from "@/components/calculators/immunity-navigator";
 import { RCMApplicabilityChecker } from "@/components/calculators/rcm-applicability";
+import { TdsRateFinder } from "@/components/calculators/tds-rate-finder";
 
 interface PageProps {
   params: Promise<{
@@ -109,6 +110,13 @@ export function getToolMeta(slug: string): ToolMeta {
         title: "RCM Applicability Checker (Section 9(3) & 9(4)) — GST Reverse Charge Diagnostic | NumberIQ",
         description: "Interactive Q&A diagnostic and master database for GST Reverse Charge Mechanism (RCM) on GTA, Legal, Renting, Director fee, and Security under Notification 13/2017-CT(R).",
         category: "GST Suite"
+      };
+    case "tds-rate-finder":
+    case "tds_rate_finder":
+      return {
+        title: "TDS Rate Finder FY 2026-27: Sections & Rates | NumberIQ",
+        description: "Find TDS rates, threshold limits, due dates, and return forms for 30+ sections under Income Tax Act for FY 2026-27.",
+        category: "Direct Tax Suite"
       };
     case "presumptive-tax-optimiser":
       return {
@@ -306,6 +314,10 @@ export default async function ToolPage({ params }: PageProps) {
     CalculatorComponent = RCMApplicabilityChecker;
     title = "RCM Applicability Checker (Section 9(3) & 9(4))";
     category = "GST Suite";
+  } else if (cleanSlug === "tds-rate-finder" || cleanSlug === "tds_rate_finder") {
+    CalculatorComponent = TdsRateFinder;
+    title = "TDS Rate Finder (FY 2026-27)";
+    category = "Direct Tax Suite";
   } else if (cleanSlug === "presumptive-tax-optimiser") {
     CalculatorComponent = PresumptiveOptimiser;
     title = "Presumptive Tax Optimiser (Section 44AD / 44ADA)";

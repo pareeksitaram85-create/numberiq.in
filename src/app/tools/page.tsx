@@ -197,6 +197,13 @@ const baseTools = [
     featured: false
   },
   {
+    slug: "tds-rate-finder",
+    name: "TDS Rate Finder & Section Diagnostic (FY 2026-27)",
+    desc: "Search TDS rates, thresholds, Sec 206AA floor rates, deposit due dates and return forms for 30+ sections.",
+    category: "tax",
+    featured: true
+  },
+  {
     slug: "tds-interest-calculator",
     name: "TDS Non-Deduction Interest Calculator",
     desc: "Calculate interest on non-deduction (1% p.m.) or non-payment (1.5% p.m.) of TDS.",
