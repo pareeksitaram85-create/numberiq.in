@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GST Reconciliation &amp; ITC Analytics | NumberIQ Boardroom</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Gate first: it hides the body until a Supabase session with the
+       gst-reco-analytics permission exists, then calls window.appInit.
+       It is the UX boundary only - Postgres RLS is the real one. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/gst-reco-gate.js"
+          data-module-slug="gst-reco-analytics"
+          data-module-name="GST Reconciliation &amp; ITC Analytics"></script>
+  <script src="/js/gst-reco-engine.js"></script>
+  <script src="/js/gst-reco-store.js"></script>
+
+  <style>
+    :root {
+      --bg: #07090E;
+      --card: #0F172A;
+      --card-hover: #1E293B;
+      --border: #1E293B;
+      --green: #10B981;
+      --red: #EF4444;
+      --amber: #F59E0B;
+      --blue: #3B82F6;
+      --purple: #A855F7;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --dim: #64748B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; font-weight: 700; }
+
+    /* ------------------------------------------------------------ header */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 12px;
+    }
+    .brand-title {
+      font-size: 1.1rem; font-weight: 800; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .brand-pill {
+      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800;
+    }
+    .prov-badge {
+      font-size: 0.75rem; background: rgba(59,130,246,0.15); color: #60A5FA;
+      border: 1px solid rgba(59,130,246,0.3); padding: 4px 10px;
+      border-radius: 6px; font-weight: 600;
+    }
+    .controls-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .fy-select, .filter-input {
+      background: #0B0F19; color: #fff; border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 8px; font-weight: 600;
+      font-size: 0.85rem; outline: none; font-family: inherit;
+    }
+    .fy-select { font-weight: 700; cursor: pointer; }
+    .fy-select:focus, .filter-input:focus { border-color: var(--blue); }
+
+    /* --------------------------------------------------------------- nav */
+    nav.mod-nav {
+      display: flex; gap: 4px; padding: 0 16px; background: #0B0F19;
+      border-bottom: 1px solid var(--border); overflow-x: auto;
+      position: sticky; top: 61px; z-index: 90;
+    }
+    .nav-btn {
+      background: none; border: none; color: var(--muted); padding: 12px 14px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+      border-bottom: 2px solid transparent; font-family: inherit; transition: .15s;
+    }
+    .nav-btn:hover { color: #fff; }
+    .nav-btn.active { color: #fff; border-bottom-color: #6366F1; }
+
+    /* ------------------------------------------------------------ layout */
+    .container { padding: 22px 24px 60px; max-width: 1560px; width: 100%; margin: 0 auto; }
+    .view-pane { display: none; }
+    .view-pane.active { display: block; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;
+    }
+    .card h3 { font-size: 1rem; margin-bottom: 4px; }
+    .card .sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 14px; }
+
+    .view-head { margin-bottom: 18px; }
+    .view-head h2 { font-size: 1.3rem; }
+    .view-head p { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+
+    /* --------------------------------------------------------- hero cards */
+    .hero-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px; margin-bottom: 18px;
+    }
+    .hero {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    }
+    .hero.ok::before   { background: var(--green); }
+    .hero.risk::before { background: var(--red); }
+    .hero.rev::before  { background: var(--amber); }
+    .hero .lab {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--muted); font-weight: 700;
+    }
+    .hero .val { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; margin-top: 6px; }
+    .hero .note { font-size: 0.76rem; color: var(--dim); margin-top: 6px; line-height: 1.45; }
+
+    /* --------------------------------------------------------- stat tiles */
+    .tile-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px; margin-bottom: 16px;
+    }
+    .tile {
+      background: #0B0F19; border: 1px solid var(--border);
+      border-radius: 11px; padding: 13px 15px;
+    }
+    .tile .lab { font-size: 0.7rem; color: var(--muted); font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em; }
+    .tile .val { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; margin-top: 5px; }
+    .tile .note { font-size: 0.72rem; color: var(--dim); margin-top: 3px; }
+    .tile.clickable { cursor: pointer; transition: .15s; }
+    .tile.clickable:hover { border-color: #6366F1; background: var(--card-hover); }
+
+    /* -------------------------------------------------------------- table */
+    .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 11px; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    table.data-table th {
+      background: #0B0F19; text-align: left; padding: 9px 12px; font-weight: 700;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+      white-space: nowrap; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: .04em; position: sticky; top: 0; z-index: 2;
+    }
+    table.data-table td {
+      padding: 8px 12px; border-bottom: 1px solid rgba(30,41,59,0.6);
+      white-space: nowrap; vertical-align: top;
+    }
+    table.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+    table.data-table td.num, table.data-table th.num {
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+    table.data-table td.wrap { white-space: normal; min-width: 220px; }
+    tr.section-row td { background: rgba(99,102,241,0.07); font-weight: 700; }
+    tr.indent td:nth-child(2) { padding-left: 30px; color: var(--muted); }
+    tr.check-row td { background: rgba(255,255,255,0.03); font-style: italic; color: var(--muted); }
+
+    .neg { color: var(--red); }
+    .pos { color: var(--green); }
+
+    /* ------------------------------------------------------------ badges */
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 700; white-space: nowrap;
+    }
+    .badge-green { background: rgba(16,185,129,0.15); color: #34D399; }
+    .badge-red   { background: rgba(239,68,68,0.15);  color: #F87171; }
+    .badge-amber { background: rgba(245,158,11,0.15); color: #FBBF24; }
+    .badge-blue  { background: rgba(59,130,246,0.15); color: #60A5FA; }
+    .badge-purple{ background: rgba(168,85,247,0.15); color: #C084FC; }
+    .badge-gray  { background: rgba(148,163,184,0.13); color: var(--muted); }
+
+    /* ----------------------------------------------------------- buttons */
+    .btn {
+      background: #1E293B; color: #fff; border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 9px; font-weight: 600; font-size: 0.82rem;
+      cursor: pointer; font-family: inherit; transition: .15s;
+    }
+    .btn:hover:not(:disabled) { background: #2D3B52; border-color: #475569; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-primary { background: linear-gradient(135deg, #6366F1, #8B5CF6); border: none; }
+    .btn-primary:hover:not(:disabled) { filter: brightness(1.12); }
+    .btn-sm { padding: 4px 10px; font-size: 0.74rem; }
+
+    /* ------------------------------------------------------------ filters */
+    .filter-bar {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 11px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 5px; }
+    .filter-group label {
+      font-size: 0.68rem; color: var(--muted); font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    /* ------------------------------------------------------ identity panel */
+    .identity {
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;
+      border: 1px solid var(--border); background: var(--card);
+    }
+    .identity.broken { border-color: var(--red); background: rgba(239,68,68,0.08); }
+    .identity .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .identity .head strong { font-family: 'Outfit', sans-serif; font-size: 0.95rem; }
+    .identity .checks {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px; margin-top: 12px;
+    }
+    .identity .chk {
+      background: #0B0F19; border: 1px solid var(--border);
+      border-radius: 9px; padding: 10px 12px; font-size: 0.78rem;
+    }
+    .identity .chk .name { font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+    .identity .chk .fig { color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 4px; }
+    .do-not-file {
+      margin-top: 12px; padding: 10px 12px; border-radius: 9px;
+      background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+      color: #FCA5A5; font-size: 0.82rem; font-weight: 600;
+    }
+
+    /* --------------------------------------------------------------- misc */
+    .empty-state { text-align: center; padding: 44px 20px; color: var(--dim); }
+    .empty-state h3 { color: var(--muted); margin-bottom: 6px; }
+    .notice {
+      background: rgba(245,158,11,0.09); border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 10px; padding: 11px 14px; font-size: 0.8rem;
+      color: #FCD34D; margin-bottom: 16px; line-height: 1.5;
+    }
+    .notice.info {
+      background: rgba(59,130,246,0.09); border-color: rgba(59,130,246,0.3); color: #93C5FD;
+    }
+    .err-banner {
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4);
+      color: #FCA5A5; border-radius: 10px; padding: 11px 14px;
+      font-size: 0.82rem; margin-bottom: 16px; display: none;
+    }
+    .chart-box { position: relative; height: 300px; }
+    .pager {
+      display: flex; align-items: center; gap: 12px; justify-content: flex-end;
+      margin-top: 12px; font-size: 0.8rem; color: var(--muted);
+    }
+    .prog-wrap { background: #0B0F19; border-radius: 6px; height: 7px; overflow: hidden; margin-top: 9px; }
+    .prog-fill { height: 100%; width: 0; background: linear-gradient(90deg, #6366F1, #8B5CF6); transition: width .2s; }
+    .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+    .mapping-detail { font-size: 0.74rem; color: var(--muted); white-space: pre-wrap; }
+    details.mapping summary { cursor: pointer; color: #93C5FD; font-size: 0.76rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">
+    <span class="brand-pill">NumberIQ</span>
+    GST Reconciliation &amp; ITC Analytics
+  </div>
+  <div class="controls-group">
+    <span class="prov-badge" id="prov-badge">Basis: loading…</span>
+    <select class="fy-select" id="fy-select" onchange="switchFY(this.value)">
+      <option value="FY2025-26">FY 2025-26</option>
+      <option value="FY2026-27">FY 2026-27</option>
+    </select>
+    <button class="btn" onclick="exportWorkbook()" id="btn-export">Export Excel</button>
+  </div>
+</header>
+
+<nav class="mod-nav">
+  <button class="nav-btn active" data-view="overview"   onclick="switchView('overview')">1 · Executive Overview</button>
+  <button class="nav-btn" data-view="vendor"     onclick="switchView('vendor')">2 · Vendor Chase</button>
+  <button class="nav-btn" data-view="period"     onclick="switchView('period')">3 · Period Trend</button>
+  <button class="nav-btn" data-view="entries"    onclick="switchView('entries')">4 · Entry Grid</button>
+  <button class="nav-btn" data-view="portal"     onclick="switchView('portal')">5 · In 2A Only / RCM</button>
+  <button class="nav-btn" data-view="isd"        onclick="switchView('isd')">6 · ISD Control</button>
+  <button class="nav-btn" data-view="sec164"     onclick="switchView('sec164')">7 · Cross-Year &amp; s.16(4)</button>
+  <button class="nav-btn" data-view="exceptions" onclick="switchView('exceptions')">8 · Statutory Exceptions</button>
+  <button class="nav-btn" data-view="state"      onclick="switchView('state')">9 · State &amp; GSTIN</button>
+  <button class="nav-btn" data-view="uploads"    onclick="switchView('uploads')">10 · Uploads &amp; Run Delta</button>
+</nav>
+
+<div class="container">
+  <div class="err-banner" id="err-banner"></div>
+
+  <!-- ==================================================== 1 · OVERVIEW -->
+  <div id="v-overview" class="view-pane active">
+    <div class="view-head">
+      <h2 id="ov-title">Executive Overview</h2>
+      <p id="ov-as-on">Loading…</p>
+    </div>
+
+    <div class="identity" id="identity-panel"></div>
+
+    <div class="hero-grid">
+      <div class="hero ok">
+        <div class="lab">ITC available &amp; supported</div>
+        <div class="val" id="hl-available">₹0.00</div>
+        <div class="note">Matched to a 2A invoice. Credit is supported under s.16(2)(aa).</div>
+      </div>
+      <div class="hero risk">
+        <div class="lab">ITC at risk</div>
+        <div class="val" id="hl-risk">₹0.00</div>
+        <div class="note">In books, not in 2A anywhere. The supplier has not reported it — chase them.</div>
+      </div>
+      <div class="hero rev">
+        <div class="lab">ITC to reverse</div>
+        <div class="val" id="hl-reverse">₹0.00</div>
+        <div class="note">Supplier credit notes you have not booked. A <strong>liability</strong>, not an opportunity.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Reconciliation summary</h3>
+      <p class="sub">The same thirteen lines as the <code>Overview</code> sheet of
+        <code>GST_2A_Reco_FY*.xlsx</code>. Line 6 is never actionable as a whole — read 6a / 6b / 6c.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Item</th><th class="num">Count</th><th class="num">Tax</th><th>What it means</th>
+            </tr>
+          </thead>
+          <tbody id="overview-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Every bucket by tax head</h3>
+      <p class="sub">A single blended figure is never enough to post a 3B position from — IGST and
+        CGST/SGST reverse differently. <strong>Special</strong> is ISD + 17(5) reversal + Other GST:
+        not ordinary credit, but inside Tally's Total Tax, so the split only ties when it is shown.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Bucket</th><th class="num">IGST</th><th class="num">CGST</th>
+              <th class="num">SGST</th><th class="num">Cess</th>
+              <th class="num">Special</th><th class="num">Total tax</th>
+            </tr>
+          </thead>
+          <tbody id="byhead-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== 2 · VENDOR -->
+  <div id="v-vendor" class="view-pane">
+    <div class="view-head">
+      <h2>Vendor chase &amp; action tracker</h2>
+      <p>Ranked by ITC at risk. Chase state is stored per supplier PAN and <strong>survives a re-run</strong>,
+         so a monthly re-upload does not wipe the follow-up history.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Search supplier</label>
+        <input type="text" id="vf-search" class="filter-input" placeholder="Name, PAN…" oninput="renderVendor()">
+      </div>
+      <div class="filter-group">
+        <label>Chase status</label>
+        <select id="vf-status" class="filter-input" onchange="renderVendor()">
+          <option value="">All</option>
+          <option value="none">Not started</option>
+          <option value="open">Open</option>
+          <option value="chasing">Chasing</option>
+          <option value="escalated">Escalated</option>
+          <option value="resolved">Resolved</option>
+          <option value="written_off">Written off</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Show</label>
+        <select id="vf-kind" class="filter-input" onchange="renderVendor()">
+          <option value="risk">At-risk vendors only</option>
+          <option value="cn">Unbooked credit notes only</option>
+          <option value="unclaimed">Unclaimed 2A credit only</option>
+          <option value="all">All vendors</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Supplier</th><th>PAN</th>
+              <th class="num">At risk</th><th class="num">At-risk tax</th>
+              <th class="num">Unbooked CN</th><th class="num">Unclaimed 2A</th>
+              <th class="num">Matched tax</th>
+              <th>Status</th><th>Owner</th><th>Due</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="vendor-body"></tbody>
+        </table>
+      </div>
+      <div class="pager"><span id="vendor-count"></span></div>
+    </div>
+  </div>
+
+  <!-- ====================================================== 3 · PERIOD -->
+  <div id="v-period" class="view-pane">
+    <div class="view-head">
+      <h2>Period trend</h2>
+      <p>By month of the supplier's invoice date, which is what 2A reports — not our booking date.</p>
+    </div>
+    <div class="card">
+      <div class="chart-box"><canvas id="period-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Month</th><th class="num">Rows</th><th class="num">Matched</th>
+              <th class="num">Timing</th><th class="num">At risk</th>
+              <th class="num">Out of scope</th><th class="num">Total tax</th>
+            </tr>
+          </thead>
+          <tbody id="period-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== 4 · ENTRIES -->
+  <div id="v-entries" class="view-pane">
+    <div class="view-head">
+      <h2>Entry grid</h2>
+      <p>Every book row for the current run. Filtering happens in Postgres, so the browser only
+         pulls the page on screen.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Search inv / voucher / narration</label>
+        <input type="text" id="ef-search" class="filter-input" placeholder="INV-1234…">
+      </div>
+      <div class="filter-group">
+        <label>Supplier (GSTIN / PAN / name)</label>
+        <input type="text" id="ef-supplier" class="filter-input" placeholder="27AAA…">
+      </div>
+      <div class="filter-group">
+        <label>Bucket</label>
+        <select id="ef-bucket" class="filter-input">
+          <option value="">All</option>
+          <option value="MATCHED">Matched</option>
+          <option value="TIMING">Timing (other year)</option>
+          <option value="AT_RISK">At risk</option>
+          <option value="OUT_OF_SCOPE">Out of scope</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Match tier</label>
+        <select id="ef-tier" class="filter-input">
+          <option value="">All</option>
+          <option value="1">1 · GSTIN + invoice no</option>
+          <option value="2P">2P · PAN + invoice no</option>
+          <option value="3">3 · invoice no, no GSTIN in books</option>
+          <option value="4">4 · fuzzy name</option>
+          <option value="5">5 · GSTIN + date + value</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>s.16(4) state</label>
+        <select id="ef-s164" class="filter-input">
+          <option value="">All</option>
+          <option value="Open">Open</option>
+          <option value="Closing">Closing (&lt;60 days)</option>
+          <option value="Expired">Expired</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Inter-branch</label>
+        <select id="ef-ib" class="filter-input">
+          <option value="">All</option>
+          <option value="true">Inter-branch only</option>
+          <option value="false">Exclude inter-branch</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>State</label>
+        <select id="ef-state" class="filter-input"><option value="">All</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Statutory flag</label>
+        <select id="ef-exception" class="filter-input">
+          <option value="">All rows</option>
+          <option value="rate">Rate withdrawn 22-Sep-2025</option>
+          <option value="blocked_17_5">s.17(5) flagged</option>
+          <option value="blocked_17_5_unreversed">s.17(5), no reversal booked</option>
+          <option value="duplicate">Duplicate booking</option>
+          <option value="cancelled">Cancelled supplier GSTIN</option>
+          <option value="s164_expired">s.16(4) expired</option>
+          <option value="s164_closing">s.16(4) closing</option>
+          <option value="payment_180">Unpaid beyond 180 days</option>
+        </select>
+      </div>
+      <div class="filter-group" style="justify-content: flex-end;">
+        <button class="btn btn-primary" onclick="loadEntries(0)">Apply</button>
+      </div>
+      <div class="filter-group" style="justify-content: flex-end;">
+        <button class="btn" onclick="resetEntryFilters()">Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Bucket</th><th>Tier</th><th>Date</th><th>Voucher</th>
+              <th>Supplier</th><th>GSTIN</th><th>Supplier inv</th>
+              <th class="num">Taxable</th><th class="num">IGST</th><th class="num">CGST</th>
+              <th class="num">SGST</th><th class="num">Cess</th><th class="num">Total tax</th>
+              <th class="num">Tax diff</th><th>2A inv</th><th>2A period</th>
+              <th>s.16(4)</th><th>17(5)</th><th>Payment</th><th>Flags</th><th>State</th>
+            </tr>
+          </thead>
+          <tbody id="entries-body"></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="entries-count"></span>
+        <button class="btn btn-sm" id="entries-prev" onclick="pageEntries(-1)">Prev</button>
+        <button class="btn btn-sm" id="entries-next" onclick="pageEntries(1)">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== 5 · PORTAL -->
+  <div id="v-portal" class="view-pane">
+    <div class="view-head">
+      <h2>In 2A only, RCM and ISD</h2>
+      <p>The portal-side leftovers. <strong>Never act on the total</strong> — the three splits below are
+         three completely different instructions.</p>
+    </div>
+
+    <div class="tile-grid" id="portal-tiles"></div>
+
+    <div class="notice">
+      <strong>6a credit notes are a liability, not an opportunity.</strong> You claimed ITC the supplier
+      later credited — book the reversal. <strong>6b must not be re-booked</strong>: the supplier is already
+      in your books under a different reference or period. Only <strong>6c</strong> is genuinely unclaimed credit.
+      <strong>RCM is not a gap at all</strong> — the supplier reports it and we pay the tax.
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Split</label>
+        <select id="pf-why" class="filter-input" onchange="loadPortalOnly(0)">
+          <option value="">All of line 6</option>
+          <option value="Supplier CRED">6a · credit notes not booked</option>
+          <option value="Party IS">6b · party known, reference differs</option>
+          <option value="Party NOT">6c · party not in books at all</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Bucket</label>
+        <select id="pf-bucket" class="filter-input" onchange="loadPortalOnly(0)">
+          <option value="PORTAL_ONLY">In 2A only</option>
+          <option value="RCM">Reverse charge</option>
+          <option value="ISD">ISD</option>
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Supplier</label>
+        <input type="text" id="pf-supplier" class="filter-input" placeholder="Name / GSTIN / PAN" onchange="loadPortalOnly(0)">
+      </div>
+      <div class="filter-group">
+        <label>Invoice no</label>
+        <input type="text" id="pf-search" class="filter-input" placeholder="INV-1234…" onchange="loadPortalOnly(0)">
+      </div>
+      <div class="filter-group">
+        <label>Cancelled GSTIN</label>
+        <select id="pf-cancelled" class="filter-input" onchange="loadPortalOnly(0)">
+          <option value="">All</option>
+          <option value="true">Cancelled only</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Bucket</th><th>Why unmatched</th><th>Our GSTIN</th>
+              <th>Supplier</th><th>GSTIN</th><th>Doc type</th>
+              <th>Invoice</th><th>Date</th><th>Period</th>
+              <th class="num">Taxable</th><th class="num">IGST</th><th class="num">CGST</th>
+              <th class="num">SGST</th><th class="num">Cess</th><th class="num">Total tax</th>
+              <th>Rates</th><th>3B</th><th>RCM</th><th>Cancelled</th>
+            </tr>
+          </thead>
+          <tbody id="portal-body"></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="portal-count"></span>
+        <button class="btn btn-sm" onclick="pagePortal(-1)">Prev</button>
+        <button class="btn btn-sm" onclick="pagePortal(1)">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= 6 · ISD -->
+  <div id="v-isd" class="view-pane">
+    <div class="view-head">
+      <h2>ISD control</h2>
+      <p>Reconciled on totals, never invoice-by-invoice.</p>
+    </div>
+
+    <div class="notice info">
+      The 2A ISD sheet holds invoices <strong>received by</strong> the ISD registration. The book entries are
+      monthly distribution journals carrying no invoice number and no supplier. They are opposite ends of the
+      same mechanism and share no key — <strong>an invoice-level match is not possible</strong>, and a
+      difference here is not by itself an error.
+    </div>
+
+    <div class="tile-grid" id="isd-tiles"></div>
+
+    <div class="card">
+      <h3>Out of scope for 2A</h3>
+      <p class="sub">Decided by the GST bucket, never by voucher type: no ordinary GST but a special head
+        present. Getting this wrong by excluding "GST Journal" vouchers once produced 23,018 false
+        "In 2A only" rows worth ₹12.78 crore — 95.2% of those journals genuinely are in 2A.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead><tr><th>Item</th><th class="num">Rows</th><th class="num">Tax</th><th>Meaning</th></tr></thead>
+          <tbody id="isd-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================== 7 · SEC164 -->
+  <div id="v-sec164" class="view-pane">
+    <div class="view-head">
+      <h2>Cross-year timing and s.16(4)</h2>
+      <p>ITC for a financial year cannot be taken after 30 November following the end of that year, or the
+         furnishing of the annual return, whichever is earlier.</p>
+    </div>
+
+    <div class="notice">
+      The <strong>30 November</strong> limb is what is computed here, because it is the one that binds in
+      practice. <strong>If the annual return for the year has already been filed, the real deadline is earlier
+      than the date shown</strong> and these rows must be read against that date instead.
+    </div>
+
+    <div class="tile-grid" id="s164-tiles"></div>
+
+    <div class="card">
+      <h3>By cutoff state</h3>
+      <p class="sub">Only At-risk and Timing rows are counted — matched credit already taken is not
+        waiting on a deadline.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr><th>State</th><th>Due date</th><th class="num">Rows</th><th class="num">Tax</th><th></th></tr>
+          </thead>
+          <tbody id="s164-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================== 8 · EXCEPTIONS -->
+  <div id="v-exceptions" class="view-pane">
+    <div class="view-head">
+      <h2>Statutory exceptions</h2>
+      <p>Each of these <strong>flags for review and cites the provision</strong>. None of them silently
+         excludes or reverses anything. Click a tile to open the rows behind it.</p>
+    </div>
+
+    <div class="tile-grid" id="exc-tiles"></div>
+
+    <div class="card">
+      <h3>s.17(5) blocked credits by clause</h3>
+      <p class="sub">Screened on narration and voucher type only — never on supplier name. Deliberately
+        conservative: it is a prompt to look, not a determination.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr><th>Clause</th><th>Description</th><th class="num">Rows</th><th class="num">Tax</th></tr>
+          </thead>
+          <tbody id="exc-175-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong>Why "gift" alone is never enough.</strong> s.17(5)(h) blocks goods <em>disposed of</em> by way of
+      gift or free sample. A bare keyword once flagged 240 rows worth ₹42.7 lakh that read
+      "purchase of gift items" and "gift box 860 Pcs" — gift boxes bought <em>to sell</em>. The gift limb is
+      therefore scoped to disposal wording and skipped on Purchase vouchers, and clause (b)(i) is skipped on
+      Purchase vouchers too because the proviso to (b) restores the credit where inward food makes an outward
+      taxable supply of the same category.
+    </div>
+
+    <div class="card">
+      <h3>Second proviso to s.16(2) — the 180-day rule</h3>
+      <p class="sub">Where the supplier is not paid within 180 days of the invoice date, the credit is added
+        back to output tax with interest, and may be re-availed on payment.</p>
+      <div id="pay180-state"></div>
+    </div>
+  </div>
+
+  <!-- ======================================================= 9 · STATE -->
+  <div id="v-state" class="view-pane">
+    <div class="view-head">
+      <h2>State &amp; GSTIN</h2>
+      <p>One row per registration. Equivalent to the <code>Summary</code> sheet plus the per-state sheets.</p>
+    </div>
+    <div class="card">
+      <div class="chart-box"><canvas id="state-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>State</th><th>Our GSTIN</th><th class="num">Rows</th>
+              <th class="num">Book tax</th><th class="num">Matched</th>
+              <th class="num">Timing</th><th class="num">At risk</th>
+              <th class="num">At risk %</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="state-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== 10 · UPLOADS -->
+  <div id="v-uploads" class="view-pane">
+    <div class="view-head">
+      <h2>Uploads, column mapping and run delta</h2>
+      <p>Rows accumulate month on month; the engine re-runs over the whole pool, so an invoice the supplier
+         files late matches on a later run instead of sitting at risk forever.</p>
+    </div>
+
+    <div class="card">
+      <h3>Upload a workbook</h3>
+      <p class="sub">Upload every file for the period first, then run the engine <em>once</em> so it sees the
+        complete pool. Re-uploading a month replaces rather than duplicates.</p>
+      <div class="upload-grid">
+        <div class="filter-group">
+          <label>Kind</label>
+          <select id="up-kind" class="filter-input">
+            <option value="books">Books (step-1 Tally export)</option>
+            <option value="portal">Portal (GSTR-2A / 2B)</option>
+            <option value="payments">Payments (creditors ledger)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Source</label>
+          <select id="up-source" class="filter-input">
+            <option value="2A">GSTR-2A</option>
+            <option value="2B">GSTR-2B</option>
+            <option value="IMS">IMS</option>
+            <option value="TALLY">Tally</option>
+            <option value="LEDGER">Ledger</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Financial year</label>
+          <select id="up-fy" class="filter-input">
+            <option value="FY2025-26">FY 2025-26</option>
+            <option value="FY2026-27">FY 2026-27</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>File</label>
+          <input type="file" id="up-file" class="filter-input" accept=".xlsx,.xls">
+        </div>
+        <div class="filter-group" style="justify-content:flex-end;">
+          <button class="btn btn-primary" id="btn-upload" onclick="doUpload()">Upload &amp; parse</button>
+        </div>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" id="up-prog"></div></div>
+      <div id="up-status" style="font-size:0.8rem;color:var(--muted);margin-top:8px;"></div>
+    </div>
+
+    <div class="card">
+      <h3>Run the reconciliation engine</h3>
+      <p class="sub">Re-runs over everything stored for the selected year. A run that fails its identity
+        checks is <strong>refused, not saved</strong> — a broken identity means the ITC numbers are wrong.</p>
+      <div class="upload-grid">
+        <div class="filter-group">
+          <label>Our PAN (enables inter-branch tagging)</label>
+          <input type="text" id="run-pan" class="filter-input" value="AAECJ6910B">
+        </div>
+        <div class="filter-group">
+          <label>As on (for s.16(4) and 180 days)</label>
+          <input type="date" id="run-ason" class="filter-input">
+        </div>
+        <div class="filter-group">
+          <label>Tolerance (₹ per invoice)</label>
+          <input type="number" id="run-tol" class="filter-input" value="1" step="0.5" min="0">
+        </div>
+        <div class="filter-group" style="justify-content:flex-end;">
+          <button class="btn btn-primary" id="btn-run" onclick="doRun()">Run engine now</button>
+        </div>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" id="run-prog"></div></div>
+      <div id="run-status" style="font-size:0.8rem;color:var(--muted);margin-top:8px;"></div>
+    </div>
+
+    <div class="card">
+      <h3>Upload history &amp; column mapping</h3>
+      <p class="sub">Expand a row to see which source column was read as which field. Read this the first
+        time a 2A arrives in an unfamiliar layout — before trusting anything built from it.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr><th>Uploaded</th><th>Kind</th><th>Source</th><th>FY</th><th>File</th>
+                <th class="num">Rows</th><th>By</th><th>Column mapping</th></tr>
+          </thead>
+          <tbody id="uploads-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Runs</h3>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr><th>Run at</th><th>FY</th><th>By</th><th>As on</th><th>Engine</th>
+                <th class="num">Books</th><th class="num">Portal</th><th>Identity</th><th>Current</th></tr>
+          </thead>
+          <tbody id="runs-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Run delta — what moved since the previous run</h3>
+      <p class="sub">Without this a monthly upload just regenerates a full report and nobody can see
+        movement, which is the entire reason for accumulating.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead><tr><th>Movement</th><th class="num">Rows</th><th class="num">Tax</th><th>Meaning</th></tr></thead>
+          <tbody id="delta-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Superseded by amendment</h3>
+      <p class="sub">B2BA / CDNA rows replace the B2B / CDN they amend. The originals are kept for audit and
+        never offered to the matcher — without that the same invoice matches twice and the totals cannot tie.</p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr><th>Supplier</th><th>GSTIN</th><th>Section</th><th>Doc type</th>
+                <th>Original inv</th><th>Date</th><th>Period</th>
+                <th class="num">Taxable</th><th class="num">Total tax</th></tr>
+          </thead>
+          <tbody id="superseded-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+ * GST Reconciliation & ITC Analytics - module front-end
+ * ============================================================================
+ * Reads only through GSTRecoStore, which reads only through Supabase under RLS.
+ * NOTHING here is a security boundary: /api/module/<slug> serves this shell
+ * unauthenticated, as every module route in this repo does. A visitor without a
+ * session and a matching user_access row gets an empty module because
+ * gst_has_access() gates every gst_* table - not because of anything below.
+ *
+ * Two rules, both learned the hard way:
+ *   - Never compare a PIN or password here. Anything compared in the browser is
+ *     readable in the browser.
+ *   - Never read module data from a static file under public/. That path is
+ *     world-readable and bypasses RLS entirely.
+ * ========================================================================= */
+(function () {
+  "use strict";
+
+  var S = window.GSTRecoStore;
+
+  var state = {
+    email: "", isAdmin: false,
+    fy: "FY2025-26",
+    run: null, runId: null, prevRunId: null,
+    buckets: [], portalBuckets: [], vendors: [], periods: [], states: [],
+    s164: [], isd: null,
+    entries: { rows: [], total: 0, page: 0, size: 50 },
+    portal: { rows: [], total: 0, page: 0, size: 50 },
+    charts: {},
+  };
+  var PAGE = 50;
+
+  /* ------------------------------------------------------------ formatting */
+
+  function inr(v) {
+    var n = Number(v || 0);
+    return (n < 0 ? "-" : "") + "₹" + Math.abs(n).toLocaleString("en-IN", {
+      minimumFractionDigits: 2, maximumFractionDigits: 2,
+    });
+  }
+  function num(v) { return Number(v || 0).toLocaleString("en-IN"); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function money(v) {
+    var n = Number(v || 0);
+    return '<td class="num ' + (n < 0 ? "neg" : "") + '">' + inr(n) + "</td>";
+  }
+  function dt(d) { return d ? esc(d) : "—"; }
+  function pct(part, whole) {
+    var w = Math.abs(Number(whole || 0));
+    if (w < 0.01) return "—";
+    return (Math.abs(Number(part || 0)) / w * 100).toFixed(1) + "%";
+  }
+  function el(id) { return document.getElementById(id); }
+
+  function showError(msg) {
+    var b = el("err-banner");
+    b.textContent = msg;
+    b.style.display = "block";
+  }
+  function clearError() { el("err-banner").style.display = "none"; }
+
+  function emptyRow(cols, msg) {
+    return '<tr><td colspan="' + cols + '" class="empty-state">' + esc(msg) + "</td></tr>";
+  }
+
+  /* ------------------------------------------------------------------ boot */
+
+  window.appInit = function (email, isAdmin) {
+    state.email = email || "";
+    state.isAdmin = !!isAdmin;
+    var today = new Date().toISOString().slice(0, 10);
+    el("run-ason").value = today;
+    loadAll();
+  };
+  if (window.__pendingAuth) {
+    window.appInit(window.__pendingAuth.email, window.__pendingAuth.isAdmin);
+  }
+
+  window.switchFY = function (fy) {
+    state.fy = fy;
+    el("up-fy").value = fy;
+    loadAll();
+  };
+
+  window.switchView = function (view) {
+    document.querySelectorAll(".nav-btn").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-view") === view);
+    });
+    document.querySelectorAll(".view-pane").forEach(function (p) {
+      p.classList.remove("active");
+    });
+    var pane = el("v-" + view);
+    if (pane) pane.classList.add("active");
+
+    if (view === "entries" && !state.entries.rows.length) loadEntries(0);
+    if (view === "portal" && !state.portal.rows.length) loadPortalOnly(0);
+    if (view === "period") drawPeriodChart();
+    if (view === "state") drawStateChart();
+    if (view === "uploads") loadUploadsView();
+  };
+
+  /* ------------------------------------------------------------- load all */
+
+  async function loadAll() {
+    clearError();
+    try {
+      var run = await S.currentRun(state.fy);
+      state.run = run || null;
+      state.runId = run ? run.id : null;
+
+      if (!run) { renderNoRun(); return; }
+
+      var res = await Promise.all([
+        S.bucketSummary(state.runId),
+        S.portalBucketSummary(state.runId),
+        S.vendorSummary(state.runId),
+        S.periodSummary(state.runId),
+        S.stateSummary(state.runId),
+        S.sec164Summary(state.runId),
+        S.isdControl(state.runId),
+      ]);
+      state.buckets = res[0] || [];
+      state.portalBuckets = res[1] || [];
+      state.vendors = res[2] || [];
+      state.periods = res[3] || [];
+      state.states = res[4] || [];
+      state.s164 = res[5] || [];
+      state.isd = (res[6] || [])[0] || null;
+
+      state.entries = { rows: [], total: 0, page: 0, size: PAGE };
+      state.portal = { rows: [], total: 0, page: 0, size: PAGE };
+
+      renderHeader();
+      renderIdentity();
+      renderOverview();
+      renderByHead();
+      renderVendor();
+      renderPeriod();
+      renderPortalTiles();
+      renderIsd();
+      renderS164();
+      renderExceptions();
+      renderState();
+      populateStateFilter();
+    } catch (e) {
+      console.error(e);
+      showError(e.message || String(e));
+    }
+  }
+
+  function renderNoRun() {
+    el("ov-title").textContent = "Executive Overview — " + state.fy;
+    el("ov-as-on").textContent = "No reconciliation has been run for " + state.fy + " yet.";
+    el("prov-badge").textContent = "Basis: no run";
+    el("identity-panel").innerHTML =
+      '<div class="head"><span class="badge badge-gray">No run</span>' +
+      "<strong>Nothing to check yet</strong></div>" +
+      '<div class="chk" style="margin-top:10px">Upload the step-1 books workbook and the GSTR-2A ' +
+      "for " + esc(state.fy) + " on tab 10, then run the engine.</div>";
+    ["hl-available", "hl-risk", "hl-reverse"].forEach(function (id) { el(id).textContent = inr(0); });
+    ["overview-body", "byhead-body", "vendor-body", "period-body", "state-body",
+      "s164-body", "isd-body", "exc-175-body"].forEach(function (id) {
+      var n = el(id); if (n) n.innerHTML = emptyRow(12, "No data for " + state.fy);
+    });
+    ["portal-tiles", "isd-tiles", "s164-tiles", "exc-tiles"].forEach(function (id) {
+      el(id).innerHTML = "";
+    });
+    loadUploadsView();
+  }
+
+  function renderHeader() {
+    var r = state.run;
+    var src = (r.params && r.params.source) || "";
+    var basis = src === "2B"
+      ? "Basis: GSTR-2B (statutory, s.16(2)(aa))"
+      : "Basis: GSTR-2A (dynamic)";
+    el("prov-badge").textContent = basis;
+    el("ov-title").textContent = "Executive Overview — " + state.fy;
+    el("ov-as-on").textContent =
+      "Run " + new Date(r.run_at).toLocaleString("en-IN") +
+      " by " + (r.run_by || "unknown") +
+      " · as on " + r.as_on +
+      " · engine " + r.engine_version +
+      (r.params ? " · " + num(r.params.booksRows) + " book rows vs " +
+        num(r.params.portalRows) + " portal invoices" : "");
+
+    var h = r.headline || {};
+    el("hl-available").textContent = inr(h.itcAvailable);
+    el("hl-risk").textContent = inr(h.itcAtRisk);
+    el("hl-reverse").textContent = inr(h.itcToReverse);
+  }
+
+  /* ------------------------------------------------- 1 · identity + overview */
+
+  /**
+   * Three checks, each with its figures. The old module collapsed these into a
+   * single pass/fail badge, which hides WHICH invariant broke - and they fail
+   * for completely different reasons. `Dr = Cr` alone proves nothing: the old
+   * ALLLEDGERENTRIES double-count bug balanced perfectly and still doubled
+   * every Purchase ledger.
+   */
+  function renderIdentity() {
+    var id = (state.run && state.run.identity) || {};
+    var ok = !!id.ok;
+    var panel = el("identity-panel");
+    panel.className = "identity" + (ok ? "" : " broken");
+
+    function chk(name, pass, detail) {
+      return '<div class="chk"><div class="name"><span>' + esc(name) + "</span>" +
+        '<span class="badge ' + (pass ? "badge-green" : "badge-red") + '">' +
+        (pass ? "OK" : "BROKEN") + "</span></div>" +
+        '<div class="fig">' + detail + "</div></div>";
+    }
+
+    var html =
+      '<div class="head">' +
+      '<span class="badge ' + (ok ? "badge-green" : "badge-red") + '">' +
+      (ok ? "Identity verified" : "Identity BROKEN") + "</span>" +
+      "<strong>Self-checks</strong>" +
+      '<span style="color:var(--muted);font-size:0.8rem">' +
+      num(id.matchedCount) + " matched · " + num(id.portalUsed) + " portal rows consumed</span>" +
+      "</div>" +
+      '<div class="checks">' +
+      chk("In-scope identity", !!id.inScopeOk,
+        "matched + timing + at-risk = " + inr(id.inScopeActual) +
+        "<br>book entries in scope = " + inr(id.inScopeExpected)) +
+      chk("Books identity", !!id.booksOk,
+        "in-scope + out-of-scope = " + inr(id.booksActual) +
+        "<br>books total = " + inr(id.booksExpected)) +
+      chk("No double-match", !!id.noDoubleMatchOk,
+        "portal rows consumed = " + num(id.portalUsed) +
+        "<br>matched rows = " + num(id.matchedCount)) +
+      "</div>";
+
+    if (!ok) {
+      html += '<div class="do-not-file">Do not file from this run. A broken identity means the ITC ' +
+        "numbers are wrong, not merely presented oddly. Re-run the engine and, if it persists, " +
+        "reconcile the step-1 books workbook against Tally before going further.</div>";
+    }
+    panel.innerHTML = html;
+  }
+
+  function renderOverview() {
+    var ov = (state.run && state.run.overview) || [];
+    if (!ov.length) { el("overview-body").innerHTML = emptyRow(5, "No overview stored"); return; }
+
+    el("overview-body").innerHTML = ov.map(function (r) {
+      var indent = /^6[abc]$/.test(String(r.id)) || String(r.id) === "3";
+      var isCheck = String(r.id) === "8";
+      var cls = isCheck ? "check-row" : (indent ? "indent" : "");
+      if (String(r.id) === "5" || String(r.id) === "9" || String(r.id) === "1") cls += " section-row";
+      return "<tr class=\"" + cls + "\">" +
+        "<td>" + esc(r.id) + "</td>" +
+        "<td>" + esc(r.item) + "</td>" +
+        '<td class="num">' + (r.count == null ? "—" : num(r.count)) + "</td>" +
+        money(r.tax) +
+        '<td class="wrap" style="color:var(--muted)">' + esc(r.meaning) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderByHead() {
+    var bh = (state.run && state.run.by_head) || {};
+    var LABELS = {
+      inScope: "Book entries in scope", matched: "Matched", timing: "Timing (other year)",
+      atRisk: "At risk", portalOnly: "In 2A only", creditNotes: "  of which credit notes",
+      partyKnown: "  party known", partyUnknown: "  party unknown",
+      rcm: "Reverse charge", outOfScope: "Out of scope (ISD / 17(5))",
+    };
+    var keys = Object.keys(LABELS).filter(function (k) { return bh[k]; });
+    if (!keys.length) { el("byhead-body").innerHTML = emptyRow(7, "No tax-head split stored"); return; }
+
+    el("byhead-body").innerHTML = keys.map(function (k) {
+      var h = bh[k] || {};
+      var special = Number(h.total || 0) - Number(h.ordinary || 0);
+      return "<tr>" +
+        "<td>" + esc(LABELS[k]) + "</td>" +
+        money(h.igst) + money(h.cgst) + money(h.sgst) + money(h.cess) +
+        money(special) +
+        '<td class="num"><strong>' + inr(h.total) + "</strong></td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  /* ---------------------------------------------------------- 2 · vendors */
+
+  window.renderVendor = function () {
+    var q = (el("vf-search").value || "").toLowerCase().trim();
+    var status = el("vf-status").value;
+    var kind = el("vf-kind").value;
+
+    var rows = (state.vendors || []).filter(function (v) {
+      if (q && (v.supplier_name || "").toLowerCase().indexOf(q) === -1 &&
+          (v.supplier_pan || "").toLowerCase().indexOf(q) === -1) return false;
+      if (status === "none" && v.action_status) return false;
+      if (status && status !== "none" && v.action_status !== status) return false;
+      if (kind === "risk" && Number(v.at_risk_tax || 0) === 0) return false;
+      if (kind === "cn" && Number(v.unbooked_cn_tax || 0) === 0) return false;
+      if (kind === "unclaimed" && Number(v.unclaimed_tax || 0) === 0) return false;
+      return true;
+    }).sort(function (a, b) {
+      return Math.abs(Number(b.at_risk_tax || 0)) - Math.abs(Number(a.at_risk_tax || 0));
+    }).slice(0, 500);
+
+    el("vendor-count").textContent = rows.length + " of " + (state.vendors || []).length + " vendors";
+    if (!rows.length) { el("vendor-body").innerHTML = emptyRow(11, "No vendors match"); return; }
+
+    el("vendor-body").innerHTML = rows.map(function (v) {
+      var st = v.action_status || "";
+      var badge = st
+        ? '<span class="badge badge-' + (st === "resolved" ? "green" :
+            st === "escalated" ? "red" : st === "written_off" ? "gray" : "amber") +
+          '">' + esc(st) + "</span>"
+        : '<span class="badge badge-gray">not started</span>';
+      return "<tr>" +
+        '<td class="wrap">' + esc(v.supplier_name || "(unnamed)") + "</td>" +
+        "<td>" + esc(v.supplier_pan || "—") + "</td>" +
+        '<td class="num">' + num(v.at_risk_rows) + "</td>" +
+        money(v.at_risk_tax) +
+        money(v.unbooked_cn_tax) +
+        money(v.unclaimed_tax) +
+        money(v.matched_tax) +
+        "<td>" + badge + "</td>" +
+        "<td>" + esc(v.action_owner || "—") + "</td>" +
+        "<td>" + dt(v.action_due_date) + "</td>" +
+        '<td><button class="btn btn-sm" onclick="editVendor(\'' +
+          esc(v.supplier_pan || "") + "')\">Chase</button></td>" +
+        "</tr>";
+    }).join("");
+  };
+
+  window.editVendor = async function (pan) {
+    var v = (state.vendors || []).find(function (x) { return x.supplier_pan === pan; }) || {};
+    var status = window.prompt(
+      "Chase status for " + (v.supplier_name || pan) +
+      "\n(open / chasing / escalated / resolved / written_off)",
+      v.action_status || "open");
+    if (!status) return;
+    status = status.trim().toLowerCase();
+    var allowed = ["open", "chasing", "escalated", "resolved", "written_off"];
+    if (allowed.indexOf(status) === -1) {
+      showError("Status must be one of: " + allowed.join(", "));
+      return;
+    }
+    var owner = window.prompt("Owner (who is chasing)?", v.action_owner || state.email) || "";
+    var due = window.prompt("Due date (YYYY-MM-DD, blank for none)", v.action_due_date || "") || "";
+    var remarks = window.prompt("Remarks", v.action_remarks || "") || "";
+    try {
+      await S.saveVendorAction({
+        supplierPan: pan, supplierGstin: "", status: status, owner: owner,
+        dueDate: due || null, remarks: remarks, updatedBy: state.email,
+      });
+      state.vendors = await S.vendorSummary(state.runId);
+      renderVendor();
+      clearError();
+    } catch (e) { showError(e.message); }
+  };
+
+  /* ----------------------------------------------------------- 3 · period */
+
+  function monthsOf(list) {
+    var set = {};
+    list.forEach(function (p) { if (p.period) set[p.period] = true; });
+    return Object.keys(set).sort();
+  }
+  function bucketAt(list, period, bucket, field) {
+    var hit = list.find(function (p) { return p.period === period && p.bucket === bucket; });
+    return hit ? Number(hit[field] || 0) : 0;
+  }
+
+  function renderPeriod() {
+    var months = monthsOf(state.periods);
+    if (!months.length) { el("period-body").innerHTML = emptyRow(7, "No period data"); return; }
+
+    el("period-body").innerHTML = months.map(function (m) {
+      var matched = bucketAt(state.periods, m, "MATCHED", "total_tax");
+      var timing = bucketAt(state.periods, m, "TIMING", "total_tax");
+      var risk = bucketAt(state.periods, m, "AT_RISK", "total_tax");
+      var oos = bucketAt(state.periods, m, "OUT_OF_SCOPE", "total_tax");
+      var rows = ["MATCHED", "TIMING", "AT_RISK", "OUT_OF_SCOPE"].reduce(function (a, b) {
+        return a + bucketAt(state.periods, m, b, "rows");
+      }, 0);
+      return "<tr><td>" + esc(m) + "</td>" +
+        '<td class="num">' + num(rows) + "</td>" +
+        money(matched) + money(timing) + money(risk) + money(oos) +
+        money(matched + timing + risk + oos) + "</tr>";
+    }).join("");
+  }
+
+  function drawPeriodChart() {
+    var months = monthsOf(state.periods);
+    if (!months.length || !window.Chart) return;
+    if (state.charts.period) state.charts.period.destroy();
+    var ctx = el("period-chart").getContext("2d");
+    state.charts.period = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: months,
+        datasets: [
+          { label: "Matched", data: months.map(function (m) { return bucketAt(state.periods, m, "MATCHED", "total_tax"); }), backgroundColor: "#10B981" },
+          { label: "Timing", data: months.map(function (m) { return bucketAt(state.periods, m, "TIMING", "total_tax"); }), backgroundColor: "#3B82F6" },
+          { label: "At risk", data: months.map(function (m) { return bucketAt(state.periods, m, "AT_RISK", "total_tax"); }), backgroundColor: "#EF4444" },
+          { label: "Out of scope", data: months.map(function (m) { return bucketAt(state.periods, m, "OUT_OF_SCOPE", "total_tax"); }), backgroundColor: "#64748B" },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { stacked: true, ticks: { color: "#94A3B8" }, grid: { color: "#1E293B" } },
+          y: { stacked: true, ticks: { color: "#94A3B8" }, grid: { color: "#1E293B" } },
+        },
+        plugins: { legend: { labels: { color: "#94A3B8" } } },
+      },
+    });
+  }
+
+  /* ---------------------------------------------------------- 4 · entries */
+
+  function populateStateFilter() {
+    var sel = el("ef-state");
+    var seen = {};
+    var opts = ['<option value="">All</option>'];
+    (state.states || []).forEach(function (s) {
+      if (s.state && !seen[s.state]) { seen[s.state] = true; opts.push('<option>' + esc(s.state) + "</option>"); }
+    });
+    sel.innerHTML = opts.join("");
+  }
+
+  function entryFilters() {
+    var ib = el("ef-ib").value;
+    return {
+      search: el("ef-search").value || null,
+      supplier: el("ef-supplier").value || null,
+      buckets: el("ef-bucket").value ? [el("ef-bucket").value] : null,
+      tiers: el("ef-tier").value ? [el("ef-tier").value] : null,
+      sec164State: el("ef-s164").value || null,
+      interBranch: ib === "" ? undefined : ib === "true",
+      states: el("ef-state").value ? [el("ef-state").value] : null,
+      exception: el("ef-exception").value || null,
+    };
+  }
+
+  window.resetEntryFilters = function () {
+    ["ef-search", "ef-supplier"].forEach(function (id) { el(id).value = ""; });
+    ["ef-bucket", "ef-tier", "ef-s164", "ef-ib", "ef-state", "ef-exception"].forEach(function (id) {
+      el(id).value = "";
+    });
+    loadEntries(0);
+  };
+
+  window.loadEntries = async function (page) {
+    if (!state.runId) { el("entries-body").innerHTML = emptyRow(21, "No run for " + state.fy); return; }
+    try {
+      var res = await S.entries(state.runId, entryFilters(), page, PAGE);
+      state.entries = { rows: res.rows, total: res.total, page: page, size: PAGE };
+      renderEntries();
+      clearError();
+    } catch (e) { showError(e.message); }
+  };
+
+  window.pageEntries = function (dir) {
+    var next = state.entries.page + dir;
+    if (next < 0) return;
+    if (next * PAGE >= state.entries.total) return;
+    loadEntries(next);
+  };
+
+  function tierBadge(t) {
+    if (!t) return '<span class="badge badge-gray">—</span>';
+    var cls = (t === "1" || t === "2P") ? "badge-green"
+      : (t === "3") ? "badge-blue" : "badge-amber";
+    return '<span class="badge ' + cls + '">' + esc(t) + "</span>";
+  }
+  function bucketBadge(b) {
+    var cls = b === "MATCHED" ? "badge-green" : b === "TIMING" ? "badge-blue"
+      : b === "AT_RISK" ? "badge-red" : "badge-gray";
+    return '<span class="badge ' + cls + '">' + esc(b) + "</span>";
+  }
+
+  function renderEntries() {
+    var e = state.entries;
+    el("entries-count").textContent = e.total
+      ? (e.page * PAGE + 1) + "–" + Math.min((e.page + 1) * PAGE, e.total) + " of " + num(e.total)
+      : "0 rows";
+    if (!e.rows.length) { el("entries-body").innerHTML = emptyRow(21, "No rows match these filters"); return; }
+
+    el("entries-body").innerHTML = e.rows.map(function (r) {
+      var flags = [];
+      if (r.rate_flag) flags.push('<span class="badge badge-amber" title="' + esc(r.rate_flag) + '">rate</span>');
+      if (r.duplicate_count) flags.push('<span class="badge badge-purple">dup ×' + r.duplicate_count + "</span>");
+      if (r.cancelled_flag) flags.push('<span class="badge badge-red" title="' + esc(r.cancelled_flag) + '">cancelled</span>');
+      if (r.is_interbranch) flags.push('<span class="badge badge-blue">inter-branch</span>');
+
+      var s164 = r.sec16_4_state
+        ? '<span class="badge badge-' + (r.sec16_4_state === "Expired" ? "red"
+            : r.sec16_4_state === "Closing" ? "amber" : "green") + '">' +
+          esc(r.sec16_4_state) + "</span><br><span style=\"font-size:0.68rem;color:var(--dim)\">" +
+          dt(r.sec16_4_due) + "</span>"
+        : "—";
+
+      var blocked = r.blocked_17_5_clause
+        ? '<span class="badge badge-' +
+          (r.blocked_17_5_status === "Reversal already booked" ? "green" : "red") + '" title="' +
+          esc(r.blocked_17_5_status || "") + '">' + esc(r.blocked_17_5_clause) + "</span>"
+        : "—";
+
+      var pay = r.payment_status === "Awaiting payment data"
+        ? '<span class="badge badge-gray">awaiting data</span>'
+        : esc(r.payment_status || "—");
+
+      return "<tr>" +
+        "<td>" + bucketBadge(r.bucket) + "</td>" +
+        "<td>" + tierBadge(r.match_tier) + "</td>" +
+        "<td>" + dt(r.supplier_inv_date || r.voucher_date) + "</td>" +
+        "<td>" + esc(r.voucher_no || "") + "<br><span style=\"font-size:0.68rem;color:var(--dim)\">" +
+          esc(r.voucher_type || "") + "</span></td>" +
+        '<td class="wrap">' + esc(r.supplier_name || "") + "</td>" +
+        "<td>" + esc(r.supplier_gstin || "—") + "</td>" +
+        "<td>" + esc(r.supplier_inv_no || "—") + "</td>" +
+        money(r.taxable_value) + money(r.igst) + money(r.cgst) + money(r.sgst) + money(r.cess) +
+        '<td class="num"><strong>' + inr(r.total_tax) + "</strong></td>" +
+        money(r.tax_diff) +
+        "<td>" + esc(r.portal_invoice_no || "—") + "</td>" +
+        "<td>" + esc(r.portal_return_period || "—") + "</td>" +
+        "<td>" + s164 + "</td>" +
+        "<td>" + blocked + "</td>" +
+        "<td>" + pay + "</td>" +
+        "<td>" + (flags.join(" ") || "—") + "</td>" +
+        "<td>" + esc(r.state || "—") + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  /* ----------------------------------------------------------- 5 · portal */
+
+  function portalAgg(bucket, whyPrefix) {
+    var rows = 0, tax = 0;
+    (state.portalBuckets || []).forEach(function (b) {
+      if (b.bucket !== bucket) return;
+      if (whyPrefix && String(b.why_unmatched || "").indexOf(whyPrefix) !== 0) return;
+      rows += Number(b.rows || 0);
+      tax += Number(b.total_tax || 0);
+    });
+    return { rows: rows, tax: tax };
+  }
+
+  function renderPortalTiles() {
+    var line6 = portalAgg("PORTAL_ONLY");
+    var cn = portalAgg("PORTAL_ONLY", "Supplier CRED");
+    var known = portalAgg("PORTAL_ONLY", "Party IS");
+    var unknown = portalAgg("PORTAL_ONLY", "Party NOT");
+    var rcm = portalAgg("RCM");
+    var isd = portalAgg("ISD");
+
+    function tile(lab, agg, note, cls) {
+      return '<div class="tile ' + (cls || "") + '"><div class="lab">' + esc(lab) + "</div>" +
+        '<div class="val">' + inr(agg.tax) + "</div>" +
+        '<div class="note">' + num(agg.rows) + " invoices · " + esc(note) + "</div></div>";
+    }
+    el("portal-tiles").innerHTML =
+      tile("6 · In 2A, not in books", line6, "the total — not actionable") +
+      tile("6a · Credit notes not booked", cn, "LIABILITY — book the reversal") +
+      tile("6b · Party known, ref differs", known, "verify, do not re-book") +
+      tile("6c · Party not in books", unknown, "the only unclaimed credit") +
+      tile("6.5 · Reverse charge", rcm, "we pay the tax — no action") +
+      tile("ISD", isd, "see tab 6, totals only");
+  }
+
+  window.loadPortalOnly = async function (page) {
+    if (!state.runId) { el("portal-body").innerHTML = emptyRow(19, "No run for " + state.fy); return; }
+    var bucket = el("pf-bucket").value;
+    try {
+      var res = await S.portalOnly(state.runId, {
+        buckets: bucket ? [bucket] : null,
+        why: el("pf-why").value || null,
+        supplier: el("pf-supplier").value || null,
+        search: el("pf-search").value || null,
+        cancelled: el("pf-cancelled").value === "true" ? true : undefined,
+      }, page, PAGE);
+      state.portal = { rows: res.rows, total: res.total, page: page, size: PAGE };
+      renderPortal();
+      clearError();
+    } catch (e) { showError(e.message); }
+  };
+
+  window.pagePortal = function (dir) {
+    var next = state.portal.page + dir;
+    if (next < 0 || next * PAGE >= state.portal.total) return;
+    loadPortalOnly(next);
+  };
+
+  function renderPortal() {
+    var p = state.portal;
+    el("portal-count").textContent = p.total
+      ? (p.page * PAGE + 1) + "–" + Math.min((p.page + 1) * PAGE, p.total) + " of " + num(p.total)
+      : "0 rows";
+    if (!p.rows.length) { el("portal-body").innerHTML = emptyRow(19, "No rows match"); return; }
+
+    el("portal-body").innerHTML = p.rows.map(function (r) {
+      var why = r.why_unmatched || "";
+      var cls = why.indexOf("Supplier CRED") === 0 ? "badge-red"
+        : why.indexOf("Party IS") === 0 ? "badge-amber"
+        : why.indexOf("Party NOT") === 0 ? "badge-green" : "badge-gray";
+      return "<tr>" +
+        "<td>" + bucketBadge(r.bucket) + "</td>" +
+        '<td class="wrap"><span class="badge ' + cls + '">' + esc(why || "—") + "</span></td>" +
+        "<td>" + esc(r.our_gstin || "—") + "</td>" +
+        '<td class="wrap">' + esc(r.supplier_name || "") + "</td>" +
+        "<td>" + esc(r.supplier_gstin || "—") + "</td>" +
+        "<td>" + esc(r.doc_type || "—") + "</td>" +
+        "<td>" + esc(r.invoice_no || "—") + "</td>" +
+        "<td>" + dt(r.invoice_date) + "</td>" +
+        "<td>" + esc(r.return_period || "—") + "</td>" +
+        money(r.taxable_value) + money(r.igst) + money(r.cgst) + money(r.sgst) + money(r.cess) +
+        '<td class="num"><strong>' + inr(r.total_tax) + "</strong></td>" +
+        "<td>" + esc(r.tax_rates || "—") + "</td>" +
+        "<td>" + esc(r.gstr3b_effective || r.gstr3b_status || "—") +
+          (r.gstr3b_basis ? '<br><span style="font-size:0.66rem;color:var(--dim)">' +
+            esc(r.gstr3b_basis) + "</span>" : "") + "</td>" +
+        "<td>" + esc(r.rcm || "—") + "</td>" +
+        "<td>" + (r.gstin_cancelled
+          ? '<span class="badge badge-red">' + esc(r.gstin_cancelled) + "</span>" : "—") + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  /* -------------------------------------------------------------- 6 · ISD */
+
+  function renderIsd() {
+    var i = state.isd;
+    if (!i) { el("isd-tiles").innerHTML = ""; el("isd-body").innerHTML = emptyRow(4, "No ISD data"); return; }
+
+    el("isd-tiles").innerHTML =
+      '<div class="tile"><div class="lab">2A ISD — received</div><div class="val">' +
+        inr(i.isd_2a_tax) + '</div><div class="note">' + num(i.isd_2a_rows) + " invoices</div></div>" +
+      '<div class="tile"><div class="lab">Books — distributed</div><div class="val">' +
+        inr(i.isd_book_tax) + '</div><div class="note">' + num(i.isd_book_rows) + " journals</div></div>" +
+      '<div class="tile"><div class="lab">Difference</div><div class="val">' +
+        inr(i.isd_difference) + '</div><div class="note">received less distributed</div></div>' +
+      '<div class="tile"><div class="lab">Out of scope total</div><div class="val">' +
+        inr(i.out_of_scope_tax) + '</div><div class="note">' + num(i.out_of_scope_rows) +
+        " rows — never in 2A</div></div>";
+
+    el("isd-body").innerHTML = [
+      ["2A ISD sheet — invoices received by the ISD registration", i.isd_2a_rows, i.isd_2a_tax,
+        "the inward side of the mechanism"],
+      ["Books — ISD credit distributed to state units", i.isd_book_rows, i.isd_book_tax,
+        "monthly distribution journals, no invoice number, no supplier"],
+      ["Difference (received less distributed)", "", i.isd_difference,
+        "not an error on its own — the two sides are timed differently"],
+      ["s.17(5) reversals booked", i.rev175_rows, i.rev175_tax,
+        "credit reversed in books; never appears in 2A"],
+      ["Other GST", "", i.other_gst_tax, "residual special heads carried in Tally's Total Tax"],
+    ].map(function (row) {
+      return "<tr><td class=\"wrap\">" + esc(row[0]) + "</td>" +
+        '<td class="num">' + (row[1] === "" ? "—" : num(row[1])) + "</td>" +
+        money(row[2]) +
+        '<td class="wrap" style="color:var(--muted)">' + esc(row[3]) + "</td></tr>";
+    }).join("");
+  }
+
+  /* ----------------------------------------------------------- 7 · s.16(4) */
+
+  function renderS164() {
+    var st = (state.run && state.run.statutory && state.run.statutory.sec16_4) || {};
+    el("s164-tiles").innerHTML =
+      '<div class="tile"><div class="lab">Open</div><div class="val">' + num(st.open) +
+        '</div><div class="note">window still open</div></div>' +
+      '<div class="tile"><div class="lab">Closing (&lt;60 days)</div><div class="val">' +
+        inr(st.closingTax) + '</div><div class="note">' + num(st.closing) + " rows — act now</div></div>" +
+      '<div class="tile"><div class="lab">Expired</div><div class="val">' + inr(st.expiredTax) +
+        '</div><div class="note">' + num(st.expired) + " rows — credit has lapsed</div></div>";
+
+    var rows = (state.s164 || []).slice().sort(function (a, b) {
+      return Math.abs(Number(b.total_tax || 0)) - Math.abs(Number(a.total_tax || 0));
+    });
+    if (!rows.length) { el("s164-body").innerHTML = emptyRow(5, "No at-risk or timing rows"); return; }
+
+    el("s164-body").innerHTML = rows.map(function (r) {
+      var s = r.sec16_4_state || "—";
+      var cls = s === "Expired" ? "badge-red" : s === "Closing" ? "badge-amber" : "badge-green";
+      return "<tr><td><span class=\"badge " + cls + '">' + esc(s) + "</span></td>" +
+        "<td>" + dt(r.sec16_4_due) + "</td>" +
+        '<td class="num">' + num(r.rows) + "</td>" +
+        money(r.total_tax) +
+        '<td><button class="btn btn-sm" onclick="drillS164(\'' + esc(s) + "')\">Open rows</button></td></tr>";
+    }).join("");
+  }
+
+  window.drillS164 = function (s) {
+    resetEntryFiltersQuiet();
+    el("ef-s164").value = s;
+    switchView("entries");
+    loadEntries(0);
+  };
+
+  function resetEntryFiltersQuiet() {
+    ["ef-search", "ef-supplier"].forEach(function (id) { el(id).value = ""; });
+    ["ef-bucket", "ef-tier", "ef-s164", "ef-ib", "ef-state", "ef-exception"].forEach(function (id) {
+      el(id).value = "";
+    });
+  }
+
+  /* ------------------------------------------------------- 8 · exceptions */
+
+  function renderExceptions() {
+    var s = (state.run && state.run.statutory) || {};
+    var b = s.blocked17_5 || {};
+    var d = s.duplicates || {};
+    var c = s.cancelledGstin || {};
+    var rf = s.rateFlags || {};
+    var p = s.payment180 || {};
+
+    function tile(lab, val, note, exc) {
+      return '<div class="tile clickable" onclick="drillException(\'' + exc + '\')">' +
+        '<div class="lab">' + esc(lab) + "</div>" +
+        '<div class="val">' + val + "</div>" +
+        '<div class="note">' + note + "</div></div>";
+    }
+
+    el("exc-tiles").innerHTML =
+      tile("s.17(5) flagged", inr(b.tax),
+        num(b.count) + " rows · " + num(b.noReversal) + " with no reversal booked", "blocked_17_5") +
+      tile("Rate withdrawn 22-Sep-2025", inr(rf.tax),
+        num(rf.count) + " rows — query the invoice", "rate") +
+      tile("Duplicate booking", inr(d.tax),
+        num(d.groups) + " groups · " + num(d.rows) + " rows", "duplicate") +
+      tile("Cancelled supplier GSTIN", inr(c.tax),
+        num(c.count) + " rows dated on/after cancellation", "cancelled") +
+      tile("180-day rule", p.available ? inr(p.breachedTax) : "—",
+        p.available ? num(p.breached) + " breaches" : "awaiting payment data", "payment_180");
+
+    var byClause = b.byClause || {};
+    var keys = Object.keys(byClause);
+    el("exc-175-body").innerHTML = keys.length
+      ? keys.sort(function (x, y) { return byClause[y].tax - byClause[x].tax; }).map(function (k) {
+          return "<tr><td>" + esc(k) + "</td>" +
+            '<td class="wrap">' + esc(byClause[k].label) + "</td>" +
+            '<td class="num">' + num(byClause[k].count) + "</td>" +
+            money(byClause[k].tax) + "</tr>";
+        }).join("")
+      : emptyRow(4, "No s.17(5) hits in this run");
+
+    /* The 180-day overlay must never report "0 breaches" while gst_payments is
+     * empty. A zero implies a check that did not happen, and an unpaid-looking
+     * invoice that was in fact settled is a damaging false positive. */
+    el("pay180-state").innerHTML = p.available
+      ? '<div class="tile"><div class="lab">Breached</div><div class="val">' + inr(p.breachedTax) +
+        '</div><div class="note">' + num(p.breached) + " invoices unpaid beyond 180 days · " +
+        num(p.unknown) + " with no payment record</div></div>"
+      : '<div class="notice" style="margin:0">Awaiting payment data. This overlay is built but inert: ' +
+        "it needs a creditors/payments export that the step-1 Tally workbook does not carry. " +
+        "It reports <strong>&ldquo;awaiting payment data&rdquo;</strong> rather than " +
+        "<strong>&ldquo;0 breaches&rdquo;</strong> on purpose — a zero would imply a check that " +
+        "did not happen. Upload a payments workbook on tab 10 to activate it.</div>";
+  }
+
+  window.drillException = function (exc) {
+    resetEntryFiltersQuiet();
+    el("ef-exception").value = exc;
+    switchView("entries");
+    loadEntries(0);
+  };
+
+  /* ------------------------------------------------------------ 9 · state */
+
+  function renderState() {
+    var rows = (state.states || []).slice().sort(function (a, b) {
+      return Number(b.book_tax || 0) - Number(a.book_tax || 0);
+    });
+    if (!rows.length) { el("state-body").innerHTML = emptyRow(9, "No state data"); return; }
+
+    el("state-body").innerHTML = rows.map(function (s) {
+      return "<tr><td>" + esc(s.state || "—") + "</td>" +
+        "<td>" + esc(s.our_gstin || "—") + "</td>" +
+        '<td class="num">' + num(s.rows) + "</td>" +
+        money(s.book_tax) + money(s.matched_tax) + money(s.timing_tax) + money(s.at_risk_tax) +
+        '<td class="num">' + pct(s.at_risk_tax, s.book_tax) + "</td>" +
+        '<td><button class="btn btn-sm" onclick="drillState(\'' + esc(s.state || "") +
+          "')\">Open rows</button></td></tr>";
+    }).join("");
+  }
+
+  window.drillState = function (st) {
+    resetEntryFiltersQuiet();
+    el("ef-state").value = st;
+    switchView("entries");
+    loadEntries(0);
+  };
+
+  function drawStateChart() {
+    var rows = (state.states || []).slice()
+      .sort(function (a, b) { return Number(b.at_risk_tax || 0) - Number(a.at_risk_tax || 0); })
+      .slice(0, 12);
+    if (!rows.length || !window.Chart) return;
+    if (state.charts.state) state.charts.state.destroy();
+    state.charts.state = new Chart(el("state-chart").getContext("2d"), {
+      type: "bar",
+      data: {
+        labels: rows.map(function (r) { return r.state || "—"; }),
+        datasets: [
+          { label: "Matched", data: rows.map(function (r) { return Number(r.matched_tax || 0); }), backgroundColor: "#10B981" },
+          { label: "At risk", data: rows.map(function (r) { return Number(r.at_risk_tax || 0); }), backgroundColor: "#EF4444" },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { ticks: { color: "#94A3B8" }, grid: { color: "#1E293B" } },
+          y: { ticks: { color: "#94A3B8" }, grid: { color: "#1E293B" } },
+        },
+        plugins: { legend: { labels: { color: "#94A3B8" } } },
+      },
+    });
+  }
+
+  /* --------------------------------------------------------- 10 · uploads */
+
+  async function loadUploadsView() {
+    try {
+      var ups = await S.listUploads();
+      el("uploads-body").innerHTML = ups.length ? ups.map(function (u) {
+        var map = u.column_mapping;
+        var detail = map
+          ? "<details class=\"mapping\"><summary>" +
+            (Array.isArray(map) ? map.length + " sheet(s)" : "view") +
+            '</summary><div class="mapping-detail">' +
+            esc(JSON.stringify(map, null, 2)) + "</div></details>"
+          : '<span style="color:var(--dim)">not recorded</span>';
+        return "<tr><td>" + new Date(u.uploaded_at).toLocaleString("en-IN") + "</td>" +
+          "<td>" + esc(u.kind) + "</td><td>" + esc(u.source) + "</td><td>" + esc(u.fy) + "</td>" +
+          '<td class="wrap">' + esc(u.filename) + "</td>" +
+          '<td class="num">' + num(u.row_count) + "</td>" +
+          "<td>" + esc(u.uploaded_by || "—") + "</td>" +
+          "<td>" + detail + "</td></tr>";
+      }).join("") : emptyRow(8, "Nothing uploaded yet");
+
+      var runs = await S.listRuns(state.fy);
+      state.prevRunId = null;
+      var currentIdx = runs.findIndex(function (r) { return r.is_current; });
+      if (currentIdx >= 0 && runs[currentIdx + 1]) state.prevRunId = runs[currentIdx + 1].id;
+
+      el("runs-body").innerHTML = runs.length ? runs.map(function (r) {
+        return "<tr><td>" + new Date(r.run_at).toLocaleString("en-IN") + "</td>" +
+          "<td>" + esc(r.fy) + "</td><td>" + esc(r.run_by || "—") + "</td>" +
+          "<td>" + esc(r.as_on) + "</td><td>" + esc(r.engine_version) + "</td>" +
+          '<td class="num">' + num(r.params && r.params.booksRows) + "</td>" +
+          '<td class="num">' + num(r.params && r.params.portalRows) + "</td>" +
+          "<td>" + (r.identity_ok
+            ? '<span class="badge badge-green">OK</span>'
+            : '<span class="badge badge-red">BROKEN</span>') + "</td>" +
+          "<td>" + (r.is_current ? '<span class="badge badge-blue">current</span>' : "") + "</td></tr>";
+      }).join("") : emptyRow(9, "No runs for " + state.fy);
+
+      await loadDelta();
+      await loadSuperseded();
+    } catch (e) { showError(e.message); }
+  }
+
+  var DELTA_MEANING = {
+    NEWLY_MATCHED: "the supplier has now filed — credit is supported",
+    NEWLY_UNMATCHED: "was matched, now is not — the 2A row disappeared or was amended",
+    STILL_AT_RISK: "at risk in both runs — escalate, this is not resolving on its own",
+    NEW_ROW: "a book row that did not exist in the previous run",
+    UNCHANGED: "same bucket as last run",
+  };
+
+  async function loadDelta() {
+    if (!state.runId || !state.prevRunId) {
+      el("delta-body").innerHTML = emptyRow(4,
+        "No previous run to compare against — the delta appears from the second run onward.");
+      return;
+    }
+    var rows = await S.runDelta(state.runId, state.prevRunId);
+    el("delta-body").innerHTML = (rows || []).length ? rows.map(function (d) {
+      var cls = d.movement === "NEWLY_MATCHED" ? "badge-green"
+        : d.movement === "NEWLY_UNMATCHED" ? "badge-red"
+        : d.movement === "STILL_AT_RISK" ? "badge-amber"
+        : d.movement === "NEW_ROW" ? "badge-blue" : "badge-gray";
+      return '<tr><td><span class="badge ' + cls + '">' + esc(d.movement) + "</span></td>" +
+        '<td class="num">' + num(d.rows) + "</td>" + money(d.total_tax) +
+        '<td class="wrap" style="color:var(--muted)">' +
+        esc(DELTA_MEANING[d.movement] || "") + "</td></tr>";
+    }).join("") : emptyRow(4, "No movement between the two runs");
+  }
+
+  async function loadSuperseded() {
+    try {
+      var res = await S.superseded(state.fy, 0, 200);
+      el("superseded-body").innerHTML = res.rows.length ? res.rows.map(function (r) {
+        return "<tr>" +
+          '<td class="wrap">' + esc(r.supplier_name || "") + "</td>" +
+          "<td>" + esc(r.supplier_gstin || "—") + "</td>" +
+          "<td>" + esc(r.section || "—") + "</td>" +
+          "<td>" + esc(r.doc_type || "—") + "</td>" +
+          "<td>" + esc(r.invoice_no || "—") + "</td>" +
+          "<td>" + dt(r.invoice_date) + "</td>" +
+          "<td>" + esc(r.return_period || "—") + "</td>" +
+          money(r.taxable_value) + money(r.total_tax) + "</tr>";
+      }).join("") : emptyRow(9, "No amended invoices in " + state.fy);
+    } catch (e) { showError(e.message); }
+  }
+
+  window.doUpload = async function () {
+    var f = el("up-file").files[0];
+    if (!f) { showError("Choose a file first"); return; }
+    var btn = el("btn-upload");
+    btn.disabled = true;
+    el("up-status").textContent = "starting…";
+    try {
+      var res = await S.ingestFile(f, {
+        kind: el("up-kind").value,
+        source: el("up-source").value,
+        fy: el("up-fy").value,
+        ownPan: el("run-pan").value.trim().toUpperCase(),
+        uploadedBy: state.email,
+        onProgress: function (stage, done, total) {
+          el("up-status").textContent = stage + " " + num(done) + "/" + num(total);
+          el("up-prog").style.width = total ? (done / total * 100) + "%" : "0";
+        },
+      });
+      el("up-prog").style.width = "100%";
+      el("up-status").textContent = res.skipped
+        ? res.reason
+        : num(res.rows) + " rows stored." +
+          (res.warnings && res.warnings.length ? "  ⚠ " + res.warnings.join("  ⚠ ") : "");
+      el("up-file").value = "";
+      await loadUploadsView();
+      clearError();
+    } catch (e) {
+      el("up-status").textContent = "";
+      showError(e.message);
+    } finally { btn.disabled = false; }
+  };
+
+  window.doRun = async function () {
+    var btn = el("btn-run");
+    btn.disabled = true;
+    el("run-status").textContent = "starting…";
+    try {
+      var res = await S.runReconciliation(state.fy, {
+        ownPan: el("run-pan").value.trim().toUpperCase(),
+        asOn: el("run-ason").value || null,
+        tolerance: parseFloat(el("run-tol").value) || undefined,
+        runBy: state.email,
+        usePayments: true,
+        onProgress: function (stage, done, total) {
+          el("run-status").textContent = stage + (total > 1 ? " " + num(done) + "/" + num(total) : "…");
+          el("run-prog").style.width = total ? (done / total * 100) + "%" : "0";
+        },
+      });
+      el("run-prog").style.width = "100%";
+      el("run-status").textContent = "Run complete. " +
+        num(res.result.matched.length) + " matched, " +
+        num(res.result.atRisk.length) + " at risk.";
+      await loadAll();
+      await loadUploadsView();
+      clearError();
+    } catch (e) {
+      el("run-status").textContent = "";
+      /* A run that fails its identity checks is refused by the store, never
+       * saved. Surface the actual figures - "it failed" alone is not enough to
+       * act on. */
+      showError(e.message);
+    } finally { btn.disabled = false; }
+  };
+
+  /* ---------------------------------------------------------------- export */
+
+  /**
+   * Excel export mirroring the Python's sheet set, so the workbook a partner
+   * gets out of the browser is the workbook they already know from
+   * GST_2A_Reco_FY*.xlsx. Pulls the full grids rather than the page on screen.
+   */
+  window.exportWorkbook = async function () {
+    if (!state.runId) { showError("Nothing to export — no run for " + state.fy); return; }
+    var btn = el("btn-export");
+    btn.disabled = true;
+    btn.textContent = "Building…";
+    try {
+      var wb = XLSX.utils.book_new();
+
+      var ov = (state.run.overview || []).map(function (r) {
+        return { "#": r.id, Item: r.item, Count: r.count, Tax: r.tax, Meaning: r.meaning };
+      });
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ov), "Overview");
+
+      var id = state.run.identity || {};
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet([
+        { Check: "In-scope identity", Expected: id.inScopeExpected, Actual: id.inScopeActual, Result: id.inScopeOk ? "OK" : "BROKEN" },
+        { Check: "Books identity", Expected: id.booksExpected, Actual: id.booksActual, Result: id.booksOk ? "OK" : "BROKEN" },
+        { Check: "No double-match", Expected: id.matchedCount, Actual: id.portalUsed, Result: id.noDoubleMatchOk ? "OK" : "BROKEN" },
+      ]), "Self_Checks");
+
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.states || []), "Summary");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.buckets || []), "By_Bucket");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.portalBuckets || []), "By_Bucket_Portal");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.vendors || []), "Vendors");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.periods || []), "Period");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(state.s164 || []), "Sec_16_4");
+      if (state.isd) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet([state.isd]), "ISD_Control");
+
+      // The detail grids, full not paged. 1000 is the RPC's own hard ceiling.
+      var buckets = [
+        ["MATCHED", "Matched"], ["TIMING", "Timing_Other_Year"],
+        ["AT_RISK", "At_Risk_In_Books_Not_In_2A"], ["OUT_OF_SCOPE", "Not_In_2A_ISD_Reversal"],
+      ];
+      for (var i = 0; i < buckets.length; i++) {
+        btn.textContent = "Building… " + buckets[i][1];
+        var rows = await pullAll(function (page) {
+          return S.entries(state.runId, { buckets: [buckets[i][0]] }, page, 1000);
+        });
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), buckets[i][1]);
+      }
+
+      var pbuckets = [["PORTAL_ONLY", "In_2A_Only"], ["RCM", "RCM_In_2A_Not_ITC"], ["ISD", "ISD_2A_Invoices"]];
+      for (var j = 0; j < pbuckets.length; j++) {
+        btn.textContent = "Building… " + pbuckets[j][1];
+        var prows = await pullAll(function (page) {
+          return S.portalOnly(state.runId, { buckets: [pbuckets[j][0]] }, page, 1000);
+        });
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(prows), pbuckets[j][1]);
+      }
+
+      btn.textContent = "Building… amendments";
+      var sup = await pullAll(function (page) { return S.superseded(state.fy, page, 1000); });
+      if (sup.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(sup), "Superseded_By_Amendment");
+
+      XLSX.writeFile(wb, "GST_2A_Reco_" + state.fy + "_" + state.run.as_on + ".xlsx");
+      clearError();
+    } catch (e) {
+      showError("Export failed: " + e.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Export Excel";
+    }
+  };
+
+  async function pullAll(fetchPage) {
+    var out = [], page = 0, res;
+    do {
+      res = await fetchPage(page);
+      out = out.concat(res.rows || []);
+      page++;
+    } while (res.rows && res.rows.length === 1000 && out.length < res.total && page < 60);
+    return out.map(function (r) {
+      var c = {};
+      for (var k in r) if (k !== "total_count") c[k] = r[k];
+      return c;
+    });
+  }
+})();
+</script>
+</body>
+</html>

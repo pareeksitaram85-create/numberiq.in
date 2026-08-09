@@ -1,0 +1,24 @@
+# ============================================================================
+# CLIENT FINANCIAL DATA MUST NEVER BE COMMITTED
+# ============================================================================
+# 1_INPUT holds GSTR-2A downloads and 3_OUTPUT holds the reconciliation, both
+# carrying real vendor GSTINs and ~24 crore of tax. A file called
+# gst_reco_master_data.json once reached deploy/public/data/ - and everything
+# under public/ is served to the open internet with no authentication.
+#
+# The code is versioned. The data is not. Never `git add -f` out of these.
+# ============================================================================
+
+1_INPUT/*
+3_OUTPUT/*
+_archive/
+!**/.gitkeep
+
+# Python scratch
+__pycache__/
+_cache/
+*.pyc
+
+# Tally run logs
+tally_export_log.txt
+tallyerr.log

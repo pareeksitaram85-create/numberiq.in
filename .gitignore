@@ -41,3 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Client financial data must never be served as a static file.
+# public/ is deployed verbatim, so anything here is world-readable with no auth
+# - gst_reco_master_data.json held real vendor GSTINs and 24 crore of tax.
+# Module data belongs in Supabase behind RLS. See public/js/gst-reco-gate.js.
+public/data/

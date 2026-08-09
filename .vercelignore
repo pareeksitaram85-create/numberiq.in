@@ -1,0 +1,5 @@
+# The GST reco Tally pipeline is operator tooling that runs on a PC with Tally
+# on port 9000. It is versioned here so it survives a machine, but none of it
+# is part of the deployed app - keep the Python, the .bat launchers and any
+# client workbooks out of the Vercel upload entirely.
+gst-reco/
