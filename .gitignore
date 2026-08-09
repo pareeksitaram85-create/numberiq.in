@@ -47,3 +47,6 @@ next-env.d.ts
 # - gst_reco_master_data.json held real vendor GSTINs and 24 crore of tax.
 # Module data belongs in Supabase behind RLS. See public/js/gst-reco-gate.js.
 public/data/
+
+# Local dev tooling (launch configs, session settings) - machine specific.
+.claude/

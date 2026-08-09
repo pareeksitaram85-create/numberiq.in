@@ -21,18 +21,58 @@ async function main() {
 
   const { posts, terms } = JSON.parse(fs.readFileSync(seedDataPath, 'utf8'));
 
-  const termCount = await prisma.term.count();
-  const postCount = await prisma.post.count();
   const forceSeed = process.env.FORCE_SEED === "true";
 
-  if (termCount === terms.length && postCount === posts.length && !forceSeed) {
-    console.log(`Database already contains ${termCount} terms and ${postCount} posts. Skipping seeding to optimize build time. Set FORCE_SEED=true to overwrite.`);
+  // Row counts are a bad staleness signal on their own: editing the text of an
+  // entry that already exists leaves the count unchanged, so a count-only guard
+  // skips the seed and pins production to whatever was written first. That is how
+  // expanded glossary entries silently failed to reach the live site. Compare the
+  // fields instead and write only what actually drifted — two reads, and no writes
+  // at all when the database already matches seedData.json.
+  const dbTerms = await prisma.term.findMany();
+  const dbPosts = await prisma.post.findMany();
+  const dbTermBySlug = new Map(dbTerms.map((t) => [t.slug, t]));
+  const dbPostBySlug = new Map(dbPosts.map((p) => [p.slug, p]));
+
+  const termDrifted = (t) => {
+    const db = dbTermBySlug.get(t.slug);
+    if (!db) return true;
+    return (
+      db.term !== t.term ||
+      db.category !== t.category ||
+      db.definition !== t.definition ||
+      db.explanation !== t.explanation ||
+      (db.sections ?? null) !== (t.sections ?? null) ||
+      JSON.stringify(db.takeaways ?? []) !== JSON.stringify(t.takeaways ?? [])
+    );
+  };
+
+  const postDrifted = (p) => {
+    const db = dbPostBySlug.get(p.slug);
+    if (!db) return true;
+    return (
+      db.title !== p.title ||
+      db.content !== p.content ||
+      db.excerpt !== p.excerpt ||
+      db.published !== p.published ||
+      db.category !== p.category ||
+      db.readingTime !== p.readingTime ||
+      db.authorName !== (p.authorName || "CA SR Pareek") ||
+      JSON.stringify(db.faq ?? null) !== JSON.stringify(p.faq ?? null)
+    );
+  };
+
+  const staleTerms = forceSeed ? terms : terms.filter(termDrifted);
+  const stalePosts = forceSeed ? posts : posts.filter(postDrifted);
+
+  if (staleTerms.length === 0 && stalePosts.length === 0) {
+    console.log(`Database already matches seedData.json (${dbTerms.length} terms, ${dbPosts.length} posts). Nothing to seed.`);
     return;
   }
 
-  console.log(`Seeding ${terms.length} glossary terms...`);
+  console.log(`Seeding ${staleTerms.length} of ${terms.length} glossary terms...`);
 
-  for (const t of terms) {
+  for (const t of staleTerms) {
     await prisma.term.upsert({
       where: { slug: t.slug },
       update: {
@@ -55,9 +95,9 @@ async function main() {
     });
   }
 
-  console.log(`Seeding ${posts.length} posts (insights)...`);
+  console.log(`Seeding ${stalePosts.length} of ${posts.length} posts (insights)...`);
 
-  for (const p of posts) {
+  for (const p of stalePosts) {
     await prisma.post.upsert({
       where: { slug: p.slug },
       update: {

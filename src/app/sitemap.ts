@@ -48,6 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "lrs-tcs-calculator",
     "due-date-calendar",
     "section-mapper-1961-to-2025",
+    "tds-tcs-form-mapper-2026",
     "gstin-validator",
     "presumptive-tax-optimiser",
     "litigation-cost-calculator",

@@ -1,0 +1,34 @@
+# NumberIQ
+
+> Free online tax calculators, statutory converters, and Indian financial compliance tools for CAs, CFOs, and tax practitioners.
+
+## Tools
+
+- [TDS & TCS Form Converter (Income-tax Rules 2026)](https://numberiq.in/tools/tds-tcs-form-mapper-2026): Find the new form number for every TDS, TCS and foreign remittance form renumbered by Notification No. 22/2026, effective 1 April 2026.
+- [Income Tax Section Converter (1961 → 2025 Act)](https://numberiq.in/tools/section-mapper-1961-to-2025): Search and map legacy Income Tax Act 1961 section numbers to their new Income Tax Act 2025 counterparts.
+- [TDS Rate Finder FY 2026-27](https://numberiq.in/tools/tds-rate-finder): Search TDS rates, threshold limits, deposit due dates, and return forms for 30+ sections under Income Tax Act for FY 2026-27.
+- [GST Interest Calculator (Section 50)](https://numberiq.in/tools/gst-interest-calculator): Calculate interest on delayed GST payments under Section 50 of the CGST Act for net cash tax liability.
+- [GST Late Fee Calculator (Section 47)](https://numberiq.in/tools/gst-late-fee-calculator): Compute late fees for GSTR-1, GSTR-3B, GSTR-4, and GSTR-9 returns under Section 47 of the CGST Act.
+- [RCM Applicability Checker (Section 9(3) & 9(4))](https://numberiq.in/tools/rcm-applicability-checker): Interactive diagnostic for GST Reverse Charge Mechanism on GTA, Legal, Renting, Director fee, and Security services.
+- [HSN & SAC Code Finder](https://numberiq.in/tools/hsn-sac-finder): Find official HSN (Goods) and SAC (Services) codes and rates for GST invoicing under CGST Act rules.
+- [CIT(A) & ITAT Appeal Deadline Calculator](https://numberiq.in/tools/appeal-deadline-calculator): Calculate last date to file Form 35 or Form 36, check condonation requirements, and compute appeal fees under Sections 249 and 253.
+- [Section 270AA Immunity Navigator](https://numberiq.in/tools/section-270aa-immunity): Check eligibility for immunity from penalty under Section 270A and prosecution, compute Form 68 deadline.
+- [GSTIN Validator & Decoder](https://numberiq.in/tools/gstin-validator): Validate a 15-digit GSTIN offline using official GSTN checksum, and decode state, PAN, holder type, and registration count.
+- [Presumptive Tax Optimiser (Section 44AD / 44ADA)](https://numberiq.in/tools/presumptive-tax-optimiser): Compare presumptive taxation under Section 44AD and 44ADA against regular books, turnover ceilings, and 5% cash caps.
+- [MSME Payment Tracker (Section 43B(h))](https://numberiq.in/tools/msme-payment-tracker-calculator): Calculate MSME payment compliance deadlines and disallowances under Section 15 of MSMED Act and Section 37 of Income-tax Act 2025.
+- [LRS TCS Calculator (Section 206C(1G))](https://numberiq.in/tools/lrs-tcs-calculator): Calculate TCS on foreign remittances and tour packages under Section 405 of Income-tax Act 2025.
+- [Compliance Due Date Calendar](https://numberiq.in/tools/due-date-calendar): Track direct tax, indirect tax, and corporate compliance due dates for GST, Income Tax, and MCA.
+- [Invoice to Tally Converter](https://numberiq.in/tools/invoice-to-tally): Convert PDF and scanned purchase invoices to Tally-ready XML vouchers with AI extraction.
+- [GST Invoice Compliance Checker](https://numberiq.in/tools/invoice-compliance): Validate GST invoice details and rule compliance for GSTR-1 and e-invoicing.
+
+## Insights
+
+- [Form 26QB is now Form 141: Property TDS Rules](https://numberiq.in/insights/form-26qb-is-now-form-141-property-tds): Complete statutory guide on the consolidation of Form 26QB into Form 141 under Income-tax Rules 2026, 30-day deadlines, and Form 132 certificates.
+- [New TDS Return Forms FY 2026-27: 24Q is now 138](https://numberiq.in/insights/new-tds-return-forms-fy-2026-27-24q-form-138): Statutory guide on renumbered quarterly TDS return forms: 24Q to 138, 26Q to 140, 27Q to 144, 27EQ to 143 under Income-tax Rules 2026.
+- [Form 67 is now Form 44: Foreign Tax Credit Rules](https://numberiq.in/insights/form-67-is-now-form-44-foreign-tax-credit): Statutory guide on claiming foreign tax credit (FTC) under Rule 76 and Form 44 of Income-tax Rules 2026, DTAA relief, and deadlines.
+- [Mandatory HSN Digits under GST: 4 vs 6 vs 8 Rules](https://numberiq.in/insights/hsn-code-mandatory-digits-gst-rules): Rules on 4 vs 6 vs 8-digit HSN codes under Notification No. 78/2020-CT, turnover thresholds, and e-invoicing compliance.
+- [SAC Code GST Rate Chart: Chapter 99 Master Guide](https://numberiq.in/insights/sac-code-gst-rate-chart-services): Master reference chart for Services Accounting Codes (SAC) under Chapter 99 of GST tariff schedule.
+
+## About
+
+- [About NumberIQ](https://numberiq.in/about): Built by Chartered Accountants for CAs, CFOs, and finance teams across India. Precise calculation engines, zero-data-leakage architecture, and statutory compliance tools.

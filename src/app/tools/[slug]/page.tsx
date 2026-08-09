@@ -18,6 +18,7 @@ import { HsnSacFinder } from "@/components/calculators/hsn-sac-finder";
 import { InvoiceCompliance } from "@/components/calculators/invoice-compliance";
 import { InvoiceToTally } from "@/components/calculators/invoice-to-tally";
 import { SectionMapper } from "@/components/calculators/section-mapper";
+import { FormMapper } from "@/components/calculators/form-mapper";
 import { NoticeDraftingStudio } from "@/components/calculators/notice-drafting-studio";
 import { GstinValidator } from "@/components/calculators/gstin-validator";
 import { PresumptiveOptimiser } from "@/components/calculators/presumptive-optimiser";
@@ -209,6 +210,12 @@ export function getToolMeta(slug: string): ToolMeta {
         description: "Search and map old Income Tax Act 1961 section numbers to their new Income Tax Act 2025 counterparts.",
         category: "Direct Tax Suite"
       };
+    case "tds-tcs-form-mapper-2026":
+      return {
+        title: "TDS & TCS Form Converter: 24Q → 138, 26QB → 141 | NumberIQ",
+        description: "Find the new form number for every TDS, TCS and foreign remittance form renumbered by the Income-tax Rules 2026, effective 1 April 2026. Each mapping cited to the CBDT document.",
+        category: "Direct Tax Suite"
+      };
     case "universe":
       return {
         title: "Tax Intelligence Universe — Interactive Knowledge Map | NumberIQ",
@@ -342,7 +349,11 @@ export default async function ToolPage({ params }: PageProps) {
     CalculatorComponent = SectionMapper;
     title = "Income Tax Section Converter: 1961 Act → 2025 Act";
     category = "Direct Tax Suite";
-  } else if (cleanSlug === "gst_reco_studio_ims_fixed" || cleanSlug === "gst-reco-studio-ims-fixed") {
+  } else if (cleanSlug === "tds-tcs-form-mapper-2026") {
+    CalculatorComponent = FormMapper;
+    title = "TDS & TCS Form Converter: Old Form → New Form";
+    category = "Direct Tax Suite";
+  } else if (cleanSlug === "gst_reco_studio_ims_fixed" || cleanSlug === "gst-reco-studio-ims-fixed" || cleanSlug === "gst-reco-studio" || cleanSlug === "gst-input-reco-studio") {
     staticHtmlUrl = "/tools/gst-reco-studio-ims-fixed.html";
     title = "GST Input Reconciliation Studio";
     category = "GST Suite";
@@ -399,7 +410,9 @@ export default async function ToolPage({ params }: PageProps) {
       "name": title,
       "description": toolDescription,
       "applicationCategory": "FinanceApplication",
-      "operatingSystem": "All",
+      "operatingSystem": "Web",
+      "url": `https://numberiq.in/tools/${slug}`,
+      ...(content?.lastUpdated ? { "dateModified": content.lastUpdated } : {}),
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -502,6 +515,11 @@ export default async function ToolPage({ params }: PageProps) {
             <p className="mt-4 text-base sm:text-lg text-[#8a95ad] leading-relaxed">
               {content.lede}
             </p>
+            {content.lastUpdated && (
+              <p className="mt-2 text-xs text-[#737c92]">
+                Last reviewed: {content.lastUpdated}
+              </p>
+            )}
           </header>
         )}
 
@@ -512,20 +530,28 @@ export default async function ToolPage({ params }: PageProps) {
         {CalculatorComponent ? (
           <CalculatorComponent />
         ) : staticHtmlUrl ? (
-          <div className="border border-white/10 bg-white/[0.02] p-8 md:p-12 rounded-3xl text-center max-w-2xl mx-auto w-full backdrop-blur-sm relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-            <div className="absolute top-0 right-0 w-[100px] h-[100px] bg-gradient-to-br from-[#4f7cff]/10 to-transparent blur-2xl pointer-events-none" />
-            <h2 className="font-display text-2xl font-bold text-white mb-4">{title}</h2>
-            <p className="text-sm text-[#737c92] leading-relaxed mb-8 max-w-md mx-auto">
-              This tax tool is fully functional. We are currently migrating its interface to React. You can run the live utility instantly.
-            </p>
-            <a
-              href={staticHtmlUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-[#4f7cff] hover:bg-[#3d66dd] text-xs font-semibold text-white transition-all shadow-[0_0_20px_rgba(79,124,255,0.25)] hover:shadow-[0_0_25px_rgba(79,124,255,0.4)] cursor-pointer"
-            >
-              Launch Calculator Tool
-            </a>
+          <div className="w-full bg-[#0d1017] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.6)]">
+            <div className="flex items-center justify-between px-6 py-3.5 bg-white/[0.03] border-b border-white/10">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] animate-pulse" />
+                <span className="font-semibold text-white">{title}</span>
+                <span className="text-[#737c92] font-mono">(Live Studio)</span>
+              </div>
+              <a
+                href={staticHtmlUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#4f7cff]/20 hover:bg-[#4f7cff]/30 text-xs font-semibold text-[#4f7cff] border border-[#4f7cff]/30 transition-all cursor-pointer"
+              >
+                Open Fullscreen ↗
+              </a>
+            </div>
+            <iframe
+              src={staticHtmlUrl}
+              title={title}
+              className="w-full h-[850px] border-0 bg-transparent"
+              allow="clipboard-read; clipboard-write"
+            />
           </div>
         ) : (
           <div className="border border-white/5 bg-white/5 p-12 rounded-3xl text-center max-w-xl mx-auto backdrop-blur-sm">

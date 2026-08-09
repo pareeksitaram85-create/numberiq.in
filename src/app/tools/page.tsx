@@ -218,6 +218,13 @@ const baseTools = [
     featured: true
   },
   {
+    slug: "tds-tcs-form-mapper-2026",
+    name: "TDS & TCS Form Converter: 24Q → 138, 26QB → 141",
+    desc: "Find the new number for every TDS, TCS and remittance form renumbered by the Income-tax Rules 2026, each cited to the CBDT document.",
+    category: "tax",
+    featured: true
+  },
+  {
     slug: "msme-payment-tracker-calculator",
     name: "MSME Payment Tracker (S.43B)",
     desc: "Track Section 43B(h) due dates (15/45 days) to avoid tax disallowance on supplier payments.",

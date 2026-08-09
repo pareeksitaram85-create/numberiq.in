@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tax Intelligence Universe | NumberIQ",
     description:
-      "Explore GST, Income Tax, International Tax, and Compliance in one interactive 3D universe. Built by CAs, powered by AI.",
+      "Explore GST, Income Tax, International Tax, and Compliance in one interactive 3D universe. Built by a CA, for CAs.",
     type: "website",
     url: "https://numberiq.in/universe",
     images: [{ url: "/og-cover.png", alt: "NumberIQ Tax Intelligence Universe" }],

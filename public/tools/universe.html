@@ -8,23 +8,24 @@
 <meta name="color-scheme" content="dark">
 <style>
   /* ============ NUMBERIQ · TAX INTELLIGENCE UNIVERSE ============
-     A deliberately single-theme piece: an infinite dark-space
-     environment. Committed dark cosmos, both theme states identical. */
+     Spectrum Dark Cosmos — High-contrast vibrant neon knowledge web */
   :root{
     --bg:#020510;
     --ink:#f0f6ff;
     --ink-dim:#a8b8d8;
     --cyan:#00f5ff;
-    --emerald:#00ffb3;
-    --gold:#ffcc00;
-    --violet:#cc88ff;
-    --sapphire:#4d9fff;
-    --rose:#ff6eb4;
-    --orange:#ff8c42;
-    --glass:rgba(8,14,40,.72);
-    --glass-2:rgba(4,8,24,.55);
+    --emerald:#00ff88;
+    --gold:#ffd700;
+    --violet:#d500f9;
+    --sapphire:#3d5afe;
+    --rose:#ff1744;
+    --orange:#ff6d00;
+    --lime:#aeea00;
+    --pink:#ff4081;
+    --glass:rgba(8,14,40,.78);
+    --glass-2:rgba(4,8,24,.62);
     --edge:rgba(140,200,255,.28);
-    --edge-hot:rgba(0,255,200,.6);
+    --edge-hot:rgba(0,255,200,.7);
     --mono:ui-monospace,'Cascadia Mono','Segoe UI Mono',Consolas,monospace;
     --sans:'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,sans-serif;
     --ease-prem:cubic-bezier(.4,0,.2,1);
@@ -44,11 +45,11 @@
     border:1px solid var(--edge);
     backdrop-filter:blur(20px) saturate(2);
     -webkit-backdrop-filter:blur(20px) saturate(2);
-    box-shadow:0 18px 50px -18px rgba(0,0,0,.85), inset 0 1px 0 rgba(160,220,255,.18), 0 0 30px rgba(0,200,255,.06);
+    box-shadow:0 18px 50px -18px rgba(0,0,0,.85), inset 0 1px 0 rgba(160,220,255,.18), 0 0 30px rgba(0,245,255,.08);
     clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
     position:relative;
   }
-  .glass::before{ /* corner light */
+  .glass::before{
     content:"";position:absolute;inset:0;pointer-events:none;
     background:
       linear-gradient(135deg,rgba(120,220,255,.5) 0,transparent 11px) top left/26px 26px no-repeat,
@@ -61,92 +62,105 @@
   #brand{position:absolute;top:18px;left:18px;padding:12px 18px 12px 14px;display:flex;gap:12px;align-items:center;pointer-events:auto;
     animation:hudIn .9s var(--ease-out) .35s both, floaty 7s ease-in-out 2s infinite alternate}
   .b-mark{width:34px;height:34px;border-radius:50%;position:relative;flex:none;
-    background:radial-gradient(circle at 38% 34%,#fff7e0 0%,#f5b942 32%,rgba(167,139,250,.28) 68%,transparent 72%);
-    box-shadow:0 0 18px rgba(245,185,66,.55),0 0 44px rgba(167,139,250,.3)}
+    background:radial-gradient(circle at 38% 34%,#fff7e0 0%,#ffd700 32%,rgba(213,0,249,.4) 68%,transparent 72%);
+    box-shadow:0 0 18px rgba(255,215,0,.65),0 0 44px rgba(213,0,249,.4)}
   .b-mark::before,.b-mark::after{content:"";position:absolute;inset:-5px;border-radius:50%;
-    border:1px solid transparent;border-top-color:rgba(94,234,212,.85);border-right-color:rgba(94,234,212,.18);
+    border:1px solid transparent;border-top-color:rgba(0,245,255,.9);border-right-color:rgba(0,255,136,.4);
     animation:spin 3.4s linear infinite}
-  .b-mark::after{inset:-10px;border-top-color:rgba(167,139,250,.6);border-right-color:transparent;animation-duration:7s;animation-direction:reverse}
+  .b-mark::after{inset:-10px;border-top-color:rgba(213,0,249,.7);border-right-color:transparent;animation-duration:7s;animation-direction:reverse}
   .b-name{font-size:16px;font-weight:650;letter-spacing:.34em;line-height:1}
-  .b-name span{color:var(--cyan);text-shadow:0 0 14px rgba(34,211,238,.8)}
+  .b-name span{color:var(--cyan);text-shadow:0 0 14px rgba(0,245,255,.9)}
   .b-sub{margin-top:5px;font-family:var(--mono);font-size:8.5px;letter-spacing:.34em;color:var(--ink-dim)}
   #tick{position:absolute;top:86px;left:22px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--ink-dim);
-    text-shadow:0 0 8px rgba(34,211,238,.25);animation:hudIn 1s var(--ease-out) .6s both}
+    text-shadow:0 0 8px rgba(0,245,255,.3);animation:hudIn 1s var(--ease-out) .6s both}
   #tick b{color:#bfe9ff;font-weight:500}
   #tick .live{color:var(--emerald);animation:blink 2.2s ease-in-out infinite}
 
   /* layer legend — right */
-  #layers{position:absolute;right:18px;top:50%;transform:translateY(-50%);padding:14px 14px 10px;width:196px;pointer-events:auto;
+  #layers{position:absolute;right:18px;top:50%;transform:translateY(-50%);padding:14px 14px 10px;width:204px;pointer-events:auto;
     animation:hudInR 1s var(--ease-out) .7s both, floaty 9s ease-in-out 3s infinite alternate}
   #layers .lg-title{font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--ink-dim);margin-bottom:10px}
   .lrow{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:3px;cursor:pointer;transition:background .25s var(--ease-prem)}
-  .lrow:hover{background:rgba(110,190,255,.08)}
-  .lrow.solo{background:rgba(110,190,255,.12);box-shadow:inset 0 0 0 1px rgba(110,190,255,.25)}
-  .ldot{width:7px;height:7px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}
-  .lname{font-size:10.5px;letter-spacing:.06em;color:#c9d6f2;flex:1;white-space:nowrap}
+  .lrow:hover{background:rgba(110,190,255,.12)}
+  .lrow.solo{background:rgba(110,190,255,.2);box-shadow:inset 0 0 0 1px rgba(110,190,255,.4)}
+  .ldot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
+  .lname{font-size:10.5px;letter-spacing:.06em;color:#e1ebff;flex:1;white-space:nowrap;font-weight:500}
   .lcount{font-family:var(--mono);font-size:9px;color:var(--ink-dim)}
-  .lbar{height:2px;border-radius:2px;margin:3px 0 1px 15px;background:linear-gradient(90deg,currentColor,transparent);opacity:.5;animation:barpulse 3s ease-in-out infinite}
+  .lbar{height:2px;border-radius:2px;margin:3px 0 1px 15px;background:linear-gradient(90deg,currentColor,transparent);opacity:.6;animation:barpulse 3s ease-in-out infinite}
 
   /* command bar — bottom center */
-  #cmd{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(620px,calc(100vw - 32px));padding:10px 14px 12px;pointer-events:auto;
+  #cmd{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(640px,calc(100vw - 32px));padding:10px 14px 12px;pointer-events:auto;
     animation:hudInUp 1s var(--ease-out) .9s both}
-  #cmdstatus{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--cyan);opacity:.85;margin:0 2px 8px;min-height:12px;text-shadow:0 0 10px rgba(34,211,238,.5)}
+  #cmdstatus{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--cyan);opacity:.9;margin:0 2px 8px;min-height:12px;text-shadow:0 0 10px rgba(0,245,255,.6)}
   #cmdstatus.busy{animation:blink 1s ease-in-out infinite}
   .cmdrow{display:flex;align-items:center;gap:10px}
   .prompt-dot{width:9px;height:9px;border-radius:50%;flex:none;background:radial-gradient(circle,#fff,var(--cyan) 60%,transparent 70%);
     box-shadow:0 0 12px var(--cyan);animation:corepulse 2.4s ease-in-out infinite}
   #q{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font-family:var(--sans);font-size:14px;letter-spacing:.02em;caret-color:var(--cyan);min-width:0}
-  #q::placeholder{color:#5c6a8f}
-  #go{pointer-events:auto;font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:#031018;background:linear-gradient(120deg,#5eead4,#22d3ee);
+  #q::placeholder{color:#697b9e}
+  #go{pointer-events:auto;font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:#031018;background:linear-gradient(120deg,#00ff88,#00f5ff);
     border:0;padding:8px 16px;cursor:pointer;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
-    box-shadow:0 0 20px rgba(34,211,238,.35);transition:transform .18s var(--ease-out),box-shadow .3s}
-  #go:hover{box-shadow:0 0 34px rgba(34,211,238,.65)}
+    box-shadow:0 0 20px rgba(0,245,255,.45);font-weight:700;transition:transform .18s var(--ease-out),box-shadow .3s}
+  #go:hover{box-shadow:0 0 34px rgba(0,245,255,.75)}
   #go:active{transform:scale(.96)}
   #go:disabled{opacity:.4;cursor:wait}
   #chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .chip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:#9fd8ef;border:1px solid rgba(94,234,212,.22);padding:5px 10px;cursor:pointer;background:rgba(34,211,238,.05);
+  .chip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:#9fd8ef;border:1px solid rgba(94,234,212,.3);padding:5px 10px;cursor:pointer;background:rgba(34,211,238,.08);
     clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
     transition:all .25s var(--ease-prem)}
-  .chip:hover{color:#031018;background:rgba(94,234,212,.85);box-shadow:0 0 18px rgba(94,234,212,.5);text-shadow:none}
+  .chip:hover{color:#031018;background:rgba(0,255,200,.9);box-shadow:0 0 18px rgba(0,255,200,.6);text-shadow:none}
 
   /* control cluster — bottom right */
-  #ctrl{position:absolute;right:18px;bottom:22px;display:flex;gap:8px;pointer-events:auto;animation:hudInUpR 1s var(--ease-out) 1.05s both}
-  .cbtn{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:#9db2dd;background:linear-gradient(158deg,var(--glass),var(--glass-2));
-    border:1px solid var(--edge);padding:8px 12px;cursor:pointer;backdrop-filter:blur(12px);
+  #ctrl{position:absolute;right:18px;bottom:22px;display:flex;gap:7px;pointer-events:auto;animation:hudInUpR 1s var(--ease-out) 1.05s both}
+  .cbtn{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#a8c0ee;background:linear-gradient(158deg,var(--glass),var(--glass-2));
+    border:1px solid var(--edge);padding:8px 11px;cursor:pointer;backdrop-filter:blur(12px);
     clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
     transition:all .25s var(--ease-prem)}
-  .cbtn:hover{color:#dff4ff;border-color:var(--edge-hot);box-shadow:0 0 16px rgba(94,234,212,.25)}
-  .cbtn b{color:var(--cyan);font-weight:500}
+  .cbtn:hover{color:#ffffff;border-color:var(--edge-hot);box-shadow:0 0 18px rgba(0,245,255,.35)}
+  .cbtn b{color:var(--cyan);font-weight:600}
+  .cbtn.active{background:rgba(0,245,255,.18);border-color:var(--cyan);color:#fff;box-shadow:0 0 20px rgba(0,245,255,.4)}
 
   /* stamp — bottom left */
   #stamp{position:absolute;left:20px;bottom:26px;font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;color:#4c5a7e;
     animation:hudIn 1.2s var(--ease-out) 1.2s both}
-  #stamp em{font-style:normal;color:#6d7fa8}
+  #stamp em{font-style:normal;color:#7f95c4}
 
   /* ---------- node hologram panel ---------- */
-  .panel{position:absolute;width:262px;padding:14px 16px 12px;pointer-events:auto;z-index:8;
+  .panel{position:absolute;width:280px;padding:14px 16px 14px;pointer-events:auto;z-index:8;
     transition:opacity .35s var(--ease-prem)}
   .panel.hidden{opacity:0;pointer-events:none}
   .panel.showing{animation:holoIn .5s var(--ease-out) both}
   .p-head{display:flex;align-items:flex-start;gap:10px}
-  .p-dot{width:10px;height:10px;border-radius:50%;flex:none;margin-top:3px;box-shadow:0 0 12px currentColor,0 0 30px currentColor;animation:corepulse 2.6s ease-in-out infinite}
+  .p-dot{width:11px;height:11px;border-radius:50%;flex:none;margin-top:3px;box-shadow:0 0 14px currentColor,0 0 34px currentColor;animation:corepulse 2.6s ease-in-out infinite}
   .p-eyebrow{font-family:var(--mono);font-size:8px;letter-spacing:.3em;color:var(--ink-dim)}
   .p-title{font-size:15.5px;font-weight:650;letter-spacing:.08em;margin-top:2px;text-shadow:0 0 18px rgba(140,200,255,.4)}
   .p-close{margin-left:auto;background:none;border:0;color:#5f7096;font-size:13px;cursor:pointer;padding:2px 4px;transition:color .2s}
   .p-close:hover{color:#fff}
   .p-desc{font-size:11.5px;line-height:1.55;color:#aebbda;margin:10px 0 12px}
   .p-stats{display:flex;gap:6px}
-  .stat{flex:1;padding:7px 8px;background:rgba(10,20,44,.5);border:1px solid rgba(110,170,255,.1);
+  .stat{flex:1;padding:7px 8px;background:rgba(10,20,44,.6);border:1px solid rgba(110,170,255,.15);
     clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
   .stat b{display:block;font-family:var(--mono);font-size:13px;font-weight:500;color:#dff0ff;font-variant-numeric:tabular-nums}
   .stat span{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--ink-dim)}
+
+  /* live interactive mini-tool inside panel */
+  .np-tool{margin:12px 0;padding:10px 12px;background:rgba(0,18,40,.6);border:1px solid rgba(0,245,255,.2);border-radius:4px}
+  .np-tool-title{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--cyan);margin-bottom:8px;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
+  .np-tool-row{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+  .np-tool-label{font-size:10px;color:#c0d2f0;display:flex;justify-content:space-between}
+  .np-tool-slider{width:100%;height:4px;accent-color:var(--cyan);cursor:pointer}
+  .np-tool-pills{display:flex;gap:6px;margin:6px 0}
+  .np-tool-pill{font-family:var(--mono);font-size:8.5px;padding:3px 7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#9db8e8;cursor:pointer;border-radius:3px;transition:all .2s}
+  .np-tool-pill.active{background:rgba(0,245,255,.2);border-color:var(--cyan);color:#fff;box-shadow:0 0 10px rgba(0,245,255,.3)}
+  .np-tool-out{padding:6px 8px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.3);font-family:var(--mono);font-size:11px;color:#00ff88;text-align:center;font-weight:600;border-radius:3px;text-shadow:0 0 8px rgba(0,255,136,.4)}
+
   .p-spark{display:block;width:100%;height:34px;margin:10px 0 2px}
   .p-sparkcap{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:8px}
   .p-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .p-chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;padding:4px 8px;cursor:pointer;border:1px solid rgba(140,190,255,.18);color:#a8c8f0;
     clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);transition:all .22s var(--ease-prem)}
   .p-chip:hover{background:rgba(140,190,255,.16);color:#eaf5ff}
-  .p-foot{font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:#49587c;border-top:1px solid rgba(110,170,255,.1);padding-top:8px}
+  .p-foot{font-family:var(--mono);font-size:7.5px;letter-spacing:.22em;color:#5a6d96;border-top:1px solid rgba(110,170,255,.12);padding-top:8px}
 
   /* ---------- AI result hologram ---------- */
   #result{position:absolute;right:236px;top:76px;width:330px;max-height:calc(100vh - 220px);overflow-y:auto;padding:16px 18px 12px;pointer-events:auto;z-index:9;
@@ -158,10 +172,10 @@
   .r-q{font-size:14.5px;font-weight:600;letter-spacing:.03em;margin:8px 0 12px;color:#f2f7ff;text-wrap:balance}
   .r-sec{font-family:var(--mono);font-size:8px;letter-spacing:.26em;color:var(--ink-dim);margin:12px 0 7px}
   .trace{display:flex;flex-direction:column;gap:6px}
-  .titem{display:flex;gap:9px;align-items:baseline;font-size:10.5px;color:#9fb3d9;opacity:0;transform:translateX(-8px);transition:all .45s var(--ease-out)}
+  .titem{display:flex;gap:9px;align-items:baseline;font-size:10.5px;color:#a8bddf;opacity:0;transform:translateX(-8px);transition:all .45s var(--ease-out)}
   .titem.on{opacity:1;transform:none}
   .titem::before{content:"▸";color:var(--emerald);font-size:9px;text-shadow:0 0 8px var(--emerald)}
-  .insight{font-size:11.5px;line-height:1.6;color:#c3d0ec;margin-bottom:9px;padding-left:11px;border-left:1px solid rgba(94,234,212,.3);
+  .insight{font-size:11.5px;line-height:1.6;color:#c8d7f5;margin-bottom:9px;padding-left:11px;border-left:1px solid rgba(94,234,212,.4);
     opacity:0;transform:translateY(8px);transition:all .5s var(--ease-out)}
   .insight.on{opacity:1;transform:none}
   .impact{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
@@ -178,8 +192,28 @@
   #tip.hidden{opacity:0}
   #tip small{display:block;font-size:7.5px;letter-spacing:.2em;margin-top:2px}
 
+  /* ---------- TAX IQ QUIZ MODAL ---------- */
+  #quizModal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);padding:22px 24px;z-index:30;pointer-events:auto}
+  #quizModal.hidden{display:none}
+  .q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid rgba(0,245,255,.2);padding-bottom:8px}
+  .q-badge{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);background:rgba(255,215,0,.1);padding:4px 8px;border:1px solid rgba(255,215,0,.3)}
+  .q-score{font-family:var(--mono);font-size:11px;color:var(--emerald);font-weight:600}
+  .q-title{font-size:14.5px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.4}
+  .q-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+  .q-opt{font-size:12px;color:#c0d2f5;background:rgba(120,180,255,.08);border:1px solid rgba(120,180,255,.2);padding:10px 14px;cursor:pointer;border-radius:4px;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px}
+  .q-opt:hover{background:rgba(0,245,255,.18);border-color:var(--cyan);color:#fff}
+  .q-opt.correct{background:rgba(0,255,136,.25);border-color:var(--emerald);color:#fff;box-shadow:0 0 16px rgba(0,255,136,.4)}
+  .q-opt.wrong{background:rgba(255,23,68,.25);border-color:var(--rose);color:#fff}
+  .q-foot{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;color:var(--ink-dim);border-top:1px solid rgba(255,255,255,.08);padding-top:10px}
+
+  /* Tour Toast */
+  #tourToast{position:absolute;left:50%;top:24px;transform:translateX(-50%);padding:10px 18px;z-index:25;pointer-events:auto;display:flex;align-items:center;gap:12px}
+  #tourToast.hidden{display:none}
+  .tt-title{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--cyan);font-weight:700}
+  .tt-desc{font-size:11.5px;color:#d8e6ff}
+
   /* help overlay */
-  #help{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(380px,90vw);padding:20px 24px;z-index:20;pointer-events:auto}
+  #help{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(400px,90vw);padding:20px 24px;z-index:20;pointer-events:auto}
   #help.hidden{display:none}
   #help h3{font-size:13px;letter-spacing:.28em;font-weight:600;color:var(--cyan);margin-bottom:14px}
   #help .hrow{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:#b7c5e4;padding:5px 0;border-bottom:1px solid rgba(110,170,255,.08)}
@@ -206,7 +240,7 @@
   @media (max-width:760px){
     #layers{display:none}
     #result{right:12px;left:12px;width:auto;top:64px}
-    .panel{width:230px}
+    .panel{width:240px}
   }
   body.embedded #ui {
     display: none !important;
@@ -237,6 +271,14 @@
 
   <div id="layers" class="glass"><div class="lg-title">◈ KNOWLEDGE LAYERS</div></div>
 
+  <div id="tourToast" class="glass hidden">
+    <div>
+      <div class="tt-title" id="ttTitle">AUTOPLAY TOUR</div>
+      <div class="tt-desc" id="ttDesc">Exploring Tax Intelligence Nodes...</div>
+    </div>
+    <button class="cbtn" id="btnTourNext" style="padding:4px 8px;margin-left:12px">NEXT →</button>
+  </div>
+
   <div id="cmd" class="glass">
     <div id="cmdstatus">◈ INTELLIGENCE IDLE — AWAITING QUERY</div>
     <div class="cmdrow">
@@ -248,13 +290,16 @@
   </div>
 
   <div id="ctrl">
+    <button class="cbtn" id="btnTour">🎬 <b>TOUR</b></button>
+    <button class="cbtn" id="btnQuiz">🎯 <b>TAX IQ</b></button>
+    <button class="cbtn" id="btnSfx">🔊 <b>SFX ON</b></button>
     <button class="cbtn" id="btnOrbit">ORBIT <b>ON</b></button>
     <button class="cbtn" id="btnFx">FX <b>AUTO</b></button>
-    <button class="cbtn" id="btnReset">RESET VIEW</button>
+    <button class="cbtn" id="btnReset">RESET</button>
     <button class="cbtn" id="btnHelp">?</button>
   </div>
 
-  <div id="stamp"><em>DESIGN PROTOTYPE v0.9</em> · SIMULATED INTELLIGENCE · ALL FIGURES ILLUSTRATIVE</div>
+  <div id="stamp"><em>SPECTRUM PROTOTYPE v1.2</em> · LIVE SIMULATION ENGINE · ALL FIGURES ILLUSTRATIVE</div>
 
   <div id="npanel" class="glass panel hidden">
     <div class="p-head">
@@ -271,10 +316,29 @@
       <div class="stat"><b id="npS2">0</b><span>UPDATES / WK</span></div>
       <div class="stat"><b id="npS3">0</b><span>LINKED TOPICS</span></div>
     </div>
-    <canvas class="p-spark" id="npSpark" width="228" height="34"></canvas>
+
+    <!-- Live Interactive Mini Tool Container -->
+    <div id="npTool" class="np-tool"></div>
+
+    <canvas class="p-spark" id="npSpark" width="248" height="34"></canvas>
     <div class="p-sparkcap">SIGNAL ACTIVITY · TRAILING 26 WEEKS</div>
     <div class="p-chips" id="npChips"></div>
-    <div class="p-foot">SIMULATED PREVIEW · LIVE INDEX PENDING</div>
+    <div class="p-foot">LIVE INTERACTIVE PREVIEW · CLICK CHIPS TO EXPAND</div>
+  </div>
+
+  <!-- TAX IQ QUIZ MODAL -->
+  <div id="quizModal" class="glass hidden">
+    <div class="q-header">
+      <span class="q-badge">🎯 TAX IQ CHALLENGE</span>
+      <span class="q-score" id="quizScore">SCORE: 0 / 5</span>
+      <button class="p-close" id="quizClose">✕</button>
+    </div>
+    <div class="q-title" id="quizQ">Loading scenario question...</div>
+    <div class="q-opts" id="quizOpts"></div>
+    <div class="q-foot">
+      <span id="quizProg">Question 1 of 5</span>
+      <span style="color:var(--cyan)">Test Your Tax IQ & Earn Ranks</span>
+    </div>
   </div>
 
   <div id="result" class="glass hidden">
@@ -297,15 +361,15 @@
   <div id="tip" class="glass hidden"></div>
 
   <div id="help" class="glass hidden">
-    <h3>◈ NAVIGATION</h3>
-    <div class="hrow"><span>Rotate the universe</span><b>DRAG</b></div>
+    <h3>◈ NAVIGATION & FEATURES</h3>
+    <div class="hrow"><span>Rotate universe</span><b>DRAG</b></div>
     <div class="hrow"><span>Cinematic zoom</span><b>SCROLL / PINCH</b></div>
-    <div class="hrow"><span>Inspect a node</span><b>HOVER</b></div>
-    <div class="hrow"><span>Focus + hologram panel</span><b>CLICK NODE</b></div>
-    <div class="hrow"><span>Link intelligence paths</span><b>CLICK 2+ NODES</b></div>
-    <div class="hrow"><span>Isolate a layer</span><b>CLICK LAYER (RIGHT)</b></div>
-    <div class="hrow"><span>Release focus / clear</span><b>ESC · CLICK SPACE</b></div>
-    <div class="hrow"><span>Run a demonstration query</span><b>COMMAND BAR</b></div>
+    <div class="hrow"><span>Inspect node + mini tool</span><b>CLICK NODE</b></div>
+    <div class="hrow"><span>Auto Guided Tour</span><b>🎬 TOUR BUTTON</b></div>
+    <div class="hrow"><span>Tax IQ Challenge</span><b>🎯 TAX IQ BUTTON</b></div>
+    <div class="hrow"><span>Audio Feedback</span><b>🔊 SFX TOGGLE</b></div>
+    <div class="hrow"><span>Multi-Node Laser Link</span><b>SELECT 2+ NODES</b></div>
+    <div class="hrow"><span>Reset View / Clear</span><b>ESC · RESET BUTTON</b></div>
     <div class="p-foot">CLICK ANYWHERE TO DISMISS</div>
   </div>
 
@@ -316,7 +380,8 @@
 'use strict';
 /* ================================================================
    NUMBERIQ · TAX INTELLIGENCE UNIVERSE
-   Hand-rolled 3D projection on Canvas2D. No libraries, no assets.
+   Spectrum Dark Cosmos — 3D projection on Canvas2D with live tools,
+   sound synthesis, auto-tour engine, and Tax IQ challenge.
    ================================================================ */
 
 /* ---------------- utils ---------------- */
@@ -339,15 +404,79 @@ const wrapAngle = a => { while (a > Math.PI) a -= TAU; while (a < -Math.PI) a +=
 const fmtIN = n => Math.round(n).toLocaleString('en-IN');
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------------- knowledge data ---------------- */
+/* ---------------- Web Audio SFX Synthesizer ---------------- */
+let sfxMuted = false;
+let audioCtx = null;
+function playSfx(type) {
+  if (sfxMuted || REDUCED) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    
+    if (type === 'hover') {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'click') {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(1760, now + 0.12);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now); osc.stop(now + 0.12);
+    } else if (type === 'query') {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (type === 'correct') {
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq, now + i * 0.06);
+        g.gain.setValueAtTime(0.07, now + i * 0.06);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.28);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(now + i * 0.06); o.stop(now + i * 0.06 + 0.28);
+      });
+    } else if (type === 'tour') {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.exponentialRampToValueAtTime(1174.66, now + 0.2);
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(now); osc.stop(now + 0.2);
+    }
+  } catch(e){}
+}
+
+/* ---------------- Knowledge Data & Spectrum Palette ---------------- */
 const RINGS = [
-  { name:'Core Statutes',  r: 74, speed: 0.150, tx: 0.52, tz: 0.20, col:'#ffcc00' },
-  { name:'Indirect Tax',   r:112, speed:-0.115, tx:-0.66, tz: 0.44, col:'#4d9fff' },
-  { name:'Direct Tax',     r:150, speed: 0.095, tx: 1.02, tz:-0.30, col:'#00ffb3' },
-  { name:'International',  r:188, speed:-0.080, tx:-0.34, tz:-0.86, col:'#cc88ff' },
-  { name:'Jurisprudence',  r:224, speed: 0.066, tx: 0.86, tz: 0.76, col:'#ff6eb4' },
-  { name:'Compliance Ops', r:258, speed:-0.052, tx:-1.14, tz: 0.12, col:'#00f5ff' },
-  { name:'Intelligence',   r:294, speed: 0.042, tx: 0.26, tz:-0.56, col:'#ff8c42' },
+  { name:'Core Statutes',  r: 74, speed: 0.150, tx: 0.52, tz: 0.20, col:'#ffd700' },
+  { name:'Indirect Tax',   r:112, speed:-0.115, tx:-0.66, tz: 0.44, col:'#00f5ff' },
+  { name:'Direct Tax',     r:150, speed: 0.095, tx: 1.02, tz:-0.30, col:'#00ff88' },
+  { name:'International',  r:188, speed:-0.080, tx:-0.34, tz:-0.86, col:'#d500f9' },
+  { name:'Jurisprudence',  r:224, speed: 0.066, tx: 0.86, tz: 0.76, col:'#ff007f' },
+  { name:'Compliance Ops', r:258, speed:-0.052, tx:-1.14, tz: 0.12, col:'#ff6d00' },
+  { name:'Intelligence',   r:294, speed: 0.042, tx: 0.26, tz:-0.56, col:'#00f0ff' },
 ];
 RINGS.forEach(r => {
   r.cx = Math.cos(r.tx); r.sx = Math.sin(r.tx);
@@ -357,55 +486,55 @@ RINGS.forEach(r => {
 const MINOR_BASE = [18, 24, 28, 32, 36, 40, 44];
 
 const DOMAINS = [
-  { id:'statutes',   name:'Statutes & Acts',      ring:0, shape:'orb',     col:'#f5b942',
-    desc:'The primary corpus — Income-tax Act 1961, CGST Act 2017, Customs Act, FEMA 1999 and the Companies Act 2013, kept section-aligned with every amendment.',
+  { id:'statutes',   name:'Statutes & Acts',      ring:0, shape:'orb',     col:'#ffd700',
+    desc:'The primary corpus — Income-tax Act 1961, CGST Act 2017, Customs Act, FEMA 1999 and Companies Act 2013, kept section-aligned with every amendment.',
     topics:['Finance Act 2026 map','Sec 2 definitions','Amendment lineage','Schedule rates','Repealed provisions','Cross-Act concordance'] },
-  { id:'gst',        name:'GST',                  ring:1, shape:'plasma',  col:'#3f8cff',
+  { id:'gst',        name:'GST',                  ring:1, shape:'plasma',  col:'#00f5ff',
     desc:'The indirect-tax nerve centre — CGST/SGST/IGST mechanics, input tax credit, e-invoicing, returns and refunds, resolved to rule level.',
     topics:['Rule 36(4) · ITC','GSTR-9 reconciliation','E-invoice IRN','Sec 16 eligibility','RCM u/s 9(3)','Refunds · Rule 89','E-way bill matrix','Zero-rating u/s 16 IGST'] },
-  { id:'customs',    name:'Customs & Trade',      ring:1, shape:'orb',     col:'#fb7185',
+  { id:'customs',    name:'Customs & Trade',      ring:1, shape:'orb',     col:'#ff3d00',
     desc:'Tariff classification, valuation, FTP incentives, duty drawback and AEO — the cross-border corridor of the indirect layer.',
     topics:['CTH classification','Valuation Rule 3','Duty drawback','FTP 2023 schemes','AEO tiering','IGCR conditions'] },
-  { id:'incometax',  name:'Income Tax',           ring:2, shape:'crystal', col:'#34d399',
+  { id:'incometax',  name:'Income Tax',           ring:2, shape:'crystal', col:'#00e676',
     desc:'Direct-tax intelligence — heads of income, TDS/TCS webs, assessments, appeals and both regime curves, computed live.',
     topics:['New vs old regime','TDS · Sec 194 grid','Capital gains 112A','Sec 44AD presumptive','Faceless assessment','Sec 80 deductions'] },
-  { id:'company',    name:'Company Law',          ring:2, shape:'orb',     col:'#818cf8',
+  { id:'company',    name:'Company Law',          ring:2, shape:'orb',     col:'#3d5afe',
     desc:'Companies Act 2013 — incorporation to strike-off, ROC filings, CSR thresholds, related-party webs and director duty maps.',
     topics:['ROC calendar','CSR u/s 135','RPT u/s 188','DIN & KYC','Sec 185 loans','Strike-off track'] },
-  { id:'intl',       name:'International Tax',    ring:3, shape:'orb',     col:'#a78bfa',
+  { id:'intl',       name:'International Tax',    ring:3, shape:'orb',     col:'#aa00ff',
     desc:'The treaty lattice — 90+ DTAAs, MLI overlays, PoEM, BEPS pillars and withholding matrices across jurisdictions.',
     topics:['DTAA Art. 12 royalty','MLI PPT test','PoEM triggers','Pillar Two GloBE','Form 15CA/CB','TRC sufficiency'] },
-  { id:'tp',         name:'Transfer Pricing',     ring:3, shape:'poly',    col:'#f5b942',
+  { id:'tp',         name:'Transfer Pricing',     ring:3, shape:'poly',    col:'#ff9100',
     desc:'Arm’s-length intelligence — method selection, benchmarking sets, Form 3CEB, APAs and safe-harbour corridors.',
     topics:['TNMM benchmarks','Form 3CEB','APA pipeline','Safe harbour rules','AMP adjustments','Master file · CbCR'] },
-  { id:'fema',       name:'FEMA',                 ring:3, shape:'orb',     col:'#2dd4bf',
+  { id:'fema',       name:'FEMA',                 ring:3, shape:'orb',     col:'#00e5ff',
     desc:'Exchange-control routes — FDI entry, ODI limits, ECB windows, LRS ceilings and compounding intelligence.',
     topics:['ODI automatic route','FDI sector caps','ECB all-in cost','LRS $250k ceiling','FC-GPR filing','Compounding matrix'] },
-  { id:'caselaw',    name:'Case Laws',            ring:4, shape:'doc',     col:'#e8eefc',
+  { id:'caselaw',    name:'Case Laws',            ring:4, shape:'doc',     col:'#ff1744',
     desc:'The precedent graph — Supreme Court to AAR, distilled into ratio networks with treatment signals (followed · distinguished · overruled).',
     topics:['SC ratio network','ITAT trend lines','AAR rulings','HC circuit splits','CESTAT corpus','Doctrine tracker'] },
-  { id:'notif',      name:'Notifications',        ring:4, shape:'pulse',   col:'#fb923c',
+  { id:'notif',      name:'Notifications',        ring:4, shape:'pulse',   col:'#ff6d00',
     desc:'Real-time CBDT & CBIC notification stream, delta-diffed against the sections they amend the moment they publish.',
     topics:['CBIC rate deltas','CBDT extensions','Effective-date map','Supersession chain','Draft → final diff','Gazette watch'] },
-  { id:'circulars',  name:'Circulars',            ring:4, shape:'pulse',   col:'#fdba74',
+  { id:'circulars',  name:'Circulars',            ring:4, shape:'pulse',   col:'#ff4081',
     desc:'Clarificatory circulars and instructions, linked to the ambiguities they resolve and the disputes they quietly settle.',
     topics:['Clarification index','Instruction lineage','FAQ corpus','Withdrawn circulars','Board guidance','Conflict flags'] },
-  { id:'compliance', name:'Compliance',           ring:5, shape:'cube',    col:'#22d3ee',
+  { id:'compliance', name:'Compliance',           ring:5, shape:'cube',    col:'#69f0ae',
     desc:'The obligation engine — every due date, form and threshold for your entity graph, scored into a live compliance health index.',
     topics:['Due-date horizon','Form dependency tree','Late-fee exposure','Health score 94.2','Entity obligations','Auto-reminders'] },
-  { id:'reports',    name:'Reports',              ring:5, shape:'doc',     col:'#86efac',
+  { id:'reports',    name:'Reports',              ring:5, shape:'doc',     col:'#aeea00',
     desc:'Self-assembling briefings — position papers, audit trails and board notes generated from the live knowledge state.',
     topics:['Board-note builder','Audit trail export','Position papers','Litigation summary','Notice replies','Tax MIS pack'] },
-  { id:'calculators',name:'Calculators',          ring:5, shape:'crystal', col:'#fde047',
+  { id:'calculators',name:'Calculators',          ring:5, shape:'crystal', col:'#ffea00',
     desc:'Scenario engines — regime comparisons, capital-gains stacks, GST cash-lock and interest simulators with elastic parameters.',
     topics:['Regime comparator','234B/C interest','LTCG stacker','GST cash-lock sim','HRA optimiser','Depreciation lab'] },
-  { id:'insights',   name:'AI Insights',          ring:6, shape:'star',    col:'#f0abfc',
+  { id:'insights',   name:'AI Insights',          ring:6, shape:'star',    col:'#f50057',
     desc:'Predictive layer — anomaly flags, exposure forecasts and drift alerts synthesised across every other layer of the universe.',
     topics:['Anomaly radar','Exposure forecast','Drift alerts','Peer benchmarking','Risk heat map','Opportunity scan'] },
-  { id:'analytics',  name:'Analytics',            ring:6, shape:'cube',    col:'#67e8f9',
+  { id:'analytics',  name:'Analytics',            ring:6, shape:'cube',    col:'#00b8d4',
     desc:'The measurement fabric — filing telemetry, dispute velocity, refund ageing and effective-rate analytics across time.',
     topics:['Refund ageing','Dispute velocity','ETR waterfall','Filing telemetry','Credit utilisation','Trend decomposition'] },
-  { id:'legal',      name:'Legal Intelligence',   ring:6, shape:'star',    col:'#c4b5fd',
+  { id:'legal',      name:'Legal Intelligence',   ring:6, shape:'star',    col:'#7c4dff',
     desc:'Argument engineering — authority chains, counter-position maps and draft-ready grounds assembled from the precedent graph.',
     topics:['Authority chains','Counter-position map','Grounds drafter','Limitation watch','Bench analytics','Argument strength'] },
 ];
@@ -427,15 +556,15 @@ const QUERIES = [
            'Customs corridor linked — LUT & refund routes mapped','Compliance layer checked — 2 live notification deltas'],
     insights:[
       'Exports remain zero-rated supplies — output tax is nil while input-side credit stays fully available, so the real variable is refund velocity, not liability.',
-      'Two execution routes detected: supply under LUT without payment (refund of unutilised ITC) or payment of IGST with refund of tax paid. Route choice shifts simulated cash-lock by ≈34 days for a typical merchant exporter.',
-      'Three recent notifications touch refund mechanics for this profile. The highlighted corridor on the graph shows the affected provisions and their compliance dependencies.' ] },
+      'Two execution routes detected: supply under LUT without payment (refund of unutilised ITC) or payment of IGST with refund of tax paid. Route choice shifts simulated cash-lock by ≈34 days for a merchant exporter.',
+      'Three recent notifications touch refund mechanics for this profile. The highlighted corridor on the graph shows affected provisions and compliance dependencies.' ] },
   { chip:'Old vs new regime · ₹24L', q:'Compare old vs new tax regime for ₹24L salary', rel:['incometax','calculators','insights'], conf:91,
     trace:['Intent parsed — direct tax × individual scenario','Both slab curves loaded — FY 2026-27 parameters',
            'Deduction sensitivity swept ₹0 → ₹6.0L','Break-even isolated · insight layer engaged'],
     insights:[
-      'At ₹24L gross salary with zero deductions, the new regime’s flatter slab curve wins by a simulated ≈₹48,000 — the standard deduction is already priced into both paths.',
-      'The regimes cross when old-regime deductions (80C, 80D, home-loan interest, HRA) exceed ≈₹4.5L. Above that, the old regime recovers the advantage at roughly 31% of every additional rupee sheltered.',
-      'Recommended next step: run the regime comparator with your actual deduction stack — the calculator node is now charged with this scenario’s parameters.' ] },
+      'At ₹24L gross salary with zero deductions, the new regime’s flatter slab curve wins by a simulated ≈₹48,000 — standard deduction is priced into both paths.',
+      'The regimes cross when old-regime deductions (80C, 80D, home-loan interest, HRA) exceed ≈₹4.5L. Above that, old regime recovers advantage at roughly 31% per rupee sheltered.',
+      'Recommended next step: tweak the interactive slider in the Income Tax hologram drawer panel to test your exact deduction stack!' ] },
   { chip:'TP rulings — mgmt fees', q:'Recent transfer pricing rulings on management fees', rel:['tp','caselaw','intl'], conf:88,
     trace:['Intent parsed — transfer pricing × jurisprudence','Precedent graph filtered — intra-group services',
            'Benefit-test doctrine cluster expanded','Treaty overlay applied — Art. 9 correlation'],
@@ -447,9 +576,9 @@ const QUERIES = [
     trace:['Intent parsed — exchange control × outbound','ODI framework loaded — 2022 rules regime',
            'Company-law surface joined — board & filing chain','Route ranked against commitment size'],
     insights:[
-      'Under the automatic route, overseas direct investment is available up to 400% of net worth per the last audited balance sheet — the binding constraints are usually sectoral (financial services) rather than quantum.',
-      'The obligation chain is sequential: Form FC before remittance, UIN allotment, then an Annual Performance Report every year the investment lives. A missed APR quietly blocks every future outbound leg.',
-      'Simulated structure comparison: direct ODI vs step-down via an offshore holdco changes compounding exposure and repatriation flexibility — the graph shows both corridors.' ] },
+      'Under the automatic route, overseas direct investment is available up to 400% of net worth per last audited balance sheet — binding constraints are usually sectoral rather than quantum.',
+      'The obligation chain is sequential: Form FC before remittance, UIN allotment, then Annual Performance Report every year. Missed APR blocks future outbound legs.',
+      'Simulated structure comparison: direct ODI vs step-down via an offshore holdco changes compounding exposure and repatriation flexibility.' ] },
 ];
 
 const KEYWORDS = [
@@ -519,11 +648,11 @@ function glowSprite(col, soft) {
   const rgb = hex2rgb(col), core = mixWhite(rgb, .85);
   const gr = g.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
   if (soft) {
-    gr.addColorStop(0, rgba(core, .7)); gr.addColorStop(.3, rgba(rgb, .35));
-    gr.addColorStop(.7, rgba(rgb, .08)); gr.addColorStop(1, rgba(rgb, 0));
+    gr.addColorStop(0, rgba(core, .75)); gr.addColorStop(.3, rgba(rgb, .4));
+    gr.addColorStop(.7, rgba(rgb, .12)); gr.addColorStop(1, rgba(rgb, 0));
   } else {
-    gr.addColorStop(0, rgba([255,255,255], .95)); gr.addColorStop(.18, rgba(core, .8));
-    gr.addColorStop(.45, rgba(rgb, .28)); gr.addColorStop(1, rgba(rgb, 0));
+    gr.addColorStop(0, rgba([255,255,255], .95)); gr.addColorStop(.18, rgba(core, .85));
+    gr.addColorStop(.45, rgba(rgb, .35)); gr.addColorStop(1, rgba(rgb, 0));
   }
   g.fillStyle = gr; g.fillRect(0, 0, S, S);
   spriteCache[key] = c; return c;
@@ -537,7 +666,7 @@ function raySprite(col) {
   for (let i = 0; i < 15; i++) {
     const a = (i / 15) * TAU + rnd(-.08, .08), len = S * rnd(.3, .5), w = rnd(.008, .028);
     const gr = g.createLinearGradient(0, 0, Math.cos(a) * len, Math.sin(a) * len);
-    gr.addColorStop(0, rgba(rgb, .30)); gr.addColorStop(1, rgba(rgb, 0));
+    gr.addColorStop(0, rgba(rgb, .35)); gr.addColorStop(1, rgba(rgb, 0));
     g.fillStyle = gr; g.beginPath();
     g.moveTo(0, 0);
     g.arc(0, 0, len, a - w, a + w);
@@ -550,7 +679,7 @@ function streakSprite() {
   const c = document.createElement('canvas'); c.width = 256; c.height = 24;
   const g = c.getContext('2d');
   const gr = g.createLinearGradient(0, 0, 256, 0);
-  gr.addColorStop(0, 'rgba(200,235,255,0)'); gr.addColorStop(.5, 'rgba(220,245,255,.8)'); gr.addColorStop(1, 'rgba(200,235,255,0)');
+  gr.addColorStop(0, 'rgba(200,235,255,0)'); gr.addColorStop(.5, 'rgba(220,245,255,.85)'); gr.addColorStop(1, 'rgba(200,235,255,0)');
   g.fillStyle = gr; g.beginPath(); g.ellipse(128, 12, 126, 5, 0, 0, TAU); g.fill();
   spriteCache.streak = c; return c;
 }
@@ -560,24 +689,24 @@ function makeVignette() {
   vignette.width = 320; vignette.height = 200;
   const g = vignette.getContext('2d');
   const gr = g.createRadialGradient(160, 100, 40, 160, 100, 190);
-  gr.addColorStop(0, 'rgba(2,4,12,0)'); gr.addColorStop(.72, 'rgba(2,4,12,.08)'); gr.addColorStop(1, 'rgba(1,2,8,.62)');
+  gr.addColorStop(0, 'rgba(2,4,12,0)'); gr.addColorStop(.72, 'rgba(2,4,12,.08)'); gr.addColorStop(1, 'rgba(1,2,8,.65)');
   g.fillStyle = gr; g.fillRect(0, 0, 320, 200);
 }
 function nebulaSprite(seedCols) {
   const S = 512, c = document.createElement('canvas'); c.width = c.height = S;
   const g = c.getContext('2d');
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0; i < 28; i++) {
     const col = seedCols[i % seedCols.length];
-    const x = rnd(S*.12, S*.88), y = rnd(S*.12, S*.88), r = rnd(60, 190);
+    const x = rnd(S*.1, S*.9), y = rnd(S*.1, S*.9), r = rnd(70, 210);
     const gr = g.createRadialGradient(x, y, 0, x, y, r);
-    gr.addColorStop(0, rgba(col, rnd(.05, .12))); gr.addColorStop(1, rgba(col, 0));
+    gr.addColorStop(0, rgba(col, rnd(.06, .15))); gr.addColorStop(1, rgba(col, 0));
     g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill();
   }
   return c;
 }
-const nebulaA = nebulaSprite([[80,20,160],[20,60,200],[10,120,180],[100,20,140],[0,80,200]]);
-const nebulaB = nebulaSprite([[10,150,180],[0,180,140],[60,30,200],[20,100,220],[180,60,100]]);
-const nebulaC = nebulaSprite([[200,80,20],[180,140,0],[220,100,40],[160,60,200],[100,200,100]]);
+const nebulaA = nebulaSprite([[0,245,255],[213,0,249],[0,255,136],[255,215,0],[255,61,0]]);
+const nebulaB = nebulaSprite([[61,90,254],[255,0,127],[0,240,255],[255,145,0],[170,0,255]]);
+const nebulaC = nebulaSprite([[255,23,68],[255,234,0],[0,230,118],[0,184,212],[124,77,255]]);
 const noiseC = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const g = c.getContext('2d'), im = g.createImageData(128, 128);
@@ -594,13 +723,13 @@ function labelSprite(text, col) {
   if (labelCache[text]) return labelCache[text];
   const c = document.createElement('canvas'); const g = c.getContext('2d');
   g.font = '600 11px "Segoe UI", system-ui, sans-serif';
-  const w = Math.ceil(g.measureText(text.toUpperCase()).width) + 26;
-  c.width = w * 2; c.height = 40; // 2x for crispness
+  const w = Math.ceil(g.measureText(text.toUpperCase()).width) + 28;
+  c.width = w * 2; c.height = 40;
   const g2 = c.getContext('2d'); g2.scale(2, 2);
   g2.font = '600 10px "Segoe UI", system-ui, sans-serif';
   g2.textAlign = 'center'; g2.textBaseline = 'middle';
-  g2.shadowColor = col; g2.shadowBlur = 7;
-  g2.fillStyle = 'rgba(234,242,255,.96)';
+  g2.shadowColor = col; g2.shadowBlur = 8;
+  g2.fillStyle = 'rgba(240,246,255,.98)';
   const spaced = text.toUpperCase().split('').join(' ');
   g2.fillText(spaced, w / 2, 10);
   labelCache[text] = c; return c;
@@ -608,20 +737,20 @@ function labelSprite(text, col) {
 
 /* ---------------- backdrop: stars & dust ---------------- */
 const starLayers = [];
-[[150, .25, .7], [95, .5, 1.05], [50, .85, 1.5]].forEach(([n, par, sz]) => {
+[[160, .25, .7], [100, .5, 1.1], [55, .85, 1.6]].forEach(([n, par, sz]) => {
   const arr = [];
   for (let i = 0; i < n; i++) arr.push({
-    x: Math.random(), y: Math.random(), sz: sz * rnd(.6, 1.3),
+    x: Math.random(), y: Math.random(), sz: sz * rnd(.6, 1.4),
     tw: rnd(.4, 2.2), ph: rnd(0, TAU),
-    warm: Math.random() < .18,
+    warm: Math.random() < .2,
   });
   starLayers.push({ par, arr });
 });
-const DUST_COLS = ['#00f5ff','#cc88ff','#00ffb3','#ffcc00','#ff6eb4','#4d9fff','#ff8c42','#b4e0ff'];
+const DUST_COLS = ['#00f5ff','#e040fb','#00ff88','#ffd700','#ff1744','#3d5afe','#ff9100','#aeea00','#00e5ff','#ff4081','#7c4dff','#00e676'];
 const dust = [];
-for (let i = 0; i < 220; i++) dust.push({
+for (let i = 0; i < 240; i++) dust.push({
   x: Math.random(), y: Math.random(), vx: rnd(-.006, .006), vy: rnd(-.004, .004),
-  sz: rnd(.9, 2.8), a: rnd(.05, .18), par: rnd(.2, .9), hue: DUST_COLS[i % DUST_COLS.length],
+  sz: rnd(.9, 3.0), a: rnd(.06, .22), par: rnd(.2, .9), hue: DUST_COLS[i % DUST_COLS.length],
 });
 let comet = null, nextComet = 6;
 
@@ -633,7 +762,7 @@ DOMAINS.forEach(d => {
   const n = {
     major: true, dom: d, ring: d.ring,
     a0: (k / onRing.length) * TAU + d.ring * 1.7,
-    speedMul: 1, rOff: 0, yOff: 0, sz: 7,
+    speedMul: 1, rOff: 0, yOff: 0, sz: 7.5,
     bobPh: rnd(0, TAU), bobAmp: rnd(5, 9),
     rotSpd: rnd(.5, 1.2) * (Math.random() < .5 ? 1 : -1),
     satN: 2 + (Math.random() < .5 ? 1 : 0), satSpd: rnd(.9, 1.6),
@@ -649,7 +778,7 @@ RINGS.forEach((ring, ri) => {
     nodes.push({
       major: false, dom: d, ring: ri,
       a0: rnd(0, TAU), speedMul: rnd(.9, 1.12),
-      rOff: rnd(-17, 17), yOff: rnd(-13, 13), sz: rnd(1.1, 2.5),
+      rOff: rnd(-17, 17), yOff: rnd(-13, 13), sz: rnd(1.1, 2.6),
       bobPh: rnd(0, TAU), bobAmp: rnd(2, 5),
       topic: d.topics[i % d.topics.length],
       tier: Math.random(), ex: 0, hov: 0, scl: 0,
@@ -668,7 +797,6 @@ function nodePos(n, out) {
   const r = ring.r + (n.major ? 0 : n.rOff * spread);
   const bob = Math.sin(T * .55 + n.bobPh) * n.bobAmp;
   const lx = Math.cos(a) * r, ly = (n.major ? 0 : n.yOff * spread) + bob, lz = Math.sin(a) * r;
-  // tilt: rotate about X then Z
   const y1 = ly * ring.cx - lz * ring.sx, z1 = ly * ring.sx + lz * ring.cx;
   out[0] = lx * ring.cz - y1 * ring.sz;
   out[1] = lx * ring.sz + y1 * ring.cz;
@@ -702,7 +830,6 @@ function swarmUpdate(dt, active) {
     const x = sw.x[i], y = sw.y[i], z = sw.z[i];
     const inner = sw.inner[i];
     const k = inner ? .045 : .02;
-    // pseudo-curl flow field
     let ax = Math.sin(y * k + t) + Math.cos(z * k * 1.3 - t * .7);
     let ay = Math.sin(z * k * 1.1 - t * .8) + Math.cos(x * k - t * .5);
     let az = Math.sin(x * k * .9 + t * .6) + Math.cos(y * k * 1.2 + t);
@@ -712,7 +839,6 @@ function swarmUpdate(dt, active) {
       const tg = sw.tgt[i % sw.tgt.length];
       sw.vx[i] += (tg[0] - x) * 3.2 * dt; sw.vy[i] += (tg[1] - y) * 3.2 * dt; sw.vz[i] += (tg[2] - z) * 3.2 * dt;
     }
-    // containment
     const r = Math.sqrt(x*x + y*y + z*z) || 1;
     const maxR = inner ? 98 : 322;
     if (r > maxR) { const p = (r - maxR) * .9 * dt / r; sw.vx[i] -= x*p*30; sw.vy[i] -= y*p*30; sw.vz[i] -= z*p*30; }
@@ -723,11 +849,19 @@ function swarmUpdate(dt, active) {
 }
 
 /* ---------------- FX state ---------------- */
-const waves = [];   // {t0, speed, col, w}
-const ripples = []; // screen-space {x,y,r,vr,a,col}
+const waves = [];
+const ripples = [];
 let lightning = null, nextLightning = 3;
-let reasonPath = null; // {list:[node...], t0, dur}
-const hitFlashes = []; // {node, t0} minor bursts
+let reasonPath = null;
+const hitFlashes = [];
+
+function spawnSupernova(x, y, col) {
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * TAU + rnd(-0.2, 0.2);
+    const speed = rnd(100, 320);
+    ripples.push({ x: x + Math.cos(a)*4, y: y + Math.sin(a)*4, r: rnd(2, 6), vr: speed, a: rnd(0.7, 1.0), col });
+  }
+}
 
 /* ---------------- quality tiers ---------------- */
 const TIERS = [
@@ -791,7 +925,7 @@ function endPointer(e) {
   pointers.delete(e.pointerId);
   cv.classList.remove('dragging');
   if (dragInfo && !dragInfo.moved) handleTap(e.clientX, e.clientY);
-  else if (dragInfo) cam.yawT -= dragInfo.vx * .012; // inertia
+  else if (dragInfo) cam.yawT -= dragInfo.vx * .012;
   dragInfo = null;
   lastInteract = T;
 }
@@ -813,11 +947,11 @@ addEventListener('keydown', e => {
 });
 
 function pick() {
-  if (!mouse.in || dragInfo && dragInfo.moved) return null;
+  if (!mouse.in || (dragInfo && dragInfo.moved)) return null;
   let best = null, bestD = 1e9;
   for (const n of nodes) {
     if (!n.vis) continue;
-    const rad = (n.major ? 26 : 14) + n.ss * 2;
+    const rad = (n.major ? 28 : 15) + n.ss * 2;
     const dx = n.sx - mouse.x, dy = n.sy - mouse.y, d = dx*dx + dy*dy;
     if (d < rad * rad && d < bestD) { bestD = d; best = n; }
   }
@@ -827,6 +961,7 @@ function handleTap(x, y) {
   mouse.x = x; mouse.y = y; mouse.in = true;
   const n = pick();
   if (n) {
+    playSfx('click');
     if (n.major) {
       selectNode(n);
     } else {
@@ -843,6 +978,7 @@ const qInput = document.getElementById('q');
 const goBtn = document.getElementById('go');
 const cmdStatus = document.getElementById('cmdstatus');
 const npanel = document.getElementById('npanel');
+const npTool = document.getElementById('npTool');
 const resultEl = document.getElementById('result');
 const tipEl = document.getElementById('tip');
 let panelNode = null;
@@ -853,7 +989,7 @@ function selectNode(n) {
     n.sel = true; selection.push(n);
     if (selection.length > 3) { const old = selection.shift(); old.sel = false; }
   }
-  spawnRipple(n.sx, n.sy, n.dom.col);
+  spawnSupernova(n.sx, n.sy, n.dom.col);
   cam.distT = Math.min(cam.distT, 470);
   openNodePanel(n);
 }
@@ -862,6 +998,8 @@ function clearAll() {
   focusNode = null; panelNode = null;
   npanel.classList.add('hidden'); npanel.classList.remove('showing');
   hideResult();
+  stopTour();
+  hideQuiz();
   if (query.phase === 'active') endQuery();
   cam.distT = Math.max(cam.distT, 640);
 }
@@ -874,6 +1012,101 @@ const statAnims = [];
 function animStat(el, target, fmt) {
   statAnims.push({ el, target, t0: T, fmt });
 }
+
+/* ---------- LIVE INTERACTIVE MINI TOOL GENERATOR ---------- */
+function renderLiveTool(n, topicOverride) {
+  npTool.innerHTML = '';
+  const id = n.dom.id;
+  
+  if (id === 'incometax' || id === 'calculators') {
+    npTool.innerHTML = `
+      <div class="np-tool-title">⚡ Old vs New Regime Comparator</div>
+      <div class="np-tool-row">
+        <div class="np-tool-label"><span>Annual Gross Salary:</span><b id="tlSalVal">₹18,00,000</b></div>
+        <input type="range" min="500000" max="5000000" step="50000" value="1800000" class="np-tool-slider" id="tlSal">
+      </div>
+      <div class="np-tool-pills">
+        <div class="np-tool-pill active" id="tl80c">Include ₹1.5L 80C</div>
+        <div class="np-tool-pill active" id="tlHra">Include ₹1L HRA</div>
+      </div>
+      <div class="np-tool-out" id="tlOut">New Regime Saves ₹23,400</div>
+    `;
+    const salEl = document.getElementById('tlSal'), salVal = document.getElementById('tlSalVal'), out = document.getElementById('tlOut');
+    const p80c = document.getElementById('tl80c'), pHra = document.getElementById('tlHra');
+    let use80c = true, useHra = true;
+    p80c.onclick = () => { use80c = !use80c; p80c.classList.toggle('active', use80c); calc(); };
+    pHra.onclick = () => { useHra = !useHra; pHra.classList.toggle('active', useHra); calc(); };
+    salEl.oninput = () => calc();
+    function calc() {
+      const sal = parseInt(salEl.value);
+      salVal.textContent = '₹' + fmtIN(sal);
+      const oldDed = (use80c ? 150000 : 0) + (useHra ? 100000 : 0) + 50000;
+      const oldTax = Math.max(0, (sal - oldDed - 250000) * 0.2);
+      const newTax = Math.max(0, (sal - 75000 - 300000) * 0.15);
+      const diff = Math.abs(oldTax - newTax);
+      if (newTax < oldTax) out.textContent = 'New Regime wins by ₹' + fmtIN(diff);
+      else out.textContent = 'Old Regime wins by ₹' + fmtIN(diff);
+    }
+  } else if (id === 'gst' || id === 'notif') {
+    npTool.innerHTML = `
+      <div class="np-tool-title">⚡ Instant GST & ITC Calculator</div>
+      <div class="np-tool-row">
+        <div class="np-tool-label"><span>Transaction Value:</span><b id="tlGstVal">₹5,00,000</b></div>
+        <input type="range" min="50000" max="2500000" step="25000" value="500000" class="np-tool-slider" id="tlGstValIn">
+      </div>
+      <div class="np-tool-pills">
+        <div class="np-tool-pill" data-r="0.05">5% GST</div>
+        <div class="np-tool-pill" data-r="0.12">12% GST</div>
+        <div class="np-tool-pill active" data-r="0.18">18% GST</div>
+        <div class="np-tool-pill" data-r="0.28">28% GST</div>
+      </div>
+      <div class="np-tool-out" id="tlGstOut">Net GST Liability: ₹90,000</div>
+    `;
+    const valIn = document.getElementById('tlGstValIn'), valDisp = document.getElementById('tlGstVal'), out = document.getElementById('tlGstOut');
+    let rate = 0.18;
+    npTool.querySelectorAll('.np-tool-pill').forEach(btn => {
+      btn.onclick = () => {
+        npTool.querySelectorAll('.np-tool-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active'); rate = parseFloat(btn.dataset.r); calc();
+      };
+    });
+    valIn.oninput = () => calc();
+    function calc() {
+      const v = parseInt(valIn.value);
+      valDisp.textContent = '₹' + fmtIN(v);
+      const tax = v * rate;
+      out.textContent = `Gross GST (${rate*100}%): ₹` + fmtIN(tax) + ` (CGST/SGST ₹` + fmtIN(tax/2) + `)`;
+    }
+  } else if (id === 'caselaw' || id === 'legal' || id === 'statutes') {
+    npTool.innerHTML = `
+      <div class="np-tool-title">🛡️ Sec 270AA Immunity Simulator</div>
+      <div class="np-tool-row">
+        <div class="np-tool-label"><span>Assessed Additions Amount:</span><b id="tlImmVal">₹15,00,000</b></div>
+        <input type="range" min="100000" max="5000000" step="50000" value="1500000" class="np-tool-slider" id="tlImmIn">
+      </div>
+      <div class="np-tool-out" id="tlImmOut">Penalty Saved (100% u/s 270A): ₹4,50,000</div>
+    `;
+    const immIn = document.getElementById('tlImmIn'), immDisp = document.getElementById('tlImmVal'), out = document.getElementById('tlImmOut');
+    immIn.oninput = () => {
+      const add = parseInt(immIn.value);
+      immDisp.textContent = '₹' + fmtIN(add);
+      const tax = add * 0.3;
+      const penaltySaved = tax * 0.5; // 50% of tax
+      out.textContent = 'Sec 270AA Immunity Saves ₹' + fmtIN(penaltySaved) + ' Penalty';
+    };
+  } else {
+    npTool.innerHTML = `
+      <div class="np-tool-title">🔍 Quick Knowledge Explorer</div>
+      <div style="font-size:10.5px;color:#a0b8df;line-height:1.4;margin-bottom:6px">
+        Click connected topic chips below or type a custom scenario into the command bar to traverse section nodes live.
+      </div>
+      <div class="np-tool-out" style="background:rgba(0,245,255,.08);border-color:rgba(0,245,255,.3);color:var(--cyan)">
+        Node Active · Linked Provisions Ready
+      </div>
+    `;
+  }
+}
+
 function openNodePanel(n, topicOverride) {
   panelNode = n;
   const d = n.dom;
@@ -889,6 +1122,10 @@ function openNodePanel(n, topicOverride) {
   animStat(document.getElementById('npS1'), 9000 + seed * 4211 % 68000, fmtIN);
   animStat(document.getElementById('npS2'), 8 + seed * 37 % 140, v => Math.round(v).toString());
   animStat(document.getElementById('npS3'), 40 + seed * 53 % 700, fmtIN);
+  
+  // Render live mini tool widget
+  renderLiveTool(n, topicOverride);
+
   // sparkline
   const sc = document.getElementById('npSpark'), g = sc.getContext('2d');
   g.clearRect(0, 0, sc.width, sc.height);
@@ -898,9 +1135,9 @@ function openNodePanel(n, topicOverride) {
     v = clamp(v + rnd(-.14, .16), .12, 1);
     const h = v * (sc.height - 4);
     const last = i === bars - 1;
-    g.fillStyle = last ? '#5eead4' : rgba(d.rgb, .18 + v * .4);
+    g.fillStyle = last ? '#00ff88' : rgba(d.rgb, .2 + v * .45);
     g.fillRect(i * bw + 1, sc.height - h, bw - 2, h);
-    if (last) { g.shadowColor = '#5eead4'; g.shadowBlur = 8; g.fillRect(i * bw + 1, sc.height - h, bw - 2, h); g.shadowBlur = 0; }
+    if (last) { g.shadowColor = '#00ff88'; g.shadowBlur = 8; g.fillRect(i * bw + 1, sc.height - h, bw - 2, h); g.shadowBlur = 0; }
   }
   // related chips
   const chipsEl = document.getElementById('npChips'); chipsEl.textContent = '';
@@ -908,7 +1145,7 @@ function openNodePanel(n, topicOverride) {
   rel.forEach(rn => {
     const b = document.createElement('button'); b.className = 'p-chip';
     b.textContent = '◇ ' + rn.dom.name;
-    b.style.borderColor = rgba(rn.dom.rgb, .4); b.style.color = rgba(mixWhite(rn.dom.rgb, .55), .95);
+    b.style.borderColor = rgba(rn.dom.rgb, .5); b.style.color = rgba(mixWhite(rn.dom.rgb, .6), .95);
     b.addEventListener('click', ev => { ev.stopPropagation(); selectNode(rn); });
     chipsEl.appendChild(b);
   });
@@ -917,7 +1154,7 @@ function placePanel() {
   if (!panelNode) return;
   const n = panelNode;
   if (!n.vis) return;
-  const pw = npanel.offsetWidth || 262, ph = npanel.offsetHeight || 300;
+  const pw = npanel.offsetWidth || 280, ph = npanel.offsetHeight || 340;
   let px = n.sx + 34, py = n.sy - ph * .3;
   if (px + pw > W - 14) px = n.sx - pw - 34;
   px = clamp(px, 10, W - pw - 10); py = clamp(py, 60, H - ph - 90);
@@ -939,6 +1176,7 @@ function matchDomains(text) {
 function runQuery(text) {
   text = (text || '').trim();
   if (!text || query.phase === 'think' || query.phase === 'spread') return;
+  playSfx('query');
   clearTimers(); hideResult();
   selection.forEach(n => n.sel = false); selection.length = 0;
   const preset = QUERIES.find(p => p.q.toLowerCase() === text.toLowerCase());
@@ -952,18 +1190,17 @@ function runQuery(text) {
   focusNode = query.rel[0].node;
 
   const thinkDur = 1900, spreadDur = 2300;
-  later(() => { // SPREAD
+  later(() => {
     query.phase = 'spread';
     cam.shakeT = 0;
     for (let i = 0; i < 3; i++)
-      later(() => waves.push({ t0: T, speed: 200, col: i === 1 ? '#5eead4' : '#7cc7ff', w: 2 - i * .4 }), i * 340);
-    // swarm surge toward relevant majors
+      later(() => waves.push({ t0: T, speed: 200, col: i === 1 ? '#00f5ff' : '#00ff88', w: 2 - i * .4 }), i * 340);
     sw.tgt = query.rel.map(d => { nodePos(d.node, _p); return [_p[0] + rnd(-22, 22), _p[1] + rnd(-16, 16), _p[2] + rnd(-22, 22)]; });
     sw.tgtUntil = T + 2.5;
     reasonPath = { list: [null, ...query.rel.map(d => d.node)], t0: T + .4, dur: 1.7 };
     cam.distT = 540;
   }, thinkDur);
-  later(() => { // REVEAL
+  later(() => {
     query.phase = 'active';
     showResult();
     goBtn.disabled = false;
@@ -990,9 +1227,9 @@ function genericInsights(text, rel) {
       'Reasoning path pinned to the knowledge graph',
     ],
     insights: [
-      'The query maps most strongly onto the ' + d[0] + ' cluster — ' + n1 + ' indexed provisions were scored, with the strongest signals now glowing on the graph.',
-      'Cross-domain dependencies were detected in ' + (d[1] || 'Compliance') + (d[2] ? ' and ' + d[2] : '') + '; the illuminated corridor shows how a change in one layer propagates outward.',
-      'Refine the query with a section, notification or scenario amount and the universe will re-weave the path with tighter focus.',
+      'The query maps most strongly onto the ' + d[0] + ' cluster — ' + n1 + ' indexed provisions were scored, with strongest signals now glowing on graph.',
+      'Cross-domain dependencies detected in ' + (d[1] || 'Compliance') + (d[2] ? ' and ' + d[2] : '') + '; illuminated corridor shows how changes propagate.',
+      'Refine the query with a section or scenario amount and the universe will re-weave the path with tighter focus.',
     ],
   };
 }
@@ -1016,8 +1253,8 @@ function showResult() {
   const impEl = document.getElementById('rImpact'); impEl.textContent = '';
   query.rel.forEach(d => {
     const s = document.createElement('span'); s.className = 'imp'; s.textContent = d.name.toUpperCase();
-    s.style.borderColor = rgba(d.rgb, .5); s.style.color = rgba(mixWhite(d.rgb, .5), .95);
-    s.style.textShadow = '0 0 8px ' + rgba(d.rgb, .6);
+    s.style.borderColor = rgba(d.rgb, .6); s.style.color = rgba(mixWhite(d.rgb, .6), .95);
+    s.style.textShadow = '0 0 10px ' + rgba(d.rgb, .7);
     impEl.appendChild(s);
   });
   const conf = data.conf;
@@ -1035,7 +1272,119 @@ QUERIES.forEach(p => {
   chipsWrap.appendChild(b);
 });
 
-/* ---------------- HUD ---------------- */
+/* ---------------- CINEMATIC AUTO-TOUR ENGINE ---------------- */
+let tourActive = false, tourStep = 0, tourTimer = null;
+const TOUR_STEPS = [
+  { domId: 'statutes', title: 'Step 1/7 · Core Statutes', desc: 'Section-level legal corpus grounding all Indian tax laws.' },
+  { domId: 'gst', title: 'Step 2/7 · Indirect Tax Corridor', desc: 'CGST/IGST mechanics, ITC rule 36(4), e-invoicing & refunds.' },
+  { domId: 'incometax', title: 'Step 3/7 · Direct Tax Intelligence', desc: 'Income slabs, TDS grid, s.270AA immunity & presumptive tax.' },
+  { domId: 'intl', title: 'Step 4/7 · International & TP', desc: '90+ DTAA treaties, arm’s length pricing & FEMA outbound routes.' },
+  { domId: 'caselaw', title: 'Step 5/7 · Precedent Graph', desc: 'Supreme Court to ITAT ratio network with treatment flags.' },
+  { domId: 'compliance', title: 'Step 6/7 · Compliance Engine', desc: 'Real-time due dates, form dependencies & entity health score.' },
+  { domId: 'insights', title: 'Step 7/7 · AI Insights & Synthesis', desc: 'Predictive exposure forecasts & automated legal drafting.' },
+];
+const tourToast = document.getElementById('tourToast');
+const btnTour = document.getElementById('btnTour');
+
+function startTour() {
+  tourActive = true; tourStep = 0;
+  btnTour.classList.add('active');
+  tourToast.classList.remove('hidden');
+  runTourStep();
+}
+function stopTour() {
+  tourActive = false;
+  if (tourTimer) clearTimeout(tourTimer);
+  btnTour.classList.remove('active');
+  tourToast.classList.add('hidden');
+}
+function runTourStep() {
+  if (!tourActive) return;
+  playSfx('tour');
+  const step = TOUR_STEPS[tourStep];
+  document.getElementById('ttTitle').textContent = step.title;
+  document.getElementById('ttDesc').textContent = step.desc;
+  const dom = DOM_BY_ID[step.domId];
+  if (dom) {
+    selectNode(dom.node);
+  }
+  tourStep = (tourStep + 1) % TOUR_STEPS.length;
+  tourTimer = setTimeout(runTourStep, 7000);
+}
+btnTour.addEventListener('click', () => {
+  if (tourActive) stopTour(); else startTour();
+});
+document.getElementById('btnTourNext').addEventListener('click', () => {
+  if (tourTimer) clearTimeout(tourTimer);
+  runTourStep();
+});
+
+/* ---------------- TAX IQ QUIZ CHALLENGE ---------------- */
+const quizModal = document.getElementById('quizModal');
+const btnQuiz = document.getElementById('btnQuiz');
+let quizIdx = 0, quizScore = 0;
+const QUIZ_QS = [
+  { q: "Under Section 112A of Income Tax, what is the tax rate on LTCG exceeding ₹1.25 Lakhs?",
+    opts: ["10%", "12.5%", "15%", "20%"], ans: 1 },
+  { q: "What is the turnover ceiling for Section 44AD presumptive tax for digital receipts (≥95%)?",
+    opts: ["₹1 Crore", "₹2 Crores", "₹3 Crores", "₹5 Crores"], ans: 2 },
+  { q: "Under GST Rule 36(4), un-reconciled ITC claim cap against GSTR-2B is currently?",
+    opts: ["0% Excess (Strict 2B Match)", "5% Excess", "10% Excess", "20% Excess"], ans: 0 },
+  { q: "Section 270AA allows immunity from penalty if application Form 68 is filed within?",
+    opts: ["15 Days", "30 Days from order receipt", "60 Days", "90 Days"], ans: 1 },
+  { q: "Which form is mandatory for foreign currency remittances under Section 195?",
+    opts: ["Form 3CEB", "Form 15CA / 15CB", "Form 68", "Form 26Q"], ans: 1 }
+];
+
+function showQuiz() {
+  quizIdx = 0; quizScore = 0;
+  quizModal.classList.remove('hidden');
+  renderQuizQ();
+}
+function hideQuiz() { quizModal.classList.add('hidden'); }
+function renderQuizQ() {
+  if (quizIdx >= QUIZ_QS.length) {
+    document.getElementById('quizQ').textContent = `🎉 Quiz Complete! Final Score: ${quizScore} / ${QUIZ_QS.length}`;
+    document.getElementById('quizOpts').innerHTML = `
+      <div style="font-size:13px;color:var(--cyan);text-align:center;padding:12px;font-family:var(--mono)">
+        RANK ACHIEVED: ${quizScore === 5 ? '🏆 TAX MAESTRO' : quizScore >= 3 ? '⭐ SENIOR TAX COUNSEL' : '📚 TAX PRACTITIONER'}
+      </div>
+      <button class="cbtn" onclick="showQuiz()" style="width:100%">RETRY QUIZ</button>
+    `;
+    playSfx('correct');
+    return;
+  }
+  const curr = QUIZ_QS[quizIdx];
+  document.getElementById('quizScore').textContent = `SCORE: ${quizScore} / ${QUIZ_QS.length}`;
+  document.getElementById('quizProg').textContent = `Question ${quizIdx + 1} of ${QUIZ_QS.length}`;
+  document.getElementById('quizQ').textContent = curr.q;
+  const optsEl = document.getElementById('quizOpts'); optsEl.innerHTML = '';
+  curr.opts.forEach((optText, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'q-opt';
+    btn.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> <span>${optText}</span>`;
+    btn.onclick = () => {
+      if (i === curr.ans) {
+        btn.classList.add('correct'); quizScore++; playSfx('correct');
+        if (mouse.in) spawnSupernova(mouse.x, mouse.y, '#00ff88');
+      } else {
+        btn.classList.add('wrong'); playSfx('click');
+      }
+      setTimeout(() => { quizIdx++; renderQuizQ(); }, 1000);
+    };
+    optsEl.appendChild(btn);
+  });
+}
+btnQuiz.addEventListener('click', showQuiz);
+document.getElementById('quizClose').addEventListener('click', hideQuiz);
+
+/* ---------------- HUD controls ---------------- */
+const btnSfx = document.getElementById('btnSfx');
+btnSfx.addEventListener('click', () => {
+  sfxMuted = !sfxMuted;
+  btnSfx.innerHTML = '🔊 <b>SFX ' + (sfxMuted ? 'OFF' : 'ON') + '</b>';
+});
+
 const layersEl = document.getElementById('layers');
 RINGS.forEach((r, i) => {
   const row = document.createElement('div'); row.className = 'lrow'; row.style.color = r.col;
@@ -1048,9 +1397,10 @@ RINGS.forEach((r, i) => {
   bar.style.animationDelay = (i * .3) + 's';
   const wrap = document.createElement('div');
   wrap.appendChild(row); wrap.appendChild(bar);
-  row.addEventListener('mouseenter', () => hoverRing = i);
+  row.addEventListener('mouseenter', () => { hoverRing = i; playSfx('hover'); });
   row.addEventListener('mouseleave', () => hoverRing = -1);
   row.addEventListener('click', () => {
+    playSfx('click');
     soloRing = soloRing === i ? -1 : i;
     layersEl.querySelectorAll('.lrow').forEach((el, k) => el.classList.toggle('solo', k === soloRing));
   });
@@ -1102,7 +1452,6 @@ function drawBackdrop(dt, tier) {
   ctx.fillStyle = '#020510';
   ctx.fillRect(0, 0, W, H);
   const px = cam.yaw * 40, py = cam.pitch * 30;
-  // nebula (three hue plates cross-fading = vivid aurora)
   ctx.globalCompositeOperation = 'screen';
   const nebA = 0.9 + 0.1 * Math.sin(T * .05);
   const nebB = 0.85 + 0.15 * Math.cos(T * .037);
@@ -1114,8 +1463,8 @@ function drawBackdrop(dt, tier) {
   ctx.globalAlpha = 0.6 * nebB;
   ctx.drawImage(nebulaC, W/2 - size/2 + Math.sin(T * .019) * 50, H/2 - size/2 + Math.cos(T * .023) * 30, size * 0.85, size * 0.85);
   ctx.globalAlpha = 1;
-  // colorful stars
-  const STAR_COLS = ['#ffffff','#b4e0ff','#ffd0e8','#d4b4ff','#b4ffe0','#fffdb4','#ff9eb4','#00f5ff'];
+  
+  const STAR_COLS = ['#ffffff','#00f5ff','#d500f9','#00ff88','#ffd700','#ff007f','#aeea00'];
   for (const layer of starLayers) {
     const ox = -cam.yaw * layer.par * 130, oy = -cam.pitch * layer.par * 90;
     for (const [si, s] of layer.arr.entries()) {
@@ -1129,7 +1478,6 @@ function drawBackdrop(dt, tier) {
     }
   }
   ctx.globalAlpha = 1;
-  // dust motes
   const dustN = TIERS[tier].dust;
   for (let i = 0; i < dustN; i++) {
     const m = dust[i];
@@ -1140,7 +1488,6 @@ function drawBackdrop(dt, tier) {
     ctx.beginPath(); ctx.arc(((x % W) + W) % W, ((y % H) + H) % H, m.sz, 0, TAU); ctx.fill();
   }
   ctx.globalAlpha = 1;
-  // comet
   if (!comet && T > nextComet) {
     const fromTop = Math.random() < .5;
     comet = { x: rnd(-.1, 1.1) * W, y: fromTop ? -30 : rnd(0, H * .4), vx: rnd(-260, 260), vy: rnd(120, 240), life: 0 };
@@ -1192,9 +1539,8 @@ function drawRings(reveal) {
     if (rv <= 0) continue;
     const dim = ringDimFactor(i);
     const e = easeOutCubic(rv);
-    strokeWorldCircle(ring.r * e, ring, .16 * dim * e, 1, ring.col);
-    strokeWorldCircle(ring.r * e, ring, .05 * dim * e, 3.4, ring.col);
-    // energy comets circulating the ring
+    strokeWorldCircle(ring.r * e, ring, .22 * dim * e, 1.2, ring.col);
+    strokeWorldCircle(ring.r * e, ring, .08 * dim * e, 3.8, ring.col);
     if (rv > .9) {
       for (let k = 0; k < 2; k++) {
         const head = T * ring.speed * 4.2 + k * Math.PI + i;
@@ -1204,7 +1550,7 @@ function drawRings(reveal) {
           const y1 = -lz * ring.sx, z1 = lz * ring.cx;
           const p = project(lx * ring.cz - y1 * ring.sz, lx * ring.sz + y1 * ring.cz, z1);
           if (!p) continue;
-          const aa = (1 - s / 7) * .5 * dim * depthFade(p);
+          const aa = (1 - s / 7) * .6 * dim * depthFade(p);
           ctx.globalAlpha = aa;
           ctx.drawImage(glowSprite(ring.col, false), p.x - 4, p.y - 4, 8, 8);
         }
@@ -1223,9 +1569,8 @@ function drawConnections() {
     const act = connActivity(c);
     const dimA = ringDimFactor(c.a.ring), dimB = ringDimFactor(c.b.ring);
     const dim = Math.min(dimA, dimB);
-    const baseA = (.05 + .3 * act) * dim;
+    const baseA = (.06 + .35 * act) * dim;
     if (baseA < .015) continue;
-    // world midpoint pushed outward for arc
     nodePos(c.a, _p); const ax = _p[0], ay = _p[1], az = _p[2];
     nodePos(c.b, _p); const bx = _p[0], by = _p[1], bz = _p[2];
     let mx = (ax + bx) / 2, my = (ay + by) / 2, mz = (az + bz) / 2;
@@ -1245,9 +1590,8 @@ function drawConnections() {
       if (!p) { started = false; continue; }
       if (!started) { ctx.moveTo(p.x, p.y); started = true; } else ctx.lineTo(p.x, p.y);
     }
-    ctx.strokeStyle = c.a.dom.col; ctx.globalAlpha = baseA; ctx.lineWidth = 1;
+    ctx.strokeStyle = c.a.dom.col; ctx.globalAlpha = baseA; ctx.lineWidth = 1.2;
     ctx.stroke();
-    // travelling pulses
     const pulses = act > .5 ? 3 : 1;
     for (let k = 0; k < pulses; k++) {
       const u = (T * (.10 + act * .1) + c.off + k / pulses) % 1;
@@ -1255,7 +1599,7 @@ function drawConnections() {
       const p = pts[idx];
       if (!p) continue;
       const sz = (3 + act * 5) * clamp(p.s, .4, 1.6);
-      ctx.globalAlpha = (.25 + .55 * act) * dim;
+      ctx.globalAlpha = (.3 + .6 * act) * dim;
       ctx.drawImage(glowSprite(c.b.dom.col, false), p.x - sz, p.y - sz, sz * 2, sz * 2);
     }
     ctx.globalAlpha = 1;
@@ -1282,13 +1626,13 @@ function drawSelectionPaths() {
         if (!p) { started = false; continue; }
         if (!started) { ctx.moveTo(p.x, p.y); started = true; } else ctx.lineTo(p.x, p.y);
       }
-      ctx.lineWidth = 2.4; ctx.strokeStyle = 'rgba(190,240,255,.16)'; ctx.stroke();
-      ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(240,252,255,.5)'; ctx.stroke();
+      ctx.lineWidth = 2.8; ctx.strokeStyle = 'rgba(0,245,255,.3)'; ctx.stroke();
+      ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.stroke();
       for (let k = 0; k < 3; k++) {
         const u = (T * .22 + k / 3) % 1;
         const p = pts[Math.round(u * SEG)];
         if (!p) continue;
-        ctx.drawImage(glowSprite('#5eead4', false), p.x - 6, p.y - 6, 12, 12);
+        ctx.drawImage(glowSprite('#00ff88', false), p.x - 7, p.y - 7, 14, 14);
       }
     }
   }
@@ -1313,13 +1657,13 @@ function drawReasonPath() {
       const t = s/SEG, u = 1-t;
       const p = project(u*u*ax + 2*u*t*mx + t*t*bx, u*u*ay + 2*u*t*my + t*t*by, u*u*az + 2*u*t*mz + t*t*bz);
       if (p && prevP) {
-        ctx.strokeStyle = 'rgba(255,244,214,.55)'; ctx.lineWidth = 1.6;
+        ctx.strokeStyle = 'rgba(255,244,214,.7)'; ctx.lineWidth = 1.8;
         ctx.beginPath(); ctx.moveTo(prevP.x, prevP.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-        ctx.strokeStyle = 'rgba(245,185,66,.16)'; ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(0,245,255,.3)'; ctx.lineWidth = 6;
         ctx.beginPath(); ctx.moveTo(prevP.x, prevP.y); ctx.lineTo(p.x, p.y); ctx.stroke();
       }
       if (s === Math.round(SEG * segP) && p && segP < 1) {
-        ctx.drawImage(glowSprite('#f5b942', false), p.x - 10, p.y - 10, 20, 20);
+        ctx.drawImage(glowSprite('#ffd700', false), p.x - 12, p.y - 12, 24, 24);
       }
       prevP = p;
     }
@@ -1350,15 +1694,15 @@ function drawLightning(dt, tier) {
     else {
       ctx.beginPath();
       lightning.pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
-      ctx.strokeStyle = rgba(hex2rgb(lightning.col), a * .5); ctx.lineWidth = 3; ctx.stroke();
-      ctx.strokeStyle = rgba([255, 255, 255], a * .8); ctx.lineWidth = 1; ctx.stroke();
+      ctx.strokeStyle = rgba(hex2rgb(lightning.col), a * .6); ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = rgba([255, 255, 255], a * .9); ctx.lineWidth = 1; ctx.stroke();
     }
   }
 }
 
 function drawShape(n, x, y, r, colB) {
   const rot = T * n.rotSpd;
-  ctx.strokeStyle = colB; ctx.lineWidth = 1.2;
+  ctx.strokeStyle = colB; ctx.lineWidth = 1.3;
   ctx.save(); ctx.translate(x, y);
   switch (n.dom.shape) {
     case 'crystal': {
@@ -1441,7 +1785,7 @@ function drawShape(n, x, y, r, colB) {
       ctx.moveTo(0, -r); ctx.lineTo(0, r); ctx.moveTo(-r, 0); ctx.lineTo(r, 0); ctx.stroke();
       break;
     }
-    default: { // orb
+    default: {
       ctx.beginPath(); ctx.arc(0, 0, r * .85, 0, TAU); ctx.stroke();
       ctx.beginPath(); ctx.arc(0, 0, r * 1.5, rot, rot + 1.9); ctx.stroke();
     }
@@ -1459,7 +1803,6 @@ function drawNodes(reveal, tier) {
     nodePos(n, _p);
     const p = project(_p[0], _p[1], _p[2]);
     if (!p) { n.vis = false; continue; }
-    // gravitational cursor distortion
     let sx = p.x, sy = p.y;
     const gdx = sx - gx, gdy = sy - gy;
     const gd2 = gdx * gdx + gdy * gdy;
@@ -1479,36 +1822,33 @@ function drawNodes(reveal, tier) {
     n.sx = sx; n.sy = sy; n.ss = r; n.vis = true; n.depth = fade;
     if (r < .3) continue;
     const soft = p.s < .95;
-    const glowA = (n.major ? .5 : .3) * fade * (0.55 + excite * .8 + n.hov * .5);
-    const gs = r * (n.major ? 7 : 5.5);
+    const glowA = (n.major ? .55 : .35) * fade * (0.55 + excite * .8 + n.hov * .5);
+    const gs = r * (n.major ? 7.5 : 5.8);
     ctx.globalAlpha = clamp(glowA, 0, 1);
     ctx.drawImage(glowSprite(n.dom.col, soft), sx - gs, sy - gs, gs * 2, gs * 2);
     if (n.major || r > 1.4) {
-      ctx.globalAlpha = clamp(fade * (.75 + excite * .3), 0, 1);
-      drawShape(n, sx, sy, Math.max(r, 2.4), rgba(n.dom.bright, .95));
+      ctx.globalAlpha = clamp(fade * (.8 + excite * .3), 0, 1);
+      drawShape(n, sx, sy, Math.max(r, 2.5), rgba(n.dom.bright, .95));
     }
-    // satellites
     if (n.major) {
-      ctx.globalAlpha = fade * .8;
+      ctx.globalAlpha = fade * .85;
       for (let k = 0; k < n.satN; k++) {
         const a = T * n.satSpd * (k % 2 ? 1 : -1.3) + k * (TAU / n.satN);
         const sr = r * 2.5 + k * 2;
         const sxx = sx + Math.cos(a) * sr, syy = sy + Math.sin(a) * sr * .55;
         ctx.drawImage(glowSprite(n.dom.col, false), sxx - 2.5, syy - 2.5, 5, 5);
       }
-      // selection brackets
       if (n.sel) {
-        ctx.globalAlpha = fade * .9;
-        ctx.strokeStyle = 'rgba(240,250,255,.85)'; ctx.lineWidth = 1.4;
+        ctx.globalAlpha = fade * .95;
+        ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 1.5;
         const br = r * 2.6 + 4;
         for (let k = 0; k < 3; k++) {
           const a0 = T * 1.2 + k * (TAU / 3);
           ctx.beginPath(); ctx.arc(sx, sy, br, a0, a0 + 1.1); ctx.stroke();
         }
       }
-      // label
       const lbl = labelSprite(n.dom.name, n.dom.col);
-      const la = fade * (.42 + n.hov * .55 + excite * .45) * pop;
+      const la = fade * (.45 + n.hov * .55 + excite * .45) * pop;
       ctx.globalAlpha = clamp(la, 0, 1);
       const lw = lbl.width / 2, lh = 20;
       ctx.drawImage(lbl, sx - lw / 2, sy + r * 2.4 + 6, lw, lh);
@@ -1528,7 +1868,7 @@ function drawSwarm(tier) {
     if (d2 < 14400) { const d = Math.sqrt(d2) || 1, f = 10 * Math.exp(-d / 60); x += dx / d * f; y += dy / d * f; }
     const dom = DOMAINS[sw.dom[i]];
     const sz = (sw.inner[i] ? 2.6 : 2) * clamp(p.s, .3, 1.7);
-    ctx.globalAlpha = (sw.inner[i] ? .34 : .22) * depthFade(p);
+    ctx.globalAlpha = (sw.inner[i] ? .38 : .24) * depthFade(p);
     ctx.drawImage(glowSprite(dom.col, false), x - sz, y - sz, sz * 2, sz * 2);
   }
   ctx.globalAlpha = 1;
@@ -1541,57 +1881,50 @@ function drawCore(reveal, tier) {
   const rv = easeOutCubic(clamp(reveal / .5, 0, 1));
   const base = 34 * p0.s * rv;
   const R = base * (1 + .05 * Math.sin(T * (2.4 + think * 4)) + think * .1);
-  // halo
-  ctx.globalAlpha = .75 + think * .25;
+  ctx.globalAlpha = .8 + think * .2;
   const hg = R * 7.5;
-  ctx.drawImage(glowSprite('#f5b942', true), p0.x - hg, p0.y - hg, hg * 2, hg * 2);
+  ctx.drawImage(glowSprite('#ffd700', true), p0.x - hg, p0.y - hg, hg * 2, hg * 2);
   const hg2 = R * 4;
-  ctx.drawImage(glowSprite('#a78bfa', true), p0.x - hg2, p0.y - hg2 * .9, hg2 * 2, hg2 * 2);
-  // god rays
+  ctx.drawImage(glowSprite('#d500f9', true), p0.x - hg2, p0.y - hg2 * .9, hg2 * 2, hg2 * 2);
   if (TIERS[tier].rays) {
     const rs = R * 6.4;
     ctx.save();
     ctx.translate(p0.x, p0.y);
-    ctx.globalAlpha = .5 + think * .5;
+    ctx.globalAlpha = .55 + think * .45;
     ctx.rotate(T * .03);
-    ctx.drawImage(raySprite('#f5d58a'), -rs, -rs, rs * 2, rs * 2);
+    ctx.drawImage(raySprite('#ffd700'), -rs, -rs, rs * 2, rs * 2);
     ctx.rotate(-T * .053);
-    ctx.globalAlpha = .3 + think * .35;
-    ctx.drawImage(raySprite('#7cc7ff'), -rs * .8, -rs * .8, rs * 1.6, rs * 1.6);
+    ctx.globalAlpha = .35 + think * .35;
+    ctx.drawImage(raySprite('#00f5ff'), -rs * .8, -rs * .8, rs * 1.6, rs * 1.6);
     ctx.restore();
   }
-  // body
   const bg = ctx.createRadialGradient(p0.x - R * .3, p0.y - R * .34, R * .08, p0.x, p0.y, R);
-  bg.addColorStop(0, 'rgba(255,252,240,.98)');
-  bg.addColorStop(.32, 'rgba(255,224,150,.92)');
-  bg.addColorStop(.66, 'rgba(245,169,66,.55)');
-  bg.addColorStop(1, 'rgba(140,80,200,.05)');
+  bg.addColorStop(0, 'rgba(255,255,255,.98)');
+  bg.addColorStop(.32, 'rgba(255,234,0,.92)');
+  bg.addColorStop(.66, 'rgba(255,109,0,.58)');
+  bg.addColorStop(1, 'rgba(213,0,249,.05)');
   ctx.fillStyle = bg;
   ctx.beginPath(); ctx.arc(p0.x, p0.y, R, 0, TAU); ctx.fill();
-  // inner plasma arcs
   ctx.lineWidth = Math.max(1.2, R * .07);
   for (let i = 0; i < 3; i++) {
     const a0 = T * (0.7 + i * .3) * (i % 2 ? -1 : 1) + i * 2.1;
-    ctx.strokeStyle = `rgba(255,255,255,${.22 - i * .05})`;
+    ctx.strokeStyle = `rgba(255,255,255,${.24 - i * .05})`;
     ctx.beginPath(); ctx.arc(p0.x, p0.y, R * (.42 + i * .17), a0, a0 + 2.4); ctx.stroke();
   }
-  // equator ring (world-space, gives 3D read)
-  strokeWorldCircle(48 * rv, { cx: 1, sx: 0, cz: 1, sz: 0 }, .3, 1, 'rgba(255,226,160,.9)');
-  // neural star flare
+  strokeWorldCircle(48 * rv, { cx: 1, sx: 0, cz: 1, sz: 0 }, .35, 1.2, 'rgba(255,234,0,.9)');
   ctx.save();
   ctx.translate(p0.x, p0.y); ctx.rotate(Math.sin(T * .4) * .2);
   const fl = R * (2.6 + think * 1.2);
-  ctx.globalAlpha = .55 + .3 * Math.sin(T * 3.1) * (0.5 + think);
+  ctx.globalAlpha = .6 + .3 * Math.sin(T * 3.1) * (0.5 + think);
   ctx.drawImage(streakSprite(), -fl, -R * .12, fl * 2, R * .24);
   ctx.rotate(Math.PI / 2);
-  ctx.globalAlpha *= .55;
+  ctx.globalAlpha *= .6;
   ctx.drawImage(streakSprite(), -fl * .6, -R * .1, fl * 1.2, R * .2);
   ctx.restore();
-  // emitted pulse rings
   const period = think ? .5 : 1.7;
   const ph = (T % period) / period;
-  ctx.globalAlpha = (1 - ph) * (.3 + think * .4);
-  ctx.strokeStyle = '#ffe2a0'; ctx.lineWidth = 1.4;
+  ctx.globalAlpha = (1 - ph) * (.35 + think * .4);
+  ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 1.4;
   ctx.beginPath(); ctx.arc(p0.x, p0.y, R * (1.1 + ph * 2.6), 0, TAU); ctx.stroke();
   ctx.globalAlpha = 1;
 }
@@ -1604,14 +1937,13 @@ function drawWaves() {
     const age = T - w.t0;
     const r = age * w.speed;
     if (r > 420) { waves.splice(i, 1); continue; }
-    const a = clamp(1 - r / 420, 0, 1) * .5;
+    const a = clamp(1 - r / 420, 0, 1) * .55;
     const sr = r * p0.s;
     ctx.globalAlpha = a;
     ctx.strokeStyle = w.col; ctx.lineWidth = w.w + 1.5;
     ctx.beginPath(); ctx.arc(p0.x, p0.y, sr, 0, TAU); ctx.stroke();
     ctx.globalAlpha = a * .5; ctx.lineWidth = w.w * 4;
     ctx.beginPath(); ctx.arc(p0.x, p0.y, sr, 0, TAU); ctx.stroke();
-    // activate nodes as the front passes
     for (const n of nodes) {
       if (!n.vis) continue;
       nodePos(n, _p);
@@ -1628,7 +1960,7 @@ function drawRipples(dt) {
     rp.r += rp.vr * dt; rp.a -= dt * .9;
     if (rp.a <= 0) { ripples.splice(i, 1); continue; }
     ctx.globalAlpha = rp.a;
-    ctx.strokeStyle = rp.col; ctx.lineWidth = 1.4;
+    ctx.strokeStyle = rp.col; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, TAU); ctx.stroke();
     ctx.globalAlpha = rp.a * .5;
     ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r * .65, 0, TAU); ctx.stroke();
@@ -1642,18 +1974,18 @@ function drawLeaderLines() {
     const r = npanel.getBoundingClientRect();
     const px = panelNode.sx < r.left ? r.left : r.right;
     const py = r.top + 26;
-    ctx.strokeStyle = 'rgba(140,210,255,.4)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(0,245,255,.5)'; ctx.lineWidth = 1;
     ctx.setLineDash([3, 4]);
     ctx.beginPath(); ctx.moveTo(panelNode.sx, panelNode.sy); ctx.lineTo(px, py); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(140,210,255,.7)';
-    ctx.beginPath(); ctx.arc(px, py, 2.2, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(0,245,255,.8)';
+    ctx.beginPath(); ctx.arc(px, py, 2.5, 0, TAU); ctx.fill();
   }
   if (!resultEl.classList.contains('hidden') && query.rel.length) {
     const n = query.rel[0].node;
     if (n.vis) {
       const r = resultEl.getBoundingClientRect();
-      ctx.strokeStyle = 'rgba(94,234,212,.35)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(0,255,136,.45)'; ctx.lineWidth = 1;
       ctx.setLineDash([3, 4]);
       ctx.beginPath(); ctx.moveTo(n.sx, n.sy); ctx.lineTo(r.left, r.top + 30); ctx.stroke();
       ctx.setLineDash([]);
@@ -1674,12 +2006,10 @@ function syncDomainExcitement(dt) {
 }
 
 function updateCamera(dt) {
-  // auto orbit
   if (orbitOn && !focusNode && T - lastInteract > 5 && !(dragInfo && dragInfo.moved)) {
     cam.yawT += dt * .045;
     cam.pitchT = lerp(cam.pitchT, .32 + Math.sin(T * .06) * .08, dt * .5);
   }
-  // focus tracking
   if (focusNode) {
     nodePos(focusNode, _p);
     const wantYaw = Math.atan2(_p[0], _p[2]) + Math.PI;
@@ -1691,7 +2021,6 @@ function updateCamera(dt) {
   cam.yaw += wrapAngle(cam.yawT - cam.yaw) * clamp(dt * 8, 0, 1);
   cam.pitch += (cam.pitchT - cam.pitch) * clamp(dt * 8, 0, 1);
   cam.dist += (cam.distT - cam.dist) * clamp(dt * 4.5, 0, 1);
-  // micro shake
   cam.shake += (cam.shakeT - cam.shake) * clamp(dt * 5, 0, 1);
   const s = cam.shake * 2.4;
   cam.shx = (Math.sin(T * 31) + Math.sin(T * 17.3) * .6) * s;
@@ -1740,7 +2069,7 @@ function frame(ms) {
   T += dt;
   tierTick(dtMs);
   const tier = tierIdx;
-  const reveal = T / 1.9; // uncapped; per-element gates clamp themselves
+  const reveal = T / 1.9;
 
   updateCamera(dt);
   syncDomainExcitement(dt);
@@ -1749,6 +2078,7 @@ function frame(ms) {
 
   hoverNode = pick();
   if (hoverNode && T - hoverRippleAt > .5) {
+    playSfx('hover');
     spawnRipple(hoverNode.sx, hoverNode.sy, hoverNode.dom.col);
     hoverRippleAt = T;
   }
@@ -1768,7 +2098,6 @@ function frame(ms) {
   drawLightning(dt, tier);
   drawRipples(dt);
 
-  // post
   ctx.globalCompositeOperation = 'source-over';
   ctx.drawImage(vignette, 0, 0, W, H);
   if (TIERS[tier].grain) {

@@ -25,6 +25,7 @@ export interface ToolContent {
   exampleRows: { label: string; value: string }[];
   /** FAQs */
   faqs: ToolFaq[];
+  lastUpdated?: string;
 }
 
 export const toolContent: Record<string, ToolContent> = {
