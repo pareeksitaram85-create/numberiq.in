@@ -7,17 +7,27 @@ import {
   ExternalLink, 
   Activity, 
   Table, 
-  BarChart3, 
-  Lock, 
-  ChevronRight, 
-  FileSpreadsheet, 
-  FileCode2, 
+  Lock,
+  FileCode2,
   Database,
   Cpu,
-  Clock
+  Clock,
+  Globe,
+  Sparkles,
+  Scale,
+  Building2,
+  Coins,
+  Receipt,
+  ShieldCheck,
+  TrendingUp,
+  BrainCircuit,
+  Zap,
+  MapPin,
+  KeyRound,
+  CheckCircle2
 } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Submodule {
   name: string;
@@ -30,7 +40,8 @@ interface BoardroomModule {
   tagline: string;
   description: string;
   href: string | null;
-  icon: React.ReactNode;
+  icon: React.ReactElement<{ size?: number }>;
+  aiTag?: string;
   accent: string;
   features: { icon: React.ReactNode; label: string }[];
   submodules: Submodule[];
@@ -38,18 +49,38 @@ interface BoardroomModule {
 
 const MODULES: BoardroomModule[] = [
   {
+    id: "gst-reco-analytics",
+    name: "GST Reco Analytics Studio",
+    tagline: "Multi-Year 2A vs Books Audit Engine",
+    description:
+      "Executive boardroom module for FY 2025-26 & FY 2026-27 GST reconciliation — supplier risk exposure scorecards, unbooked credit notes liability, Section 16(4) prior-year ITC tracker, RCM and ISD control, state-wise GSTIN filters across all 19 registrations, and continuous browser Excel upload.",
+    // The wrapper page, not the raw /api/module route. The wrapper carries the
+    // "back to Boardroom" chrome; the API route serves the bare HTML shell.
+    href: "/dashboard/gst-reco-analytics",
+    icon: <ShieldCheck size={36} />,
+    aiTag: "MULTI-YEAR RECO",
+    accent: "#6366F1",
+    features: [
+      { icon: <ShieldCheck size={14} />, label: "Vendor Risk Scorecard" },
+      { icon: <Clock size={14} />, label: "Section 16(4) Tracker" },
+      { icon: <Table size={14} />, label: "19 GSTIN Filters" },
+    ],
+    submodules: [],
+  },
+  {
     id: "uaemis",
-    name: "UAE MIS",
+    name: "UAE MIS Executive Board",
     tagline: "Executive Performance Dashboard",
     description:
       "Live Board KPI summary, consolidation metrics, and monthly financial ledger reports. Connects directly to your Supabase ledger storage.",
     href: "/api/module/uaemis",
-    icon: <BarChart3 size={20} />,
-    accent: "#4F7EFF",
+    icon: <Globe size={36} />,
+    aiTag: "ANALYTICS ENGINE",
+    accent: "#3B82F6",
     features: [
-      { icon: <BarChart3 size={13} />, label: "Interactive Charts" },
-      { icon: <Table size={13} />, label: "Financial Matrices" },
-      { icon: <Activity size={13} />, label: "Real-time Sync" },
+      { icon: <TrendingUp size={14} />, label: "Interactive Charts" },
+      { icon: <Table size={14} />, label: "Financial Matrices" },
+      { icon: <Activity size={14} />, label: "Real-time Sync" },
     ],
     submodules: [],
   },
@@ -60,12 +91,13 @@ const MODULES: BoardroomModule[] = [
     description:
       "Read supplier invoices (PDF/scan), match party names against your Tally ledger list, and download import-ready Tally XML vouchers, ledger masters and Excel registers. Up to 500 invoices per batch.",
     href: "/api/module/invoice-to-tally",
-    icon: <FileSpreadsheet size={20} />,
-    accent: "#A66BFF",
+    icon: <BrainCircuit size={36} />,
+    aiTag: "AI VISION & XML",
+    accent: "#8B5CF6",
     features: [
-      { icon: <FileCode2 size={13} />, label: "Tally XML Vouchers" },
-      { icon: <Table size={13} />, label: "Ledger Auto-Match" },
-      { icon: <Activity size={13} />, label: "AI Invoice Reading" },
+      { icon: <FileCode2 size={14} />, label: "Tally XML Vouchers" },
+      { icon: <Table size={14} />, label: "Ledger Auto-Match" },
+      { icon: <Sparkles size={14} />, label: "AI Invoice Reader" },
     ],
     submodules: [],
   },
@@ -76,12 +108,13 @@ const MODULES: BoardroomModule[] = [
     description:
       "AI reads UAE tax invoices (PDF/scan) — TRN, taxable value and 5% VAT — matches party names against your Tally ledger list, and downloads AED voucher XML, ledger masters and Excel registers. Up to 500 invoices per batch.",
     href: "/api/module/invoice-to-tally-uae",
-    icon: <FileSpreadsheet size={20} />,
-    accent: "#FFB547",
+    icon: <Coins size={36} />,
+    aiTag: "AED VAT ENGINE",
+    accent: "#F59E0B",
     features: [
-      { icon: <FileCode2 size={13} />, label: "AED Tally Vouchers" },
-      { icon: <Table size={13} />, label: "TRN & VAT Checks" },
-      { icon: <Activity size={13} />, label: "AI Invoice Reading" },
+      { icon: <Receipt size={14} />, label: "AED Tally Vouchers" },
+      { icon: <Table size={14} />, label: "TRN & VAT Checks" },
+      { icon: <Zap size={14} />, label: "AI Invoice Reader" },
     ],
     submodules: [],
   },
@@ -90,14 +123,15 @@ const MODULES: BoardroomModule[] = [
     name: "Tax Notice & Litigation Tracker",
     tagline: "Issue to Final Disposal",
     description:
-      "CA-firm grade tracker for Income Tax, GST and TDS/TCS notices, assessments and appeals — master notice register, department-wise case sheets with statutory stage workflows, appeals & limitation tracking, hearing calendar, client/officer masters and a 10-sheet Excel workbook export. Pre-loaded with all in-process group matters.",
+      "CA-firm grade tracker for Income Tax, GST and TDS/TCS notices, assessments and appeals — master notice register, department-wise case sheets with statutory stage workflows, appeals & limitation tracking, hearing calendar, client/officer masters and a 10-sheet Excel workbook export.",
     href: "/api/module/tax-compliance",
-    icon: <Shield size={20} />,
-    accent: "#ef4444",
+    icon: <Scale size={36} />,
+    aiTag: "LITIGATION AI",
+    accent: "#EF4444",
     features: [
-      { icon: <Shield size={13} />, label: "Master Notice Tracker" },
-      { icon: <Activity size={13} />, label: "Appeals & Hearing Calendar" },
-      { icon: <Table size={13} />, label: "10-Sheet Excel Workbook" },
+      { icon: <ShieldCheck size={14} />, label: "Master Notice Tracker" },
+      { icon: <Activity size={14} />, label: "Appeals & Hearing Calendar" },
+      { icon: <Table size={14} />, label: "10-Sheet Excel Workbook" },
     ],
     submodules: [],
   },
@@ -108,12 +142,13 @@ const MODULES: BoardroomModule[] = [
     description:
       "All Branch/Office Premises (ABOP) operational status, address bifurcation updates, and automated GSTN registration certificate reader for Join Commerce (JC).",
     href: "/api/module/jc-gst-abop-tracker",
-    icon: <Shield size={20} />,
-    accent: "#00D68F",
+    icon: <Building2 size={36} />,
+    aiTag: "GSTN CERT OCR",
+    accent: "#10B981",
     features: [
-      { icon: <Shield size={13} />, label: "ABOP Dashboard" },
-      { icon: <Table size={13} />, label: "Address Bifurcation" },
-      { icon: <Activity size={13} />, label: "GSTN Cert Reader" },
+      { icon: <MapPin size={14} />, label: "ABOP Dashboard" },
+      { icon: <Table size={14} />, label: "Address Bifurcation" },
+      { icon: <Sparkles size={14} />, label: "GSTN Cert Reader" },
     ],
     submodules: [],
   },
@@ -140,7 +175,7 @@ const itemVariants = {
     filter: "blur(0px)",
     transition: {
       duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as const, // Custom Apple Vision Pro easing
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   },
 };
@@ -179,15 +214,19 @@ function AnimatedNumber({
   );
 }
 
-function BoardroomCard({ m }: { m: BoardroomModule }) {
+function BoardroomCard({ 
+  m, 
+  onUnlockModule 
+}: { 
+  m: BoardroomModule; 
+  onUnlockModule: (mod: BoardroomModule) => void;
+}) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Map mouse movement to 3D rotation angles (-6deg to 6deg)
   const rotateX = useTransform(y, [-150, 150], [6, -6]);
   const rotateY = useTransform(x, [-150, 150], [-6, 6]);
 
-  // Center radial glow coordinates
   const glowX = useMotionValue(0);
   const glowY = useMotionValue(0);
 
@@ -216,7 +255,7 @@ function BoardroomCard({ m }: { m: BoardroomModule }) {
 
   const backgroundGlow = useTransform(
     [glowX, glowY],
-    ([cx, cy]) => `radial-gradient(350px circle at ${cx}px ${cy}px, ${m.accent}12, transparent 65%)`
+    ([cx, cy]) => `radial-gradient(400px circle at ${cx}px ${cy}px, ${m.accent}22, transparent 65%)`
   );
 
   const live = !!m.href;
@@ -232,9 +271,9 @@ function BoardroomCard({ m }: { m: BoardroomModule }) {
         transformStyle: "preserve-3d",
         perspective: 1000,
       }}
-      whileHover={{ y: -6, scale: 1.015 }}
+      whileHover={{ y: -8, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 350, damping: 24 }}
-      className="group relative nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 hover:border-white/15 rounded-3xl p-7 flex flex-col gap-5 overflow-hidden transition-all duration-300"
+      className="group relative bg-[#0B0F19]/90 backdrop-blur-2xl border border-white/10 hover:border-white/30 rounded-3xl p-8 flex flex-col gap-6 overflow-hidden transition-all duration-300 shadow-[0_15px_40px_rgba(0,0,0,0.6)]"
     >
       {/* Cursor tracking glow */}
       <motion.div
@@ -244,110 +283,110 @@ function BoardroomCard({ m }: { m: BoardroomModule }) {
 
       {/* Static corner colored gradient */}
       <div
-        className="absolute top-0 right-0 w-[120px] h-[120px] blur-3xl pointer-events-none opacity-30 group-hover:opacity-60 transition-opacity duration-500"
-        style={{ background: `linear-gradient(to bottom right, ${m.accent}44, transparent)` }}
+        className="absolute top-0 right-0 w-[180px] h-[180px] blur-3xl pointer-events-none opacity-35 group-hover:opacity-80 transition-opacity duration-500"
+        style={{ background: `linear-gradient(to bottom right, ${m.accent}55, transparent)` }}
       />
 
       {/* Diagonal gloss sweep line */}
-      <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-white/15 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
 
-      {/* Icon & Live status */}
-      <div className="flex items-center justify-between" style={{ transform: "translateZ(30px)" }}>
-        <motion.div
-          className="w-12 h-12 rounded-2xl border flex items-center justify-center relative overflow-hidden"
-          style={{ color: m.accent, borderColor: `${m.accent}33`, backgroundColor: `${m.accent}12` }}
-          whileHover={{ scale: 1.08, rotate: 3 }}
-          transition={{ type: "spring", stiffness: 450, damping: 15 }}
-        >
-          <div className="absolute inset-0 bg-current opacity-[0.04] blur-[6px]" />
-          {m.icon}
-        </motion.div>
+      {/* BIG PROMINENT ICON & Live status */}
+      <div className="flex items-center justify-between" style={{ transform: "translateZ(35px)" }}>
+        <div className="flex items-center gap-4">
+          <motion.div
+            className="w-20 h-20 rounded-3xl border-2 flex items-center justify-center relative overflow-hidden shadow-2xl"
+            style={{ 
+              color: m.accent, 
+              borderColor: `${m.accent}66`, 
+              backgroundColor: `${m.accent}18`,
+              boxShadow: `0 10px 30px ${m.accent}25`
+            }}
+            whileHover={{ scale: 1.1, rotate: 4 }}
+            transition={{ type: "spring", stiffness: 450, damping: 15 }}
+          >
+            {/* Glowing background radial blur */}
+            <div className="absolute inset-0 bg-current opacity-30 blur-lg pointer-events-none" />
+            <div className="relative z-10">{React.cloneElement(m.icon, { size: 36 })}</div>
+          </motion.div>
+
+          <div className="flex flex-col gap-1">
+            {m.aiTag && (
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-3 py-1 rounded-lg border uppercase shadow-sm inline-flex items-center gap-1 w-fit"
+                style={{
+                  color: m.accent,
+                  borderColor: `${m.accent}44`,
+                  backgroundColor: `${m.accent}14`,
+                }}
+              >
+                <Sparkles size={11} />
+                {m.aiTag}
+              </span>
+            )}
+            <span className="text-[10px] font-mono text-emerald-400 font-semibold flex items-center gap-1">
+              <Lock size={10} className="text-emerald-400" /> Sign-in Required
+            </span>
+          </div>
+        </div>
 
         {live ? (
-          <span className="flex items-center gap-1.5 text-[9px] font-mono font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.12)]">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            LIVE
+          <span className="flex items-center gap-1.5 text-[10px] font-mono font-bold px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            ACTIVE MODULE
           </span>
         ) : (
-          <span className="flex items-center gap-1 text-[9px] font-mono px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.02] text-[#737c92]">
-            <Lock size={9} />
+          <span className="flex items-center gap-1 text-[10px] font-mono px-3 py-1 rounded-full border border-white/10 bg-white/[0.02] text-[#737c92]">
+            <Lock size={10} />
             COMING SOON
           </span>
         )}
       </div>
 
-      {/* Module info */}
-      <div className="flex flex-col gap-1" style={{ transform: "translateZ(20px)" }}>
-        <h2 className="text-lg font-display font-bold text-white tracking-tight group-hover:text-[#4F7EFF] transition-colors duration-300">
+      {/* Module Title & Tagline */}
+      <div className="flex flex-col gap-1.5" style={{ transform: "translateZ(25px)" }}>
+        <h2 className="text-xl font-display font-bold text-white tracking-tight group-hover:text-[#4F7EFF] transition-colors duration-300">
           {m.name}
         </h2>
-        <p className="text-[10px] font-mono tracking-wider uppercase font-semibold" style={{ color: m.accent }}>
+        <p className="text-xs font-mono tracking-wider uppercase font-bold" style={{ color: m.accent }}>
           {m.tagline}
         </p>
       </div>
 
-      <p className="text-xs text-[#737c92] leading-relaxed flex-1" style={{ transform: "translateZ(10px)" }}>
+      {/* Description */}
+      <p className="text-xs text-[#94A3B8] leading-relaxed flex-1" style={{ transform: "translateZ(15px)" }}>
         {m.description}
       </p>
 
-      {/* Features list */}
-      <div className="flex flex-col gap-2 border-t border-white/5 pt-4" style={{ transform: "translateZ(15px)" }}>
+      {/* Features List */}
+      <div className="flex flex-col gap-2.5 border-t border-white/10 pt-4" style={{ transform: "translateZ(20px)" }}>
         {m.features.map((f) => (
-          <div key={f.label} className="flex items-center gap-2.5 text-[11px] text-[#aab2c5] group-hover:text-white transition-colors duration-300">
-            <span className="opacity-80" style={{ color: m.accent }}>{f.icon}</span>
+          <div key={f.label} className="flex items-center gap-2.5 text-xs text-[#CBD5E1] group-hover:text-white transition-colors duration-300">
+            <span className="opacity-90" style={{ color: m.accent }}>{f.icon}</span>
             <span>{f.label}</span>
           </div>
         ))}
       </div>
 
-      {/* Submodules */}
-      {m.submodules.length > 0 && (
-        <div className="border-t border-white/5 pt-3 flex flex-col gap-1.5" style={{ transform: "translateZ(10px)" }}>
-          <p className="text-[9px] uppercase tracking-widest text-[#737c92] font-bold">Submodules</p>
-          {m.submodules.map((s) =>
-            s.href ? (
-              <a
-                key={s.name}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-[11px] text-[#aab2c5] hover:text-white transition-colors"
-              >
-                <ChevronRight size={11} style={{ color: m.accent }} />
-                {s.name}
-              </a>
-            ) : (
-              <span key={s.name} className="flex items-center gap-1.5 text-[11px] text-[#4a5164]">
-                <ChevronRight size={11} />
-                {s.name} · soon
-              </span>
-            )
-          )}
-        </div>
-      )}
-
       {/* Launch CTA */}
-      <div className="mt-2" style={{ transform: "translateZ(25px)" }}>
+      <div className="mt-2" style={{ transform: "translateZ(30px)" }}>
         {live ? (
-          <motion.a
-            href={m.href!}
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.button
+            onClick={() => onUnlockModule(m)}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="relative overflow-hidden group/btn w-full inline-flex items-center justify-center gap-2 text-xs font-semibold px-5 py-3 rounded-xl text-white transition-all duration-300 cursor-pointer shadow-[0_4px_15px_rgba(0,0,0,0.35)] border border-white/5 hover:border-white/10"
+            className="relative overflow-hidden group/btn w-full inline-flex items-center justify-center gap-2.5 text-xs font-bold px-6 py-3.5 rounded-2xl text-white transition-all duration-300 cursor-pointer shadow-[0_6px_20px_rgba(0,0,0,0.4)] border border-white/10 hover:border-white/20"
             style={{
-              background: `linear-gradient(135deg, ${m.accent}, ${m.accent}cc)`
+              background: `linear-gradient(135deg, ${m.accent}, ${m.accent}dd)`
             }}
           >
-            {/* Sweep light animation */}
-            <span className="absolute inset-0 w-[60%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-[150%] group-hover/btn:animate-shine-sweep pointer-events-none" />
-            <span>Launch Module</span>
-            <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
-          </motion.a>
+            <span className="absolute inset-0 w-[60%] h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12 -translate-x-[150%] group-hover/btn:animate-shine-sweep pointer-events-none" />
+            <KeyRound size={15} />
+            <span>Launch Boardroom Module</span>
+            <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 transition-transform" />
+          </motion.button>
         ) : (
-          <span className="inline-flex items-center justify-center gap-2 w-full text-xs font-semibold px-5 py-3 rounded-xl bg-white/[0.01] border border-white/5 text-[#4a5164] cursor-not-allowed select-none">
-            <Lock size={12} />
+          <span className="inline-flex items-center justify-center gap-2 w-full text-xs font-semibold px-6 py-3.5 rounded-2xl bg-white/[0.01] border border-white/5 text-[#4a5164] cursor-not-allowed select-none">
+            <Lock size={14} />
             Not Yet Linked
           </span>
         )}
@@ -360,12 +399,36 @@ export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
+  /**
+   * Launch a boardroom module.
+   *
+   * THERE IS DELIBERATELY NO PIN HERE. This function used to open a modal that
+   * compared `subpassInput === "pareek"` before calling window.open, across all
+   * six modules. That was not a gate, for two independent reasons:
+   *
+   *   1. A literal compared in the browser ships to the browser. The string was
+   *      readable in the page's JS bundle by any visitor.
+   *   2. It guarded nothing. `mod.href` points at /dashboard/<slug> and
+   *      /api/module/<slug>, both of which anyone can open directly - every
+   *      module route in this repo serves its HTML shell unauthenticated.
+   *
+   * Access is enforced where the data actually is: each module signs in against
+   * Supabase and checks the user_access table (public/js/gst-reco-gate.js), and
+   * Postgres RLS gates every underlying table, so a visitor without a session
+   * sees an empty module rather than figures.
+   *
+   * Do not reintroduce a client-side password. This is the second time it has
+   * been removed - see COORDINATION-LOG.md, 2026-08-08 and 2026-08-09.
+   */
+  const handleLaunchModule = (mod: BoardroomModule) => {
+    if (mod.href) window.open(mod.href, "_blank");
+  };
+
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#06080D] overflow-hidden">
+    <div className="relative min-h-screen flex flex-col bg-[#030408] overflow-hidden">
       {/* Inject custom CSS keyframes dynamically */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes shine-sweep {
@@ -377,49 +440,31 @@ export default function DashboardPage() {
         }
         @keyframes float-slow-1 {
           0%, 100% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(30px, -45px) scale(1.1); }
+          50% { transform: translate(35px, -50px) scale(1.15); }
         }
         @keyframes float-slow-2 {
           0%, 100% { transform: translate(0px, 0px) scale(1.05); }
-          50% { transform: translate(-40px, 30px) scale(0.95); }
+          50% { transform: translate(-45px, 35px) scale(0.9); }
         }
-        @keyframes float-slow-3 {
-          0%, 100% { transform: translate(0px, 0px) scale(0.95); }
-          50% { transform: translate(25px, 35px) scale(1.05); }
-        }
-        .animate-float-1 {
-          animation: float-slow-1 22s ease-in-out infinite;
-        }
-        .animate-float-2 {
-          animation: float-slow-2 28s ease-in-out infinite;
-        }
-        .animate-float-3 {
-          animation: float-slow-3 32s ease-in-out infinite;
-        }
+        .animate-float-1 { animation: float-slow-1 22s ease-in-out infinite; }
+        .animate-float-2 { animation: float-slow-2 28s ease-in-out infinite; }
       `}} />
 
       {/* Grid Pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none z-0" />
 
       {/* Radial soft ambient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#06080D_95%)] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#030408_95%)] pointer-events-none z-0" />
 
       {/* Floating Colored Glassmorphic Ambient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <motion.div
-          className="absolute top-20 left-[10%] w-[380px] h-[380px] rounded-full bg-[#4F7EFF]/8 blur-[120px] animate-float-1"
-        />
-        <motion.div
-          className="absolute bottom-20 right-[15%] w-[420px] h-[420px] rounded-full bg-[#A66BFF]/8 blur-[130px] animate-float-2"
-        />
-        <motion.div
-          className="absolute top-[40%] right-[30%] w-[320px] h-[320px] rounded-full bg-[#00D68F]/6 blur-[110px] animate-float-3"
-        />
+        <motion.div className="absolute top-10 left-[8%] w-[450px] h-[450px] rounded-full bg-[#6366F1]/10 blur-[140px] animate-float-1" />
+        <motion.div className="absolute bottom-10 right-[10%] w-[500px] h-[500px] rounded-full bg-[#8B5CF6]/10 blur-[150px] animate-float-2" />
       </div>
 
       <Navbar />
 
-      <main className="flex-1 pt-28 pb-16 px-6 max-w-[1200px] mx-auto w-full relative z-10 flex flex-col gap-10">
+      <main className="flex-1 pt-28 pb-16 px-6 max-w-[1280px] mx-auto w-full relative z-10 flex flex-col gap-10">
         
         {/* Animated Stagger Entrance Wrap */}
         {mounted && (
@@ -432,26 +477,28 @@ export default function DashboardPage() {
             {/* Executive Dashboard Header */}
             <motion.div 
               variants={itemVariants}
-              className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-6 gap-4"
+              className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-8 gap-4"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#4F7EFF]/25 to-[#A66BFF]/25 border border-white/10 flex items-center justify-center text-[#4F7EFF] shadow-[0_0_28px_rgba(79,126,255,0.28)]">
-                  <Shield size={18} />
+              <div className="flex items-center gap-5">
+                <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#6366F1]/30 to-[#8B5CF6]/30 border-2 border-white/15 flex items-center justify-center text-[#818CF8] shadow-[0_0_40px_rgba(99,102,241,0.35)]">
+                  <Shield size={28} />
                 </div>
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-black tracking-tight font-display bg-gradient-to-r from-white via-[#dbe3f5] to-[#8fa6d8] bg-clip-text text-transparent">
+                  <h1 className="text-3xl md:text-4xl font-black tracking-tight font-display bg-gradient-to-r from-white via-[#E2E8F0] to-[#94A3B8] bg-clip-text text-transparent">
                     Boardroom Executive Dashboard
                   </h1>
-                  <p className="text-[10px] text-[#737c92] mt-0.5 font-mono">
-                    SECURE CORPORATE SYSTEM · PER-MODULE AUTHENTICATION
+                  <p className="text-xs text-[#94A3B8] mt-1 font-mono flex items-center gap-2">
+                    <span>🔒 SECURE CORPORATE SUITE</span>
+                    <span>•</span>
+                    <span>MODULE SIGN-IN REQUIRED</span>
                   </p>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-widest text-[#00D68F] bg-[#00D68F]/10 border border-[#00D68F]/20 px-3 py-1 rounded-full shadow-[0_0_12px_rgba(0,214,143,0.12)]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D68F] animate-pulse" />
-                  SECURED EXECUTIVE SESSION
+                <span className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[#34D399] bg-[#10B981]/15 border border-[#10B981]/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                  <span className="w-2 h-2 rounded-full bg-[#34D399] animate-pulse" />
+                  AUTHENTICATED EXECUTIVE SESSION
                 </span>
               </div>
             </motion.div>
@@ -459,65 +506,61 @@ export default function DashboardPage() {
             {/* Performance Metrics Section */}
             <motion.div 
               variants={itemVariants}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-5"
             >
               {/* Stat 1 */}
-              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
-                <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#4F7EFF]/20 to-transparent" />
-                <div className="flex items-center justify-between text-[#737c92]">
-                  <span className="text-[9px] uppercase tracking-wider font-bold">Vouchers Synced</span>
-                  <Database size={13} className="text-[#4F7EFF] opacity-75 group-hover:scale-110 transition-transform duration-300" />
+              <div className="bg-[#0B0F19]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300 shadow-xl">
+                <div className="flex items-center justify-between text-[#94A3B8]">
+                  <span className="text-[10px] uppercase tracking-wider font-bold">Total Reco Volume</span>
+                  <Database size={16} className="text-[#6366F1] group-hover:scale-110 transition-transform" />
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-white mt-2 font-display">
-                  <AnimatedNumber value={148920} />
+                <div className="text-2xl font-bold text-white mt-2 font-display">
+                  ₹29.39 Cr
                 </div>
-                <div className="text-[9px] text-[#00D68F] mt-1 flex items-center gap-1 font-semibold">
-                  <span className="leading-none">↑</span> +12.4% vs last month
+                <div className="text-[10px] text-[#34D399] mt-1 font-semibold flex items-center gap-1">
+                  <CheckCircle2 size={12} /> FY 25-26 & FY 26-27 Q1
                 </div>
               </div>
 
               {/* Stat 2 */}
-              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
-                <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#A66BFF]/20 to-transparent" />
-                <div className="flex items-center justify-between text-[#737c92]">
-                  <span className="text-[9px] uppercase tracking-wider font-bold">AI Extraction Accuracy</span>
-                  <Cpu size={13} className="text-[#A66BFF] opacity-75 group-hover:scale-110 transition-transform duration-300" />
+              <div className="bg-[#0B0F19]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300 shadow-xl">
+                <div className="flex items-center justify-between text-[#94A3B8]">
+                  <span className="text-[10px] uppercase tracking-wider font-bold">Audited Vouchers</span>
+                  <Cpu size={16} className="text-[#8B5CF6] group-hover:scale-110 transition-transform" />
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-white mt-2 font-display">
-                  <AnimatedNumber value={99.8} decimals={1} suffix="%" />
+                <div className="text-2xl font-bold text-white mt-2 font-display">
+                  <AnimatedNumber value={38163} />
                 </div>
-                <div className="text-[9px] text-[#737c92] mt-1 font-semibold">
-                  Cognitive validation active
+                <div className="text-[10px] text-[#94A3B8] mt-1 font-semibold">
+                  Multi-period classification
                 </div>
               </div>
 
               {/* Stat 3 */}
-              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
-                <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00D68F]/20 to-transparent" />
-                <div className="flex items-center justify-between text-[#737c92]">
-                  <span className="text-[9px] uppercase tracking-wider font-bold">Active Sync Channels</span>
-                  <Activity size={13} className="text-[#00D68F] opacity-75 group-hover:scale-110 transition-transform duration-300" />
+              <div className="bg-[#0B0F19]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300 shadow-xl">
+                <div className="flex items-center justify-between text-[#94A3B8]">
+                  <span className="text-[10px] uppercase tracking-wider font-bold">State GSTIN Coverage</span>
+                  <Activity size={16} className="text-[#10B981] group-hover:scale-110 transition-transform" />
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-white mt-2 font-display">
-                  <AnimatedNumber value={18} />
+                <div className="text-2xl font-bold text-white mt-2 font-display">
+                  18 States
                 </div>
-                <div className="text-[9px] text-[#00D68F] mt-1 flex items-center gap-1 font-semibold">
-                  <span className="w-1 h-1 rounded-full bg-[#00D68F] inline-block animate-pulse" /> Channel sync online
+                <div className="text-[10px] text-[#34D399] mt-1 font-semibold">
+                  Punjab, Delhi, MH, KA, GJ, WB...
                 </div>
               </div>
 
               {/* Stat 4 */}
-              <div className="nq-glass nq-glass-hover backdrop-blur-xl border border-white/8 rounded-2xl p-5 relative overflow-hidden group transition-all duration-300">
-                <div className="absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#FFB547]/20 to-transparent" />
-                <div className="flex items-center justify-between text-[#737c92]">
-                  <span className="text-[9px] uppercase tracking-wider font-bold">Mean Response Time</span>
-                  <Clock size={13} className="text-[#FFB547] opacity-75 group-hover:scale-110 transition-transform duration-300" />
+              <div className="bg-[#0B0F19]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 relative overflow-hidden group transition-all duration-300 shadow-xl">
+                <div className="flex items-center justify-between text-[#94A3B8]">
+                  <span className="text-[10px] uppercase tracking-wider font-bold">Security Status</span>
+                  <Lock size={16} className="text-[#F59E0B] group-hover:scale-110 transition-transform" />
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-white mt-2 font-display">
-                  <AnimatedNumber value={1.42} decimals={2} suffix="s" />
+                <div className="text-2xl font-bold text-white mt-2 font-display">
+                  RLS Enforced
                 </div>
-                <div className="text-[9px] text-[#00D68F] mt-1 flex items-center gap-1 font-semibold">
-                  Fastest tier latency
+                <div className="text-[10px] text-[#F59E0B] mt-1 font-semibold flex items-center gap-1">
+                  <ShieldCheck size={12} /> Per-user module permissions
                 </div>
               </div>
             </motion.div>
@@ -525,21 +568,18 @@ export default function DashboardPage() {
             {/* Modules Grid */}
             <motion.div 
               variants={itemVariants}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
               {MODULES.map((m) => (
-                <BoardroomCard key={m.id} m={m} />
+                <BoardroomCard key={m.id} m={m} onUnlockModule={handleLaunchModule} />
               ))}
             </motion.div>
 
-            {/* Dynamic Access Model Notice */}
-            <motion.div 
-              variants={itemVariants}
-              className="border border-white/5 bg-[#0E121B]/40 backdrop-blur-sm rounded-2xl p-5 text-[11px] text-[#737c92] leading-relaxed relative overflow-hidden"
-            >
-              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#4F7EFF] to-[#A66BFF]" />
-              <span className="text-[#aab2c5] font-semibold">Access Model Policy:</span> Every boardroom module has independent authorization criteria. Granting permission for one dashboard module does not open others. Authorized team members utilize single sign-on credentials across all active modules.
-            </motion.div>
+            {/* The Subpass PIN modal that used to sit here has been removed.
+                It compared a hardcoded literal in the browser and guarded
+                routes that are directly reachable. Each module signs in
+                against Supabase and is gated by RLS - see handleLaunchModule. */}
+
           </motion.div>
         )}
       </main>
